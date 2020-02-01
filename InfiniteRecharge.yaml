@@ -108,7 +108,7 @@ Children:
           name: Command
           type: Command
           validators: &id002 [TypeDropdownSelected]
-          value: geckoPivotDown
+          value: GeckoPivotDown
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
           choices: &id003 [whileHeld, whenPressed, whenReleased]
           default: whileHeld
@@ -137,7 +137,7 @@ Children:
           name: Command
           type: Command
           validators: *id002
-          value: geckoPivotUp
+          value: GeckoPivotUp
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: whileHeld
@@ -166,7 +166,7 @@ Children:
           name: Command
           type: Command
           validators: *id002
-          value: setGeckoSpeed
+          value: SetGeckoSpeed
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: whileHeld
@@ -285,7 +285,7 @@ Children:
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
-    Name: geckoPivotDown
+    Name: GeckoPivotDown
   - Children: []
     Properties:
       Autonomous Selection: !!robotbuilder.data.properties.BooleanProperty {default: false,
@@ -307,7 +307,7 @@ Children:
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
-    Name: geckoPivotUp
+    Name: GeckoPivotUp
   - Children: []
     Properties:
       Autonomous Selection: !!robotbuilder.data.properties.BooleanProperty {default: false,
@@ -329,7 +329,7 @@ Children:
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
-    Name: setGeckoSpeed
+    Name: SetGeckoSpeed
   Properties: {}
   Base: Commands
   Name: Commands
