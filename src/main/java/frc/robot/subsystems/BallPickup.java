@@ -8,10 +8,9 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package frc.robot.subsystems;
 
-
+import frc.robot.Robot;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -86,11 +85,11 @@ addChild("pivotPiston",pivotPiston);
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void geckoFeed(){
-        geckoMotor.set(ControlMode.PercentOutput,.5);
+        geckoMotor.set(ControlMode.PercentOutput, (0.5 * (Robot.oi.leftJoy.getThrottle()) - 0.5));
     }
 
     public void geckoStop(){
-        geckoMotor.set(ControlMode.PercentOutput,0);
+        geckoMotor.set(ControlMode.PercentOutput, 0);
     }
 
     public void geckoPivotDown(){

@@ -68,9 +68,9 @@ rightJoy = new Joystick(1);
 leftJoy = new Joystick(0);
 
 geckoStopBtn = new JoystickButton(leftJoy, 3);
-geckoStopBtn.whileHeld(new GeckoStop());
+geckoStopBtn.whenPressed(new GeckoStop());
 geckoFeedBtn = new JoystickButton(leftJoy, 5);
-geckoFeedBtn.whileHeld(new SetGeckoSpeed());
+geckoFeedBtn.whenPressed(new SetGeckoSpeed());
 geckoPivotUpButton = new JoystickButton(leftJoy, 8);
 geckoPivotUpButton.whenPressed(new GeckoPivotUp());
 geckoPivotDownButton = new JoystickButton(leftJoy, 7);

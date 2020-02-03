@@ -44,14 +44,13 @@ public class SetGeckoSpeed extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        // Right now, it's a hard value, but that will change to throttle function
         
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
