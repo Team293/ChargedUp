@@ -86,7 +86,7 @@ addChild("pivotPiston",pivotPiston);
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void geckoFeed(){
-        geckoMotor.set(ControlMode.PercentOutput,.5);
+        geckoMotor.set(ControlMode.PercentOutput,1);
     }
 
     public void geckoStop(){
