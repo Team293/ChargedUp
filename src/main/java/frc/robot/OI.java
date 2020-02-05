@@ -63,11 +63,11 @@ public Joystick rightJoy;
 
 rightJoy = new Joystick(1);
 
-leftJoy = new Joystick(2);
+leftJoy = new Joystick(0);
 
-shootOffBtn = new JoystickButton(leftJoy, 12);
+shootOffBtn = new JoystickButton(rightJoy, 12);
 shootOffBtn.whileHeld(new ShootOff());
-shootOnBtn = new JoystickButton(leftJoy, 11);
+shootOnBtn = new JoystickButton(rightJoy, 11);
 shootOnBtn.whileHeld(new ShootOn());
 
 

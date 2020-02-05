@@ -38,12 +38,13 @@ public class ShootOn extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        Robot.shooter.shoot(0.5);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.shooter.shoot(0.5*(-Robot.oi.rightJoy.getThrottle()+1);)
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()

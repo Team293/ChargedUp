@@ -55,11 +55,21 @@ Children:
   Base: Subsystems
   Name: Subsystems
 - Children:
+  - Children: []
+    Properties:
+      Number: !!robotbuilder.data.properties.ChoicesProperty
+        choices: &id004 ['0', '1', '2', '3', '4', '5']
+        default: 1
+        name: Number
+        validators: &id005 [Joystick]
+        value: '0'
+    Base: Joystick
+    Name: leftJoy
   - Children:
     - Children: []
       Properties:
         Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
-          name: Joystick, validators: null, value: leftJoy}
+          name: Joystick, validators: null, value: rightJoy}
         Parameters: !!robotbuilder.data.properties.ParametersProperty
           default: []
           name: Parameters
@@ -90,7 +100,7 @@ Children:
     - Children: []
       Properties:
         Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
-          name: Joystick, validators: null, value: leftJoy}
+          name: Joystick, validators: null, value: rightJoy}
         Parameters: !!robotbuilder.data.properties.ParametersProperty
           default: []
           name: Parameters
@@ -116,16 +126,6 @@ Children:
           value: whileHeld
       Base: Joystick Button
       Name: ShootOffBtn
-    Properties:
-      Number: !!robotbuilder.data.properties.ChoicesProperty
-        choices: &id004 ['0', '1', '2', '3', '4', '5']
-        default: 1
-        name: Number
-        validators: &id005 [Joystick]
-        value: '2'
-    Base: Joystick
-    Name: leftJoy
-  - Children: []
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
         choices: *id004
