@@ -8,10 +8,9 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package frc.robot.subsystems;
 
-
+import frc.robot.Robot;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -90,7 +89,7 @@ addChild("pivotPiston",pivotPiston);
     }
 
     public void geckoStop(){
-        geckoMotor.set(ControlMode.PercentOutput,0);
+        geckoMotor.set(ControlMode.PercentOutput, 0);
     }
 
     public void geckoPivotDown(){
