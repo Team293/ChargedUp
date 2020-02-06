@@ -98,6 +98,7 @@ private WPI_TalonFX rightTalonFollower;
     leftTalonLead.config_kP(0,kP,10);
     leftTalonLead.config_kI(0,kI,10);
     leftTalonLead.config_kD(0,kD,0);
+    leftTalonLead.configClosedloopRamp(0.5);
     leftTalonLead.configMotionCruiseVelocity((int)(maxVel * 0.5));
     leftTalonLead.configMotionAcceleration((int)(maxVel * 0.5));
 
@@ -105,6 +106,10 @@ private WPI_TalonFX rightTalonFollower;
     rightTalonLead.config_kP(0,kP,10);
     rightTalonLead.config_kI(0,kI,10);
     rightTalonLead.config_kD(0,kD,0);
+    rightTalonLead.configClosedloopRamp(0.5);
+    rightTalonLead.configMotionCruiseVelocity((int)(maxVel * 0.5));
+    rightTalonLead.configMotionAcceleration((int)(maxVel * 0.5));
+
     }
 
     @Override
@@ -116,7 +121,7 @@ private WPI_TalonFX rightTalonFollower;
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new MotionMagic());
+        setDefaultCommand(new VelocityDrive());
     }
 
     @Override
@@ -178,28 +183,6 @@ private WPI_TalonFX rightTalonFollower;
             rightTalonLead.set(TalonFXControlMode.Velocity,(retval * maxVel));
         }
     }
-
-    public void motionMagic(Joystick left, Joystick right){
-        double leftPos = left.getY();
-        double rightPos = right.getY();
-
-        double retval = 0.0;
-
-        retval = calcMotorPower(leftPos, Ldeadband);
-        if(INVALID_INPUT == retval) {
-            System.out.println("Invalid left motor input" + leftPos);
-        } else {
-            leftTalonLead.set(TalonFXControlMode.MotionMagic,(retval * maxVel * speed));    
-        }
-
-        retval = calcMotorPower(rightPos, Rdeadband);
-        if(INVALID_INPUT == retval) {
-            System.out.println("Invalid right motor input" + rightPos);
-        } else {
-            rightTalonLead.set(TalonFXControlMode.MotionMagic,(retval * maxVel * speed));
-        }
-    }
-
 
     // Stops motor usually used after the drive command ends to prevent shenanigans
     public void stop() {
