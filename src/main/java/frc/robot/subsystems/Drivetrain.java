@@ -51,8 +51,8 @@ private WPI_TalonFX rightTalonFollower;
 
     private double kF = 0.04759;
     private double kP = 0.01461;
-    private double kI = 0.14614;
-    private double kD = -0;
+    private double kI = 0;
+    private double kD = 0;
 
     private double Ldeadband = .15;
     private double Rdeadband = .15;
