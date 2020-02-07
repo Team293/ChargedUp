@@ -46,14 +46,6 @@ public class Fire extends Command {
         if (Robot.launcher.isReady(2400) == true){
             Robot.feeder.feedOn();
         }
-        else{
-            while(Robot.launcher.isReady(2400) == false){
-                if (Robot.launcher.isReady(2400) == true){
-                    break;
-                }
-            }
-        }
-
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -65,6 +57,7 @@ public class Fire extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        Robot.feeder.feedOff();
     }
 
     // Called when another command which requires one or more of the same
