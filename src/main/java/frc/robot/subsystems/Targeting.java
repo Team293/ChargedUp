@@ -95,6 +95,15 @@ public class Targeting extends Subsystem {
     // here. Call these from Commands.
 
     // This method just returns whether it sees the target and it's x and y values
+    public void controlLight(boolean enabled){
+        if(enabled){
+            limeData.getEntry("ledMode").setNumber(3);
+        }
+        else{
+            limeData.getEntry("ledMode").setNumber(1);
+        }
+    }
+
     public double[] findTarget(){
         limeData.getEntry("ledMode").setNumber(3);
         double[] targetInfo = {tAcquired.getDouble(0.),tx.getDouble(0.),ty.getDouble(0.)};
@@ -121,8 +130,9 @@ public class Targeting extends Subsystem {
             }
         }
         return velocityCommands;
-        
     }
+
+    
 
 }
 

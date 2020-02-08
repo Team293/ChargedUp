@@ -150,9 +150,7 @@ public class Drivetrain extends Subsystem {
     }
 
     // Converts joystick input adjusted to a RPM for the Falcon's PIDF loop to aim for
-    public void velocityDrive(Joystick left, Joystick right){
-        double leftPos = left.getY();
-        double rightPos = right.getY();
+    public void velocityDrive(double leftPos, double rightPos){
 
         double retval = 0.0;
 
