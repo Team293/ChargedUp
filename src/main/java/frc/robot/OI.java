@@ -74,11 +74,6 @@ enableLauncherBtn = new JoystickButton(rightJoy, 11);
 enableLauncherBtn.whenPressed(new EnableLauncher());
 leftJoy = new Joystick(0);
 
-feedOffbutton = new JoystickButton(leftJoy, 8);
-feedOffbutton.whileHeld(new feedOff());
-feedOnbutton = new JoystickButton(leftJoy, 7);
-feedOnbutton.whileHeld(new feedOn());
-
 
         // SmartDashboard Buttons
        

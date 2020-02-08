@@ -44,8 +44,9 @@ public class Fire extends Command {
     @Override
     protected void execute() {
         if (Robot.launcher.isReady(2400) == true){
-            Robot.feeder.feedOn();
+            
         }
+        Robot.feeder.feedOn();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -64,5 +65,6 @@ public class Fire extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        end();
     }
 }
