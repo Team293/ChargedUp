@@ -12,6 +12,7 @@ package frc.robot.subsystems;
 
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -87,6 +88,10 @@ public class Targeting extends Subsystem {
     @Override
     public void periodic() {
         // Put code here to be run every loop
+        SmartDashboard.putNumber("vP",visionPID.getP());
+        SmartDashboard.putNumber("vI", visionPID.getI());
+        SmartDashboard.putNumber("vD", visionPID.getD());
+        SmartDashboard.putNumber("PositionError", visionPID.getPositionError());
 
     }
 
@@ -155,7 +160,10 @@ public class Targeting extends Subsystem {
                 if(visionPID.atSetpoint()){
                     velCmds[3] = 1.0;
                 }
+                SmartDashboard.putNumber("Output",velPwr);
         }
+        
+
         return velCmds;
     }
 
