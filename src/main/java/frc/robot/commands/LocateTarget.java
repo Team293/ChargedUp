@@ -43,10 +43,8 @@ public class LocateTarget extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        if(Robot.targeting.findTarget()[0] == 1.0){
-            double[] velCmd = Robot.targeting.navToTarget();
-            Robot.drivetrain.velocityDrive(velCmd[0], velCmd[1]);
-        }
+        double[] velCmd = Robot.targeting.navToTarget();
+        Robot.drivetrain.velocityDrive(velCmd[0], velCmd[1]);
 
     }
 
