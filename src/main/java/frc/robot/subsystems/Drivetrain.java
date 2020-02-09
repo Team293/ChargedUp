@@ -57,7 +57,7 @@ private WPI_TalonFX rightTalonFollower;
     private double Ldeadband = .15;
     private double Rdeadband = .15;
 
-    private double speed = .25;
+    private double speed = 1;
     private double maxVel = 21549;
 
     private final double INVALID_INPUT = -99;
