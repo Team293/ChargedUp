@@ -44,8 +44,7 @@ public class LocateTarget extends Command {
     @Override
     protected void execute() {
         double[] velCmd = Robot.targeting.navToTarget();
-        Robot.drivetrain.velocityDrive(velCmd[0], velCmd[1]);
-
+        Robot.drivetrain.dumbDrive(velCmd[0], velCmd[1]);
     }
 
     // Make this return true when this Command no longer needs to run execute()

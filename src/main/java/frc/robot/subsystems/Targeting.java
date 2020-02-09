@@ -47,11 +47,10 @@ public class Targeting extends Subsystem {
     private NetworkTableEntry ty;
 
     private double vF = 0.0;
-    private double vP = 0.09;
+    private double vP = -0.1;
     private double vI = 0.0;
     private double vD = 0.0;
 
-    private double integral = 0.;
     private double TARGET_RIGHT_THRESHOLD = 1.0;
     private double TARGET_LEFT_THRESHOLD = -1.0;
     PIDController visionPID;
@@ -69,8 +68,9 @@ public class Targeting extends Subsystem {
         
         visionPID = new PIDController(vP,vI,vD);
         visionPID.disableContinuousInput();
-        visionPID.setSetpoint(0.);
+        visionPID.setSetpoint(0.0);
         visionPID.setTolerance(1.0);
+        
 
     }
 
@@ -91,7 +91,6 @@ public class Targeting extends Subsystem {
         SmartDashboard.putNumber("vP",visionPID.getP());
         SmartDashboard.putNumber("vI", visionPID.getI());
         SmartDashboard.putNumber("vD", visionPID.getD());
-        SmartDashboard.putNumber("PositionError", visionPID.getPositionError());
 
     }
 
@@ -115,7 +114,7 @@ public class Targeting extends Subsystem {
 
     public double[] findTarget(){
         limeData.getEntry("ledMode").setNumber(3);
-        double[] targetInfo = {tAcquired.getDouble(0.),tx.getDouble(0.),ty.getDouble(0.)};
+        double[] targetInfo = {tAcquired.getDouble(0.0),tx.getDouble(0.0),ty.getDouble(0.0)};
         return targetInfo;
     }
 
@@ -123,43 +122,29 @@ public class Targeting extends Subsystem {
         limeData.getEntry("ledMode").setNumber(3);
         double[] velCmds = {0.0,0.0,0.0,0.0}; //Left motor velocity, Right motor velocity (retunrns -1 to 1), Success (0.0 = didn't find target),atTolerance (1.0 is true)
         if (tAcquired.getDouble(0.0) == 1.0){
-            velCmds[2] = 1.0;
-            double targetX = tx.getDouble(0.0);
-            double error = Math.abs(targetX) - 0; // Error = Target - Actual
-            vI += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-            double rcw = vP*error + vI * this.integral;
-            if(targetX > TARGET_RIGHT_THRESHOLD){
-                velCmds[0] = -rcw;
-                velCmds[1] = rcw;
-            } else if(targetX < TARGET_LEFT_THRESHOLD){
-                velCmds[0] = -rcw;
-                velCmds[1] = rcw;
-            } else {
-                velCmds[0] = 0.0;
-                velCmds[1] = 0.0;
-            }
+            double headingError = tx.getDouble(0.0);
+            double steeringAdjust = vP * headingError;
 
-            if(error < 1.0){
-                velCmds[3] = 1.0;
-            }
+            velCmds[0] = steeringAdjust;
+            velCmds[1] = -steeringAdjust;
+
+
         }
+
         return velCmds;
     }
+
 
     // me attempting to use wpilib's integrated pid encoder
 
     public double[] wpilibNavToTarget(){
         limeData.getEntry("ledMode").setNumber(3);
-        double[] velCmds = {0.0,0.0,0.0,0.0}; //Left motor velocity, Right motor velocity (retunrns -1 to 1), Success (0.0 = didn't find target),atTolerance (1.0 is true)
+        double[] velCmds = {0.0,0.0}; //Left motor velocity, Right motor velocity (retunrns -1 to 1)
         if (tAcquired.getDouble(0.0) == 1.0){
-                velCmds[4] = 1.0;
-                double error = tx.getDouble(0.0);
+                double error = tx.getDouble(0.0)/29.5;
                 double velPwr = visionPID.calculate(error);
                 velCmds[0] = velPwr;
                 velCmds[1] = -velPwr;
-                if(visionPID.atSetpoint()){
-                    velCmds[3] = 1.0;
-                }
                 SmartDashboard.putNumber("Output",velPwr);
         }
         
