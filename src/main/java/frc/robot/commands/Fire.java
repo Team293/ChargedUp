@@ -47,6 +47,7 @@ public class Fire extends Command {
             
         }
         Robot.feeder.feedOn();
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
