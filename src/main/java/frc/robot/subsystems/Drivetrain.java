@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -57,8 +58,9 @@ private WPI_TalonFX rightTalonFollower;
     private double Ldeadband = .15;
     private double Rdeadband = .15;
 
-    private double speed = .25;
-    private double maxVel = 21549;
+    private final double CLOSED_LOOP_RAMP = 0.5;
+    private final double MAX_VELOCITY = 21549;
+    private final double VELOCITY_LIMIT_PERCENTAGE = 0.25;
 
     private final double INVALID_INPUT = -99;
 
@@ -111,17 +113,15 @@ rightTalonFollower = new WPI_TalonFX(3);
     leftTalonLead.config_kP(0,kP,10);
     leftTalonLead.config_kI(0,kI,10);
     leftTalonLead.config_kD(0,kD,0);
-    leftTalonLead.configClosedloopRamp(0.5);
-    leftTalonLead.configMotionCruiseVelocity((int)(maxVel * 0.5));
-    leftTalonLead.configMotionAcceleration((int)(maxVel * 0.5));
+    leftTalonLead.configClosedloopRamp(CLOSED_LOOP_RAMP);
+    leftTalonLead.setNeutralMode(NeutralMode.Brake);
 
     rightTalonLead.config_kF(0,kF,10);
     rightTalonLead.config_kP(0,kP,10);
     rightTalonLead.config_kI(0,kI,10);
     rightTalonLead.config_kD(0,kD,0);
-    rightTalonLead.configClosedloopRamp(0.5);
-    rightTalonLead.configMotionCruiseVelocity((int)(maxVel * 0.5));
-    rightTalonLead.configMotionAcceleration((int)(maxVel * 0.5));
+    rightTalonLead.configClosedloopRamp(CLOSED_LOOP_RAMP);
+    rightTalonLead.setNeutralMode(NeutralMode.Brake);
 
     }
 
@@ -186,14 +186,14 @@ rightTalonFollower = new WPI_TalonFX(3);
         if(INVALID_INPUT == retval) {
             System.out.println("Invalid left motor input" + leftPos);
         } else {
-            leftTalonLead.set(TalonFXControlMode.Velocity,(retval * maxVel * speed));    
+            leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE));    
         }
 
         retval = calcMotorPower(rightPos, Rdeadband);
         if(INVALID_INPUT == retval) {
             System.out.println("Invalid right motor input" + rightPos);
         } else {
-            rightTalonLead.set(TalonFXControlMode.Velocity,(retval * maxVel * speed));
+            rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE));
         }
     }
 
