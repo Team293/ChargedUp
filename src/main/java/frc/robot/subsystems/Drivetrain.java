@@ -51,7 +51,7 @@ public class Drivetrain extends Subsystem {
 
     private final double CLOSED_LOOP_RAMP = 0.5;
     private final double MAX_VELOCITY = 21549;
-    private final double VELOCITY_LIMIT_PERCENTAGE = 0.25;
+    private final double VELOCITY_LIMIT_PERCENTAGE = 0.5;
 
     private final double INVALID_INPUT = -99;
 
