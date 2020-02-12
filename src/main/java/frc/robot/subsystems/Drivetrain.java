@@ -11,6 +11,7 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Robot;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -52,6 +53,7 @@ public class Drivetrain extends Subsystem {
     private final double CLOSED_LOOP_RAMP = 0.5;
     private final double MAX_VELOCITY = 21549;
     private final double VELOCITY_LIMIT_PERCENTAGE = 0.5;
+    private final double VELOCITY_SLOWDOWN_MODIFIER = 0.5;
 
     private final double INVALID_INPUT = -99;
 
@@ -159,23 +161,38 @@ public class Drivetrain extends Subsystem {
     public void velocityDrive(Joystick left, Joystick right){
         double leftPos = left.getY();
         double rightPos = right.getY();
-
         double retval = 0.0;
+        boolean useSlowModifier = false;
+
+        if(Robot.oi.leftJoy.getTrigger()){
+            useSlowModifier = true;
+        }
 
         retval = calcMotorPower(leftPos, Ldeadband);
         if(INVALID_INPUT == retval) {
             System.out.println("Invalid left motor input" + leftPos);
         } else {
-            leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-            VELOCITY_LIMIT_PERCENTAGE));    
+            if(useSlowModifier){
+                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
+                    VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
+            } else {
+                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
+                    VELOCITY_LIMIT_PERCENTAGE));
+            }
+            
         }
 
         retval = calcMotorPower(rightPos, Rdeadband);
         if(INVALID_INPUT == retval) {
             System.out.println("Invalid right motor input" + rightPos);
         } else {
-            rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-            VELOCITY_LIMIT_PERCENTAGE));
+            if(useSlowModifier){
+                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
+                    VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
+            } else {
+                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
+                    VELOCITY_LIMIT_PERCENTAGE));
+            }
         }
     }
 
