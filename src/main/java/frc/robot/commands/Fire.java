@@ -43,10 +43,10 @@ public class Fire extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        if (Robot.launcher.isReady(2400) == true){
-            
+        if (Robot.launcher.isReady(Robot.launcher.TARGET_RPM) == true){
+        Robot.feeder.feedOn();    
         }
-        Robot.feeder.feedOn();
+       
         
     }
 
