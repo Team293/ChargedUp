@@ -48,8 +48,8 @@ public class Targeting extends Subsystem {
 
     private double vF = 0.0;
     private double vP = 0.66;
-    private double vI = 1.15;
-    private double vD = 0.08745;
+    private double vI = 0.0;
+    private double vD = 0.0;
 
     private double TARGET_RIGHT_THRESHOLD = 1.0;
     private double TARGET_LEFT_THRESHOLD = -1.0;
@@ -127,19 +127,18 @@ public class Targeting extends Subsystem {
         limeData.getEntry("ledMode").setNumber(3);
         double[] velCmds = {0.0,0.0}; //Left motor velocity, Right motor velocity (retunrns -1 to 1)
         if (tAcquired.getDouble(0.0) == 1.0){
-            double headingError = tx.getDouble(0.0)/29.5;
-            double steeringAdjust = vP * headingError;
-            //this.integral += (headingError*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-            //this.derivative = (headingError - lastError); //WORK IN PROGRESS
-            //lastError = headingError;
-            //double rcw = vP*headingError + vI*this.integral + vD*(headingError*this.derivative);
-            double rcw = steeringAdjust;
-            velCmds[0] = -rcw; //Left Motor
-            velCmds[1] = rcw; //Right Motor
-            SmartDashboard.putNumber("Output",rcw);
+            double headingError = tx.getDouble(0.0)/29.5; // 29.5 is the range of the limelight which goes from -29.5 to 29.5
+            double percentOutput = vP * headingError;
+            if(percentOutput > 1){
+                percentOutput = 1;
+            }
+            if(percentOutput < -1){
+                percentOutput = -1;
+            }
+            velCmds[0] = -percentOutput; //Left Motor
+            velCmds[1] = percentOutput; //Right Motor
+            SmartDashboard.putNumber("Output",percentOutput);
         }
-
- 
         return velCmds;
     }
 
