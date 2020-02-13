@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -125,6 +126,9 @@ rightTalonFollower = new WPI_TalonFX(3);
     rightTalonLead.configClosedloopRamp(0.5);
     rightTalonLead.configMotionCruiseVelocity((int)(maxVel * 0.5));
     rightTalonLead.configMotionAcceleration((int)(maxVel * 0.5));
+
+    rightTalonLead.setNeutralMode(NeutralMode.Brake);
+    leftTalonLead.setNeutralMode(NeutralMode.Brake);
 
     }
 

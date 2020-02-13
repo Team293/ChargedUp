@@ -44,7 +44,7 @@ public class LocateTarget extends Command {
     @Override
     protected void execute() {
         double[] velCmd = Robot.targeting.navToTarget();
-        Robot.drivetrain.dumbDrive(velCmd[0], velCmd[1]);
+        Robot.drivetrain.velocityDrive(velCmd[0], velCmd[1]);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -57,11 +57,13 @@ public class LocateTarget extends Command {
     @Override
     protected void end() {
         Robot.targeting.controlLight(false);
+        Robot.targeting.resetIntegral();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        Robot.targeting.resetIntegral();
     }
 }
