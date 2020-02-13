@@ -53,7 +53,7 @@ public class Drivetrain extends Subsystem {
     private final double CLOSED_LOOP_RAMP = 0.5;
     private final double MAX_VELOCITY = 21549;
     private final double VELOCITY_LIMIT_PERCENTAGE = 0.5;
-    private final double VELOCITY_SLOWDOWN_MODIFIER = 0.5;
+    private final double VELOCITY_SLOWDOWN_MODIFIER = 0.25;
 
     private final double INVALID_INPUT = -99;
 
@@ -164,7 +164,7 @@ public class Drivetrain extends Subsystem {
         double retval = 0.0;
         boolean useSlowModifier = false;
 
-        if(Robot.oi.leftJoy.getTrigger()){
+        if(Robot.oi.rightJoy.getTrigger()){
             useSlowModifier = true;
         }
 
