@@ -71,6 +71,9 @@ enableLauncherBtn = new JoystickButton(operatorLeftJoy, 11);
 enableLauncherBtn.whenPressed(new EnableLauncher());
 
 
+        leftJoy = new Joystick(0);
+        rightJoy = new Joystick(1);
+        
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("DumbDrive", new DumbDrive());
