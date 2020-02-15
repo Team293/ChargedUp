@@ -92,6 +92,11 @@ rightTalonFollower = new WPI_TalonFX(3);
     rightTalonLead.clearStickyFaults();
     rightTalonFollower.clearStickyFaults();
 
+        //Set facotry defaults for onboard PID
+    leftTalonLead.configFactoryDefault();
+    rightTalonLead.configFactoryDefault();
+    
+
     leftTalonFollower.follow(leftTalonLead);
     rightTalonFollower.follow(rightTalonLead);
 
@@ -102,13 +107,6 @@ rightTalonFollower = new WPI_TalonFX(3);
 
     leftTalonLead.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 4000);
     rightTalonLead.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 4000);
-    
-    //Set facotry defaults for onboard PID
-    leftTalonLead.configFactoryDefault();
-    rightTalonLead.configFactoryDefault();
-
-    leftTalonLead.setInverted(true);
-    rightTalonLead.setInverted(false);
 
     //Configure PID
     leftTalonLead.config_kF(0,kF,10);
@@ -127,9 +125,14 @@ rightTalonFollower = new WPI_TalonFX(3);
     rightTalonLead.configMotionCruiseVelocity((int)(maxVel * 0.5));
     rightTalonLead.configMotionAcceleration((int)(maxVel * 0.5));
 
-    rightTalonLead.setNeutralMode(NeutralMode.Brake);
-    leftTalonLead.setNeutralMode(NeutralMode.Brake);
+    rightTalonLead.setNeutralMode(NeutralMode.Coast);
+    leftTalonLead.setNeutralMode(NeutralMode.Coast);
 
+    rightTalonLead.configNeutralDeadband(.01);
+    rightTalonFollower.configNeutralDeadband(.01);
+    leftTalonLead.configNeutralDeadband(.01);
+    leftTalonFollower.configNeutralDeadband(.01);
+    
     }
 
     @Override
@@ -229,5 +232,18 @@ rightTalonFollower = new WPI_TalonFX(3);
         }
     }
 
+    //Velocity Drive without Deadband for vision purposes
+    public void visionDrive(double left, double right){
+        if (left > 1 || left < -1){
+            System.out.println("Invalid left motor input " + left);
+            left = 0;
+        }
+        if (right > 1 || right < -1){
+            System.out.println("Invalid right motor input " + left);
+            right = 0;
+        }
+        leftTalonLead.set(TalonFXControlMode.Velocity,(left * maxVel * speed));
+        rightTalonLead.set(TalonFXControlMode.Velocity,(right * maxVel * speed));
+    }
 }
 
