@@ -57,13 +57,14 @@ public class LocateTarget extends Command {
     @Override
     protected void end() {
         Robot.targeting.controlLight(false);
-        Robot.targeting.resetIntegral();
+        Robot.targeting.resetPID();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Robot.targeting.resetIntegral();
+        Robot.targeting.controlLight(false);
+        Robot.targeting.resetPID();
     }
 }

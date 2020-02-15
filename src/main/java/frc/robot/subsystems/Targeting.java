@@ -132,11 +132,18 @@ public class Targeting extends Subsystem {
             double headingError = tx.getDouble(0.0)/29.5; // 29.5 is the range of the limelight which goes from -29.5 to 29.5
             double change = lastError - headingError;
             integral += headingError * .2;
-            double percentOutput = (vP * headingError) + (vI * integral) + (vD * change) + STATIC_POWER;
+            double percentOutput = (vP * headingError) + (vI * integral) + (vD * change);
+            if(percentOutput > 0.0){
+                percentOutput += STATIC_POWER;
+            }
+            else if(percentOutput < 0.0){
+                percentOutput -= STATIC_POWER;
+            }
+
             if(percentOutput > 1){
                 percentOutput = 1;
             }
-            if(percentOutput < -1){
+            else if(percentOutput < -1){
                 percentOutput = -1;
             }
     
@@ -171,14 +178,15 @@ public class Targeting extends Subsystem {
                 SmartDashboard.putNumber("Output",velPwr);
                 this.integral += (error*.02);
         }
-        
-
         return velCmds;
     }
 
-    public void resetIntegral(){
+    public void resetPID(){
         integral = 0.0;
+        lastError = 0.0;
     }
+    
+
 
     
 
