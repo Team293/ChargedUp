@@ -47,9 +47,9 @@ public class Targeting extends Subsystem {
     private NetworkTableEntry ty;
 
     private double vF = 0.0;
-    private double vP = 0.66;
+    private double vP = 0.6;
     private double vI = 0.0;
-    private double vD = 0.0;
+    private double vD = 4.0;
 
     private double TARGET_RIGHT_THRESHOLD = 1.0;
     private double TARGET_LEFT_THRESHOLD = -1.0;
@@ -130,7 +130,7 @@ public class Targeting extends Subsystem {
         double[] velCmds = {0.0,0.0}; //Left motor velocity, Right motor velocity (retunrns -1 to 1)
         if (tAcquired.getDouble(0.0) == 1.0){
             double headingError = tx.getDouble(0.0)/29.5; // 29.5 is the range of the limelight which goes from -29.5 to 29.5
-            double change = lastError - headingError;
+            double change = headingError - lastError;
             if(Math.abs(integral) < INTEGRAL_LIMIT){
                 integral += headingError * .2;
             }
