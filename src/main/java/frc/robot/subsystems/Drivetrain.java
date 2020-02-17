@@ -100,9 +100,9 @@ rightTalonFollower = new WPI_TalonFX(3);
     leftTalonFollower.follow(leftTalonLead);
     rightTalonFollower.follow(rightTalonLead);
 
-    leftTalonLead.setInverted(true);
+    leftTalonLead.setInverted(false);
     leftTalonFollower.setInverted(InvertType.FollowMaster);
-    rightTalonLead.setInverted(false);
+    rightTalonLead.setInverted(true);
     rightTalonFollower.setInverted(InvertType.FollowMaster);
 
     leftTalonLead.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 4000);
