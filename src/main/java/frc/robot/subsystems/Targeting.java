@@ -46,7 +46,7 @@ public class Targeting extends Subsystem {
     private NetworkTableEntry ty;
 
     private double vF = 0.0;
-    private double vP = 0.6;
+    private double vP = 0.5;
     private double vI = 0.0;
     private double vD = 4.0;
 
