@@ -94,10 +94,12 @@ addChild("ss",ss);
 
        if(ballCount > MAX_BALL_LIMIT){ //Too many balls in the system!
             //PURGE
+            System.out.println("Too Many balls in system: " + ballCount);
        }
 
        if(ballCount < 0){ //Counting error something went wrong
-        
+            System.out.println("Invalid number of balls: " + ballCount + ". Set ballcount to 0.");
+            ballCount = 0;
        }
     }
 
@@ -112,7 +114,7 @@ addChild("ss",ss);
     public void feedOff(){
         feederMotor.set(0);
     }
-
+ 
     public int getBallCount(){
         return ballCount;
     }

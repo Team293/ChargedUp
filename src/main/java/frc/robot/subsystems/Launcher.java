@@ -81,12 +81,15 @@ launcherMotor = new WPI_TalonSRX(10);
     @Override
     public void periodic() {
         int newTargetRPM = (int)SmartDashboard.getNumber(TARGET_RPM_STRING, -1);
+    
         // Put code here to be run every loop
         // Update motor speed here IF SHOOTER IS ON
         if (newTargetRPM < 0){
             System.out.println("Launcher - invalid targetRPM: " + newTargetRPM);
         } else{
-            targetRPM = newTargetRPM;
+            if (targetRPM != newTargetRPM){
+                newTargetRPM = targetRPM;
+            }
         }
         
     }
@@ -103,7 +106,7 @@ launcherMotor = new WPI_TalonSRX(10);
     }
 
     public void enableLauncher() {
-        double velSpeed = convertRPMtoVelocity(targetRPM);
+        double velSpeed = convertRPMtoVelocity(targetRPM + realWorldError);
 
         SmartDashboard.putNumber("Target Vel", velSpeed);
         launcherMotor.set(ControlMode.Velocity, velSpeed);
@@ -121,8 +124,8 @@ launcherMotor = new WPI_TalonSRX(10);
 
     public boolean isReady() {
         double currentRPM = convertVelocityToRPM(launcherMotor.getSelectedSensorVelocity(0));
-        if ((currentRPM + TARGET_DEADBAND >= (targetRPM))
-                && (currentRPM - TARGET_DEADBAND <= (targetRPM))) {
+        if ((currentRPM + TARGET_DEADBAND+ realWorldError) >= (targetRPM)
+                && (currentRPM - TARGET_DEADBAND + realWorldError) <= (targetRPM)){
             SmartDashboard.putNumber("Current RPM", currentRPM);
             SmartDashboard.putBoolean("IsLauncherReady?", true);
             return true;
