@@ -58,7 +58,6 @@ public class Targeting extends Subsystem {
     private double STATIC_POWER = 0.05;
     private double currentOutput = 0.0;
     private double INTEGRAL_LIMIT = 1000000000; // TODO Check math and get an actual number
-    private double VISION_RANGE = 0.5;
     private PigeonIMU gyro;
 
     public Targeting() {
@@ -155,16 +154,14 @@ public class Targeting extends Subsystem {
             else if(percentOutput < -.5){
                 percentOutput = -.5;
             }
-            
-            velCmds[0] = percentOutput; //Left Motor
-            velCmds[1] = -percentOutput; //Right Motor
+    
+            velCmds[0] = -percentOutput; //Left Motor
+            velCmds[1] = percentOutput; //Right Motor
             SmartDashboard.putNumber("LeftOutput",velCmds[0]);
             SmartDashboard.putNumber("RightOutput",velCmds[1]);
             currentOutput = percentOutput;
             lastError = headingError;
-
         }
-
         /*else{
             velCmds[0] = -currentOutput; //Left Motor
             velCmds[1] = currentOutput; //Right Motor
