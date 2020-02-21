@@ -122,8 +122,8 @@ launcherMotor = new WPI_TalonSRX(10);
 
     public boolean isReady() {
         double currentRPM = convertVelocityToRPM(launcherMotor.getSelectedSensorVelocity(0));
-        if ((currentRPM + TARGET_DEADBAND+ realWorldError) >= (targetRPM)
-                && (currentRPM - TARGET_DEADBAND + realWorldError) <= (targetRPM)){
+        if ((currentRPM + TARGET_DEADBAND) >= (targetRPM)
+                && (currentRPM - TARGET_DEADBAND) <= (targetRPM)){
             SmartDashboard.putNumber("Current RPM", currentRPM);
             SmartDashboard.putBoolean("IsLauncherReady?", true);
             return true;
