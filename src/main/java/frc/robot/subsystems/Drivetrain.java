@@ -135,10 +135,8 @@ public class Drivetrain extends Subsystem {
 
     // Converts joystick input adjusted for deadband to current for the motor
 
-    public void dumbDrive(Joystick left, Joystick right) {
+    public void dumbDrive(double leftPos, double rightPos) {
 
-        double leftPos = left.getY();
-        double rightPos = right.getY();
         double retval = 0.0;
 
         retval = calcMotorPower(leftPos, Ldeadband);
@@ -158,11 +156,9 @@ public class Drivetrain extends Subsystem {
 
     // Converts joystick input adjusted to a RPM for the Falcon's PIDF loop to aim for
 
-    public void velocityDrive(Joystick left, Joystick right){
-        double leftPos = left.getY();
-        double rightPos = right.getY();
+    public void velocityDrive(double leftPos, double rightPos, boolean useSlowModifier){
+
         double retval = 0.0;
-        boolean useSlowModifier = false;
 
         if(Robot.oi.rightJoy.getTrigger()){
             useSlowModifier = true;
