@@ -172,11 +172,9 @@ public class Drivetrain extends Subsystem {
             System.out.println("Invalid left motor input" + leftPos);
         } else {
             if(useSlowModifier){
-                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-                    VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
+                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
             } else {
-                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-                    VELOCITY_LIMIT_PERCENTAGE));
+                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE));
             }
             
         }
@@ -186,11 +184,9 @@ public class Drivetrain extends Subsystem {
             System.out.println("Invalid right motor input" + rightPos);
         } else {
             if(useSlowModifier){
-                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-                    VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
+                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
             } else {
-                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-                    VELOCITY_LIMIT_PERCENTAGE));
+                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE));
             }
         }
     }
