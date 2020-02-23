@@ -160,13 +160,6 @@ public class Drivetrain extends Subsystem {
 
         double retval = 0.0;
 
-        if(Robot.oi.rightJoy.getTrigger()){
-            useSlowModifier = true;
-        }
-        if(Robot.oi.leftJoy.getTrigger()){
-            useSlowModifier = true;
-        }
-
         if(throttleAmount < 0){
             leftPos = -leftPos;
             rightPos = -rightPos;
