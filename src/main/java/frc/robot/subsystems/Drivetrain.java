@@ -156,7 +156,7 @@ public class Drivetrain extends Subsystem {
 
     // Converts joystick input adjusted to a RPM for the Falcon's PIDF loop to aim for
 
-    public void velocityDrive(double leftPos, double rightPos, boolean useSlowModifier){
+    public void velocityDrive(double leftPos, double rightPos, boolean useSlowModifier, double throttleAmount){
 
         double retval = 0.0;
 
@@ -165,6 +165,11 @@ public class Drivetrain extends Subsystem {
         }
         if(Robot.oi.leftJoy.getTrigger()){
             useSlowModifier = true;
+        }
+
+        if(throttleAmount < 0){
+            leftPos = -leftPos;
+            rightPos = -rightPos;
         }
 
         retval = calcMotorPower(leftPos, Ldeadband);
