@@ -126,6 +126,26 @@ Children:
           value: '1'
       Base: Digital Input
       Name: ss
+    - Children: []
+      Properties:
+        Type: !!robotbuilder.data.properties.ChoicesProperty
+          choices: [Victor, Jaguar, Talon, VictorSP, PWMTalonSRX, Spark, SD540, PWMVictorSPX,
+            DMC60, PWMSparkMax, PWMTalonFX, PWMVenom]
+          default: PWMVictorSPX
+          name: Type
+          validators: null
+          value: Spark
+        Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+            '12', '13', '14', '15', '16', '17', '18', '19']
+          default: '0'
+          name: Output Channel (PWM)
+          validators: [PWMOutput]
+          value: '8'
+        Inverted: !!robotbuilder.data.properties.BooleanProperty {default: false,
+          name: Inverted, validators: null, value: false}
+      Base: Speed Controller
+      Name: beltMotor
     Properties:
       Send to SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Send to SmartDashboard, validators: null, value: false}
@@ -360,10 +380,10 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: Launcher}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id013 []
+        default: []
         name: Parameter presets
         validators: null
-        value: *id013
+        value: []
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: false}
     Base: Command
@@ -382,10 +402,10 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: Launcher}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id014 []
+        default: []
         name: Parameter presets
         validators: null
-        value: *id014
+        value: []
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: false}
     Base: Command
@@ -404,10 +424,10 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: Feeder}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id015 []
+        default: []
         name: Parameter presets
         validators: null
-        value: *id015
+        value: []
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
