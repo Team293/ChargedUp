@@ -67,14 +67,12 @@ Children:
     - Children: []
       Properties:
         CAN ID: !!robotbuilder.data.properties.ChoicesProperty
-          choices: &id003 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-            '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22',
-            '23', '24', '25', '26', '27', '28', '29', '30', '31']
+          choices: *id001
           default: '2'
           name: CAN ID
-          validators: &id004 [CANID]
+          validators: *id002
           value: '10'
-      Base: Talon SRX
+      Base: Talon FX
       Name: launcherMotor
     Properties:
       Send to SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: false,
@@ -90,61 +88,53 @@ Children:
         default: []
         name: Constants
         validators: null
-        value: &id007 []
+        value: &id005 []
     Base: Subsystem
     Name: Launcher
   - Children:
     - Children: []
       Properties:
         CAN ID: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id003
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+            '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+            '24', '25', '26', '27', '28', '29', '30', '31']
           default: '2'
           name: CAN ID
-          validators: *id004
+          validators: [CANID]
           value: '7'
       Base: Talon SRX
       Name: feederMotor
     - Children: []
       Properties:
         Input Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: &id005 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+          choices: &id003 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22',
             '23', '24', '25']
           default: '0'
           name: Input Channel (Digital)
-          validators: &id006 [DigitalChannel]
+          validators: &id004 [DigitalChannel]
           value: '0'
       Base: Digital Input
       Name: sh
     - Children: []
       Properties:
         Input Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id005
+          choices: *id003
           default: '0'
           name: Input Channel (Digital)
-          validators: *id006
+          validators: *id004
           value: '1'
       Base: Digital Input
       Name: ss
     - Children: []
       Properties:
-        Type: !!robotbuilder.data.properties.ChoicesProperty
-          choices: [Victor, Jaguar, Talon, VictorSP, PWMTalonSRX, Spark, SD540, PWMVictorSPX,
-            DMC60, PWMSparkMax, PWMTalonFX, PWMVenom]
-          default: PWMVictorSPX
-          name: Type
-          validators: null
-          value: Spark
-        Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
-            '12', '13', '14', '15', '16', '17', '18', '19']
+        Output Channel (Relay): !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['0', '1', '2', '3']
           default: '0'
-          name: Output Channel (PWM)
-          validators: [PWMOutput]
-          value: '8'
-        Inverted: !!robotbuilder.data.properties.BooleanProperty {default: false,
-          name: Inverted, validators: null, value: false}
-      Base: Speed Controller
+          name: Output Channel (Relay)
+          validators: [RelayOutput]
+          value: '0'
+      Base: Spike
       Name: beltMotor
     Properties:
       Send to SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: false,
@@ -160,7 +150,7 @@ Children:
         default: []
         name: Constants
         validators: null
-        value: *id007
+        value: *id005
     Base: Subsystem
     Name: Feeder
   Properties: {}
@@ -170,20 +160,20 @@ Children:
   - Children: []
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
-        choices: &id008 ['0', '1', '2', '3', '4', '5']
+        choices: &id006 ['0', '1', '2', '3', '4', '5']
         default: 1
         name: Number
-        validators: &id009 [Joystick]
+        validators: &id007 [Joystick]
         value: '0'
     Base: Joystick
     Name: leftJoy
   - Children: []
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
-        choices: *id008
+        choices: *id006
         default: 1
         name: Number
-        validators: *id009
+        validators: *id007
         value: '1'
     Base: Joystick
     Name: rightJoy
@@ -198,7 +188,7 @@ Children:
           validators: null
           value: []
         Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: &id010 ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+          choices: &id008 ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
             '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
             '24', '25', '26', '27', '28', '29', '30', '31', '32']
           default: '1'
@@ -209,10 +199,10 @@ Children:
           default: None
           name: Command
           type: Command
-          validators: &id011 [TypeDropdownSelected]
+          validators: &id009 [TypeDropdownSelected]
           value: Fire
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: &id012 [whileHeld, whenPressed, whenReleased]
+          choices: &id010 [whileHeld, whenPressed, whenReleased]
           default: whileHeld
           name: When to Run
           validators: null
@@ -229,7 +219,7 @@ Children:
           validators: null
           value: []
         Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id010
+          choices: *id008
           default: '1'
           name: Button
           validators: null
@@ -238,10 +228,10 @@ Children:
           default: None
           name: Command
           type: Command
-          validators: *id011
+          validators: *id009
           value: EnableLauncher
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id012
+          choices: *id010
           default: whileHeld
           name: When to Run
           validators: null
@@ -258,7 +248,7 @@ Children:
           validators: null
           value: []
         Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id010
+          choices: *id008
           default: '1'
           name: Button
           validators: null
@@ -267,10 +257,10 @@ Children:
           default: None
           name: Command
           type: Command
-          validators: *id011
+          validators: *id009
           value: DisableLauncher
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id012
+          choices: *id010
           default: whileHeld
           name: When to Run
           validators: null
@@ -279,20 +269,20 @@ Children:
       Name: disableLauncherBtn
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
-        choices: *id008
+        choices: *id006
         default: 1
         name: Number
-        validators: *id009
+        validators: *id007
         value: '3'
     Base: Joystick
     Name: operatorLeftJoy
   - Children: []
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
-        choices: *id008
+        choices: *id006
         default: 1
         name: Number
-        validators: *id009
+        validators: *id007
         value: '4'
     Base: Joystick
     Name: OperatorRightJoy

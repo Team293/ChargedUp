@@ -44,9 +44,9 @@ public class Fire extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        if (Robot.launcher.isReady()){
+        Robot.feeder.beltOn();
         Robot.feeder.feedOn();    
-        }
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -59,6 +59,7 @@ public class Fire extends Command {
     @Override
     protected void end() {
         Robot.feeder.feedOff();
+        Robot.feeder.beltOff();
     }
 
     // Called when another command which requires one or more of the same
