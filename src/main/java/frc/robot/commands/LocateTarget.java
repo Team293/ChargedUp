@@ -58,6 +58,7 @@ public class LocateTarget extends Command {
     protected void end() {
         Robot.targeting.controlLight(false);
         Robot.targeting.resetPID();
+    
     }
 
     // Called when another command which requires one or more of the same
