@@ -38,7 +38,7 @@ public class EnableLauncher extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.launcher.dumbLauncher();
+        Robot.launcher.enableLauncher();
     }
 
     // Called repeatedly when this Command is scheduled to run
