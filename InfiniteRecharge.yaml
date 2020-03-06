@@ -356,7 +356,7 @@ Children:
         default: 1
         name: Number
         validators: *id007
-        value: '2'
+        value: '3'
     Base: Joystick
     Name: operatorLeftJoy
   - Children:
@@ -395,7 +395,7 @@ Children:
         default: 1
         name: Number
         validators: *id007
-        value: '3'
+        value: '2'
     Base: Joystick
     Name: operatorRightJoy
   Properties: {}
