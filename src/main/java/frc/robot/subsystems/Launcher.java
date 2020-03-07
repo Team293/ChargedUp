@@ -64,6 +64,7 @@ launcherMotor = new WPI_TalonFX(6);
         launcherMotor.config_kI(0, lI, 10);
         launcherMotor.config_kD(0, lD, 10);
         launcherMotor.setInverted(false);
+        launcherMotor.configClosedloopRamp(0.5);
 
         SmartDashboard.putNumber(TARGET_RPM_STRING, targetRPM);
     }
