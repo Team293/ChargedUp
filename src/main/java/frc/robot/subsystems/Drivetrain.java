@@ -58,8 +58,6 @@ private WPI_TalonFX rightTalonFollower;
     private final double MAX_VELOCITY = 21549;
     private final double VELOCITY_LIMIT_PERCENTAGE = 0.5;
     private final double VELOCITY_SLOWDOWN_MODIFIER = 0.5;
-    private double speed = 1;
-    private double maxVel = 21549;
 
     private final double INVALID_INPUT = -99;
 
@@ -105,11 +103,6 @@ rightTalonFollower = new WPI_TalonFX(3);
 
     leftTalonLead.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 4000);
     rightTalonLead.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 4000);
-    
-    //Set facotry defaults for onboard PID
-
-    leftTalonLead.configFactoryDefault();
-    rightTalonLead.configFactoryDefault();
 
     //Configure PID
 
@@ -118,15 +111,12 @@ rightTalonFollower = new WPI_TalonFX(3);
     leftTalonLead.config_kI(0,kI,10);
     leftTalonLead.config_kD(0,kD,0);
     leftTalonLead.configClosedloopRamp(CLOSED_LOOP_RAMP);
-    leftTalonLead.setNeutralMode(NeutralMode.Brake);
 
     rightTalonLead.config_kF(0,kF,10);
     rightTalonLead.config_kP(0,kP,10);
     rightTalonLead.config_kI(0,kI,10);
     rightTalonLead.config_kD(0,kD,0);
-    rightTalonLead.configClosedloopRamp(0.5);
-    rightTalonLead.configMotionCruiseVelocity((int)(maxVel * 0.5));
-    rightTalonLead.configMotionAcceleration((int)(maxVel * 0.5));
+    rightTalonLead.configClosedloopRamp(CLOSED_LOOP_RAMP);
 
     rightTalonLead.setNeutralMode(NeutralMode.Coast);
     leftTalonLead.setNeutralMode(NeutralMode.Coast);
@@ -157,8 +147,8 @@ rightTalonFollower = new WPI_TalonFX(3);
         // Put code here to be run every loop
         SmartDashboard.putNumber("Left Encoder Velocity", leftTalonLead.getSensorCollection().getIntegratedSensorVelocity());
         SmartDashboard.putNumber("Left Encoder Position", leftTalonLead.getSensorCollection().getIntegratedSensorPosition());
-        SmartDashboard.putNumber("Right Encoder Velocity", leftTalonLead.getSensorCollection().getIntegratedSensorVelocity());
-        SmartDashboard.putNumber("Right Encoder Position", leftTalonLead.getSensorCollection().getIntegratedSensorPosition());
+        SmartDashboard.putNumber("Right Encoder Velocity", rightTalonLead.getSensorCollection().getIntegratedSensorVelocity());
+        SmartDashboard.putNumber("Right Encoder Position", rightTalonLead.getSensorCollection().getIntegratedSensorPosition());
 
         //SmartDashboard.putNumber("Gyro Angle",gyro.getAngle());
         //SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
@@ -181,16 +171,20 @@ rightTalonFollower = new WPI_TalonFX(3);
         // Running at half speed as to not kill people
         retval = calcMotorPower(leftPos, Ldeadband);
         if(INVALID_INPUT == retval) {
-            System.out.println("Invalid left motor input" + leftPos);
+            System.out.println("Invalid left motor input " + leftPos);
+            stop();
+            return;
         } else {
-            leftTalonLead.set(TalonFXControlMode.PercentOutput,retval*.5);    
+            leftTalonLead.set(TalonFXControlMode.PercentOutput,retval * VELOCITY_LIMIT_PERCENTAGE);    
         }
 
         retval = calcMotorPower(rightPos, Rdeadband);
         if(INVALID_INPUT == retval) {
-            System.out.println("Invalid right motor input" + rightPos);
+            System.out.println("Invalid right motor input " + rightPos);
+            stop();
+            return;
         } else {
-            rightTalonLead.set(TalonFXControlMode.PercentOutput,retval * speed);    
+            rightTalonLead.set(TalonFXControlMode.PercentOutput,retval * VELOCITY_LIMIT_PERCENTAGE);    
         }   
     }
 
@@ -208,7 +202,9 @@ rightTalonFollower = new WPI_TalonFX(3);
 
         retval = calcMotorPower(leftPos, Ldeadband);
         if(INVALID_INPUT == retval) {
-            System.out.println("Invalid left motor input" + leftPos);
+            System.out.println("Invalid left motor input " + leftPos);
+            stop();
+            return;
         } else {
             if(useSlowModifier){
                 leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
@@ -220,7 +216,9 @@ rightTalonFollower = new WPI_TalonFX(3);
 
         retval = calcMotorPower(rightPos, Rdeadband);
         if(INVALID_INPUT == retval) {
-            System.out.println("Invalid right motor input" + rightPos);
+            System.out.println("Invalid right motor input " + rightPos);
+            stop();
+            return;
         } else {
             if(useSlowModifier){
                 rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
@@ -231,7 +229,6 @@ rightTalonFollower = new WPI_TalonFX(3);
     }
 
     // Stops motor usually used after the drive command ends to prevent shenanigans
-
     public void stop() {
         leftTalonLead.set(TalonFXControlMode.Current,0);
         rightTalonLead.set(TalonFXControlMode.Current,0);
@@ -241,7 +238,6 @@ rightTalonFollower = new WPI_TalonFX(3);
     //joystick input from -1 to 1
     //Prevents spikes in motor power by calculating the line to use 
     //where 0 is the deadband and 1 is the max
-
     public double calcMotorPower(double input, double deadband) {
         double retval = 0.0;
         if(Math.abs(input) <= deadband) { //Check if input is inside the deadband
@@ -252,7 +248,7 @@ rightTalonFollower = new WPI_TalonFX(3);
             return INVALID_INPUT;
         }
         
-        retval = (1/(1 - deadband) * Math.abs(input) - (deadband/(1 - deadband)));
+        retval = (Math.abs(input) - deadband)/(1 - deadband);
 
         if(input < 0) {
            return -1 * retval;
@@ -263,16 +259,15 @@ rightTalonFollower = new WPI_TalonFX(3);
 
     //Velocity Drive without Deadband for vision purposes
     public void visionDrive(double left, double right){
-        if (left > 1 || left < -1){
+        if (left > 1 || left < -1 || right > 1 || right < -1){
             System.out.println("Invalid left motor input " + left);
-            left = 0;
+            System.out.println("Invalid right motor input " + right);
+            stop();
+            return;
         }
-        if (right > 1 || right < -1){
-            System.out.println("Invalid right motor input " + left);
-            right = 0;
-        }
-        leftTalonLead.set(TalonFXControlMode.Velocity,(left * maxVel * speed));
-        rightTalonLead.set(TalonFXControlMode.Velocity,(right * maxVel * speed));
+
+        leftTalonLead.set(TalonFXControlMode.Velocity,(left * MAX_VELOCITY));
+        rightTalonLead.set(TalonFXControlMode.Velocity,(right * MAX_VELOCITY));
     }
 }
 
