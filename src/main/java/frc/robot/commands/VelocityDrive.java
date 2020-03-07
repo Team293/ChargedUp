@@ -44,8 +44,16 @@ public class VelocityDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     @Override
-    protected void execute() {
-        Robot.drivetrain.velocityDrive(Robot.oi.leftJoy.getY(), Robot.oi.rightJoy.getY());
+    protected void execute() {;
+        boolean useSlowModifier = (Robot.oi.leftJoy.getTrigger() || Robot.oi.rightJoy.getTrigger());
+        boolean useReverse;
+        if (Robot.oi.leftJoy.getThrottle() < 0){
+            useReverse = true;
+        }
+        else{
+            useReverse = false;
+        }
+        Robot.drivetrain.velocityDrive(Robot.oi.leftJoy.getY(), Robot.oi.rightJoy.getY(),useSlowModifier,useReverse);
     }
 
     // Make this return true when this Command no longer needs to run execute()

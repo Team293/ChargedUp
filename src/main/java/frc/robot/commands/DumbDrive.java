@@ -43,7 +43,7 @@ public class DumbDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.drivetrain.dumbDrive(Robot.oi.leftJoy.getY(),Robot.oi.rightJoy.getY());
+        Robot.drivetrain.dumbDrive(Robot.oi.leftJoy.getY(), Robot.oi.rightJoy.getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

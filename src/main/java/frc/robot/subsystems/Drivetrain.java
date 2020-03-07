@@ -174,10 +174,9 @@ rightTalonFollower = new WPI_TalonFX(3);
     // here. Call these from Commands.
 
     // Converts joystick input adjusted for deadband to current for the motor
-    public void dumbDrive(double left, double right) {
 
-        double leftPos = left;
-        double rightPos = right;
+    public void dumbDrive(double leftPos, double rightPos) {
+
         double retval = 0.0;
         // Running at half speed as to not kill people
         retval = calcMotorPower(leftPos, Ldeadband);
@@ -196,16 +195,15 @@ rightTalonFollower = new WPI_TalonFX(3);
     }
 
     // Converts joystick input adjusted to a RPM for the Falcon's PIDF loop to aim for
-    public void velocityDrive(double leftPos, double rightPos){
+
+    public void velocityDrive(double leftPos, double rightPos, boolean useSlowModifier, boolean useReverse){
 
         double retval = 0.0;
-        boolean useSlowModifier = false;
 
-        if(Robot.oi.rightJoy.getTrigger()){
-            useSlowModifier = true;
-        }
-        if(Robot.oi.leftJoy.getTrigger()){
-            useSlowModifier = true;
+        if(useReverse){     
+            double temp = leftPos;
+            leftPos = -rightPos;
+            rightPos = -temp;
         }
 
         retval = calcMotorPower(leftPos, Ldeadband);
@@ -213,11 +211,9 @@ rightTalonFollower = new WPI_TalonFX(3);
             System.out.println("Invalid left motor input" + leftPos);
         } else {
             if(useSlowModifier){
-                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-                    VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
+                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
             } else {
-                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-                    VELOCITY_LIMIT_PERCENTAGE));
+                leftTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE));
             }
             
         }
@@ -227,11 +223,9 @@ rightTalonFollower = new WPI_TalonFX(3);
             System.out.println("Invalid right motor input" + rightPos);
         } else {
             if(useSlowModifier){
-                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-                    VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
+                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE * VELOCITY_SLOWDOWN_MODIFIER));    
             } else {
-                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * 
-                    VELOCITY_LIMIT_PERCENTAGE));
+                rightTalonLead.set(TalonFXControlMode.Velocity,(retval * MAX_VELOCITY * VELOCITY_LIMIT_PERCENTAGE));
             }
         }
     }

@@ -106,7 +106,7 @@ launcherMotor = new WPI_TalonFX(6);
     }
 
     public void enableLauncher() {
-        double velSpeed = convertRPMtoVelocity(targetRPM); //+ realWorldError);
+        double velSpeed = convertRPMtoVelocity(targetRPM); //+ realWorldError); // TODO maybe?
 
         SmartDashboard.putNumber("Target Vel", velSpeed);
         launcherMotor.set(ControlMode.Velocity, velSpeed);
@@ -121,6 +121,7 @@ launcherMotor = new WPI_TalonFX(6);
         return conversionRPM;
     }
 
+    // Not being used currently
     public boolean isReady() {
         double currentRPM = convertVelocityToRPM(launcherMotor.getSelectedSensorVelocity(0));
         if ((currentRPM + TARGET_DEADBAND) >= (targetRPM)
