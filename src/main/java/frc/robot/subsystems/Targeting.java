@@ -52,7 +52,6 @@ public class Targeting extends Subsystem {
 
     private double TARGET_RIGHT_THRESHOLD = 1.0;
     private double TARGET_LEFT_THRESHOLD = -1.0;
-    PIDController visionPID;
     private double integral;
     private double lastError = 0.0;
     private double STATIC_POWER = 0.05;
@@ -70,11 +69,7 @@ public class Targeting extends Subsystem {
         ty = limeData.getEntry("ty");
 
         limeData.getEntry("camMode").setNumber(0);
-        
-        visionPID = new PIDController(vP,vI,vD);
-        visionPID.disableContinuousInput();
-        visionPID.setSetpoint(0.0);
-        visionPID.setTolerance(1.0);    
+  
 
         SmartDashboard.putNumber("P Gain", vP);
         SmartDashboard.putNumber("I Gain", vI);
@@ -172,21 +167,9 @@ public class Targeting extends Subsystem {
         return velCmds;
     }
 
-
     // me attempting to use wpilib's integrated pid encoder
 
-    public double[] wpilibNavToTarget(){
-        limeData.getEntry("ledMode").setNumber(3);
-        double[] velCmds = {0.0,0.0}; //Left motor velocity, Right motor velocity (retunrns -1 to 1)
-        if (tAcquired.getDouble(0.0) == 1.0){
-                double error = tx.getDouble(0.0)/29.5;
-                double velPwr = visionPID.calculate(error);
-                velCmds[0] = velPwr;
-                velCmds[1] = -velPwr;
-                SmartDashboard.putNumber("Output",velPwr);
-        }
-        return velCmds;
-    }
+
 
     public void resetPID(){
         integral = 0.0;
