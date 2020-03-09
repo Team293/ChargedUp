@@ -165,7 +165,7 @@ public class Targeting extends Subsystem {
         return velCmds;
     }
 
-    // me attempting to use wpilib's integrated pid encoder
+    
 
 
 

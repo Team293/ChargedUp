@@ -172,6 +172,17 @@ Children:
           value: '0'
       Base: Double Solenoid
       Name: pivotPiston
+    - Children: []
+      Properties:
+        PCM ID: !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+            '12', '13', '14', '15', '16', '17', '18', '19', '20']
+          default: '0'
+          name: PCM ID
+          validators: [PCMCompID]
+          value: '0'
+      Base: Compressor
+      Name: Compressor
     Properties:
       Send to SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Send to SmartDashboard, validators: null, value: false}
@@ -798,9 +809,9 @@ Properties:
     name: Export Subsystems, validators: null, value: true}
   Simulation World File: !!robotbuilder.data.properties.StringProperty {default: /usr/share/frcsim/worlds/GearsBotDemo.world,
     name: Simulation World File, validators: null, value: /usr/share/frcsim/worlds/GearsBotDemo.world}
-  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\harri\',
+  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\17Z990\',
     extension: null, folder: true, name: Wiring file location, validators: null, value: ..\}
-  Export Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\harri\FRCProjects',
+  Export Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\17Z990\FRCProjects',
     extension: null, folder: true, name: Export Directory, validators: null, value: ..\}
   Autonomous Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
     name: Autonomous Command, type: Command, validators: null, value: Autonomous Command}
