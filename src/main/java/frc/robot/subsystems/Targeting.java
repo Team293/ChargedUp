@@ -50,8 +50,11 @@ public class Targeting extends Subsystem {
     private double vI = 0.0;
     private double vD = 4.0;
 
-    private double TARGET_RIGHT_THRESHOLD = 1.0;
-    private double TARGET_LEFT_THRESHOLD = -1.0;
+    private double CONFIRMED_THRESHOLD = 1.0;
+    private double CONFIRMED_TIME = .25; // Amount of seconds before it considers a target confirmed
+    private double TIME_INTERVAL = 1.0;
+    private double LOOPS_PER_SECOND = 50.0;
+    private double timeAccum = 0.0;
     private double integral;
     private double lastError = 0.0;
     private double STATIC_POWER = 0.05;
@@ -120,21 +123,15 @@ public class Targeting extends Subsystem {
 
     public double[] navToTarget(){
         limeData.getEntry("ledMode").setNumber(3);
-        double[] velCmds = {0.0,0.0}; //Left motor velocity, Right motor velocity (retunrns -1 to 1)
+        double[] velCmds = {0.0,0.0,0.0}; //Left motor velocity, Right motor velocity (retunrns -1 to 1), At the target for a period of time
         if (tAcquired.getDouble(0.0) == 1.0){
-            double headingError = tx.getDouble(0.0)/29.5; // 29.5 is the range of the limelight which goes from -29.5 to 29.5
+            double limeError = tx.getDouble(0.0);
+            double headingError = limeError/29.5; // 29.5 is the range of the limelight which goes from -29.5 to 29.5
             double change = headingError - lastError;
             if(Math.abs(integral) < INTEGRAL_LIMIT){
                 integral += headingError * .2;
             }
             double percentOutput = (vP * headingError) + (vI * integral) + (vD * change);
-            /*if(percentOutput > 0.0){
-                percentOutput += STATIC_POWER;
-            }
-            else if(percentOutput < 0.0){
-                percentOutput -= STATIC_POWER;
-            }*/
-
             if(percentOutput > .5){
                 percentOutput = .5;
             }
@@ -148,13 +145,22 @@ public class Targeting extends Subsystem {
             SmartDashboard.putNumber("RightOutput",velCmds[1]);
             currentOutput = percentOutput;
             lastError = headingError;
+
+            if(Math.abs(limeError) < CONFIRMED_THRESHOLD){
+                timeAccum += TIME_INTERVAL;
+            }
+            else{
+                timeAccum = 0.0;
+            }
+
+			if(timeAccum >= (Math.floor(CONFIRMED_TIME * LOOPS_PER_SECOND))){
+                velCmds[2] = 1.0;
+            }
+            else{
+                velCmds[2] = 0.0;
+            }
+            
         }
-        /*else{
-            velCmds[0] = -currentOutput; //Left Motor
-            velCmds[1] = currentOutput; //Right Motor
-            SmartDashboard.putNumber("LeftOutput",velCmds[0]);
-            SmartDashboard.putNumber("RightOutput",velCmds[1]);
-        }*/
         
         return velCmds;
     }
