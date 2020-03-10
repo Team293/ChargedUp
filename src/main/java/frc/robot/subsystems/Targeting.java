@@ -165,7 +165,14 @@ public class Targeting extends Subsystem {
         return velCmds;
     }
 
-    
+    public double calcShooterRPM(){
+        double distance = ty.getDouble(0.0);
+        if(tAcquired.getDouble(0.0) == 1.0)
+            return 1200.0; //TODO Substitute for calculations w/ distance
+        else{
+            return 0.0;
+        }
+    }
 
 
 
