@@ -45,7 +45,9 @@ public class Fire extends Command {
     @Override
     protected void execute() {
         Robot.feeder.beltOn();
-        Robot.feeder.feedOn();    
+        Robot.feeder.feedOn();
+        Robot.launcher.enableLauncher();
+
         
     }
 
@@ -60,6 +62,7 @@ public class Fire extends Command {
     protected void end() {
         Robot.feeder.feedOff();
         Robot.feeder.beltOff();
+        Robot.launcher.disableLauncher();
     }
 
     // Called when another command which requires one or more of the same

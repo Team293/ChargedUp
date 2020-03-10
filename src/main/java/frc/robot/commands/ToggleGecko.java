@@ -45,6 +45,7 @@ public class ToggleGecko extends Command {
     @Override
     protected void execute() {
         Robot.ballPickup.geckoOn();
+        Robot.feeder.beltMovement();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -57,12 +58,14 @@ public class ToggleGecko extends Command {
     @Override
     protected void end() {
         Robot.ballPickup.geckoToggleOff();
+        Robot.feeder.beltOff();
+        Robot.feeder.feedOff();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Robot.ballPickup.geckoToggleOff();
+        end();
     }
 }
