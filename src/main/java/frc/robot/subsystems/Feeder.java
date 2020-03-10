@@ -58,7 +58,7 @@ ss = new DigitalInput(1);
 addChild("ss",ss);
 
         
-beltMotor = new Relay(1);
+beltMotor = new Relay(0);
 addChild("beltMotor",beltMotor);
 
         

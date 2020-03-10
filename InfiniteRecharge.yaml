@@ -121,7 +121,7 @@ Children:
           default: '0'
           name: Output Channel (Relay)
           validators: [RelayOutput]
-          value: '1'
+          value: '0'
       Base: Spike
       Name: beltMotor
     Properties:
@@ -163,13 +163,13 @@ Children:
           default: '0'
           name: Reverse Channel (Solenoid)
           validators: &id011 [Solenoid]
-          value: '1'
+          value: '3'
         Forward Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: &id012 ['0', '1', '2', '3', '4', '5', '6', '7']
           default: '0'
           name: Forward Channel (Solenoid)
           validators: &id013 [Solenoid]
-          value: '0'
+          value: '2'
       Base: Double Solenoid
       Name: pivotPiston
     - Children: []
@@ -238,13 +238,13 @@ Children:
           default: '0'
           name: Reverse Channel (Solenoid)
           validators: *id011
-          value: '3'
+          value: '1'
         Forward Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id012
           default: '0'
           name: Forward Channel (Solenoid)
           validators: *id013
-          value: '2'
+          value: '0'
       Base: Double Solenoid
       Name: climbSolenoid
     Properties:
@@ -460,7 +460,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '2'
+          value: '6'
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
           default: None
           name: Command
@@ -501,7 +501,7 @@ Children:
           default: whileHeld
           name: When to Run
           validators: null
-          value: whileHeld
+          value: whenPressed
       Base: Joystick Button
       Name: extendPiston
     - Children: []
@@ -518,7 +518,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '6'
+          value: '3'
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
           default: None
           name: Command
@@ -530,9 +530,38 @@ Children:
           default: whileHeld
           name: When to Run
           validators: null
-          value: whileHeld
+          value: whenPressed
       Base: Joystick Button
       Name: retractPiston
+    - Children: []
+      Properties:
+        Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
+          name: Joystick, validators: null, value: operatorRightJoy}
+        Parameters: !!robotbuilder.data.properties.ParametersProperty
+          default: []
+          name: Parameters
+          validators: null
+          value: []
+        Button: !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id016
+          default: '1'
+          name: Button
+          validators: null
+          value: '4'
+        Command: !!robotbuilder.data.properties.TypeSelectionProperty
+          default: None
+          name: Command
+          type: Command
+          validators: *id017
+          value: GeckoDown
+        When to Run: !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id018
+          default: whileHeld
+          name: When to Run
+          validators: null
+          value: whenPressed
+      Base: Joystick Button
+      Name: geckoDownBtn
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
         choices: *id014
@@ -802,14 +831,36 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: Launcher}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id019 []
+        default: []
         name: Parameter presets
         validators: null
-        value: *id019
+        value: []
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
     Name: SmartLauncher
+  - Children: []
+    Properties:
+      Autonomous Selection: !!robotbuilder.data.properties.BooleanProperty {default: false,
+        name: Autonomous Selection, validators: null, value: false}
+      Parameters: !!robotbuilder.data.properties.ParametersProperty
+        default: []
+        name: Parameters
+        validators: null
+        value: []
+      Run When Disabled: !!robotbuilder.data.properties.BooleanProperty {default: false,
+        name: Run When Disabled, validators: null, value: false}
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: BallPickup}
+      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
+        default: []
+        name: Parameter presets
+        validators: null
+        value: []
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: GeckoDown
   Properties: {}
   Base: Commands
   Name: Commands
