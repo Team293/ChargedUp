@@ -14,6 +14,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -74,7 +75,7 @@ public Joystick operatorRightJoy;
 operatorRightJoy = new Joystick(2);
 
 geckoDownBtn = new JoystickButton(operatorRightJoy, 11);
-geckoDownBtn.whenPressed(new GeckoDown());
+geckoDownBtn.whenPressed(new Command());
 geckoUpBtn = new JoystickButton(operatorRightJoy, 4);
 geckoUpBtn.whenPressed(new GeckoUp());
 retractPiston = new JoystickButton(operatorRightJoy, 3);
