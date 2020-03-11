@@ -75,7 +75,7 @@ public Joystick operatorRightJoy;
 operatorRightJoy = new Joystick(2);
 
 geckoDownBtn = new JoystickButton(operatorRightJoy, 11);
-geckoDownBtn.whenPressed(new Command());
+geckoDownBtn.whenPressed(new GeckoDown());
 geckoUpBtn = new JoystickButton(operatorRightJoy, 4);
 geckoUpBtn.whenPressed(new GeckoUp());
 retractPiston = new JoystickButton(operatorRightJoy, 3);
