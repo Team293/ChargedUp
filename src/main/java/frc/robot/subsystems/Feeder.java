@@ -117,6 +117,25 @@ feederMotor = new CANSparkMax(8, MotorType.kBrushless);
     public void beltOff(){
         beltMotor.set(Value.kOff);
     }
+    public void smartBelt(){
+        if(sh.get() == false || ss.get() == false){
+            beltOn();
+            feedOn();
+        }
+        else if(sh.get() == true || ss.get() == false){
+            beltOn();
+        }
+        else if(sh.get() == false || ss.get() == true){
+            beltOn();
+            feedOn();
+        }
+        else if(sh.get() == true || ss.get() == true){
+            beltOff();
+            feedOff();
+        }
+
+
+    }
     
 }
     
