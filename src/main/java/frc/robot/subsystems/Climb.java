@@ -79,16 +79,16 @@ addChild("climbSolenoid",climbSolenoid);
 
 
 
- public void climbSolenoidIn() {
+ public void climberDown() {
      climbSolenoid.set(Value.kReverse);
  }
 
- public void climbSolenoidOut() {
+ public void climberUp() {
     climbSolenoid.set(Value.kForward);
 
  }
 
- public void climbSolenoidNeutral() {
+ public void climberNeutral() {
      climbSolenoid.set(Value.kOff);
  }
 }
