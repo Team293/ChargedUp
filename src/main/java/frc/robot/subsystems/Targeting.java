@@ -70,8 +70,6 @@ public class Targeting extends Subsystem {
         ty = limeData.getEntry("ty");
 
         limeData.getEntry("camMode").setNumber(0);
-  
-
         SmartDashboard.putNumber("P Gain", vP);
         SmartDashboard.putNumber("I Gain", vI);
         SmartDashboard.putNumber("D Gain", vD);
@@ -96,9 +94,9 @@ public class Targeting extends Subsystem {
         double i = SmartDashboard.getNumber("I Gain", 0);
         double d = SmartDashboard.getNumber("D Gain", 0);
 
-        if((p != vP)) {vP = p;}
-        if((i != vI)) {vI = i; }
-        if((d != vD)) {vD = d; }
+        if(p != vP) {vP = p;}
+        if(i != vI) {vI = i; }
+        if(d != vD) {vD = d; }
 
     }
 

@@ -134,8 +134,6 @@ feederMotor = new CANSparkMax(8, MotorType.kBrushless);
             beltOff();
             feedOff();
         }
-
-
     }
     
 }
