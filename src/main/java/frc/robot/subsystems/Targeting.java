@@ -104,15 +104,18 @@ public class Targeting extends Subsystem
         double d = SmartDashboard.getNumber("D Gain", 0);
 
         // Set PID if changed through shuffleboard
-        if(p != vP) {
+        if(p != vP) 
+        {
             vP = p;
         }
         
-        if(i != vI) {
+        if(i != vI) 
+        {
             vI = i;
         }
         
-        if(d != vD) {
+        if(d != vD) 
+        {
             vD = d; 
         }
     }
@@ -131,10 +134,12 @@ public class Targeting extends Subsystem
     // Turns the LED on or off
     public void controlLight(boolean enabled)
     {
-        if(enabled){
+        if(enabled)
+        {
             limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON); 
         }
-        else{
+        else
+        {
             limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_OFF);
         }
     }
