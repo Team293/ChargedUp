@@ -16,6 +16,11 @@
 # limitations under the License.
 #
 
+##############################################################################
+##
+##  Gradle start up script for UN*X
+##
+##############################################################################
 
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
@@ -142,8 +147,10 @@ if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
     i=0
     for arg in "$@" ; do
         CHECK=`echo "$arg"|egrep -c "$OURCYGPATTERN" -`
-        CHECK2=`echo "$arg"|egrep -c "^-"`                                 
-        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                                eval `echo args$i`=`cygpath --path --ignore --mixed "$arg"`
+        CHECK2=`echo "$arg"|egrep -c "^-"`                                 ### Determine if an option
+
+        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added a condition
+            eval `echo args$i`=`cygpath --path --ignore --mixed "$arg"`
         else
             eval `echo args$i`="\"$arg\""
         fi
