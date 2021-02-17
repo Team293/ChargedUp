@@ -10,7 +10,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
@@ -52,6 +54,11 @@ public class Drivetrain extends SubsystemBase
 
     private final double INVALID_INPUT = -99;
     private AHRS navX;
+    private SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalonLead, leftTalonFollower);
+        
+    private SpeedControllerGroup m_right = new SpeedControllerGroup(rightTalonLead, rightTalonFollower); 
+        
+    private DifferentialDrive m_drivetrain = new DifferentialDrive(m_left, m_right);
 
     public Drivetrain() 
     {
@@ -97,6 +104,7 @@ public class Drivetrain extends SubsystemBase
 
         rightTalonLead.setNeutralMode(NeutralMode.Coast);
         leftTalonLead.setNeutralMode(NeutralMode.Coast);
+        
 
         rightTalonLead.configNeutralDeadband(.01);
         rightTalonFollower.configNeutralDeadband(.01);
@@ -104,6 +112,8 @@ public class Drivetrain extends SubsystemBase
         leftTalonFollower.configNeutralDeadband(.01);
 
         navX = new AHRS(Port.kMXP);
+        
+        
     }
 
     @Override
@@ -124,7 +134,8 @@ public class Drivetrain extends SubsystemBase
     }
 
     @Override
-    public void simulationPeriodic() {
+    public void simulationPeriodic() 
+    {
         // This method will be called once per scheduler run when in simulation
     }
 
@@ -264,5 +275,9 @@ public class Drivetrain extends SubsystemBase
 
         leftTalonLead.set(TalonFXControlMode.Velocity,(left * MAX_VELOCITY));
         rightTalonLead.set(TalonFXControlMode.Velocity,(right * MAX_VELOCITY));
+    }
+    public void arcadeDrive(double y, double x)
+    {
+        m_drivetrain.arcadeDrive(y, x);
     }
 }
