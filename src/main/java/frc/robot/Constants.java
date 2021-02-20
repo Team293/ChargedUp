@@ -33,5 +33,6 @@ public class Constants
     public static final class InputConstants 
     {
         public static final double DEFAULT_DEADBAND = 0.15;
+        public static final boolean DEFAULT_FORZA_MODE = false;
     }
 }
