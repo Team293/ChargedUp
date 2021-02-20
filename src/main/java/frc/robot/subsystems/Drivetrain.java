@@ -13,8 +13,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -52,13 +52,11 @@ public class Drivetrain extends SubsystemBase
     private final double VELOCITY_LIMIT_PERCENTAGE = 0.5;
     private final double VELOCITY_SLOWDOWN_MODIFIER = 0.5;
 
-    private final double INVALID_INPUT = -99;
     private AHRS navX;
-    private SpeedControllerGroup m_left = new SpeedControllerGroup(leftTalonLead, leftTalonFollower);
-        
-    private SpeedControllerGroup m_right = new SpeedControllerGroup(rightTalonLead, rightTalonFollower); 
-        
-    private DifferentialDrive m_drivetrain = new DifferentialDrive(m_left, m_right);
+    private final double INVALID_INPUT = -99;
+    private SpeedControllerGroup m_left;
+    private SpeedControllerGroup m_right; 
+    private DifferentialDrive m_differentialDrive;
 
     public Drivetrain() 
     {
@@ -104,16 +102,19 @@ public class Drivetrain extends SubsystemBase
 
         rightTalonLead.setNeutralMode(NeutralMode.Coast);
         leftTalonLead.setNeutralMode(NeutralMode.Coast);
-        
 
         rightTalonLead.configNeutralDeadband(.01);
         rightTalonFollower.configNeutralDeadband(.01);
         leftTalonLead.configNeutralDeadband(.01);
         leftTalonFollower.configNeutralDeadband(.01);
-
+        
+        //Setup Gyro
         navX = new AHRS(Port.kMXP);
-        
-        
+
+        //Setup Differential Drive
+        m_left = new SpeedControllerGroup(leftTalonLead, leftTalonFollower);
+        m_right = new SpeedControllerGroup(rightTalonLead, rightTalonFollower); 
+        m_differentialDrive = new DifferentialDrive(m_left, m_right);
     }
 
     @Override
@@ -276,8 +277,9 @@ public class Drivetrain extends SubsystemBase
         leftTalonLead.set(TalonFXControlMode.Velocity,(left * MAX_VELOCITY));
         rightTalonLead.set(TalonFXControlMode.Velocity,(right * MAX_VELOCITY));
     }
-    public void arcadeDrive(double y, double x)
+
+    public void arcadeDrive(double forwardMovement, double turning)
     {
-        m_drivetrain.arcadeDrive(y, x);
+        m_differentialDrive.arcadeDrive(forwardMovement, turning);
     }
 }

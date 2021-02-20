@@ -60,7 +60,7 @@ public class VelocityDrive extends CommandBase
         boolean useReverse;
 
         useSlowModifier = (m_operatorLeftJoy.getTrigger() || m_operatorRightJoy.getTrigger());
-        //Check if throttle should be reveresed
+        //Check if throttle should be reversed
         if (m_operatorLeftJoy.getThrottle() < 0)
         {
             useReverse = true;
