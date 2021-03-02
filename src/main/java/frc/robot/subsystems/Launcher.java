@@ -73,18 +73,7 @@ public class Launcher extends SubsystemBase
     
         // Put code here to be run every loop
         // Update motor speed here IF SHOOTER IS ON
-        if(m_robotContainer.getoperatorLeftJoy().getRawButton(1)){
-            newTargetRPM = targetRPMbttn1;
-        }
-        else if(m_robotContainer.getoperatorLeftJoy().getRawButton(2)){
-            newTargetRPM = targetRPMbttn2;
-        }
-        else if(m_robotContainer.getoperatorLeftJoy().getRawButton(3)){
-            newTargetRPM = targetRPMbttn3;
-        }
-        else if(m_robotContainer.getoperatorLeftJoy().getRawButton(24)){
-            newTargetRPM = targetRPMbttn4;
-        }
+        
         if (newTargetRPM < 0)
         {
             System.out.println("Launcher - invalid targetRPM: " + newTargetRPM);
