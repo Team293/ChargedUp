@@ -33,16 +33,16 @@ public class Constants
     public static final class DrivetrainConstants 
     {
         public static final double DEFAULT_DEADBAND = 0.15;
-        public static final boolean DEFAULT_FORZA_MODE = false;
+        public static final boolean DEFAULT_FORZA_MODE = true;
         public static final double KF = 0.04759;
         public static final double KP = 0.01461;
         public static final double KI = 0.0;
         public static final double KD = 0.0;
         public static final double CLOSED_LOOP_RAMP = 0.5;
         public static final double MAX_VELOCITY = 21549;
-        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.5;
-        public static final double DEFAULT_MAX_TURNING_SPEED = 0.25;
-        public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.5;
+        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.75;
+        public static final double DEFAULT_MAX_TURNING_SPEED = 0.65;
+        public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25;
         public static final double INVALID_INPUT = -99;
         public static final int LEFT_LEAD_TALON_CAN_ID = 0;
         public static final int LEFT_FOLLOWER_TALON_CAN_ID = 1;
