@@ -44,6 +44,7 @@ public class Drivetrain extends SubsystemBase
     private DifferentialDrive m_differentialDrive;
     private double m_deadband;
     private double m_velocityLimitPercentage;
+    private double m_turningLimitPercentage;
 
     public Drivetrain() 
     {
@@ -104,7 +105,10 @@ public class Drivetrain extends SubsystemBase
         //Add deadband value to SmartDashboard
         m_deadband = DEFAULT_DEADBAND;
         m_velocityLimitPercentage = DEFAULT_MAX_VELOCITY_PERCENTAGE;
+        m_turningLimitPercentage = DEFAULT_MAX_TURNING_SPEED;
         SmartDashboard.putNumber("Deadband", m_deadband);
+        SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
+        SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
     }
 
     @Override
@@ -124,6 +128,29 @@ public class Drivetrain extends SubsystemBase
         //SmartDashboard.putNumber("Gyro Angle",gyro.getAngle());
         //SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
         //SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+        m_velocityLimitPercentage = SmartDashboard.getNumber("Max Velocity Percentage", DEFAULT_MAX_VELOCITY_PERCENTAGE);
+        if(m_velocityLimitPercentage > 1)
+        {
+            m_velocityLimitPercentage = 1;
+            SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
+        }
+        else if(m_velocityLimitPercentage < 0)
+        {
+            m_velocityLimitPercentage = 0;
+            SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
+        }
+
+        m_turningLimitPercentage = SmartDashboard.getNumber("Max Turning Percentage", DEFAULT_MAX_TURNING_SPEED);
+        if(m_turningLimitPercentage > 1)
+        {
+            m_turningLimitPercentage = 1;
+            SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
+        }
+        else if(m_turningLimitPercentage < 0)
+        {
+            m_turningLimitPercentage = 0;
+            SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
+        }
     }
 
     @Override
@@ -236,7 +263,7 @@ public class Drivetrain extends SubsystemBase
 
     public void arcadeDrive(double forwardMovement, double turning)
     {
-        m_differentialDrive.arcadeDrive(forwardMovement * m_velocityLimitPercentage, turning * m_velocityLimitPercentage);
+        m_differentialDrive.arcadeDrive(forwardMovement * m_velocityLimitPercentage, -turning * m_turningLimitPercentage);
     }
     
     public double clampInput(double input, double deadband) 
