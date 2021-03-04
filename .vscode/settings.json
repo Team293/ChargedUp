@@ -1,5 +1,6 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
+  "java.server.launchMode": "Standard",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -12,6 +13,5 @@
     "**/.settings": true,
     "**/.factorypath": true,
     "**/*~": true
-  },
-  "wpilib.autoStartRioLog": true
+  }
 }
