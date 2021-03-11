@@ -59,31 +59,31 @@ public class Launcher extends SubsystemBase
         launcherMotor.setInverted(true);
         launcherMotor.configClosedloopRamp(CLOSED_LOOP_RAMPRATE);
         
-        SmartDashboard.putNumber("Target RPM", targetRPM);
+        // SmartDashboard.putNumber("Target RPM", targetRPM);
     }
 
     @Override
     public void periodic() 
     {
-        int newTargetRPM = (int)SmartDashboard.getNumber("Target RPM", -1);
-        int targetRPMbttn1 = (int)SmartDashboard.getNumber("Button 1 target", -1);
-        int targetRPMbttn2 = (int)SmartDashboard.getNumber("Button 2 target", -1);
-        int targetRPMbttn3 = (int)SmartDashboard.getNumber("Button 3 target", -1);
-        int targetRPMbttn4 = (int)SmartDashboard.getNumber("Button 4 target", -1);
+        // int newTargetRPM = (int)SmartDashboard.getNumber("Target RPM", -1);
+        // int targetRPMbttn1 = (int)SmartDashboard.getNumber("Button 1 target", -1);
+        // int targetRPMbttn2 = (int)SmartDashboard.getNumber("Button 2 target", -1);
+        // int targetRPMbttn3 = (int)SmartDashboard.getNumber("Button 3 target", -1);
+        // int targetRPMbttn4 = (int)SmartDashboard.getNumber("Button 4 target", -1);
     
-        // Put code here to be run every loop
-        // Update motor speed here IF SHOOTER IS ON
+        // // Put code here to be run every loop
+        // // Update motor speed here IF SHOOTER IS ON
         
-        if (newTargetRPM < 0)
-        {
-            System.out.println("Launcher - invalid targetRPM: " + newTargetRPM);
-        } else
-        {
-            if (newTargetRPM != targetRPM)
-            {
-                targetRPM = newTargetRPM;
-            }
-        }
+        // if (newTargetRPM < 0)
+        // {
+        //     System.out.println("Launcher - invalid targetRPM: " + newTargetRPM);
+        // } else
+        // {
+        //     if (newTargetRPM != targetRPM)
+        //     {
+        //         targetRPM = newTargetRPM;
+        //     }
+        // }
 
     }
     
@@ -105,7 +105,7 @@ public class Launcher extends SubsystemBase
     {
         double velSpeed = convertRPMtoVelocity(rpm);
 
-        SmartDashboard.putNumber("Target Vel", velSpeed);
+        // SmartDashboard.putNumber("Target Vel", velSpeed);
         launcherMotor.set(ControlMode.Velocity, velSpeed);
     }
 
@@ -132,14 +132,14 @@ public class Launcher extends SubsystemBase
         if ((currentRPM + TARGET_DEADBAND) >= (targetRPM)
                 && (currentRPM - TARGET_DEADBAND) <= (targetRPM))
         {
-            SmartDashboard.putNumber("Current RPM", currentRPM);
-            SmartDashboard.putBoolean("IsLauncherReady?", true);
+            // SmartDashboard.putNumber("Current RPM", currentRPM);
+            // SmartDashboard.putBoolean("IsLauncherReady?", true);
             return true;
         } 
         else 
         {
-            SmartDashboard.putNumber("Current RPM", currentRPM);
-            SmartDashboard.putBoolean("IsLauncherReady?", false);
+            // SmartDashboard.putNumber("Current RPM", currentRPM);
+            // SmartDashboard.putBoolean("IsLauncherReady?", false);
             return false;
         }
     }

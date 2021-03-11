@@ -122,6 +122,9 @@ public class Drivetrain extends SubsystemBase
 
         SmartDashboard.putNumber("NavX Heading", navX.getAngle());
         SmartDashboard.putNumber("NavX Heading", navX.getFusedHeading());
+        SmartDashboard.putNumber("NavX Turn Rate", navX.getRate());
+        SmartDashboard.putNumber("NavX X Displacement", navX.getDisplacementX());
+        SmartDashboard.putNumber("NavX Y Displacement", navX.getDisplacementY());
 
         m_deadband = SmartDashboard.getNumber("Deadband", DEFAULT_DEADBAND);
 
