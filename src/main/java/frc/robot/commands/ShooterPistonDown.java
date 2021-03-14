@@ -44,7 +44,7 @@ public class ShooterPistonDown extends CommandBase
     @Override
     public void initialize() 
     {
-        m_launcher.shooterPistonDown();
+        m_launcher.retractShooterPiston();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

@@ -44,7 +44,7 @@ public class ShooterPistonUp extends CommandBase
     @Override
     public void initialize() 
     {
-        m_launcher.shooterPistonUp();
+        m_launcher.extendShooterPiston();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
