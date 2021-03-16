@@ -60,6 +60,7 @@ public class Constants
         public static final int ENCODER_EDGES_PER_STEP =  1; 
         public static final int ENCODER_UNITS_PER_REVOLUTION = ENCODER_COUNTS_PER_REVOLUTION; // Edges per Rotation
         public static final double TRACK_WIDTH_FEET = 24.831d/12.0d; //Track width is 13 inches
+        public static final boolean USE_NAVX_HEADING = true;
     }
     
     public static final class SmoothControlConstants
