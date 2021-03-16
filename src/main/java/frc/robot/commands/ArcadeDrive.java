@@ -89,7 +89,7 @@ public class ArcadeDrive extends CommandBase
         SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
 
         //Checks if joystick value is higher or lower than deadband value
-        turning = m_xboxcontroller.getX(Hand.kLeft);
+        turning = m_xboxcontroller.getX(Hand.kLeft) * -1.0d; //turning is inverted
         SmartDashboard.putNumber("AD: Turning", turning);
 
         //Check if we should use the triggers for speed
