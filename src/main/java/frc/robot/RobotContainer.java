@@ -122,8 +122,8 @@ public class RobotContainer
         SmartDashboard.putData("locateTargetBtn",new LocateTarget( m_drivetrain, m_targeting ) );
 
         final JoystickButton fireBtn = new JoystickButton(operatorLeftJoy, FIRE_BTN);        
-        fireBtn.whileHeld(new Fire( m_feeder, m_launcher ) ,true);
-        SmartDashboard.putData("fireBtn",new Fire( m_feeder, m_launcher ) );
+        fireBtn.whileHeld(new Fire( m_feeder, m_launcher, m_launcherController ) ,true);
+        SmartDashboard.putData("fireBtn",new Fire( m_feeder, m_launcher, m_launcherController ) );
 
         final JoystickButton locateBtn = new JoystickButton(leftJoy, LOCATE_BTN);        
         locateBtn.whileHeld(new LocateTarget( m_drivetrain, m_targeting ) ,true);
@@ -154,7 +154,7 @@ public class RobotContainer
         redZoneBtn.whenPressed(new SetRedZone(m_launcherController));
 
         final JoystickButton xboxFireBtn = new JoystickButton(xboxController, XboxController.Button.kBumperRight.value);
-        xboxFireBtn.whileHeld(new Fire(m_feeder, m_launcher));
+        xboxFireBtn.whileHeld(new Fire(m_feeder, m_launcher, m_launcherController));
         
         //Raise the launcher piston
         final POVButton dpadUpButton = new POVButton(xboxController, 0);

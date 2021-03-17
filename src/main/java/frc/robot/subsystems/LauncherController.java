@@ -129,5 +129,10 @@ public class LauncherController extends SubsystemBase
             m_launcher.setRpm(RED_ZONE_RPM);
         }
     }
-}
 
+    public void setOff()
+    {
+        m_launcherState = LauncherState.OFF;
+        m_launcher.stop();  
+    }
+}
