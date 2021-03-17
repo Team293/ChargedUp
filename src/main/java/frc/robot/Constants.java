@@ -32,7 +32,9 @@ public class Constants
 
     public static final class DrivetrainConstants 
     {
-        public static final double DEFAULT_DEADBAND = 0.15;
+        public static final double DEFAULT_JOYSTICK_DEADBAND = 0.15;
+        public static final double DEFAULT_FORZA_DEADBAND = 0.01;
+        public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
         public static final boolean DEFAULT_FORZA_MODE = true;
         public static final double KF = 0.04759;
         public static final double KP = 0.01461;
