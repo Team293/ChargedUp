@@ -84,20 +84,20 @@ public class RobotContainer
         List<TargetPosition2D>slalomPath = new ArrayList<TargetPosition2D>();
         
         //Slalom 
-        slalomPath.add(new TargetPosition2D(3.25, 2.5, Math.toRadians(0), 0.5));
-        slalomPath.add(new TargetPosition2D(7.5, 5, Math.toRadians(40), 0.5));
-        slalomPath.add(new TargetPosition2D(5, 2.5, Math.toRadians(40), 0.5));
-        slalomPath.add(new TargetPosition2D(20, 7.5, Math.toRadians(0), 0.5));
-        slalomPath.add(new TargetPosition2D(10, 7.5, Math.toRadians(0), 0.5));
-        slalomPath.add(new TargetPosition2D(25, 2.5, Math.toRadians(0), 0.5));
-        slalomPath.add(new TargetPosition2D(22.5, 5, Math.toRadians(-60), 0.5));
-        slalomPath.add(new TargetPosition2D(25, 7.5, Math.toRadians(180), 0.5));
-        slalomPath.add(new TargetPosition2D(27.5, 5, Math.toRadians(90), 0.5));
-        slalomPath.add(new TargetPosition2D(20, 2.5, Math.toRadians(180), 0.5));
-        slalomPath.add(new TargetPosition2D(22.5, 5, Math.toRadians(-120), 0.5));
-        slalomPath.add(new TargetPosition2D(7.5, 5, Math.toRadians(120), 0.5));
-        slalomPath.add(new TargetPosition2D(10, 2.5, Math.toRadians(180), 0.5));
-        slalomPath.add(new TargetPosition2D(2.5, 7.5, Math.toRadians(180), 0.5));
+        slalomPath.add(new TargetPosition2D(3.25,2.5, Math.toRadians(0),3));
+        slalomPath.add(new TargetPosition2D(5,2.5,Math.toRadians(40),3));
+        slalomPath.add(new TargetPosition2D(7.5,5,Math.toRadians(40),3));
+        slalomPath.add(new TargetPosition2D(10,7.5,Math.toRadians(0),3));
+        slalomPath.add(new TargetPosition2D(20,7.5,Math.toRadians(0),3));
+        slalomPath.add(new TargetPosition2D(22.5,5,Math.toRadians(-60),3));
+        slalomPath.add(new TargetPosition2D(25,2.5,Math.toRadians(0),3));
+        slalomPath.add(new TargetPosition2D(27.5,5,Math.toRadians(90),3));
+        slalomPath.add(new TargetPosition2D(25,7.5,Math.toRadians(180),3));
+        slalomPath.add(new TargetPosition2D(22.5,5,Math.toRadians(-120),3));
+        slalomPath.add(new TargetPosition2D(20,2.5,Math.toRadians(180),3));
+        slalomPath.add(new TargetPosition2D(10,2.5,Math.toRadians(180),3));
+        slalomPath.add(new TargetPosition2D(7.5,5,Math.toRadians(120),3));
+        slalomPath.add(new TargetPosition2D(2.5,7.5,Math.toRadians(180),3));
         
         //3X3 Square 
         threeByThreeBoxPath.add(new TargetPosition2D(0, 0, Math.toRadians(0.0), 0.5d));
@@ -121,7 +121,7 @@ public class RobotContainer
         bouncePath.add(new TargetPosition2D(25,7.5, Math.toRadians(0),-0.5));
         bouncePath.add(new TargetPosition2D(27.5,7.5, Math.toRadians(0),-0.5));
         
-        m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_drivetrain, m_kinematics, bouncePath));
+        m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
         //m_chooser.addOption("Slalom Autonav", new AutonomousCommandSlalom(m_drivetrain, m_kinematics, pathToUse);
         
         //Setting default command for drivetrain as VelocityDrive
