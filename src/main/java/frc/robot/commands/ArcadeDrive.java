@@ -179,7 +179,8 @@ public class ArcadeDrive extends CommandBase
 
         //Convert to encoder velocity
         double leftMotorSpeed = SPIKE293Utils.percentageToControllerVelocity(leftMotorOutput);
-        double rightMotorSpeed = SPIKE293Utils.percentageToControllerVelocity(rightMotorOutput);
+        // Right needs to be inverted
+        double rightMotorSpeed = SPIKE293Utils.percentageToControllerVelocity(rightMotorOutput *-1.0d);
 
         //Send to motors
         m_drivetrain.velocityDrive(leftMotorSpeed, rightMotorSpeed);
