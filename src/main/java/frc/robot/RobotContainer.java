@@ -137,19 +137,19 @@ public class RobotContainer
         shooterPistonDownBtn.whenPressed(new ShooterPistonDown(m_launcher), true);
         SmartDashboard.putData("shooterPistonDownBtn", new ShooterPistonDown(m_launcher));
 
-        //Togle Green Zone RPMs 
+        //Toggle Green Zone RPMs 
         final JoystickButton greenZoneBtn = new JoystickButton(xboxController, XboxController.Button.kX.value);
         greenZoneBtn.whenPressed(new SetGreenZone(m_launcherController));
 
-        //Togle Green Zone RPMs 
+        //Toggle Yellow Zone RPMs 
         final JoystickButton yellowZoneBtn = new JoystickButton(xboxController, XboxController.Button.kA.value);
         yellowZoneBtn.whenPressed(new SetYellowZone(m_launcherController));
         
-        //Togle Green Zone RPMs 
+        //Toggle Blue Zone RPMs 
         final JoystickButton blueZoneBtn = new JoystickButton(xboxController, XboxController.Button.kB.value);
         blueZoneBtn.whenPressed(new SetBlueZone(m_launcherController));
         
-        //Togle Red Zone RPMs 
+        //Toggle Red Zone RPMs 
         final JoystickButton redZoneBtn = new JoystickButton(xboxController, XboxController.Button.kY.value);
         redZoneBtn.whenPressed(new SetRedZone(m_launcherController));
 

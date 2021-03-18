@@ -76,8 +76,8 @@ public class Constants
         public static final double KI = 0.0d;
         public static final double KD = 0.0d;
         public static final int PISTON_MODULE_NUM = 0;
-        public static final int PISTON_FORWARD_CHANNEL = 2;
-        public static final int PISTON_REVERSE_CHANNEL = 3;
+        public static final int PISTON_FORWARD_CHANNEL = 0;
+        public static final int PISTON_REVERSE_CHANNEL = 1;
         public static final double GEAR_RATIO = 6.0d/5.0d;
         public static final int ENCODER_UNITS_PER_REVOLUTION = 2048;
         public static final double MINUTES_TO_DECISECONDS = 600.0d;

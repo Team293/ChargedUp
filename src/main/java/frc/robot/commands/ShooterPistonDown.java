@@ -63,7 +63,7 @@ public class ShooterPistonDown extends CommandBase
     @Override
     public boolean isFinished() 
     {
-        return false;
+        return true;
     }
 
     @Override

@@ -73,7 +73,6 @@ public class Fire extends CommandBase
     @Override
     public void end(boolean interrupted) 
     {
-        m_launcherController.setOff();
         m_feeder.feedOff();
     	m_feeder.beltOff();
     }
