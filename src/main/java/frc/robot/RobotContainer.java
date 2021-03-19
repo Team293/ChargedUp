@@ -49,7 +49,6 @@ public class RobotContainer
     public final BallPickup m_ballPickup = new BallPickup();
     public final Feeder m_feeder = new Feeder();
     public final Launcher m_launcher = new Launcher();
-    public final Drivetrain m_drivetrain = new Drivetrain();
     public final LauncherController m_launcherController = new LauncherController(m_launcher);
     public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0,0.0,0.0));
     public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
