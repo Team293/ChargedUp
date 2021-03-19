@@ -32,7 +32,6 @@ public class Constants
         public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.75;
         public static final double DEFAULT_MAX_TURNING_SPEED = 0.65;
         public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25;
-        public static final double INVALID_INPUT = -99;
         public static final int LEFT_LEAD_TALON_CAN_ID = 0;
         public static final int LEFT_FOLLOWER_TALON_CAN_ID = 1;
         public static final int RIGHT_LEAD_TALON_CAN_ID = 2;
@@ -40,12 +39,16 @@ public class Constants
         public static final int PID_SLOT_ID = 0;
         public static final int PID_CONFIG_TIMEOUT_MS = 10;
         public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-        public static final double MIN_VELOCITY = 0;
-        public static final double MAX_ACCEL = 2000;
-        public static final int SMART_MOTION_SLOT = 0;
-        public static final double MIN_OUTPUT = -1;
-        public static final double ENCODER_CONVERSION_FACTOR = 0.25;
-        public static final double MAX_OUTPUT = 1;
+        public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
+
+        // MISC Constants
+        public static final double WHEEL_CIRCUMFERENCE_FEET = (3.0d/12.0d)*Math.PI; // Wheel diameter 3 in, converting to feet
+        public static final double SECONDS_TO_DECISEC = 1.0d/10.0d;
+        public static final int GEARBOX_RATIO_TO_ONE = 20;
+        public static final int ENCODER_COUNTS_PER_REVOLUTION = 28;
+        public static final int ENCODER_EDGES_PER_STEP =  4; 
+        public static final int ENCODER_UNITS_PER_REVOLUTION = ENCODER_COUNTS_PER_REVOLUTION; // Edges per Rotation
+        public static final double TRACK_WIDTH_FEET = 13.0d/12.0d; //Track width is 13 inches
     }
 
     public static final class ButtonMappingConstants

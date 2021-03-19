@@ -54,7 +54,7 @@ public class DumbDrive extends CommandBase
     public void execute() 
     {
 		//Send joystick data to dumbDrive
-        m_drivetrain.dumbDrive(m_operatorLeftJoy.getY(), m_operatorRightJoy.getY());
+        m_drivetrain.percentDrive(m_operatorLeftJoy.getY(), m_operatorRightJoy.getY());
     }
 
     // Called once the command ends or is interrupted.
