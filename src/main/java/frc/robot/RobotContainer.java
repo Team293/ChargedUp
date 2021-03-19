@@ -170,7 +170,6 @@ public class RobotContainer
     public Joystick getleftJoy() 
     {
         return leftJoy;
-
     }
 
     public Joystick getrightJoy() 

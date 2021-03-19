@@ -48,16 +48,16 @@ public class LauncherController extends SubsystemBase
         m_launcher = launcher;
     }
 
-
     @Override
-    public void periodic() {
+    public void periodic() 
+    {
         // This method will be called once per scheduler run
     }
 
     @Override
-    public void simulationPeriodic() {
+    public void simulationPeriodic()
+    {
         // This method will be called once per scheduler run when in simulation
-
     }
 
     // Put methods for controlling this subsystem

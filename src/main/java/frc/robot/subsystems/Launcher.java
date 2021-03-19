@@ -82,7 +82,7 @@ public class Launcher extends SubsystemBase
         return (rpm * GEAR_RATIO * ENCODER_UNITS_PER_REVOLUTION) / MINUTES_TO_DECISECONDS;
     }
 
-    //Converys Encoder units per desiseconds (100ms) to RPMs
+    //Converts Encoder units per desiseconds (100ms) to RPMs
     private double convertVelocityToRPM(double velocity) 
     {
         return (velocity * MINUTES_TO_DECISECONDS) / (ENCODER_UNITS_PER_REVOLUTION * GEAR_RATIO);
