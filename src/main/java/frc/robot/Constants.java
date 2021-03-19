@@ -32,7 +32,9 @@ public class Constants
 
     public static final class DrivetrainConstants 
     {
-        public static final double DEFAULT_DEADBAND = 0.15;
+        public static final double DEFAULT_JOYSTICK_DEADBAND = 0.15;
+        public static final double DEFAULT_FORZA_DEADBAND = 0.01;
+        public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
         public static final boolean DEFAULT_FORZA_MODE = true;
         public static final double KF = 0.04759;
         public static final double KP = 0.01461;
@@ -53,12 +55,27 @@ public class Constants
         public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
 
         // MISC Constants
-        public static final double WHEEL_CIRCUMFERENCE_FEET = (3.0d/12.0d)*Math.PI; // Wheel diameter 3 in, converting to feet
+        public static final double WHEEL_CIRCUMFERENCE_FEET = (6.0d/12.0d)*Math.PI; // Wheel diameter 3 in, converting to feet
         public static final double SECONDS_TO_DECISEC = 1.0d/10.0d;
-        public static final int GEARBOX_RATIO_TO_ONE = 20;
-        public static final int ENCODER_COUNTS_PER_REVOLUTION = 28;
-        public static final int ENCODER_EDGES_PER_STEP =  4; 
+        public static final double GEARBOX_RATIO_TO_ONE = 11.25;
+        public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
+        public static final int ENCODER_EDGES_PER_STEP =  1; 
         public static final int ENCODER_UNITS_PER_REVOLUTION = ENCODER_COUNTS_PER_REVOLUTION; // Edges per Rotation
-        public static final double TRACK_WIDTH_FEET = 13.0d/12.0d; //Track width is 13 inches
+        public static final double TRACK_WIDTH_FEET = 24.831d/12.0d; //Track width is 13 inches
+        public static final boolean USE_NAVX_HEADING = false;
+    }
+    
+    public static final class SmoothControlConstants
+    {
+        public static final double K1 = 1.0d;
+        public static final double K2 = 3.0d;
+    }
+
+    public static final class AutonomousCommandConstants
+    {
+        public static final double TARGET_WITHIN_RANGE_FEET = DrivetrainConstants.TRACK_WIDTH_FEET/4.0d; //Half track width
+        public static final double STARTING_X = 0.0d;
+        public static final double STARTING_Y = 0.0d;
+        public static final double STARTING_HEADING = Math.toRadians(0.0d);
     }
 }
