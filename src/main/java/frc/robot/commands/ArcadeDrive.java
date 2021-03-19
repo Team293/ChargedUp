@@ -136,7 +136,7 @@ public class ArcadeDrive extends CommandBase
         speed = MathUtil.clamp(speed, -1.0d, 1.0d);
 
         //Apply limiting percentage
-        turning *= m_velocityLimitPercentage;
+        turning *= m_turningLimitPercentage;
         speed *= m_velocityLimitPercentage;
         arcadeDrive(speed, turning);
     }
@@ -178,12 +178,13 @@ public class ArcadeDrive extends CommandBase
         }
 
         //Convert to encoder velocity
-        double leftMotorSpeed = SPIKE293Utils.percentageToControllerVelocity(leftMotorOutput);
+        //double leftMotorSpeed = SPIKE293Utils.percentageToControllerVelocity(leftMotorOutput);
         // Right needs to be inverted
-        double rightMotorSpeed = SPIKE293Utils.percentageToControllerVelocity(rightMotorOutput *-1.0d);
+        //double rightMotorSpeed = SPIKE293Utils.percentageToControllerVelocity(rightMotorOutput *-1.0d);
 
         //Send to motors
-        m_drivetrain.velocityDrive(leftMotorSpeed, rightMotorSpeed);
+        //m_drivetrain.velocityDrive(leftMotorSpeed, rightMotorSpeed);
+        m_drivetrain.percentDrive(leftMotorOutput, rightMotorOutput * -1.0d);
     }
 
     // Called once the command ends or is interrupted.

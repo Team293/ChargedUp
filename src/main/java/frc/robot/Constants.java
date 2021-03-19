@@ -31,9 +31,9 @@ public class Constants
         public static final double KD = 0.0;
         public static final double CLOSED_LOOP_RAMP = 0.5;
         public static final double MAX_VELOCITY = 21549;
-        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.75;
-        public static final double DEFAULT_MAX_TURNING_SPEED = 0.65;
-        public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25;
+        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.6d;
+        public static final double DEFAULT_MAX_TURNING_SPEED = 0.5d;
+        public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25d;
         public static final int LEFT_LEAD_TALON_CAN_ID = 0;
         public static final int LEFT_FOLLOWER_TALON_CAN_ID = 1;
         public static final int RIGHT_LEAD_TALON_CAN_ID = 2;
@@ -46,6 +46,7 @@ public class Constants
         // MISC Constants
         public static final double WHEEL_CIRCUMFERENCE_FEET = (6.0d/12.0d)*Math.PI; // Wheel diameter 3 in, converting to feet
         public static final double SECONDS_TO_DECISEC = 1.0d/10.0d;
+        public static final double DECISEC_TO_SECONDS = 10.0d/1.0d;
         public static final double GEARBOX_RATIO_TO_ONE = 11.25;
         public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
         public static final int ENCODER_EDGES_PER_STEP =  1; 

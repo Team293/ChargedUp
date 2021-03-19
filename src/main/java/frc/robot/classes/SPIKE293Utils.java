@@ -28,7 +28,7 @@ public final class SPIKE293Utils
     // Converts from encoder edges per 100 milliseconds to feet per second.
     public static double controllerVelocityToFeetPerSec(double encoderUnits) 
     {
-        return controllerUnitsToFeet(encoderUnits) * SECONDS_TO_DECISEC;
+        return controllerUnitsToFeet(encoderUnits) * DECISEC_TO_SECONDS;
     }
 
     //Converts from feet per second to encoder edges per 100 milliseconds.

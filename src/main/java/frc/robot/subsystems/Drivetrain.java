@@ -87,7 +87,9 @@ public class Drivetrain extends SubsystemBase
         rightTalonLead.configClosedloopRamp(CLOSED_LOOP_RAMP);
 
         rightTalonLead.setNeutralMode(NeutralMode.Coast);
+        rightTalonFollower.setNeutralMode(NeutralMode.Coast);
         leftTalonLead.setNeutralMode(NeutralMode.Coast);
+        leftTalonFollower.setNeutralMode(NeutralMode.Coast);
 
         rightTalonLead.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
         rightTalonFollower.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
