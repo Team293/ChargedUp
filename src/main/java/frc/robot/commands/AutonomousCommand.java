@@ -107,7 +107,7 @@ public class AutonomousCommand extends CommandBase
         if(calculateNextMove)
         {
             //Compute turn rate and update range
-            m_smoothControl.computeTurnRate(m_kinematics.getPose(), m_targetPose, m_targetPose.getVelocity());
+            m_smoothControl.computeTurnRate(m_kinematics.getPose(), m_targetPose, m_drivetrain.getRobotVelocity());
 
             //Calculate vR in feet per second
             vR = m_targetPose.getVelocity() + (TRACK_WIDTH_FEET/2)*m_smoothControl.getTurnRateRadians();

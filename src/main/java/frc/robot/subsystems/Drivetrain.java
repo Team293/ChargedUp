@@ -127,10 +127,10 @@ public class Drivetrain extends SubsystemBase
         SmartDashboard.putNumber("Kinematics Y (Feet)", currentPose.getY());
         SmartDashboard.putNumber("Kinematics Heading (degrees)", currentPose.getHeadingDegrees());
 
-        SmartDashboard.putNumber("Left Encoder Velocity (Ft/S)", SPIKE293Utils.controllerVelocityToFeetPerSec(leftTalonLead.getSensorCollection().getIntegratedSensorVelocity()));
-        SmartDashboard.putNumber("Left Encoder Position (Ft)", SPIKE293Utils.controllerUnitsToFeet(leftTalonLead.getSensorCollection().getIntegratedSensorPosition()));
-        SmartDashboard.putNumber("Right Encoder Velocity (Ft/S)", SPIKE293Utils.controllerVelocityToFeetPerSec(rightTalonLead.getSensorCollection().getIntegratedSensorVelocity()));
-        SmartDashboard.putNumber("Right Encoder Position (Ft)", SPIKE293Utils.controllerUnitsToFeet(rightTalonLead.getSensorCollection().getIntegratedSensorPosition()));
+        SmartDashboard.putNumber("Left Encoder Velocity (Ft/S)", getLeftEncoderVelocity());
+        SmartDashboard.putNumber("Left Encoder Position (Ft)", getLeftEncoderPosition());
+        SmartDashboard.putNumber("Right Encoder Velocity (Ft/S)", getRightEncoderVelocity());
+        SmartDashboard.putNumber("Right Encoder Position (Ft)", getRightEncoderPosition());
 
         SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
         SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
@@ -198,7 +198,39 @@ public class Drivetrain extends SubsystemBase
         // Returns the number of steps, multiply by edges per step to get EPR, divided by the gearbox ratio
         return SPIKE293Utils.controllerUnitsToFeet(rightTalonLead.getSelectedSensorPosition(0));    
     }
-    
+
+    /**
+     * returns left encoder Velocity in ft/s
+     * 
+     * @return left encoder Velocity in ft/s
+     */
+    public double getLeftEncoderVelocity()
+    {
+        // Returns the velocity of encoder by claculating the velocity from encoder units of click/100ms to ft/s
+        return SPIKE293Utils.controllerVelocityToFeetPerSec(leftTalonLead.getSensorCollection().getIntegratedSensorVelocity());
+    }
+
+    /**
+     * returns right encoder Velocity in ft/s
+     * 
+     * @return right encoder Velocity in ft/s
+     */
+    public double getRightEncoderVelocity()
+    {
+        // Returns the velocity of encoder by claculating the velocity from encoder units of click/100ms to ft/s
+        return SPIKE293Utils.controllerVelocityToFeetPerSec(rightTalonLead.getSensorCollection().getIntegratedSensorVelocity());
+    }
+
+    /**
+     * returns robot Velocity in ft/s
+     * 
+     * @return robot Velocity in ft/s
+     */
+    public double getRobotVelocity()
+    {
+        // Returns the velocity of the robot by taking the averga of the velcity on both sides of the robor
+        return (getLeftEncoderVelocity() + getRightEncoderVelocity()) / 2.0d;
+    }
     private void zeroDriveTrainEncoders() 
     {
         leftTalonLead.setSelectedSensorPosition(0);
