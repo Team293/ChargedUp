@@ -48,8 +48,8 @@ public class Targeting extends SubsystemBase
     private final double LAST_ERROR_DEFAULT = 0.0;
     
     private double vP = 0.5;
-    private double vI = 0.0;
-    private double vD = 4.0;
+    private double vI = 0.03;
+    private double vD = 0.0;
 
     private NetworkTable limeData;          //Data from limelight
     private NetworkTableEntry tAcquired;    // t stands for target
@@ -79,6 +79,7 @@ public class Targeting extends SubsystemBase
         SmartDashboard.putNumber("P Gain", vP);
         SmartDashboard.putNumber("I Gain", vI);
         SmartDashboard.putNumber("D Gain", vD);
+        confirmTargetTime = new Timer();
     }
 
     @Override
@@ -121,14 +122,15 @@ public class Targeting extends SubsystemBase
     // Turns the LED on or off
     public void controlLight(boolean enabled)
     {
-        if(enabled)
+        limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON); 
+        /*if(enabled)
         {
             limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON); 
         }
         else
         {
             limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_OFF);
-        }
+        }*/
     }
 
     public double[] navToTarget()
@@ -164,8 +166,8 @@ public class Targeting extends SubsystemBase
             }
             
             //Set the velocity output
-            velCmds[LEFT_MOTOR_IND] = -percentOutput; //Left Motor
-            velCmds[RIGHT_MOTOR_IND] = percentOutput; //Right Motor
+            velCmds[LEFT_MOTOR_IND] = -percentOutput; //Left Motor Both negative for unknown reasons
+            velCmds[RIGHT_MOTOR_IND] = -percentOutput; //Right Motor
 
             //Update shuffleboard
             SmartDashboard.putNumber("LeftOutput",velCmds[LEFT_MOTOR_IND]);

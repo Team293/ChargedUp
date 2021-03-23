@@ -207,6 +207,9 @@ public class RobotContainer
 
         final JoystickButton xboxFireBtn = new JoystickButton(xboxController, XboxController.Button.kBumperRight.value);
         xboxFireBtn.whileHeld(new Fire(m_feeder, m_launcher, m_launcherController));
+
+        final JoystickButton xboxTargetBtn = new JoystickButton(xboxController, XboxController.Button.kBumperLeft.value);
+        xboxTargetBtn.whileHeld(new LocateTarget(m_drivetrain, m_targeting));
         
         //Raise the launcher piston
         final POVButton dpadUpButton = new POVButton(xboxController, 0);
