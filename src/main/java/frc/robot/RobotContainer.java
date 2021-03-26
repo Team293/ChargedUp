@@ -86,29 +86,30 @@ public class RobotContainer
         List<TargetPosition2D>threeByThreeBoxPath = new ArrayList<TargetPosition2D>();
         List<TargetPosition2D>bouncePath = new ArrayList<TargetPosition2D>();
         List<TargetPosition2D>slalomPath = new ArrayList<TargetPosition2D>();
+        List<TargetPosition2D>barrelPath = new ArrayList<TargetPosition2D>();
         
         //Slalom 
-        slalomPath.add(new TargetPosition2D(3.25,2.5, Math.toRadians(0),3));
-        slalomPath.add(new TargetPosition2D(5,2.5,Math.toRadians(40),3));
-        slalomPath.add(new TargetPosition2D(7.5,5,Math.toRadians(40),3));
-        slalomPath.add(new TargetPosition2D(10,7.5,Math.toRadians(0),3));
-        slalomPath.add(new TargetPosition2D(20,7.5,Math.toRadians(0),3));
-        slalomPath.add(new TargetPosition2D(22.5,5,Math.toRadians(-60),3));
-        slalomPath.add(new TargetPosition2D(25,2.5,Math.toRadians(0),3));
-        slalomPath.add(new TargetPosition2D(27.5,5,Math.toRadians(90),3));
-        slalomPath.add(new TargetPosition2D(25,7.5,Math.toRadians(180),3));
-        slalomPath.add(new TargetPosition2D(22.5,5,Math.toRadians(-120),3));
-        slalomPath.add(new TargetPosition2D(20,2.5,Math.toRadians(180),3));
-        slalomPath.add(new TargetPosition2D(10,2.5,Math.toRadians(180),3));
-        slalomPath.add(new TargetPosition2D(7.5,5,Math.toRadians(120),3));
-        slalomPath.add(new TargetPosition2D(2.5,7.5,Math.toRadians(180),3));
+        slalomPath.add(new TargetPosition2D(3.25,2.5, Math.toRadians(0),3.0d));
+        slalomPath.add(new TargetPosition2D(5,2.5,Math.toRadians(40),3.0d));
+        slalomPath.add(new TargetPosition2D(7.5,5,Math.toRadians(40),3.0d));
+        slalomPath.add(new TargetPosition2D(10,7.5,Math.toRadians(0),3.0d));
+        slalomPath.add(new TargetPosition2D(20,7.5,Math.toRadians(0),3.0d));
+        slalomPath.add(new TargetPosition2D(22.5,5,Math.toRadians(-60),3.0d));
+        slalomPath.add(new TargetPosition2D(25,2.5,Math.toRadians(0),3.0d));
+        slalomPath.add(new TargetPosition2D(27.5,5,Math.toRadians(90),3.0d));
+        slalomPath.add(new TargetPosition2D(25,7.5,Math.toRadians(180),3.0d));
+        slalomPath.add(new TargetPosition2D(22.5,5,Math.toRadians(-120),3.0d));
+        slalomPath.add(new TargetPosition2D(20,2.5,Math.toRadians(180),3.0d));
+        slalomPath.add(new TargetPosition2D(10,2.5,Math.toRadians(180),3.0d));
+        slalomPath.add(new TargetPosition2D(7.5,5,Math.toRadians(120),3.0d));
+        slalomPath.add(new TargetPosition2D(2.5,7.5,Math.toRadians(180),3.0d));
         
         //3X3 Square 
-        threeByThreeBoxPath.add(new TargetPosition2D(0, 0, Math.toRadians(0.0), 0.5d));
-        threeByThreeBoxPath.add(new TargetPosition2D(3.0, 0.0, Math.toRadians(0.0), 0.5d));
-        threeByThreeBoxPath.add(new TargetPosition2D(3.0, 3.0, Math.toRadians(180.0), 0.5d));
-        threeByThreeBoxPath.add(new TargetPosition2D(0.0, 3.0, Math.toRadians(270.0), 0.5d));
-        threeByThreeBoxPath.add(new TargetPosition2D(0.0, 0.0, Math.toRadians(0), 0.5d));
+        threeByThreeBoxPath.add(new TargetPosition2D(0, 0, Math.toRadians(0.0), 1.5d));
+        threeByThreeBoxPath.add(new TargetPosition2D(3.0, 0.0, Math.toRadians(0.0), 1.5d));
+        threeByThreeBoxPath.add(new TargetPosition2D(3.0, 3.0, Math.toRadians(180.0), 1.5d));
+        threeByThreeBoxPath.add(new TargetPosition2D(0.0, 3.0, Math.toRadians(270.0), 1.5d));
+        threeByThreeBoxPath.add(new TargetPosition2D(0.0, 0.0, Math.toRadians(0), 1.5d));
 
         //Bounce path
         bouncePath.add(new TargetPosition2D(2.5,7.5, Math.toRadians(0),0.5));
@@ -124,9 +125,28 @@ public class RobotContainer
         bouncePath.add(new TargetPosition2D(22.5,11, Math.toRadians(90),-0.5));
         bouncePath.add(new TargetPosition2D(25,7.5, Math.toRadians(0),-0.5));
         bouncePath.add(new TargetPosition2D(27.5,7.5, Math.toRadians(0),-0.5));
+
+         //Barrel Path
+         barrelPath.add(new TargetPosition2D(3.25,7.5,Math.toRadians(0),1.0d));
+         barrelPath.add(new TargetPosition2D(12.5,7.5,Math.toRadians(0),1.0d));
+         barrelPath.add(new TargetPosition2D(15,5,Math.toRadians(-90),1.0d));
+         barrelPath.add(new TargetPosition2D(12.5,2.5,Math.toRadians(-180),1.0d));
+         barrelPath.add(new TargetPosition2D(10,5,Math.toRadians(90),1.0d));
+         barrelPath.add(new TargetPosition2D(20,7.5,Math.toRadians(0),1.0d));
+         barrelPath.add(new TargetPosition2D(22.5,10,Math.toRadians(90),1.0d));
+         barrelPath.add(new TargetPosition2D(20,12.5,Math.toRadians(180),1.0d));
+         barrelPath.add(new TargetPosition2D(17.5,10,Math.toRadians(-90),1.0d));
+         barrelPath.add(new TargetPosition2D(25,2.5,Math.toRadians(0),1.0d));
+         barrelPath.add(new TargetPosition2D(27.5,5,Math.toRadians(90),1.0d));
+         barrelPath.add(new TargetPosition2D(20,7.5,Math.toRadians(180),1.0d));
+         barrelPath.add(new TargetPosition2D(2.5,7.5,Math.toRadians(180),1.0d));
         
         m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
-        //m_chooser.addOption("Slalom Autonav", new AutonomousCommandSlalom(m_drivetrain, m_kinematics, pathToUse);
+        m_chooser.addOption("3x3 Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
+        m_chooser.addOption("Slalom Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, slalomPath));
+        m_chooser.addOption("Bounce Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, bouncePath));
+        m_chooser.addOption("Barrel Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, barrelPath));
+
         
         //Setting default command for drivetrain as VelocityDrive
         m_drivetrain.setDefaultCommand(new ArcadeDrive( m_drivetrain, xboxController));
@@ -149,7 +169,7 @@ public class RobotContainer
     {
         // BEGIN AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=BUTTONS
         // Create some buttons
-        final JoystickButton geckoDownBtn = new JoystickButton(operatorRightJoy, GECKO_DOWN_BTN);        
+        /*final JoystickButton geckoDownBtn = new JoystickButton(operatorRightJoy, GECKO_DOWN_BTN);        
         geckoDownBtn.whenPressed(new GeckoDown( m_ballPickup ) ,true);
         SmartDashboard.putData("geckoDownBtn",new GeckoDown( m_ballPickup ) );
 
@@ -214,7 +234,7 @@ public class RobotContainer
 
         //Lower the launcher piston
         final POVButton dpadDownButton = new POVButton(xboxController, 180);
-        dpadDownButton.whenPressed(new ShooterPistonDown(m_launcher));
+        dpadDownButton.whenPressed(new ShooterPistonDown(m_launcher));*/
         // END AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=BUTTONS
     }
 

@@ -9,6 +9,7 @@
 // it from being updated in the future.
 
 package frc.robot.commands;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.TargetPosition2D;
 import frc.robot.classes.SmoothControl;
@@ -59,6 +60,7 @@ public class AutonomousCommand extends CommandBase
     @Override
     public void initialize() 
     {
+        SmartDashboard.putBoolean("AutoDone", false);
         m_targetPathIterator = m_targetPath.listIterator();
 
         //Initialize smooth control
@@ -94,10 +96,13 @@ public class AutonomousCommand extends CommandBase
             {
                 //Get the next pose
                 m_targetPose = m_targetPathIterator.next();
+                System.out.println("Moving to next target." + m_targetPose.getX() + ", "+ m_targetPose.getY() + ", "+ m_targetPose.getHeadingDegrees());
             }
             else
             {
                 //No more poses to move to
+                System.out.println("Autonav done.");
+                SmartDashboard.putBoolean("AutoDone", true);
                 m_drivetrain.stop();        //Stop all motors
                 calculateNextMove = false;  //No need to calculate the next move
                 m_isDone = true;            //Alert robot that autonomous mode is complete and should end
@@ -107,6 +112,7 @@ public class AutonomousCommand extends CommandBase
         if(calculateNextMove)
         {
             //Compute turn rate and update range
+            System.out.println("Calculating next move");
             m_smoothControl.computeTurnRate(m_kinematics.getPose(), m_targetPose, m_drivetrain.getRobotVelocity());
 
             //Calculate vR in feet per second
@@ -119,6 +125,8 @@ public class AutonomousCommand extends CommandBase
             vL = SPIKE293Utils.feetPerSecToControllerVelocity(vL);
 
             //Send vR and vL to velocity drive, units are in controller velocity
+            SmartDashboard.putNumber("Set Left Velocity", vL);
+            SmartDashboard.putNumber("Set Right Velocity", vR);
             m_drivetrain.velocityDrive(vL, vR);
         }
     }
