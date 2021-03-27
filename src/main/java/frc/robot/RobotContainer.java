@@ -87,6 +87,7 @@ public class RobotContainer
         List<TargetPosition2D>bouncePath = new ArrayList<TargetPosition2D>();
         List<TargetPosition2D>slalomPath = new ArrayList<TargetPosition2D>();
         List<TargetPosition2D>barrelPath = new ArrayList<TargetPosition2D>();
+        List<TargetPosition2D>straightPath = new ArrayList<TargetPosition2D>();
         
         //Slalom 
         slalomPath.add(new TargetPosition2D(3.25,2.5, Math.toRadians(0),3.0d));
@@ -140,13 +141,17 @@ public class RobotContainer
          barrelPath.add(new TargetPosition2D(27.5,5,Math.toRadians(90),1.0d));
          barrelPath.add(new TargetPosition2D(20,7.5,Math.toRadians(180),1.0d));
          barrelPath.add(new TargetPosition2D(2.5,7.5,Math.toRadians(180),1.0d));
+
+         straightPath.add(new TargetPosition2D(0, 0, Math.toRadians(0),1.0d));
+         straightPath.add(new TargetPosition2D(10, 0, Math.toRadians(0),1.0d));
+         straightPath.add(new TargetPosition2D(10, 5, Math.toRadians(90),1.0d));
         
         m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
         m_chooser.addOption("3x3 Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
         m_chooser.addOption("Slalom Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, slalomPath));
         m_chooser.addOption("Bounce Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, bouncePath));
         m_chooser.addOption("Barrel Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, barrelPath));
-
+        m_chooser.addOption("Straight Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, straightPath));
         
         //Setting default command for drivetrain as VelocityDrive
         m_drivetrain.setDefaultCommand(new ArcadeDrive( m_drivetrain, xboxController));
