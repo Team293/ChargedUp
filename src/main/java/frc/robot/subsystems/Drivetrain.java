@@ -111,7 +111,7 @@ public class Drivetrain extends SubsystemBase
         {
             //use the NAVX for heading
             double headingInRadians = Math.toRadians(getGyroHeadingDegrees());
-            m_kinematics.calculatePosition(getLeftEncoderPosition(), getRightEncoderPosition(), headingInRadians);
+           m_kinematics.calculatePosition(getLeftEncoderPosition(), getRightEncoderPosition(), headingInRadians);
         }
         else
         {
@@ -154,8 +154,8 @@ public class Drivetrain extends SubsystemBase
     //Sets the motors to encoder units per desisec (100ms), uses the onboard motor PID
     public void velocityDrive(double vL, double vR)
     {
-        SmartDashboard.putNumber("Desired Velocity Left (Encoder units/100ms)", vL);
-        SmartDashboard.putNumber("Desired Velocity Right (Encoder units/100ms)", vR);
+        SmartDashboard.putNumber("Set Velocity Left (Encoder units/100ms)", vL);
+        SmartDashboard.putNumber("Set Velocity Right (Encoder units/100ms)", vR);
         leftTalonLead.set(TalonFXControlMode.Velocity, vL);
         rightTalonLead.set(TalonFXControlMode.Velocity, vR);
     }

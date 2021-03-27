@@ -54,6 +54,7 @@ public class AutonomousCommand extends CommandBase
         m_drivetrain = drivetrain;
         m_kinematics = kinematics;
         m_targetPath = targetPath;
+        addRequirements(m_drivetrain);
     }
 
     // Called when the command is initially scheduled.
@@ -68,11 +69,16 @@ public class AutonomousCommand extends CommandBase
         m_smoothControl.reset();
 
         //Grab the first pose and set that as our starting pose
+        
         if(m_targetPathIterator.hasNext())
         {
+            TargetPosition2D startingPose = m_targetPath.get(0);
+            
+            System.out.println("Starting pose is " + startingPose.getX() + ", " + startingPose.getY() +", " + startingPose.getHeadingDegrees() );
+            m_drivetrain.initAutonomous(startingPose);
+
             //Get the next pose
             m_targetPose = m_targetPathIterator.next();
-            m_drivetrain.initAutonomous(m_targetPose);
         }
         else
         {
@@ -112,7 +118,6 @@ public class AutonomousCommand extends CommandBase
         if(calculateNextMove)
         {
             //Compute turn rate and update range
-            System.out.println("Calculating next move");
             m_smoothControl.computeTurnRate(m_kinematics.getPose(), m_targetPose, m_drivetrain.getRobotVelocity());
 
             //Calculate vR in feet per second
@@ -120,13 +125,15 @@ public class AutonomousCommand extends CommandBase
             //Calculate vL in feet per second
             vL = m_targetPose.getVelocity() - (TRACK_WIDTH_FEET/2)*m_smoothControl.getTurnRateRadians();
 
+            SmartDashboard.putNumber("Desired Left Velocity (ft/s)", vL);
+            SmartDashboard.putNumber("Desired Right Velocity (ft/s)", vR);
+
             //Converting ft/s equation output to controller velocity
             vR = SPIKE293Utils.feetPerSecToControllerVelocity(vR);
             vL = SPIKE293Utils.feetPerSecToControllerVelocity(vL);
 
             //Send vR and vL to velocity drive, units are in controller velocity
-            SmartDashboard.putNumber("Set Left Velocity", vL);
-            SmartDashboard.putNumber("Set Right Velocity", vR);
+            
             m_drivetrain.velocityDrive(vL, vR);
         }
     }
