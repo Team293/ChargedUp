@@ -67,7 +67,7 @@ public class Drivetrain extends SubsystemBase
 
         leftTalonLead.setInverted(true);
         leftTalonFollower.setInverted(InvertType.FollowMaster);
-        rightTalonLead.setInverted(true);
+        rightTalonLead.setInverted(false);
         rightTalonFollower.setInverted(InvertType.FollowMaster);
 
         leftTalonLead.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, CONFIG_FEEDBACKSENSOR_TIMEOUT_MS);
