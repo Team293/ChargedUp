@@ -181,21 +181,17 @@ public class RobotContainer
         locateBtn.whileHeld(new LocateTarget( m_drivetrain, m_targeting ) ,true);
         SmartDashboard.putData("locateBtn",new LocateTarget( m_drivetrain, m_targeting ) );
 
-        //final JoystickButton shooterPistonUpBtn = new JoystickButton(operatorLeftJoy, SHOOTER_PISTON_UP_BTN);
-        //shooterPistonUpBtn.whenPressed(new ShooterPistonUp(m_launcher), true);
-        ///SmartDashboard.putData("shooterPistonUpBtn", new ShooterPistonUp(m_launcher));
+        final JoystickButton shooterPistonUpBtn = new JoystickButton(operatorLeftJoy, SHOOTER_PISTON_UP_BTN);
+        shooterPistonUpBtn.whenPressed(new ShooterPistonUp(m_launcher), true);
+        SmartDashboard.putData("shooterPistonUpBtn", new ShooterPistonUp(m_launcher));
 
-        //final JoystickButton shooterPistonDownBtn = new JoystickButton(operatorLeftJoy, SHOOTER_PISTON_UP_BTN);
-        //shooterPistonDownBtn.whenPressed(new ShooterPistonDown(m_launcher), true);
-        //SmartDashboard.putData("shooterPistonDownBtn", new ShooterPistonDown(m_launcher));
+        final JoystickButton shooterPistonDownBtn = new JoystickButton(operatorLeftJoy, SHOOTER_PISTON_UP_BTN);
+        shooterPistonDownBtn.whenPressed(new ShooterPistonDown(m_launcher), true);
+        SmartDashboard.putData("shooterPistonDownBtn", new ShooterPistonDown(m_launcher));
 
         //Toggle Green Zone RPMs 
         final JoystickButton greenZoneBtn = new JoystickButton(xboxController, XboxController.Button.kX.value);
         greenZoneBtn.whenPressed(new SetGreenZone(m_launcherController));
-
-        // Raise the Launcher Piston
-        final JoystickButton shooterPistonUpBtn = new JoystickButton (xboxController, XboxController.Button.kX.value);
-        shooterPistonUpBtn.whenPressed(new ShooterPistonUp(m_launcher));
 
         //Toggle Yellow Zone RPMs 
         final JoystickButton yellowZoneBtn = new JoystickButton(xboxController, XboxController.Button.kA.value);
