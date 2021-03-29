@@ -65,12 +65,12 @@ public class Constants
         public static final double WHEEL_CIRCUMFERENCE_FEET = (6.0d/12.0d)*Math.PI; // Wheel diameter 3 in, converting to feet
         public static final double SECONDS_TO_DECISEC = 1.0d/10.0d;
         public static final double DECISEC_TO_SECONDS = 10.0d/1.0d;
-        public static final double GEARBOX_RATIO_TO_ONE = 11.25;
+        public static final double GEARBOX_RATIO_TO_ONE = 8.68d;
         public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
         public static final int ENCODER_EDGES_PER_STEP =  1; 
         public static final int ENCODER_UNITS_PER_REVOLUTION = ENCODER_COUNTS_PER_REVOLUTION; // Edges per Rotation
         public static final double TRACK_WIDTH_FEET = 24.831d/12.0d; //Track width is 13 inches
-        public static final boolean USE_NAVX_HEADING = false;
+        public static final boolean USE_NAVX_HEADING = true;
     }
     
     public static final class SmoothControlConstants
