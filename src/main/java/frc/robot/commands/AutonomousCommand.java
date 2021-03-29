@@ -135,7 +135,6 @@ public class AutonomousCommand extends CommandBase
             vL = SPIKE293Utils.feetPerSecToControllerVelocity(vL);
 
             //Send vR and vL to velocity drive, units are in controller velocity
-            
             m_drivetrain.velocityDrive(vL, vR);
         }
     }

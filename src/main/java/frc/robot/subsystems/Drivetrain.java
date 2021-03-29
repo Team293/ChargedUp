@@ -16,6 +16,7 @@ import frc.robot.classes.Position2D;
 import frc.robot.classes.SPIKE293Utils;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
+
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -65,13 +66,16 @@ public class Drivetrain extends SubsystemBase
         leftTalonFollower.follow(leftTalonLead);
         rightTalonFollower.follow(rightTalonLead);
 
-        leftTalonLead.setInverted(true);
-        leftTalonFollower.setInverted(InvertType.FollowMaster);
-        rightTalonLead.setInverted(true);
-        rightTalonFollower.setInverted(InvertType.FollowMaster);
-
         leftTalonLead.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, CONFIG_FEEDBACKSENSOR_TIMEOUT_MS);
         rightTalonLead.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, CONFIG_FEEDBACKSENSOR_TIMEOUT_MS);
+
+
+        leftTalonLead.setInverted(true);
+        leftTalonFollower.setInverted(InvertType.FollowMaster);
+        leftTalonLead.setSensorPhase(true);
+        rightTalonLead.setInverted(false);
+        rightTalonFollower.setInverted(InvertType.FollowMaster);
+        rightTalonLead.setSensorPhase(false);
 
         //Configure PID 
         leftTalonLead.config_kF(PID_SLOT_ID, KF, PID_CONFIG_TIMEOUT_MS);
@@ -99,6 +103,7 @@ public class Drivetrain extends SubsystemBase
         //Setup Gyro
         navX = new AHRS(Port.kMXP);
         setupGyro(navX, 0.0d);
+        zeroDriveTrainEncoders();
         m_kinematics = kinematics;
     }
 
@@ -131,14 +136,17 @@ public class Drivetrain extends SubsystemBase
         SmartDashboard.putNumber("Left Encoder Position (Ft)", getLeftEncoderPosition());
         SmartDashboard.putNumber("Right Encoder Velocity (Ft/S)", getRightEncoderVelocity());
         SmartDashboard.putNumber("Right Encoder Position (Ft)", getRightEncoderPosition());
+        SmartDashboard.putNumber("Raw Left Encoder", leftTalonLead.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("Raw Right Encoder", rightTalonLead.getSelectedSensorPosition(0));
+
 
         SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
         SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
         SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
         SmartDashboard.putNumber("NavX Z Accel", navX.getWorldLinearAccelZ());
-        SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
-        SmartDashboard.putNumber("NavX Angle", navX.getAngle());
-        SmartDashboard.putNumber("NavX Fused Heading", navX.getFusedHeading());
+        SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
+        SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
+        SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
     }
     
     //Sets the motors to run at a given percentage output, does NOT use onboard PID
@@ -207,7 +215,7 @@ public class Drivetrain extends SubsystemBase
     public double getLeftEncoderVelocity()
     {
         // Returns the velocity of encoder by claculating the velocity from encoder units of click/100ms to ft/s
-        return SPIKE293Utils.controllerVelocityToFeetPerSec(leftTalonLead.getSensorCollection().getIntegratedSensorVelocity());
+        return SPIKE293Utils.controllerVelocityToFeetPerSec(leftTalonLead.getSelectedSensorVelocity());
     }
 
     /**
@@ -218,7 +226,7 @@ public class Drivetrain extends SubsystemBase
     public double getRightEncoderVelocity()
     {
         // Returns the velocity of encoder by claculating the velocity from encoder units of click/100ms to ft/s
-        return SPIKE293Utils.controllerVelocityToFeetPerSec(rightTalonLead.getSensorCollection().getIntegratedSensorVelocity());
+        return SPIKE293Utils.controllerVelocityToFeetPerSec(rightTalonLead.getSelectedSensorVelocity());
     }
 
     /**
@@ -236,7 +244,17 @@ public class Drivetrain extends SubsystemBase
         leftTalonLead.setSelectedSensorPosition(0);
         rightTalonLead.setSelectedSensorPosition(0);
     }
+
+    public double getGyroFusedHeadingDegrees() 
+    {
+        return (navX.getFusedHeading() * -1.0d);
+    }
       
+    public double getGyroYawDegrees() 
+    {
+        return (navX.getYaw() * -1.0d);
+    }
+
     public double getGyroHeadingDegrees() 
     {
         return (navX.getAngle() * -1.0d);
@@ -258,5 +276,11 @@ public class Drivetrain extends SubsystemBase
         gyro.setAngleAdjustment(startingAngleDegrees);
         
         System.out.println("Calibrating gyroscope done.");
+    }
+
+    public void resetKinematics()
+    {
+        setupGyro(navX, 0.0d);
+        zeroDriveTrainEncoders();
     }
 }

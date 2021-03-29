@@ -184,7 +184,7 @@ public class ArcadeDrive extends CommandBase
 
         //Send to motors
         //m_drivetrain.velocityDrive(leftMotorSpeed, rightMotorSpeed);
-        m_drivetrain.percentDrive(leftMotorOutput, rightMotorOutput * -1.0d);
+        m_drivetrain.percentDrive(leftMotorOutput, rightMotorOutput);
     }
 
     // Called once the command ends or is interrupted.
