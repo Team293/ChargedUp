@@ -129,6 +129,7 @@ public class AutonomousCommand extends CommandBase
             SmartDashboard.putNumber("Desired Left Velocity (ft/s)", vL);
             SmartDashboard.putNumber("Desired Right Velocity (ft/s)", vR);
             SmartDashboard.putNumber("Auto Range", m_smoothControl.getRange());
+            SmartDashboard.putNumber("Auto Omega Desired (Degrees)", m_smoothControl.getTurnRateDegrees());
 
             //Converting ft/s equation output to controller velocity
             vR = SPIKE293Utils.feetPerSecToControllerVelocity(vR);
