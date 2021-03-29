@@ -94,6 +94,7 @@ public class AutonomousCommand extends CommandBase
         double vR = 0.0;
         double vL = 0.0;
 
+
         //Have we reached the target?
         if(m_smoothControl.getRange() <= TARGET_WITHIN_RANGE_FEET)
         {
@@ -127,6 +128,7 @@ public class AutonomousCommand extends CommandBase
 
             SmartDashboard.putNumber("Desired Left Velocity (ft/s)", vL);
             SmartDashboard.putNumber("Desired Right Velocity (ft/s)", vR);
+            SmartDashboard.putNumber("Auto Range", m_smoothControl.getRange());
 
             //Converting ft/s equation output to controller velocity
             vR = SPIKE293Utils.feetPerSecToControllerVelocity(vR);
