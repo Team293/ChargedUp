@@ -46,9 +46,8 @@ public class Targeting extends SubsystemBase
     private final double DEFAULT_LAUNCHER_RPM = 1200.0;
     private final double ERROR_INTEGRAL_DEFAULT = 0.0;
     private final double LAST_ERROR_DEFAULT = 0.0;
-    
-    private double vP = 0.5;
-    private double vI = 0.03;
+    private double vP = 0.3;
+    private double vI = 0.05;
     private double vD = 0.0;
 
     private NetworkTable limeData;          //Data from limelight
