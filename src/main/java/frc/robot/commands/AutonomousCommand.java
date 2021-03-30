@@ -122,14 +122,15 @@ public class AutonomousCommand extends CommandBase
             m_smoothControl.computeTurnRate(m_kinematics.getPose(), m_targetPose, m_drivetrain.getRobotVelocity());
 
             //Calculate vR in feet per second
-            vR = m_targetPose.getVelocity() + (TRACK_WIDTH_FEET/2)*m_smoothControl.getTurnRateRadians();
+            vR = m_targetPose.getVelocity() - (TRACK_WIDTH_FEET/2)*m_smoothControl.getTurnRateRadians();
             //Calculate vL in feet per second
-            vL = m_targetPose.getVelocity() - (TRACK_WIDTH_FEET/2)*m_smoothControl.getTurnRateRadians();
+            vL = m_targetPose.getVelocity() + (TRACK_WIDTH_FEET/2)*m_smoothControl.getTurnRateRadians();
 
             SmartDashboard.putNumber("Desired Left Velocity (ft/s)", vL);
             SmartDashboard.putNumber("Desired Right Velocity (ft/s)", vR);
             SmartDashboard.putNumber("Auto Range", m_smoothControl.getRange());
             SmartDashboard.putNumber("Auto Omega Desired (Degrees)", m_smoothControl.getTurnRateDegrees());
+            SmartDashboard.putString("Next Target", m_targetPose.getX() + ", "+ m_targetPose.getY() + ", "+ m_targetPose.getHeadingDegrees());
 
             //Converting ft/s equation output to controller velocity
             vR = SPIKE293Utils.feetPerSecToControllerVelocity(vR);
