@@ -57,6 +57,8 @@ public class Launcher extends SubsystemBase
 
         m_targetRpm = 0.0d;
         SmartDashboard.putNumber("Launcher Target RPM", m_targetRpm);
+        SmartDashboard.putNumber("Current RPM Shooter", m_launcherMotor.getSelectedSensorVelocity());
+
     }
 
     @Override
@@ -66,6 +68,7 @@ public class Launcher extends SubsystemBase
         m_targetRpm = SmartDashboard.getNumber("Launcher Target RPM", 0.0d);
         //Set the launcher wheel to the target RPM
         setRpm(m_targetRpm);
+        SmartDashboard.putNumber("Current RPM Shooter", m_launcherMotor.getSelectedSensorVelocity());
     }
     
     @Override
