@@ -126,5 +126,6 @@ public class Constants
         public static final int YELLOW_ZONE_RPM = 2430; // TODO find actual values 
         public static final int BLUE_ZONE_RPM = 2200; // TODO find actual values 
         public static final int RED_ZONE_RPM = 2325;  // TODO find actual values 
+        public static final double VOLTAGE_SATURATION = 12.0d;
     }
 }
