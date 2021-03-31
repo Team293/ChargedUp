@@ -96,14 +96,15 @@ public class Targeting extends SubsystemBase
     // Turns the LED on or off
     public void controlLight(boolean enabled)
     {
-        if(enabled)
+        limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_OFF);
+        /*if(enabled)
         {
             limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON); 
         }
         else
         {
             limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_OFF);
-        }
+        }*/
     }
 
     public double[] navToTarget()
