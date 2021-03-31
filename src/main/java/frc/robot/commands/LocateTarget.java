@@ -57,6 +57,9 @@ public class LocateTarget extends CommandBase
         double[] velCmd = m_targeting.navToTarget();
         //Send velocity data to vision drive
         m_drivetrain.percentDrive(velCmd[0], velCmd[1]);
+        if(m_targeting.isTargetted()){
+            end(false);
+        }
     }
 
     // Called once the command ends or is interrupted.

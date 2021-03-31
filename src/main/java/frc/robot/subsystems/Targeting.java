@@ -12,7 +12,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static frc.robot.Constants.TargetingConstants.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,8 +41,6 @@ public class Targeting extends SubsystemBase
     private double errorIntegral = 0.0;
     private double lastError = 0.0;
 
-    private Timer confirmTargetTime;
-
     private boolean isReadyToFire = false;
     public Targeting() 
     {
@@ -61,7 +58,7 @@ public class Targeting extends SubsystemBase
         SmartDashboard.putNumber("P Gain", vP);
         SmartDashboard.putNumber("I Gain", vI);
         SmartDashboard.putNumber("D Gain", vD);
-        confirmTargetTime = new Timer();
+        SmartDashboard.putBoolean("isTargetted", false);
     }
 
     @Override
@@ -118,7 +115,6 @@ public class Targeting extends SubsystemBase
     public double[] navToTarget()
     {
         double[] velCmds = {0.0,0.0}; //Left motor velocity, Right motor velocity (returns -1 to 1), At the target for a period of time
-        double timerValue = 0.0;
 
         //Turn the LED on
         controlLight(true);
@@ -157,34 +153,8 @@ public class Targeting extends SubsystemBase
 
             //Save last error
             lastError = headingError;
-
-            // Checking if target has been in range for a certain amount of time
-            if(Math.abs(limeError) < CONFIRMED_THRESHOLD) 
-            {
-                //Target is within threshold
-                //Get current timer value
-                timerValue = confirmTargetTime.get();
-                
-                if(TIMER_NOT_STARTED_VALUE == timerValue )
-                {
-                    //Start timer
-                    confirmTargetTime.start();
-                }
-                else if( CONFIRMED_TIME == timerValue )
-                {
-                    //Ready to fire!
-                    isReadyToFire = true;
-                }
-            }
-            else
-            {
-                //Target is NOT within threshold
-                isReadyToFire = false;
-                confirmTargetTime.stop();
-                confirmTargetTime.reset();
-            }
         }
-        
+        SmartDashboard.putBoolean("isTargetted", isReadyToFire);
         return velCmds;
     }
 
@@ -204,5 +174,18 @@ public class Targeting extends SubsystemBase
     {
         errorIntegral = ERROR_INTEGRAL_DEFAULT;
         lastError = LAST_ERROR_DEFAULT;
+    }
+
+    public boolean isTargetted(){
+        double limeError = targetX.getDouble(0.0); //Get the error of the target X
+
+        if(Math.abs(limeError) < CONFIRMED_THRESHOLD) 
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
