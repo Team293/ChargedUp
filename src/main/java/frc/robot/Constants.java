@@ -107,7 +107,7 @@ public class Constants
 
     public static final class LauncherConstants
     {
-        public static final int TARGET_RPM_READY_THRESHOLD = 150;
+        public static final double TARGET_RPM_READY_THRESHOLD = 12.5;
         public static final int DEFAULT_TARGET_RPM = 2400;
         public static final double CLOSED_LOOP_RAMPRATE = 0.5d;
         public static final int PID_SLOT_ID = 0; 

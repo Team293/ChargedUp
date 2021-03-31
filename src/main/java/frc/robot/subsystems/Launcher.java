@@ -56,7 +56,6 @@ public class Launcher extends SubsystemBase
         m_launcherMotor.configClosedloopRamp(CLOSED_LOOP_RAMPRATE);
         m_launcherMotor.enableVoltageCompensation(true);
         m_launcherMotor.configVoltageCompSaturation(VOLTAGE_SATURATION);
-
         m_targetRpm = 0.0d;
         SmartDashboard.putNumber("Launcher Target RPM", m_targetRpm);
         SmartDashboard.putNumber("Current RPM Shooter", m_launcherMotor.getSelectedSensorVelocity());
@@ -70,7 +69,7 @@ public class Launcher extends SubsystemBase
         m_targetRpm = SmartDashboard.getNumber("Launcher Target RPM", 0.0d);
         //Set the launcher wheel to the target RPM
         setRpm(m_targetRpm);
-        SmartDashboard.putNumber("Current RPM Shooter", m_launcherMotor.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Current RPM Shooter", convertVelocityToRPM(m_launcherMotor.getSelectedSensorVelocity()));
     }
     
     @Override
