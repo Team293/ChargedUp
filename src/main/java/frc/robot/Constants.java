@@ -55,6 +55,26 @@ public class Constants
         public static final boolean USE_NAVX_HEADING = false;
     }
     
+    public static final class TargetingConstants
+    {
+        public static final int LIMELIGHT_LED_ON = 3;
+        public static final int LIMELIGHT_LED_OFF = 1;
+        public static final int LEFT_MOTOR_IND = 0;
+        public static final int RIGHT_MOTOR_IND = 1;
+        public static final double TARGET_ACQUIRED = 1.0;
+        public static final double TARGET_NO_TARGET = 0.0;
+        public static final double INTEGRAL_WEIGHT = .2;
+        public static final double CONFIRMED_THRESHOLD = 1.0;
+        public static final double CONFIRMED_TIME = .25;        // Amount of seconds before it considers a target confirmed
+        public static final double INTEGRAL_LIMIT = 1000000000; // TODO Check math and get an actual number
+        public static final double LIMELIGHT_ERROR_MAX = 29.5;
+        public static final double PERCENT_OUTPUT_LIMIT = .5;
+        public static final double TIMER_NOT_STARTED_VALUE = 0.0;
+        public static final double DEFAULT_LAUNCHER_RPM = 1200.0;
+        public static final double ERROR_INTEGRAL_DEFAULT = 0.0;
+        public static final double LAST_ERROR_DEFAULT = 0.0;
+    }
+
     public static final class SmoothControlConstants
     {
         public static final double K1 = 1.0d;
