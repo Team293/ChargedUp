@@ -66,7 +66,7 @@ public class Constants
         public static final double INTEGRAL_WEIGHT = .2;
         public static final double CONFIRMED_THRESHOLD = 1.0;
         public static final double CONFIRMED_TIME = .25;        // Amount of seconds before it considers a target confirmed
-        public static final double INTEGRAL_LIMIT = 1000000000; // TODO Check math and get an actual number
+        public static final double INTEGRAL_LIMIT = 0.5; // TODO Check math and get an actual number
         public static final double LIMELIGHT_ERROR_MAX = 29.5;
         public static final double PERCENT_OUTPUT_LIMIT = .5;
         public static final double TIMER_NOT_STARTED_VALUE = 0.0;
