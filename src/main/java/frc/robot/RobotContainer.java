@@ -88,21 +88,26 @@ public class RobotContainer
         List<TargetPosition2D>testPath = new ArrayList<TargetPosition2D>();
         
         //Slalom 
-        slalomPath.add(new TargetPosition2D(3.25,2.5, Math.toRadians(0),3.0d));
-        slalomPath.add(new TargetPosition2D(5,2.5,Math.toRadians(40),3.0d));
-        slalomPath.add(new TargetPosition2D(7.5,5,Math.toRadians(40),3.0d));
-        slalomPath.add(new TargetPosition2D(10,7.5,Math.toRadians(0),3.0d));
-        slalomPath.add(new TargetPosition2D(20,7.5,Math.toRadians(0),3.0d));
-        slalomPath.add(new TargetPosition2D(22.5,5,Math.toRadians(-60),3.0d));
-        slalomPath.add(new TargetPosition2D(25,2.5,Math.toRadians(0),3.0d));
-        slalomPath.add(new TargetPosition2D(27.5,5,Math.toRadians(90),3.0d));
-        slalomPath.add(new TargetPosition2D(25,7.5,Math.toRadians(180),3.0d));
-        slalomPath.add(new TargetPosition2D(22.5,5,Math.toRadians(-120),3.0d));
-        slalomPath.add(new TargetPosition2D(20,2.5,Math.toRadians(180),3.0d));
-        slalomPath.add(new TargetPosition2D(10,2.5,Math.toRadians(180),3.0d));
-        slalomPath.add(new TargetPosition2D(7.5,5,Math.toRadians(120),3.0d));
-        slalomPath.add(new TargetPosition2D(2.5,7.5,Math.toRadians(180),3.0d));
-        
+        slalomPath.add(new TargetPosition2D(3.391, 2.072, Math.toRadians(-0.562), 3));
+        slalomPath.add(new TargetPosition2D(6.1, 2.965, Math.toRadians(60.0), 3));
+        slalomPath.add(new TargetPosition2D(7.5, 5.0, Math.toRadians(50.0), 5));
+        slalomPath.add(new TargetPosition2D(10.311, 7.774, Math.toRadians(42.436), 6));
+        slalomPath.add(new TargetPosition2D(15.181, 9.154, Math.toRadians(-7.233), 5));
+        slalomPath.add(new TargetPosition2D(21.0, 6.8, Math.toRadians(-50.0), 4.5));
+        slalomPath.add(new TargetPosition2D(22.5, 4.872, Math.toRadians(-62.176), 3));
+        slalomPath.add(new TargetPosition2D(25.205, 2.133, Math.toRadians(0.0), 3));
+        slalomPath.add(new TargetPosition2D(28.574, 5.197, Math.toRadians(90.0), 3));
+        slalomPath.add(new TargetPosition2D(25.388, 8.281, Math.toRadians(180.0), 3));
+        slalomPath.add(new TargetPosition2D(22.5, 5.075, Math.toRadians(250.0), 3));
+        slalomPath.add(new TargetPosition2D(21.0, 2.985, Math.toRadians(215.0), 4));
+        slalomPath.add(new TargetPosition2D(18.6, 1.849, Math.toRadians(190.0), 7.5));
+        slalomPath.add(new TargetPosition2D(13.0, 1.4, Math.toRadians(180.0), 6));
+        slalomPath.add(new TargetPosition2D(11.0, 1.849, Math.toRadians(160.0), 4));
+        slalomPath.add(new TargetPosition2D(8.6, 3.0, Math.toRadians(115.0), 5));
+        slalomPath.add(new TargetPosition2D(7.754, 5.0, Math.toRadians(127.0), 5));
+        slalomPath.add(new TargetPosition2D(5.298, 7.47, Math.toRadians(154.0), 4));
+        slalomPath.add(new TargetPosition2D(1.93, 7.875, Math.toRadians(180.0), 3));
+
         //3X3 Square 
         threeByThreeBoxPath.add(new TargetPosition2D(0, 0, Math.toRadians(0.0), 1.5d));
         threeByThreeBoxPath.add(new TargetPosition2D(3.0, 0.0, Math.toRadians(0.0), 1.5d));
@@ -111,39 +116,58 @@ public class RobotContainer
         threeByThreeBoxPath.add(new TargetPosition2D(0.0, 0.0, Math.toRadians(0), 1.5d));
 
         //Bounce path
-        bouncePath.add(new TargetPosition2D(2.5,7.5, Math.toRadians(0),0.5));
-        bouncePath.add(new TargetPosition2D(7.5,11, Math.toRadians(90),-0.5));
-        bouncePath.add(new TargetPosition2D(10,5, Math.toRadians(-60),-0.5));
-        bouncePath.add(new TargetPosition2D(12.5, 2.5,Math.toRadians(0),-0.5));
-        bouncePath.add(new TargetPosition2D(15,5, Math.toRadians(90),-0.5));
-        bouncePath.add(new TargetPosition2D(15,11, Math.toRadians(90),0.5));
-        bouncePath.add(new TargetPosition2D(15,5, Math.toRadians(-90),0.5));
-        bouncePath.add(new TargetPosition2D(17.5,2.5, Math.toRadians(0),0.5));
-        bouncePath.add(new TargetPosition2D(20,2.5, Math.toRadians(0),0.5));
-        bouncePath.add(new TargetPosition2D(22.5,5, Math.toRadians(90),0.5));
-        bouncePath.add(new TargetPosition2D(22.5,11, Math.toRadians(90),-0.5));
-        bouncePath.add(new TargetPosition2D(25,7.5, Math.toRadians(0),-0.5));
-        bouncePath.add(new TargetPosition2D(27.5,7.5, Math.toRadians(0),-0.5));
+        bouncePath.add(new TargetPosition2D(2.5, 7.5, Math.toRadians(0),4));
+        bouncePath.add(new TargetPosition2D(7.5, 11, Math.toRadians(90),-8));
+        bouncePath.add(new TargetPosition2D(8.5, 7.9, Math.toRadians(-65),-7));
+        bouncePath.add(new TargetPosition2D(10, 5, Math.toRadians(-60),-6));
+        bouncePath.add(new TargetPosition2D(12.5, 2.5, Math.toRadians(0),-4));
+        bouncePath.add(new TargetPosition2D(15, 5, Math.toRadians(90),-6));
+        bouncePath.add(new TargetPosition2D(15, 9.5, Math.toRadians(90),-5));
+        bouncePath.add(new TargetPosition2D(15, 11, Math.toRadians(90),5));
+        bouncePath.add(new TargetPosition2D(15, 9.5, Math.toRadians(-90),6));
+        bouncePath.add(new TargetPosition2D(15, 5, Math.toRadians(-90),4));
+        bouncePath.add(new TargetPosition2D(17.5, 2.5, Math.toRadians(0),4));
+        bouncePath.add(new TargetPosition2D(20, 2.5, Math.toRadians(0),5));
+        bouncePath.add(new TargetPosition2D(22.5, 5, Math.toRadians(90),7));
+        bouncePath.add(new TargetPosition2D(22.5, 9.5, Math.toRadians(90),6));
+        bouncePath.add(new TargetPosition2D(22.5, 11, Math.toRadians(90),-4));
+        bouncePath.add(new TargetPosition2D(25, 7.5, Math.toRadians(0),-3.5));
+        bouncePath.add(new TargetPosition2D(27.5, 7.5, Math.toRadians(0),-4));
 
         //Barrel Path
-        barrelPath.add(new TargetPosition2D(3.25,7.5,Math.toRadians(0),1.0d));
-        barrelPath.add(new TargetPosition2D(12.5,7.5,Math.toRadians(0),1.0d));
-        barrelPath.add(new TargetPosition2D(15,5,Math.toRadians(-90),1.0d));
-        barrelPath.add(new TargetPosition2D(12.5,2.5,Math.toRadians(-180),1.0d));
-        barrelPath.add(new TargetPosition2D(10,5,Math.toRadians(90),1.0d));
-        barrelPath.add(new TargetPosition2D(20,7.5,Math.toRadians(0),1.0d));
-        barrelPath.add(new TargetPosition2D(22.5,10,Math.toRadians(90),1.0d));
-        barrelPath.add(new TargetPosition2D(20,12.5,Math.toRadians(180),1.0d));
-        barrelPath.add(new TargetPosition2D(17.5,10,Math.toRadians(-90),1.0d));
-        barrelPath.add(new TargetPosition2D(25,2.5,Math.toRadians(0),1.0d));
-        barrelPath.add(new TargetPosition2D(27.5,5,Math.toRadians(90),1.0d));
-        barrelPath.add(new TargetPosition2D(20,7.5,Math.toRadians(180),1.0d));
-        barrelPath.add(new TargetPosition2D(2.5,7.5,Math.toRadians(180),1.0d));
+        barrelPath.add(new TargetPosition2D(4, 7.5, Math.toRadians(0), 5));
+        barrelPath.add(new TargetPosition2D(4, 7.5, Math.toRadians(0), 5));
+        barrelPath.add(new TargetPosition2D(7.084, 8, Math.toRadians(10), 5.5));
+        barrelPath.add(new TargetPosition2D(10.453, 8.3, Math.toRadians(-13), 4));
+        barrelPath.add(new TargetPosition2D(14, 7.226, Math.toRadians(-45), 3));
+        barrelPath.add(new TargetPosition2D(15, 5, Math.toRadians(270), 3));
+        barrelPath.add(new TargetPosition2D(12.908, 3, Math.toRadians(180), 3));
+        barrelPath.add(new TargetPosition2D(10.5, 5.339, Math.toRadians(90), 3));
+        barrelPath.add(new TargetPosition2D(13.314, 7.2, Math.toRadians(2.045), 4));
+        barrelPath.add(new TargetPosition2D(16.195, 7.267, Math.toRadians(10), 5.5));
+        barrelPath.add(new TargetPosition2D(19.99, 7.8, Math.toRadians(29.058), 4));
+        barrelPath.add(new TargetPosition2D(22.5, 10, Math.toRadians(90), 3));
+        barrelPath.add(new TargetPosition2D(21.025, 12, Math.toRadians(180), 3));
+        barrelPath.add(new TargetPosition2D(18.57, 11.386, Math.toRadians(-137.764), 3));
+        barrelPath.add(new TargetPosition2D(18.427, 9, Math.toRadians(-69.193), 4.5));
+        barrelPath.add(new TargetPosition2D(18.874, 7.8, Math.toRadians(-62.913), 6));
+        barrelPath.add(new TargetPosition2D(20.5, 5, Math.toRadians(-41.41), 7));
+        barrelPath.add(new TargetPosition2D(23, 3, Math.toRadians(-10), 5.5));
+        barrelPath.add(new TargetPosition2D(27, 3.675, Math.toRadians(55), 4));
+        barrelPath.add(new TargetPosition2D(26.971, 6.5, Math.toRadians(120), 3));
+        barrelPath.add(new TargetPosition2D(25.002, 7.328, Math.toRadians(174.685), 4.5));
+        barrelPath.add(new TargetPosition2D(23.135, 7.571, Math.toRadians(174.375), 5.5));
+        barrelPath.add(new TargetPosition2D(21.248, 7.815, Math.toRadians(172.09), 7));
+        barrelPath.add(new TargetPosition2D(10.168, 8.991, Math.toRadians(178.142), 5));
+        barrelPath.add(new TargetPosition2D(3.533, 8.626, Math.toRadians(-158.523), 4));
+
 
         testPath.add(new TargetPosition2D(0, 0, Math.toRadians(0),1.0d));
         testPath.add(new TargetPosition2D(5, 5, Math.toRadians(90),-1.0d));
         testPath.add(new TargetPosition2D(0, 0, Math.toRadians(180),1.0d));
         //straightPath.add(new TargetPosition2D(10, 5, Math.toRadians(90),1.0d));
+
+
 
         m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
         m_chooser.addOption("3x3 Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
