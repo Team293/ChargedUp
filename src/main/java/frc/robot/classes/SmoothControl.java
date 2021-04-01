@@ -50,7 +50,7 @@ public class SmoothControl
     m_omegaDesired = -(vv / m_range) * (K2 * ( del_r - Math.atan( -K1 * thetaT ) ) + 
       Math.sin( del_r ) * ( 1.0 + ( K1 / ( 1.0 + (K1 * thetaT)*(K1 * thetaT)))));
       
-    m_omegaDesired = limitRadians(m_omegaDesired);                       
+                           
   }
 
   

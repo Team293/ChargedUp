@@ -147,6 +147,7 @@ public class Drivetrain extends SubsystemBase
         SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
         SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
         SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
+        SmartDashboard.putNumber("NavX TurnRate dg/s", navX.getRate());
     }
     
     //Sets the motors to run at a given percentage output, does NOT use onboard PID

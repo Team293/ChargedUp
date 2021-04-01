@@ -116,50 +116,36 @@ public class RobotContainer
         threeByThreeBoxPath.add(new TargetPosition2D(0.0, 0.0, Math.toRadians(0), 1.5d));
 
         //Bounce path
-        bouncePath.add(new TargetPosition2D(2.5, 7.5, Math.toRadians(0),4));
-        bouncePath.add(new TargetPosition2D(7.5, 11, Math.toRadians(90),-8));
-        bouncePath.add(new TargetPosition2D(8.5, 7.9, Math.toRadians(-65),-7));
-        bouncePath.add(new TargetPosition2D(10, 5, Math.toRadians(-60),-6));
-        bouncePath.add(new TargetPosition2D(12.5, 2.5, Math.toRadians(0),-4));
-        bouncePath.add(new TargetPosition2D(15, 5, Math.toRadians(90),-6));
-        bouncePath.add(new TargetPosition2D(15, 9.5, Math.toRadians(90),-5));
-        bouncePath.add(new TargetPosition2D(15, 11, Math.toRadians(90),5));
-        bouncePath.add(new TargetPosition2D(15, 9.5, Math.toRadians(-90),6));
-        bouncePath.add(new TargetPosition2D(15, 5, Math.toRadians(-90),4));
-        bouncePath.add(new TargetPosition2D(17.5, 2.5, Math.toRadians(0),4));
-        bouncePath.add(new TargetPosition2D(20, 2.5, Math.toRadians(0),5));
-        bouncePath.add(new TargetPosition2D(22.5, 5, Math.toRadians(90),7));
-        bouncePath.add(new TargetPosition2D(22.5, 9.5, Math.toRadians(90),6));
-        bouncePath.add(new TargetPosition2D(22.5, 11, Math.toRadians(90),-4));
-        bouncePath.add(new TargetPosition2D(25, 7.5, Math.toRadians(0),-3.5));
-        bouncePath.add(new TargetPosition2D(27.5, 7.5, Math.toRadians(0),-4));
+        bouncePath.add(new TargetPosition2D(2.500000,7.500000,Math.toRadians(0.000000),2.000000));
+        bouncePath.add(new TargetPosition2D(7.500000,11.500000,Math.toRadians(90.000000),-2.000000));
+        bouncePath.add(new TargetPosition2D(8.500000,7.900000,Math.toRadians(-65.000000),-2.000000));
+        bouncePath.add(new TargetPosition2D(10.000000,5.000000,Math.toRadians(-60.000000),-2.000000));
+        bouncePath.add(new TargetPosition2D(12.500000,2.500000,Math.toRadians(0.000000),-2.000000));
+        bouncePath.add(new TargetPosition2D(15.000000,5.000000,Math.toRadians(90.000000),-2.000000));
+        bouncePath.add(new TargetPosition2D(15.000000,11.000000,Math.toRadians(90.000000),2.000000));
+        bouncePath.add(new TargetPosition2D(15.000000,5.000000,Math.toRadians(-90.000000),2.000000));
+        bouncePath.add(new TargetPosition2D(17.500000,1.500000,Math.toRadians(0.000000),2.000000));
+        bouncePath.add(new TargetPosition2D(20.000000,1.500000,Math.toRadians(0.000000),2.000000));
+        bouncePath.add(new TargetPosition2D(22.500000,5.000000,Math.toRadians(90.000000),2.000000));
+        bouncePath.add(new TargetPosition2D(22.500000,9.500000,Math.toRadians(90.000000),2.000000));
+        bouncePath.add(new TargetPosition2D(22.500000,11.000000,Math.toRadians(90.000000),-2.000000));
+        bouncePath.add(new TargetPosition2D(25.000000,5.5000000,Math.toRadians(0.000000),-2.500000));
+        bouncePath.add(new TargetPosition2D(27.500000,5.0000000,Math.toRadians(0.000000),-2.000000));
 
         //Barrel Path
-        barrelPath.add(new TargetPosition2D(4, 7.5, Math.toRadians(0), 5));
-        barrelPath.add(new TargetPosition2D(4, 7.5, Math.toRadians(0), 5));
-        barrelPath.add(new TargetPosition2D(7.084, 8, Math.toRadians(10), 5.5));
-        barrelPath.add(new TargetPosition2D(10.453, 8.3, Math.toRadians(-13), 4));
-        barrelPath.add(new TargetPosition2D(14, 7.226, Math.toRadians(-45), 3));
-        barrelPath.add(new TargetPosition2D(15, 5, Math.toRadians(270), 3));
-        barrelPath.add(new TargetPosition2D(12.908, 3, Math.toRadians(180), 3));
-        barrelPath.add(new TargetPosition2D(10.5, 5.339, Math.toRadians(90), 3));
-        barrelPath.add(new TargetPosition2D(13.314, 7.2, Math.toRadians(2.045), 4));
-        barrelPath.add(new TargetPosition2D(16.195, 7.267, Math.toRadians(10), 5.5));
-        barrelPath.add(new TargetPosition2D(19.99, 7.8, Math.toRadians(29.058), 4));
-        barrelPath.add(new TargetPosition2D(22.5, 10, Math.toRadians(90), 3));
-        barrelPath.add(new TargetPosition2D(21.025, 12, Math.toRadians(180), 3));
-        barrelPath.add(new TargetPosition2D(18.57, 11.386, Math.toRadians(-137.764), 3));
-        barrelPath.add(new TargetPosition2D(18.427, 9, Math.toRadians(-69.193), 4.5));
-        barrelPath.add(new TargetPosition2D(18.874, 7.8, Math.toRadians(-62.913), 6));
-        barrelPath.add(new TargetPosition2D(20.5, 5, Math.toRadians(-41.41), 7));
-        barrelPath.add(new TargetPosition2D(23, 3, Math.toRadians(-10), 5.5));
-        barrelPath.add(new TargetPosition2D(27, 3.675, Math.toRadians(55), 4));
-        barrelPath.add(new TargetPosition2D(26.971, 6.5, Math.toRadians(120), 3));
-        barrelPath.add(new TargetPosition2D(25.002, 7.328, Math.toRadians(174.685), 4.5));
-        barrelPath.add(new TargetPosition2D(23.135, 7.571, Math.toRadians(174.375), 5.5));
-        barrelPath.add(new TargetPosition2D(21.248, 7.815, Math.toRadians(172.09), 7));
-        barrelPath.add(new TargetPosition2D(10.168, 8.991, Math.toRadians(178.142), 5));
-        barrelPath.add(new TargetPosition2D(3.533, 8.626, Math.toRadians(-158.523), 4));
+        barrelPath.add(new TargetPosition2D(2.500000,7.500000,Math.toRadians(0.000000),5.000000));
+        barrelPath.add(new TargetPosition2D(14.000000,7.700000,Math.toRadians(-45.000000),3.000000));
+        barrelPath.add(new TargetPosition2D(16.000000,5.000000,Math.toRadians(270.000000),3.000000));
+        barrelPath.add(new TargetPosition2D(12.908000,2.000000,Math.toRadians(180.000000),3.000000));
+        barrelPath.add(new TargetPosition2D(9.500000,5.339000,Math.toRadians(90.000000),3.000000));
+        barrelPath.add(new TargetPosition2D(13.314000,7.200000,Math.toRadians(2.045000),4.000000));
+        barrelPath.add(new TargetPosition2D(22.500000,10.000000,Math.toRadians(90.000000),3.000000));
+        barrelPath.add(new TargetPosition2D(21.000000,12.500000,Math.toRadians(180.000000),3.000000));
+        barrelPath.add(new TargetPosition2D(18.000000,9.000000,Math.toRadians(-69.193000),4.500000));
+        barrelPath.add(new TargetPosition2D(23.000000,3.000000,Math.toRadians(-10.000000),5.500000));
+        barrelPath.add(new TargetPosition2D(28.000000,4.000000,Math.toRadians(90.000000),4.000000));
+        barrelPath.add(new TargetPosition2D(25.000000,8.000000,Math.toRadians(180.000000),3.000000));
+        barrelPath.add(new TargetPosition2D(2.500000,7.500000,Math.toRadians(-180.000000),4.000000));
 
 
         testPath.add(new TargetPosition2D(0, 0, Math.toRadians(0),1.0d));
