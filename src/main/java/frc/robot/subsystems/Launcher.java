@@ -105,7 +105,7 @@ public class Launcher extends SubsystemBase
         SmartDashboard.putNumber("Launcher Target RPM", m_targetRpm);
 
         //Convert RPM to velocity
-        velocity = convertRPMtoVelocity(m_targetRpm);
+        velocity = convertRPMtoVelocity(m_targetRpm + RPM_OFFSET); // Not good need to fix PID
 
         //Set new velocity
         m_launcherMotor.set(ControlMode.Velocity, velocity);
