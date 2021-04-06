@@ -77,6 +77,9 @@ public class Drivetrain extends SubsystemBase
         rightTalonFollower.setInverted(InvertType.FollowMaster);
         rightTalonLead.setSensorPhase(false);
 
+        leftTalonLead.configClosedloopRamp(0.1);
+        rightTalonLead.configClosedloopRamp(0.1);
+
         //Configure PID 
         leftTalonLead.config_kF(PID_SLOT_ID, KF, PID_CONFIG_TIMEOUT_MS);
         leftTalonLead.config_kP(PID_SLOT_ID, KP, PID_CONFIG_TIMEOUT_MS);
