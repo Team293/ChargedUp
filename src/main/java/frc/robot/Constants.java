@@ -31,8 +31,8 @@ public class Constants
         public static final double KD = 0.0;
         public static final double CLOSED_LOOP_RAMP = 0.5;
         public static final double MAX_VELOCITY = 21549;
-        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.6d;
-        public static final double DEFAULT_MAX_TURNING_SPEED = 0.5d;
+        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.2d;
+        public static final double DEFAULT_MAX_TURNING_SPEED = 0.15d;
         public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25d;
         public static final int LEFT_LEAD_TALON_CAN_ID = 0;
         public static final int LEFT_FOLLOWER_TALON_CAN_ID = 1;
