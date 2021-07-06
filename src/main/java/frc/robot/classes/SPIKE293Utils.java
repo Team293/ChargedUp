@@ -47,6 +47,6 @@ public final class SPIKE293Utils
     public static double percentageToControllerVelocity(double percentage)
     {
         MathUtil.clamp(percentage, -1.0d , 1.0d);
-        return (percentage * MAX_VELOCITY);
+        return (percentage * MAX_ENCODER_VELOCITY);
     }
 }

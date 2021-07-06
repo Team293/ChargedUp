@@ -11,7 +11,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
@@ -57,14 +56,12 @@ public class VelocityDrive extends CommandBase
     @Override
     public void initialize() 
     {
-        SmartDashboard.putNumber("Joystick Deadband", m_joyDeadband);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() 
     {
-        m_joyDeadband = SmartDashboard.getNumber("Joystick Deadband", DEFAULT_JOYSTICK_DEADBAND);
         m_joyDeadband = MathUtil.clamp(m_joyDeadband, 0.0d, 1.0d);
         double leftY = 0.0d;
         double rightY = 0.0d;

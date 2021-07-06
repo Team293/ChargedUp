@@ -99,7 +99,6 @@ public class ArcadeDrive extends CommandBase
 
         //Checks if joystick value is higher or lower than deadband value
         turning = SPIKE293Utils.applyDeadband(turning, m_arcadeDeadband);
-        SmartDashboard.putNumber("AD: Turning", turning);
 
         //Check if we should use the triggers for speed
         if(m_forzaEnabled)
@@ -109,8 +108,6 @@ public class ArcadeDrive extends CommandBase
             triggerRight = SPIKE293Utils.applyDeadband(triggerRight, m_forzaDeadband);
             triggerLeft = m_xboxcontroller.getTriggerAxis(Hand.kLeft);
             triggerLeft = SPIKE293Utils.applyDeadband(triggerLeft, m_forzaDeadband);
-            SmartDashboard.putNumber("AD: Right Trigger", triggerRight);
-            SmartDashboard.putNumber("AD: Left Trigger", triggerLeft);
 
             if(triggerRight >= triggerLeft)
             {
@@ -128,7 +125,6 @@ public class ArcadeDrive extends CommandBase
             //Use the stick, note that the joystick is inverted, -1 is up, 1 is down
             speed = m_xboxcontroller.getY(Hand.kLeft) * -1.0d;
             speed = SPIKE293Utils.applyDeadband(speed, m_arcadeDeadband);
-            SmartDashboard.putNumber("AD: Speed", speed);
         }
 
         //Clamp input to verify they are valid and greater than the deadband
@@ -184,7 +180,7 @@ public class ArcadeDrive extends CommandBase
 
         //Send to motors
         //m_drivetrain.velocityDrive(leftMotorSpeed, rightMotorSpeed);
-        m_drivetrain.percentDrive(leftMotorOutput, rightMotorOutput * -1.0d);
+        m_drivetrain.percentDrive(leftMotorOutput, rightMotorOutput);
     }
 
     // Called once the command ends or is interrupted.

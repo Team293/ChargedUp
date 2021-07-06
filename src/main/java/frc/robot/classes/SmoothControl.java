@@ -48,7 +48,9 @@ public class SmoothControl
     
     // All set, now the equation for the angular rate!
     m_omegaDesired = -(vv / m_range) * (K2 * ( del_r - Math.atan( -K1 * thetaT ) ) + 
-      Math.sin( del_r ) * ( 1.0 + ( K1 / ( 1.0 + (K1 * thetaT)*(K1 * thetaT))))); 
+      Math.sin( del_r ) * ( 1.0 + ( K1 / ( 1.0 + (K1 * thetaT)*(K1 * thetaT)))));
+      
+                           
   }
 
   

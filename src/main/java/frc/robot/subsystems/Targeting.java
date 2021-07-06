@@ -58,6 +58,7 @@ public class Targeting extends SubsystemBase
         
         // Set default values for shuffleboard
         limeData.getEntry("camMode").setNumber(0);
+        
         SmartDashboard.putNumber("P Gain", vP);
         SmartDashboard.putNumber("I Gain", vI);
         SmartDashboard.putNumber("D Gain", vD);
@@ -70,6 +71,7 @@ public class Targeting extends SubsystemBase
     @Override
     public void periodic() 
     {
+
         // Put code here to be run every loop
         // Get updated values from shuffleboard
         double p = SmartDashboard.getNumber("P Gain", 0);
@@ -110,15 +112,14 @@ public class Targeting extends SubsystemBase
     // Turns the LED on or off
     public void controlLight(boolean enabled)
     {
-        limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON); 
-        /*if(enabled)
+        if(enabled)
         {
             limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON); 
         }
         else
         {
             limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_OFF);
-        }*/
+        }
     }
 
     public double[] navToTarget()
@@ -156,10 +157,6 @@ public class Targeting extends SubsystemBase
             //Set the velocity output
             velCmds[LEFT_MOTOR_IND] = -percentOutput; //Left Motor Both negative for unknown reasons
             velCmds[RIGHT_MOTOR_IND] = -percentOutput; //Right Motor
-
-            //Update shuffleboard
-            SmartDashboard.putNumber("LeftOutput",velCmds[LEFT_MOTOR_IND]);
-            SmartDashboard.putNumber("RightOutput",velCmds[RIGHT_MOTOR_IND]);
 
             //Save last error
             lastError = headingError;

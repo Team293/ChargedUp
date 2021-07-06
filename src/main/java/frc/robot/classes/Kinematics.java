@@ -22,6 +22,9 @@ public class Kinematics
   {
     double deltaLeft = 0.0d;
     double deltaRight = 0.0d;
+    double deltaX = 0.0d;
+    double deltaY = 0.0d;
+    double currentHeading = 0.0d;
 
     //Calculate distance traveled
     deltaLeft = leftEncoderPostion - m_oldLeftDistanceTraveled;
@@ -31,7 +34,19 @@ public class Kinematics
     m_oldLeftDistanceTraveled = leftEncoderPostion;
     m_oldRightDistanceTraveled = rightEncoderPosition;
 
-    runCalculation(deltaLeft, deltaRight, heading);
+    //Calcualte new X, Y
+    deltaX = ((deltaLeft + deltaRight)/2) * Math.cos(m_currentPose.getHeadingRadians());    //previous heading is in radians
+    deltaY = ((deltaLeft + deltaRight)/2) * Math.sin(m_currentPose.getHeadingRadians());    //previous heading is in radians
+
+    //Update new position
+    m_currentPose.setX(m_currentPose.getX() + deltaX);
+    m_currentPose.setY(m_currentPose.getY() + deltaY);
+
+    //Limit psi between Pi and -Pi
+    currentHeading = limitRadians(heading);
+
+    //Calculate new attitude angle in radians
+    m_currentPose.setHeadingRadians(currentHeading);
   }
 
   //This function runs the kinematics caluclation, 
@@ -40,6 +55,9 @@ public class Kinematics
   {
     double deltaLeft = 0.0d;
     double deltaRight = 0.0d;
+    double deltaX = 0.0d;
+    double deltaY = 0.0d;
+    double deltaPsi = 0.0d;
 
     //Calculate distance traveled
     deltaLeft = leftEncoderPostion - m_oldLeftDistanceTraveled;
@@ -50,14 +68,7 @@ public class Kinematics
     m_oldRightDistanceTraveled = rightEncoderPosition;
 
     //Use encoders to calculate heading
-    double heading = (deltaRight - deltaLeft) / TRACK_WIDTH_FEET; //this is the width from center left wheel to center right wheel
-    runCalculation(deltaLeft, deltaRight, heading);
-  }
-
-  private void runCalculation(double deltaLeft, double deltaRight, double deltaPsi)
-  {
-    double deltaX = 0.0d;
-    double deltaY = 0.0d;
+    deltaPsi = (deltaRight - deltaLeft) / TRACK_WIDTH_FEET; //this is the width from center left wheel to center right wheel
 
     //Calcualte new X, Y
     deltaX = ((deltaLeft + deltaRight)/2) * Math.cos(m_currentPose.getHeadingRadians());    //previous heading is in radians

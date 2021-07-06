@@ -25,14 +25,34 @@ public class Constants
         public static final double DEFAULT_FORZA_DEADBAND = 0.01;
         public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
         public static final boolean DEFAULT_FORZA_MODE = true;
-        public static final double KF = 0.04759;
-        public static final double KP = 0.01461;
-        public static final double KI = 0.0;
-        public static final double KD = 0.0;
+        
+        //PID Constants
+        /*To tune the PID:
+         * 1. Using Pheonix tuner, set motors to factory default
+         * 2. Set the velocity to 100%, this is the MAX_ENCODER_VELOCITY, 
+         *    use the slower of the two motor systems!
+         * 3. Calculate KF by hand using the KF equation below
+         * 4. Increase P until the system oscillates by a measureable time
+         * 5. Measure the period of the oscillation in seconds
+         * 6. The P gain used to get this measureable oscillation is KU, enter KU
+         * 7. The measured period of the oscillation, in seconds, is TU, enter TU
+         * Done.
+         */
+
+        //Choose the slower mortor speed max, in this case the right motor
+        public static final double MAX_ENCODER_VELOCITY = 20743.0d; 
+        public static final double KF_TYPICAL_PERCENT_USAGE = 0.75d; //We will typically use 75% of max speed
+        public static final double TALON_FULL_OUTPUT_SETTING = 1023;
+        public static final double KF = 0.05d;
+        public static final double KP = 0.03d;
+        public static final double KI = 0.0d;
+        public static final double KD = 0.06d;
+        
         public static final double CLOSED_LOOP_RAMP = 0.5;
         public static final double MAX_VELOCITY = 21549;
-        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.2d;
-        public static final double DEFAULT_MAX_TURNING_SPEED = 0.15d;
+        
+        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.6d;
+        public static final double DEFAULT_MAX_TURNING_SPEED = 0.5d;
         public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25d;
         public static final int LEFT_LEAD_TALON_CAN_ID = 0;
         public static final int LEFT_FOLLOWER_TALON_CAN_ID = 1;
@@ -47,12 +67,12 @@ public class Constants
         public static final double WHEEL_CIRCUMFERENCE_FEET = (6.0d/12.0d)*Math.PI; // Wheel diameter 3 in, converting to feet
         public static final double SECONDS_TO_DECISEC = 1.0d/10.0d;
         public static final double DECISEC_TO_SECONDS = 10.0d/1.0d;
-        public static final double GEARBOX_RATIO_TO_ONE = 11.25;
+        public static final double GEARBOX_RATIO_TO_ONE = 8.68d;
         public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
         public static final int ENCODER_EDGES_PER_STEP =  1; 
         public static final int ENCODER_UNITS_PER_REVOLUTION = ENCODER_COUNTS_PER_REVOLUTION; // Edges per Rotation
         public static final double TRACK_WIDTH_FEET = 24.831d/12.0d; //Track width is 13 inches
-        public static final boolean USE_NAVX_HEADING = false;
+        public static final boolean USE_NAVX_HEADING = true;
     }
     
     public static final class TargetingConstants
