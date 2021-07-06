@@ -76,6 +76,7 @@ public class LauncherController extends SubsystemBase
             //Current state is not green, turn to green
             m_launcherState = LauncherState.GREEN;
             m_launcher.setRpm(GREEN_ZONE_RPM);
+            m_launcher.extendShooterPiston();
         }
     }
 
@@ -93,6 +94,7 @@ public class LauncherController extends SubsystemBase
             //Current state is not Yellow, turn to Yellow
             m_launcherState = LauncherState.YELLOW;
             m_launcher.setRpm(YELLOW_ZONE_RPM);
+            m_launcher.retractShooterPiston();
         }
     }
     
@@ -110,6 +112,7 @@ public class LauncherController extends SubsystemBase
             //Current state is not Blue, turn to Blue
             m_launcherState = LauncherState.BLUE;
             m_launcher.setRpm(BLUE_ZONE_RPM);
+            m_launcher.retractShooterPiston();
         }
     }
     
@@ -127,12 +130,14 @@ public class LauncherController extends SubsystemBase
             //Current state is not Red, turn to Red
             m_launcherState = LauncherState.RED;
             m_launcher.setRpm(RED_ZONE_RPM);
+            m_launcher.retractShooterPiston();
         }
     }
 
     public void setOff()
     {
         m_launcherState = LauncherState.OFF;
+        m_launcher.retractShooterPiston();
         m_launcher.stop();  
     }
 }

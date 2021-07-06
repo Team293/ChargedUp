@@ -49,6 +49,8 @@ public class Constants
         public static final double KD = 0.06d;
         
         public static final double CLOSED_LOOP_RAMP = 0.5;
+        public static final double MAX_VELOCITY = 21549;
+        
         public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.6d;
         public static final double DEFAULT_MAX_TURNING_SPEED = 0.5d;
         public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25d;
@@ -73,6 +75,26 @@ public class Constants
         public static final boolean USE_NAVX_HEADING = true;
     }
     
+    public static final class TargetingConstants
+    {
+        public static final int LIMELIGHT_LED_ON = 3;
+        public static final int LIMELIGHT_LED_OFF = 1;
+        public static final int LEFT_MOTOR_IND = 0;
+        public static final int RIGHT_MOTOR_IND = 1;
+        public static final double TARGET_ACQUIRED = 1.0;
+        public static final double TARGET_NO_TARGET = 0.0;
+        public static final double INTEGRAL_WEIGHT = .2;
+        public static final double CONFIRMED_THRESHOLD = 0.5;
+        public static final double CONFIRMED_TIME = .25;        // Amount of seconds before it considers a target confirmed
+        public static final double INTEGRAL_LIMIT = 0.5; // TODO Check math and get an actual number
+        public static final double LIMELIGHT_ERROR_MAX = 29.5;
+        public static final double PERCENT_OUTPUT_LIMIT = .5;
+        public static final double TIMER_NOT_STARTED_VALUE = 0.0;
+        public static final double DEFAULT_LAUNCHER_RPM = 1200.0;
+        public static final double ERROR_INTEGRAL_DEFAULT = 0.0;
+        public static final double LAST_ERROR_DEFAULT = 0.0;
+    }
+
     public static final class SmoothControlConstants
     {
         public static final double K1 = 1.0d;
@@ -105,7 +127,7 @@ public class Constants
 
     public static final class LauncherConstants
     {
-        public static final int TARGET_RPM_READY_THRESHOLD = 150;
+        public static final double TARGET_RPM_READY_THRESHOLD = 12.5;
         public static final int DEFAULT_TARGET_RPM = 2400;
         public static final double CLOSED_LOOP_RAMPRATE = 0.5d;
         public static final int PID_SLOT_ID = 0; 
@@ -120,9 +142,11 @@ public class Constants
         public static final double GEAR_RATIO = 6.0d/5.0d;
         public static final int ENCODER_UNITS_PER_REVOLUTION = 2048;
         public static final double MINUTES_TO_DECISECONDS = 600.0d;
-        public static final int GREEN_ZONE_RPM = 2100;
-        public static final int YELLOW_ZONE_RPM = 2460;
-        public static final int BLUE_ZONE_RPM = 2200;
-        public static final int RED_ZONE_RPM = 2300;
+        public static final int GREEN_ZONE_RPM = 2150;  // TODO find actual values 
+        public static final int YELLOW_ZONE_RPM = 2200; // TODO find actual values 
+        public static final int BLUE_ZONE_RPM = 2100; // TODO find actual values 
+        public static final int RED_ZONE_RPM = 2160;  // TODO find actual values 
+        public static final double VOLTAGE_SATURATION = 12.0d;
+        public static final double RPM_OFFSET = 50.0;
     }
 }
