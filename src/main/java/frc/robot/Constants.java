@@ -86,7 +86,7 @@ public class Constants
         public static final double INTEGRAL_WEIGHT = .2;
         public static final double CONFIRMED_THRESHOLD = 0.5;
         public static final double CONFIRMED_TIME = .25;        // Amount of seconds before it considers a target confirmed
-        public static final double INTEGRAL_LIMIT = 0.5; // TODO Check math and get an actual number
+        public static final double INTEGRAL_LIMIT = 0.5; 
         public static final double LIMELIGHT_ERROR_MAX = 29.5;
         public static final double PERCENT_OUTPUT_LIMIT = .5;
         public static final double TIMER_NOT_STARTED_VALUE = 0.0;
@@ -142,10 +142,10 @@ public class Constants
         public static final double GEAR_RATIO = 6.0d/5.0d;
         public static final int ENCODER_UNITS_PER_REVOLUTION = 2048;
         public static final double MINUTES_TO_DECISECONDS = 600.0d;
-        public static final int GREEN_ZONE_RPM = 2150;  // TODO find actual values 
-        public static final int YELLOW_ZONE_RPM = 2200; // TODO find actual values 
-        public static final int BLUE_ZONE_RPM = 2100; // TODO find actual values 
-        public static final int RED_ZONE_RPM = 2160;  // TODO find actual values 
+        public static final int GREEN_ZONE_RPM = 2150;   
+        public static final int YELLOW_ZONE_RPM = 2200;  
+        public static final int BLUE_ZONE_RPM = 2100;  
+        public static final int RED_ZONE_RPM = 2160;  
         public static final double VOLTAGE_SATURATION = 12.0d;
         public static final double RPM_OFFSET = 50.0;
     }
