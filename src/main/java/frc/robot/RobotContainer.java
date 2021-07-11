@@ -159,12 +159,9 @@ public class RobotContainer
 
 
 
-        m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
-        m_chooser.addOption("3x3 Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath));
-        m_chooser.addOption("Slalom Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, slalomPath));
-        m_chooser.addOption("Bounce Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, bouncePath));
-        m_chooser.addOption("Barrel Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, barrelPath));
-        m_chooser.addOption("Test Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, testPath));
+        m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath, m_feeder, m_launcher, m_ballPickup));
+        m_chooser.addOption("3x3 Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, threeByThreeBoxPath, m_feeder, m_launcher, m_ballPickup));
+        m_chooser.addOption("Test Autonav", new AutonomousCommand(m_drivetrain, m_kinematics, testPath, m_feeder, m_launcher, m_ballPickup));
 
         //Setting default command for drivetrain as VelocityDrive
         m_drivetrain.setDefaultCommand(new ArcadeDrive( m_drivetrain, xboxController));
