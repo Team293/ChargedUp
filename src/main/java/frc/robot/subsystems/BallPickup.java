@@ -61,7 +61,7 @@ public class BallPickup extends SubsystemBase
     // here. Call these from Commands.
     public void geckoOn()
     {
-        geckoMotor.set(0.6);
+        geckoMotor.set(1);
     }
 
     public void geckoPivotDown()
