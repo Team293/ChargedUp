@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
  *
@@ -66,12 +67,13 @@ public class BallPickup extends SubsystemBase
 
     public void geckoPivotDown()
     {
-        //pivotPiston.set(Value.kForward);
+        pivotPiston.set(Value.kForward);
     }
 
     public void geckoToggleOff()
     {
-        //pivotPiston.set(Value.kReverse);
+        pivotPiston.set(Value.kReverse);
         geckoMotor.set(0);
+        pivotPiston.get();
     }
 }

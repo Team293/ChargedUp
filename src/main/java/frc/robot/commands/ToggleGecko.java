@@ -78,7 +78,7 @@ public class ToggleGecko extends CommandBase
     @Override
     public boolean isFinished() 
     {
-        return false;
+        return false; 
     }
 
     @Override
