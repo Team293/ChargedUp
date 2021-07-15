@@ -55,7 +55,7 @@ public class AutonomousCommand extends CommandBase
     private BallPickup m_ballPickup;
     private Launcher m_launcher;
 
-    private List<TargetPosition2D> m_targetPath;
+    private List<TargetPosition2D> m_targetPath = new ArrayList<TargetPosition2D>();
     private TargetPosition2D m_targetPose;
     private int m_targetPathIndex;
     private boolean m_needsToInititalize;
