@@ -55,15 +55,7 @@ public class Fire extends CommandBase
         //Check if launcher is ready
         if (m_launcher.isReady())
         {
-            //Feed!
-            m_feeder.beltOn();
-            m_feeder.feedOn();
-        }
-        else
-        {
-            //Not ready! Don't Feed!
-            m_feeder.feedOff();
-    	    m_feeder.beltOff();
+            m_feeder.fire();
         }
     }
 
@@ -71,8 +63,7 @@ public class Fire extends CommandBase
     @Override
     public void end(boolean interrupted) 
     {
-        m_feeder.feedOff();
-    	m_feeder.beltOff();
+        m_feeder.off();
     }
 
     // Returns true when the command should end.

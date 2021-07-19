@@ -55,8 +55,7 @@ public class GeckoUp extends CommandBase
     public void execute() 
     {
 		m_ballPickup.geckoToggleOff();
-		m_feeder.feedOff();
-		m_feeder.beltOff();
+		m_feeder.off();
     }
 
     // Called once the command ends or is interrupted.

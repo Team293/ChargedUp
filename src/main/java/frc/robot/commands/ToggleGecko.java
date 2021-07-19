@@ -49,13 +49,13 @@ public class ToggleGecko extends CommandBase
     {
     	m_ballPickup.geckoPivotDown();
         m_ballPickup.geckoOn();
+        m_feeder.ingest();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() 
-    {
-    	m_feeder.smartBelt();
+    {	
     }
 
     // Called once the command ends or is interrupted.
@@ -69,8 +69,7 @@ public class ToggleGecko extends CommandBase
         if(!interrupted)
         {
             //Since not interrupted, turn off feeder and belt 
-            m_feeder.beltOff();
-            m_feeder.feedOff();
+            m_feeder.off();
         }
     }
 
