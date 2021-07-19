@@ -167,7 +167,7 @@ public class AutonomousCommand extends CommandBase
                 
                 //Turn off launcher and feed motors
                 m_launcher.stop();
-                m_feeder.off();
+                //m_feeder.off();
                 
                 //Move to next state
                 m_state = AutoStates.START_PICKUP;
