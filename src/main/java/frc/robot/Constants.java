@@ -149,7 +149,7 @@ public class Constants
         public static final double GEAR_RATIO = 6.0d/5.0d;
         public static final int ENCODER_UNITS_PER_REVOLUTION = 2048;
         public static final double MINUTES_TO_DECISECONDS = 600.0d;
-        public static final int GREEN_ZONE_RPM = 2150;   
+        public static final int GREEN_ZONE_RPM = 2300;   
         public static final int YELLOW_ZONE_RPM = 2200;  
         public static final int BLUE_ZONE_RPM = 2100;  
         public static final int RED_ZONE_RPM = 2160;  

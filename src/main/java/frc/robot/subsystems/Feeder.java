@@ -100,7 +100,7 @@ public class Feeder extends SubsystemBase
     {
         feederMotor.set(1);
     }
-    
+
     private void feedOff()
     {
         feederMotor.set(0);
