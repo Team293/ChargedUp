@@ -39,9 +39,7 @@ public class AutonomousCommand extends CommandBase
     private Drivetrain m_drivetrain;
 
     private List<TargetPosition2D> m_targetPath;
-    private ListIterator<TargetPosition2D> m_targetPathIterator;
     private TargetPosition2D m_targetPose;
-    private double m_targetVelocity;
     private int m_targetPathIndex;
     private boolean m_needsToInititalize;
 
