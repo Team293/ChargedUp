@@ -69,17 +69,15 @@ public class BallPickup extends SubsystemBase
                 break;
             case GECKO_OFF:
                 geckoToggleOff();
-                m_feeder.beltOff();
-                m_feeder.feedOff(); 
+                m_feeder.off(); 
                 m_state = BallPickupState.IDLE_OFF;
                 break;
             case GECKO_ON:
                 geckoToggleOn();
-                m_feeder.smartBelt();
+                m_feeder.ingest();
                 m_state = BallPickupState.IDLE_ON; 
                 break;
             case IDLE_ON:
-            m_feeder.smartBelt();
                 break;
             default:
                 break;

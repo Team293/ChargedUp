@@ -174,7 +174,7 @@ public class AutonomousCommand extends CommandBase
                 break;
             case START_PICKUP:
                 //Put down and spin pick up
-                m_ballPickup.geckoOn();
+                m_ballPickup.geckoToggle();
                 m_feeder.ingest();
                 
                 m_state = AutoStates.PICKUP_BALLS;
@@ -233,7 +233,7 @@ public class AutonomousCommand extends CommandBase
 
                 break;
             case STOP_PICKUP:
-                m_ballPickup.geckoToggleOff();
+                m_ballPickup.geckoToggle();
                 m_feeder.off();
                 
                 //Setting up for next path
