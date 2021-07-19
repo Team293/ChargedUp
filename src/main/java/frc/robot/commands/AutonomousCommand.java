@@ -107,7 +107,7 @@ public class AutonomousCommand extends CommandBase
                 m_ballPath.add(new TargetPosition2D(0, 0, Math.toRadians(0),1.0d));
                 m_ballPath.add(new TargetPosition2D(10, 0, Math.toRadians(0),-1.0d));
 
-                m_targetPath.add(new TargetPosition2D(0, 0, Math.toRadians(0), -1.0d));
+                m_targetPath.add(new TargetPosition2D(0, 0, Math.toRadians(180), -1.0d));
                 break;
             default:
                 break;

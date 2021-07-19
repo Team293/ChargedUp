@@ -56,7 +56,7 @@ public class BallPickup extends SubsystemBase
         geckoMotor.setInverted(false);
 
         m_feeder = feeder;
-        m_state = BallPickupState.IDLE_OFF;
+        m_state = BallPickupState.GECKO_OFF;
     }
 
     @Override
@@ -69,12 +69,10 @@ public class BallPickup extends SubsystemBase
                 break;
             case GECKO_OFF:
                 geckoToggleOff();
-                m_feeder.off(); 
                 m_state = BallPickupState.IDLE_OFF;
                 break;
             case GECKO_ON:
                 geckoToggleOn();
-                m_feeder.ingest();
                 m_state = BallPickupState.IDLE_ON; 
                 break;
             case IDLE_ON:
