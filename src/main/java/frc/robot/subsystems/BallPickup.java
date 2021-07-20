@@ -107,7 +107,7 @@ public class BallPickup extends SubsystemBase
     private void geckoToggleOn()
     {
         m_pivotPiston.set(Value.kForward);
-        geckoMotor.set(1);
+        geckoMotor.set(0.65);
     }
 
     private void geckoToggleOff()
