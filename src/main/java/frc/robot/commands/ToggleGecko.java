@@ -42,7 +42,15 @@ public class ToggleGecko extends CommandBase
     @Override
     public void initialize() 
     {
-        m_ballPickup.geckoToggle();     
+        if(true == m_ballPickup.isGeckoOn())
+        {
+            m_ballPickup.geckoToggle(false);  
+        }
+        else
+        {
+            m_ballPickup.geckoToggle(true);  
+        }
+          
     }
 
     // Called every time the scheduler runs while the command is scheduled.
