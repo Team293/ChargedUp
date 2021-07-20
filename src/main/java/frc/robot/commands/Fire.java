@@ -55,7 +55,7 @@ public class Fire extends CommandBase
         //Check if launcher is ready
         if (m_launcher.isReady())
         {
-            m_feeder.fire();
+            m_feeder.fire(true);
         }
     }
 
@@ -63,7 +63,7 @@ public class Fire extends CommandBase
     @Override
     public void end(boolean interrupted) 
     {
-        m_feeder.off();
+        m_feeder.fire(false);
     }
 
     // Returns true when the command should end.

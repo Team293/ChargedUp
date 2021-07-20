@@ -160,14 +160,14 @@ public class AutonomousCommand extends CommandBase
                 }
                 
                 //Launcher is at speed FIRE!
-                m_feeder.fire();
+                m_feeder.fire(true);
                 
                 //Wait to shoot all balls out
                 Timer.delay(3); 
                 
                 //Turn off launcher and feed motors
                 m_launcher.stop();
-                //m_feeder.off();
+                m_feeder.fire(false);
                 
                 //Move to next state
                 m_state = AutoStates.START_PICKUP;
@@ -175,7 +175,6 @@ public class AutonomousCommand extends CommandBase
             case START_PICKUP:
                 //Put down and spin pick up
                 m_ballPickup.geckoToggle();
-                m_feeder.ingest();
                 
                 m_state = AutoStates.PICKUP_BALLS;
                 break;
@@ -234,7 +233,7 @@ public class AutonomousCommand extends CommandBase
                 break;
             case STOP_PICKUP:
                 m_ballPickup.geckoToggle();
-                m_feeder.off();
+                m_feeder.fire(false);
                 
                 //Setting up for next path
                 m_targetPath.add(0, new TargetPosition2D(m_kinematics.getPose().getX(), m_kinematics.getPose().getY(), m_kinematics.getPose().getHeadingRadians(), -1.0d));
@@ -307,14 +306,14 @@ public class AutonomousCommand extends CommandBase
                 }
                 
                 //Launcher is at speed FIRE!
-                m_feeder.fire();
+                m_feeder.fire(true);
                 
                 //Wait to shoot all balls out
                 Timer.delay(3);
                 
                 //Turn off launcher and feed motors
                 m_launcher.stop();
-                m_feeder.off();
+                m_feeder.fire(false);
                 
                 m_isDone = true;
                 break;
