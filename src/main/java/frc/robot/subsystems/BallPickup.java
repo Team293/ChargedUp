@@ -95,7 +95,6 @@ public class BallPickup extends SubsystemBase
         boolean enabled = false;
         if((BallPickupState.GECKO_ON == m_state) || (BallPickupState.IDLE_ON == m_state))
         {
-
             enabled = true;
         }
 

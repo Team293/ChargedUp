@@ -311,19 +311,19 @@ public class AutonomousCommand extends CommandBase
 
                 case END_SHOOT:
                     //Spin launcher up
-                m_launcher.setRpm(AUTO_LAUNCHER_RPM);
-                //Fire balls and wait 4 sec
-                while(false == m_launcher.isReady())
-                {
-                    //Waiting for the shooter to get up to speed    
-                }
-                
-                //Launcher is at speed FIRE!
-                m_feeder.fire(true);
+                    m_launcher.setRpm(AUTO_LAUNCHER_RPM);
+                    //Fire balls and wait 4 sec
+                    while(false == m_launcher.isReady())
+                    {
+                        //Waiting for the shooter to get up to speed    
+                    }
+                    
+                    //Launcher is at speed FIRE!
+                    m_feeder.fire(true);
 
-                //Set state to waiting
-                m_state = AutoStates.WAIT_END_SHOOT;
-                break;
+                    //Set state to waiting
+                    m_state = AutoStates.WAIT_END_SHOOT;
+                    break;
             case WAIT_END_SHOOT:
                 //Have we waited for 3 seconds?
                 if(hasTimeElapsed(m_timer, 3.0))
