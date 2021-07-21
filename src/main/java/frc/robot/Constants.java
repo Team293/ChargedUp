@@ -107,6 +107,13 @@ public class Constants
         public static final double STARTING_X = 0.0d;
         public static final double STARTING_Y = 0.0d;
         public static final double STARTING_HEADING = Math.toRadians(0.0d);
+        public static final int AUTO_LAUNCHER_RPM = 2160;
+        public static enum startPosition //Positions relative to location of driver station
+        {
+            LEFT,
+            MIDDLE,
+            RIGHT
+        }
     }
 
     public static final class ButtonMappingConstants

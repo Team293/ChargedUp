@@ -69,17 +69,15 @@ public class BallPickup extends SubsystemBase
                 break;
             case GECKO_OFF:
                 geckoToggleOff();
-                m_feeder.beltOff();
-                m_feeder.feedOff(); 
+                m_feeder.ingest(false); 
                 m_state = BallPickupState.IDLE_OFF;
                 break;
             case GECKO_ON:
                 geckoToggleOn();
-                m_feeder.smartBelt();
+                m_feeder.ingest(true);
                 m_state = BallPickupState.IDLE_ON; 
                 break;
             case IDLE_ON:
-            m_feeder.smartBelt();
                 break;
             default:
                 break;
@@ -92,13 +90,24 @@ public class BallPickup extends SubsystemBase
         // This method will be called once per scheduler run when in simulation
     }
 
-    public void geckoToggle()
+    public boolean isGeckoOn()
     {
+        boolean enabled = false;
         if((BallPickupState.GECKO_ON == m_state) || (BallPickupState.IDLE_ON == m_state))
+        {
+            enabled = true;
+        }
+
+        return enabled;
+    }
+
+    public void geckoToggle(boolean enabled)
+    {
+        if(false == enabled)
         {
             m_state = BallPickupState.GECKO_OFF;
         }
-        else if((BallPickupState.GECKO_OFF == m_state) || (BallPickupState.IDLE_OFF == m_state))
+        else
         {
             m_state = BallPickupState.GECKO_ON;
         }
@@ -109,7 +118,7 @@ public class BallPickup extends SubsystemBase
     private void geckoToggleOn()
     {
         m_pivotPiston.set(Value.kForward);
-        geckoMotor.set(1);
+        geckoMotor.set(0.65);
     }
 
     private void geckoToggleOff()

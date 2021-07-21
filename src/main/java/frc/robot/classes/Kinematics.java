@@ -116,4 +116,28 @@ public class Kinematics
 
     return retval;
   }
+
+  public double distanceFromPose(Position2D checkpoint)
+  {
+    double x1 = m_currentPose.getX();
+    double y1 = m_currentPose.getY();
+    double x2 = checkpoint.getX();
+    double y2 = checkpoint.getY();
+    double distance = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+
+    return distance;
+  }
+
+  public boolean atPose(Position2D checkpoint, double threshold)
+  {
+    double distanceFromPose = distanceFromPose(checkpoint);
+    if(distanceFromPose <= threshold)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
 }
