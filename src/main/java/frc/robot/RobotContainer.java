@@ -135,7 +135,7 @@ public class RobotContainer
         xboxTargetBtn.whileHeld(new LocateTarget(m_drivetrain, m_targeting));
          
         //Wheel Spin Up Mapping
-        final JoystickButton blueZoneBtn = new JoystickButton(operatorController, XboxController.Button.kY.value); // button needs to be swithced
+        final JoystickButton blueZoneBtn = new JoystickButton(operatorController, XboxController.Button.kY.value);
         blueZoneBtn.whenPressed(new SetBlueZone(m_launcherController));
 
         final JoystickButton greenZoneBtn = new JoystickButton(operatorController, XboxController.Button.kB.value);
@@ -144,11 +144,11 @@ public class RobotContainer
         
         //Pickup Feeder Mapping
          //Raise the launcher piston
-         final POVButton dpadUpButton = new POVButton(operatorController, 0); // needs to be tested
+         final POVButton dpadUpButton = new POVButton(operatorController, 0);
          dpadUpButton.whenPressed(new ExtendClimber(m_climb));
  
          //Lower the launcher piston
-         final POVButton dpadDownButton = new POVButton(operatorController, 180); // needs to be tested
+         final POVButton dpadDownButton = new POVButton(operatorController, 180);
          dpadDownButton.whenPressed(new RetractClimber(m_climb));
 
         //toggle BallPickup and Gecko

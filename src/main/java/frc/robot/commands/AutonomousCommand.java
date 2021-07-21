@@ -92,6 +92,7 @@ public class AutonomousCommand extends CommandBase
         m_targetPathIndex = 0;
         addRequirements(m_drivetrain);
 
+        //Initialize the timer
         m_timer = new Timer();
         m_timer.reset();
         m_timer.stop();
@@ -169,17 +170,12 @@ public class AutonomousCommand extends CommandBase
                 //Launcher is at speed FIRE!
                 m_feeder.fire(true);
 
-                //Start timer and set state to wait
-                m_timer.start();
                 m_state = AutoStates.WAIT_FIRST_SHOOT;
                 break;
             case WAIT_FIRST_SHOOT:
-                if(3 <= m_timer.get())
+                //Have we waited for 3 seconds?
+                if(hasTimeElapsed(m_timer, 3.0))
                 {
-                    //Stop and reset the timer
-                    m_timer.stop();
-                    m_timer.reset();
-
                     //Turn off launcher and feed motors
                     m_launcher.stop();
                     m_feeder.fire(false);
@@ -325,19 +321,13 @@ public class AutonomousCommand extends CommandBase
                 //Launcher is at speed FIRE!
                 m_feeder.fire(true);
 
-                //Start the timer
-                m_timer.start();
-
                 //Set state to waiting
                 m_state = AutoStates.WAIT_END_SHOOT;
                 break;
             case WAIT_END_SHOOT:
-                if(3 <= m_timer.get())
+                //Have we waited for 3 seconds?
+                if(hasTimeElapsed(m_timer, 3.0))
                 {
-                    //Stop and reset the timer
-                    m_timer.stop();
-                    m_timer.reset();
-                    
                     //Turn off launcher and feed motors
                     m_launcher.stop();
                     m_feeder.fire(false);
@@ -349,6 +339,23 @@ public class AutonomousCommand extends CommandBase
                 //No valid state was set
                 break;
         } 
+    }
+
+    // Handles whether or not enough time has elapsed
+    // Requires that the timer has been reset the first time this is called
+    // Will not work properly if the timer is manipulated outside of this function!
+    private boolean hasTimeElapsed(Timer timer, double secondsToWait)
+    {
+        boolean isDone = false;
+
+        timer.start(); //No-op if this timer is already running
+        if(secondsToWait <= m_timer.get())
+        {
+            timer.reset();
+            isDone = true;
+        }
+
+        return isDone;
     }
 
     // Called once the command ends or is interrupted.
