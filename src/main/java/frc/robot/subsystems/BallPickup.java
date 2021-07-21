@@ -93,8 +93,9 @@ public class BallPickup extends SubsystemBase
     public boolean isGeckoOn()
     {
         boolean enabled = false;
-        if((BallPickupState.GECKO_OFF == m_state) || (BallPickupState.IDLE_OFF == m_state))
+        if((BallPickupState.GECKO_ON == m_state) || (BallPickupState.IDLE_ON == m_state))
         {
+
             enabled = true;
         }
 
@@ -118,7 +119,7 @@ public class BallPickup extends SubsystemBase
     private void geckoToggleOn()
     {
         m_pivotPiston.set(Value.kForward);
-        geckoMotor.set(1);
+        geckoMotor.set(0.65);
     }
 
     private void geckoToggleOff()
