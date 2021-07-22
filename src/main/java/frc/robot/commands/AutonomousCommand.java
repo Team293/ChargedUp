@@ -55,7 +55,7 @@ public class AutonomousCommand extends CommandBase
         STOP_PICKUP,
         DRIVE_TO_TARGET,
         END_SHOOT,
-        WAIT_END_SHOOT, TEST_MOVE_1, TEST_MOVE_2,
+        WAIT_END_SHOOT,
     }
 
     private boolean m_isDone = false;
@@ -189,8 +189,7 @@ public class AutonomousCommand extends CommandBase
                 m_ballPickup.geckoToggle(true);
                 m_feeder.ingest(true);
                 
-                // m_state = AutoStates.PICKUP_BALLS;
-                m_state = AutoStates.TEST_MOVE_1;
+                m_state = AutoStates.PICKUP_BALLS;
                 break;
             case PICKUP_BALLS:
                 //Start auto nav drive routine
@@ -250,11 +249,10 @@ public class AutonomousCommand extends CommandBase
                 m_feeder.ingest(false);
                 
                 //Setting up for next path
-                // m_targetPath.add(0, new TargetPosition2D(m_kinematics.getPose().getX(), m_kinematics.getPose().getY(), m_kinematics.getPose().getHeadingRadians(), -1.0d));
-                // m_targetPathIndex = 1;
-                // m_targetPose = m_targetPath.get(m_targetPathIndex);
-                // m_state = AutoStates.DRIVE_TO_TARGET;
-                m_state = AutoStates.TEST_MOVE_2;
+                m_targetPath.add(0, new TargetPosition2D(m_kinematics.getPose().getX(), m_kinematics.getPose().getY(), m_kinematics.getPose().getHeadingRadians(), -1.0d));
+                m_targetPathIndex = 1;
+                m_targetPose = m_targetPath.get(m_targetPathIndex);
+                m_state = AutoStates.DRIVE_TO_TARGET;
                 
                 break;
             case DRIVE_TO_TARGET:
@@ -335,18 +333,6 @@ public class AutonomousCommand extends CommandBase
                     m_feeder.fire(false);
 
                     m_isDone = true;
-                }
-                break;
-            case TEST_MOVE_1:
-                if(hasTimeElapsed(m_timer, 4.0))
-                {
-                    m_state = AutoStates.STOP_PICKUP;
-                }
-                break;
-            case TEST_MOVE_2:
-                if(hasTimeElapsed(m_timer, 4.0))
-                {
-                    m_state = AutoStates.END_SHOOT;
                 }
                 break;
             default:
