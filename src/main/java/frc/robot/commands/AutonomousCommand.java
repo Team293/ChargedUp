@@ -351,6 +351,7 @@ public class AutonomousCommand extends CommandBase
         timer.start(); //No-op if this timer is already running
         if(secondsToWait <= m_timer.get())
         {
+            timer.stop();
             timer.reset();
             isDone = true;
         }
