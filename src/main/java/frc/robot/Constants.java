@@ -51,7 +51,7 @@ public class Constants
         public static final double CLOSED_LOOP_RAMP = 0.5;
         public static final double MAX_VELOCITY = 21549;
         
-        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.36;
+        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.6;
         public static final double DEFAULT_MAX_TURNING_SPEED = 0.5d;
         public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25d;
         public static final int LEFT_LEAD_TALON_CAN_ID = 0;
@@ -103,7 +103,7 @@ public class Constants
 
     public static final class AutonomousCommandConstants
     {
-        public static final double TARGET_WITHIN_RANGE_FEET = DrivetrainConstants.TRACK_WIDTH_FEET/8.0d; //Half track width
+        public static final double TARGET_WITHIN_RANGE_FEET = DrivetrainConstants.TRACK_WIDTH_FEET/4.0d; //quarter of trackwidth
         public static final double STARTING_X = 0.0d;
         public static final double STARTING_Y = 0.0d;
         public static final double STARTING_HEADING = Math.toRadians(0.0d);
