@@ -48,7 +48,7 @@ public class Launcher extends SubsystemBase
         m_launcherMotor.config_kP(PID_SLOT_ID, KP, PID_CONFIG_TIMEOUT_MS);
         m_launcherMotor.config_kI(PID_SLOT_ID, KI, PID_CONFIG_TIMEOUT_MS);
         m_launcherMotor.config_kD(PID_SLOT_ID, KD, PID_CONFIG_TIMEOUT_MS);
-        m_launcherMotor.setInverted(true);
+        m_launcherMotor.setInverted(false);
         m_launcherMotor.configClosedloopRamp(CLOSED_LOOP_RAMPRATE);
         m_launcherMotor.enableVoltageCompensation(true);
         m_launcherMotor.configVoltageCompSaturation(VOLTAGE_SATURATION);
