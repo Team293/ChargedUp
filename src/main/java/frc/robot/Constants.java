@@ -156,4 +156,12 @@ public class Constants
         public static final double VOLTAGE_SATURATION = 12.0d;
         public static final double RPM_OFFSET = 50.0;
     }
+    
+    public static final class ClimberConstants
+    {
+        public static final int LOW_PRESSURE_RETRACTION_SOLENOID = 4;
+        public static final int HIGH_PRESSURE_RETRACTION_SOLENOID = 2;
+        public static final int LOW_PRESSURE_EXTENSION_SOLENOID = 5;
+        public static final int HIGH_PRESSURE_EXTENSION_SOLENOID = 3;
+    }
 }
