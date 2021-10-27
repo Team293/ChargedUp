@@ -49,7 +49,7 @@ public class AutonomousCommand extends CommandBase
     private enum AutoStates
     {
         START_SHOOT,
-        SHOOT,
+        STOP_SHOOT,
         START_PICKUP,
         PICKUP_BALLS,
         STOP_PICKUP,
@@ -112,7 +112,7 @@ public class AutonomousCommand extends CommandBase
             case LEFT:
                 //Straight line path for left side
                 m_ballPath.add(new TargetPosition2D(0, 0, Math.toRadians(0),1.0d));
-                m_ballPath.add(new TargetPosition2D(11, 0, Math.toRadians(0),1.0d));
+                m_ballPath.add(new TargetPosition2D(6, 0, Math.toRadians(0),0.0d));
 
                 m_stateList.add(AutoStates.START_PICKUP);
                 m_stateList.add(AutoStates.PICKUP_BALLS);
@@ -126,19 +126,19 @@ public class AutonomousCommand extends CommandBase
                 break;
             case RIGHT:
                 m_ballPath.add(new TargetPosition2D(0, 0, Math.toRadians(0),1.0d));
-                m_ballPath.add(new TargetPosition2D(10, 0, Math.toRadians(0),-1.0d));
+                m_ballPath.add(new TargetPosition2D(20, 0, Math.toRadians(0),-1.0d));
 
                 m_targetPath.add(new TargetPosition2D(0, 0, Math.toRadians(180), -1.0d));
                 
                 //setting list of states to go through
                 m_stateList.add(AutoStates.START_SHOOT);
-                m_stateList.add(AutoStates.SHOOT);
+                m_stateList.add(AutoStates.STOP_SHOOT);
                 m_stateList.add(AutoStates.START_PICKUP);
                 m_stateList.add(AutoStates.PICKUP_BALLS);
                 m_stateList.add(AutoStates.STOP_PICKUP);
                 m_stateList.add(AutoStates.DRIVE_TO_TARGET);
                 m_stateList.add(AutoStates.START_SHOOT);
-                m_stateList.add(AutoStates.SHOOT);
+                m_stateList.add(AutoStates.STOP_SHOOT);
                 break;
             default:
                 break;
@@ -170,6 +170,7 @@ public class AutonomousCommand extends CommandBase
             System.out.println("AutonomousCommand ERROR: target path does not contain 2 or more points!");
             m_isDone = true;
         }
+        m_state = m_stateList.get(m_stateIndex);
     }
     
     // Called every time the scheduler runs while the command is scheduled.
@@ -192,9 +193,10 @@ public class AutonomousCommand extends CommandBase
                 
                 //Launcher is at speed FIRE!
                 m_feeder.fire(true);
+                setNextState();
 
                 break;
-            case SHOOT:
+            case STOP_SHOOT:
                 //Have we waited for 3 seconds?
                 if(hasTimeElapsed(m_timer, 3.0))
                 {
@@ -202,12 +204,14 @@ public class AutonomousCommand extends CommandBase
                     m_launcher.stop();
                     m_feeder.fire(false);
                 }
+                setNextState();
 
                 break;
             case START_PICKUP:
                 //Put down and spin pick up
                 m_ballPickup.geckoToggle(true);
                 m_feeder.ingest(true);
+                setNextState();
                 break;
             case PICKUP_BALLS:
                 //Start auto nav drive routine
@@ -252,6 +256,7 @@ public class AutonomousCommand extends CommandBase
                         System.out.println("Autonav done.");
                         SmartDashboard.putBoolean("AutoDone", true);
                         m_drivetrain.stop();        //Stop all motors  
+                        setNextState();
                     }
                     else
                     {
@@ -269,6 +274,7 @@ public class AutonomousCommand extends CommandBase
                 m_targetPath.add(0, new TargetPosition2D(m_kinematics.getPose().getX(), m_kinematics.getPose().getY(), m_kinematics.getPose().getHeadingRadians(), -1.0d));
                 m_targetPathIndex = 1;
                 m_targetPose = m_targetPath.get(m_targetPathIndex);
+                setNextState();
 
                 break;
             case DRIVE_TO_TARGET:
@@ -314,6 +320,7 @@ public class AutonomousCommand extends CommandBase
                         System.out.println("Autonav done.");
                         SmartDashboard.putBoolean("AutoDone", true);
                         m_drivetrain.stop();        //Stop all motors  
+                        setNextState();
                     }
                     else
                     {
@@ -333,7 +340,7 @@ public class AutonomousCommand extends CommandBase
         }
         
         //updating to next state
-        setNextState();
+        
     }
 
     // Handles whether or not enough time has elapsed
