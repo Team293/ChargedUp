@@ -109,7 +109,6 @@ public class LauncherController extends SubsystemBase
             m_launcherState = LauncherState.OFF;
             m_targeting.controlLight(false);
             m_launcher.stop();
-            
         }
         else
         {

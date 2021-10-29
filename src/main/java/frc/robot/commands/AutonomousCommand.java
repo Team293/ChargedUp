@@ -212,6 +212,7 @@ public class AutonomousCommand extends CommandBase
                 m_ballPickup.geckoToggle(true);
                 m_feeder.ingest(true);
                 setNextState();
+                
                 break;
             case PICKUP_BALLS:
                 //Start auto nav drive routine
@@ -338,9 +339,6 @@ public class AutonomousCommand extends CommandBase
                 System.out.println("AUTONOMOUS COMMAND ERROR: STATE WAS SET TO NOTHING");
                 break;
         }
-        
-        //updating to next state
-        
     }
 
     // Handles whether or not enough time has elapsed
