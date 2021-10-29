@@ -44,7 +44,7 @@ public class RobotContainer
     public final Feeder m_feeder = new Feeder();
     public final BallPickup m_ballPickup = new BallPickup(m_feeder);
     public final Launcher m_launcher = new Launcher();
-    public final LauncherController m_launcherController = new LauncherController(m_launcher);
+    public final LauncherController m_launcherController = new LauncherController(m_launcher, m_targeting);
     public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0,0.0,0.0));
     public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
 
@@ -131,8 +131,8 @@ public class RobotContainer
         
         xboxFireBtn.whileHeld(new Fire(m_feeder, m_launcher, m_launcherController));
 
-        final JoystickButton xboxTargetBtn = new JoystickButton(driveController, XboxController.Button.kBumperLeft.value);
-        xboxTargetBtn.whileHeld(new LocateTarget(m_drivetrain, m_targeting));
+        //final JoystickButton xboxTargetBtn = new JoystickButton(driveController, XboxController.Button.kBumperLeft.value);
+        //xboxTargetBtn.whileHeld(new LocateTarget(m_drivetrain, m_targeting));
          
         //Wheel Spin Up Mapping
         final JoystickButton blueZoneBtn = new JoystickButton(operatorController, XboxController.Button.kY.value);

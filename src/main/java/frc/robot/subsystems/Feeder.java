@@ -88,7 +88,7 @@ public class Feeder extends SubsystemBase
     // here. Call these from Commands.
 	private void feedOn()
     {
-        feederMotor.set(1);
+        feederMotor.set(0.8);
     }
 
     private void feedOff()
