@@ -1,3 +1,3 @@
-#SPIKE 293 Hopewell High School Robotics Team Rapid Reach Code
+#SPIKE 293 Hopewell High School Robotics Team Rapid ChargedUp Code
 
-This is the code used during the 2021-2022 seasion: Rapid React
+This is the code used during the 2022-2023 seasion: ChargedUp
