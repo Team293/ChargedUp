@@ -1,7 +1,9 @@
 package frc.robot.classes.spikemotor;
 
+import com.revrobotics.*;
+
 class SpikeMotorCANSparkMax extends SpikeMotor {
-	private CANSparkMax motor;
+    private CANSparkMax motor;
     private boolean isBrushed;
 
     public SpikeMotorCANSparkMax(boolean isBrushed) {
@@ -19,17 +21,17 @@ class SpikeMotorCANSparkMax extends SpikeMotor {
     }
 
     @Override
-	protected void setSpeedImpl(double speed) {
-		motor.set(speed);
-	}
+    protected void setSpeedImpl(double speed) {
+        motor.set(speed);
+    }
 
     @Override
-	protected double getSpeedImpl() {
-		return motor.get();
-	}
+    protected double getSpeedImpl() {
+        return motor.get();
+    }
 
     @Override
-	protected double getPositionImpl() {
-		return motor.getEncoder().getPosition();
-	}
+    protected double getPositionImpl() {
+        return motor.getEncoder().getPosition();
+    }
 }

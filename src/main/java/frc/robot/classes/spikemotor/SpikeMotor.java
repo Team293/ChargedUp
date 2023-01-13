@@ -14,7 +14,7 @@ abstract class SpikeMotor {
     * @throws                IllegalStateException if already initialized
     * @see                   #initImpl(int deviceNumber)
     */
-	public final void init(int deviceNumber) {
+    public final void init(int deviceNumber) {
         if (isInitialized)
             throw new IllegalStateException(
                 "Motor cannot be initialized twice"
@@ -91,7 +91,7 @@ abstract class SpikeMotor {
     * @throws         IllegalStateException if not initialized
     * @see            #setSpeed(double speed)
     */
-	abstract protected void setSpeedImpl(double speed);
+    abstract protected void setSpeedImpl(double speed);
 
     /**
     * The implementation of getSpeed.
@@ -100,7 +100,7 @@ abstract class SpikeMotor {
     * @throws    IllegalStateException if not initialized
     * @see       #getSpeed()
     */
-	abstract protected double getSpeedImpl();
+    abstract protected double getSpeedImpl();
 
     /**
     * The implementation of getPosition.
@@ -109,5 +109,5 @@ abstract class SpikeMotor {
     * @throws    IllegalStateException if not initialized
     * @see       #getPosition()
     */
-	abstract protected double getPositionImpl();
+    abstract protected double getPositionImpl();
 }
