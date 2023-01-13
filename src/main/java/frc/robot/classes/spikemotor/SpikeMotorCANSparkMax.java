@@ -1,0 +1,35 @@
+package frc.robot.classes.spikemotor;
+
+class SpikeMotorCANSparkMax extends SpikeMotor {
+	private CANSparkMax motor;
+    private boolean isBrushed;
+
+    public SpikeMotorCANSparkMax(boolean isBrushed) {
+        this.isBrushed = isBrushed;
+    }
+
+    @Override
+    protected void initImpl(int deviceNumber) {
+        motor = new CANSparkMax(
+            deviceNumber,
+            isBrushed ?
+                CANSparkMaxLowLevel.MotorType.kBrushed :
+                CANSparkMaxLowLevel.MotorType.kBrushless
+        );
+    }
+
+    @Override
+	protected void setSpeedImpl(double speed) {
+		motor.set(speed);
+	}
+
+    @Override
+	protected double getSpeedImpl() {
+		return motor.get();
+	}
+
+    @Override
+	protected double getPositionImpl() {
+		return motor.getEncoder().getPosition();
+	}
+}
