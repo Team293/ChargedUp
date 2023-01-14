@@ -24,9 +24,7 @@ abstract class SpikeMotor {
     }
 
     /**
-    * Sets the speed of the motor to the given value.
-    * The speed ranges from -1 (full speed backward)
-    * to 1 (full speed forward).
+    * Sets the speed of the motor to the given value in ft/s.
     *
     * @param speed    a double indicating the speed
     * @return         nothing
@@ -42,9 +40,7 @@ abstract class SpikeMotor {
     }
 
     /**
-    * Gets the speed of the motor.
-    * The speed ranges from -1 (full speed backward)
-    * to 1 (full speed forward).
+    * Gets the speed of the motor in ft/s.
     *
     * @return    a double indicating the speed
     * @throws    IllegalStateException if not initialized
@@ -59,8 +55,7 @@ abstract class SpikeMotor {
     }
 
     /**
-    * Gets the position of the motor, preferably using
-    * an encoder inside the motor.
+    * Gets the position of the motor in feet.
     *
     * @return    a double indicating the position
     * @throws    IllegalStateException if not initialized

@@ -12,16 +12,16 @@ class SpikeMotorTalonFX extends SpikeMotor {
 
     @Override
     protected void setSpeedImpl(double speed) {
-        motor.set(TalonFXControlMode.PercentOutput, speed);
+        motor.set(TalonFXControlMode.Velocity, speed * MAX_ENCODER_VELOCITY);
     }
 
     @Override
     protected double getSpeedImpl() {
-        return motor.getMotorOutputPercent();
+        return motor.getSelectedSensorVelocity() * WHEEL_CIRCUMFERENCE_FEET * DECISEC_TO_SECONDS / (GEARBOX_RATIO_TO_ONE * ENCODER_UNITS_PER_REVOLUTION);
     }
 
     @Override
     protected double getPositionImpl() {
-        return motor.getSelectedSensorPosition(0);
+        return motor.getSelectedSensorPosition(0) * WHEEL_CIRCUMFERENCE_FEET / (GEARBOX_RATIO_TO_ONE * ENCODER_UNITS_PER_REVOLUTION);
     }
 }

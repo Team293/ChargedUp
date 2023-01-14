@@ -27,11 +27,11 @@ class SpikeMotorCANSparkMax extends SpikeMotor {
 
     @Override
     protected double getSpeedImpl() {
-        return motor.get();
+        return motor.get(); // TODO: Update to get units in ft/sec
     }
 
     @Override
     protected double getPositionImpl() {
-        return motor.getEncoder().getPosition();
+        return motor.getEncoder().getPosition(); // TODO: Update to get units in feet
     }
 }
