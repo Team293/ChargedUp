@@ -6,22 +6,22 @@ class SpikeMotorTalonFX extends SpikeMotor {
     private TalonFX motor;
 
     @Override
-    public void initImpl(int deviceNumber) {
+    protected void initImpl(int deviceNumber) {
         motor = new TalonFX(deviceNumber);
     }
 
     @Override
-    public void setSpeedImpl(double speed) {
+    protected void setSpeedImpl(double speed) {
         motor.set(TalonFXControlMode.PercentOutput, speed);
     }
 
     @Override
-    public double getSpeedImpl() {
+    protected double getSpeedImpl() {
         return motor.getMotorOutputPercent();
     }
 
     @Override
-    public double getPositionImpl() {
+    protected double getPositionImpl() {
         return motor.getSelectedSensorPosition(0);
     }
 }
