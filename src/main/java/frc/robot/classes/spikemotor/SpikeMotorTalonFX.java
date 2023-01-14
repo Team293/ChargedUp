@@ -22,7 +22,6 @@ class SpikeMotorTalonFX extends SpikeMotor {
 
     @Override
     public double getPositionImpl() {
-        // todo
-        return 0.0;
+        return motor.getSelectedSensorPosition(0);
     }
 }
