@@ -2,20 +2,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.Targeting;
 
 public class TrackTarget extends CommandBase {
 
     private final Drivetrain m_drivetrain;
     private final Targeting m_targeting;
-    private final Launcher m_launcher;
 
-    public TrackTarget(Drivetrain drivetrain, Targeting targeting, Launcher launcher) {
+    public TrackTarget(Drivetrain drivetrain, Targeting targeting) {
         m_drivetrain = drivetrain;
         m_targeting = targeting;
-        m_launcher = launcher;
-        addRequirements(m_drivetrain, m_launcher);
+        addRequirements(m_drivetrain);
     }
 
     // Called when the command is initially scheduled.
@@ -28,7 +25,6 @@ public class TrackTarget extends CommandBase {
     public void execute() {
         m_targeting.controlLight(true);
         m_drivetrain.rotateDegrees(m_targeting.getAngleToTargetDegrees());
-        m_launcher.setRpm(m_targeting.calcShooterRPM());
     }
 
     // Called once the command ends or is interrupted.

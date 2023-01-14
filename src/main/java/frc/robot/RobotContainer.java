@@ -32,9 +32,6 @@ public class RobotContainer {
   public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0, 0.0, 0.0));
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
-  public final Launcher m_launcher = new Launcher();
-  public final Feeder m_feeder = new Feeder();
-  public final Climb m_climb = new Climb();
   public final WriteToCSV m_logger = new WriteToCSV();
 
   // Joysticks
@@ -53,7 +50,6 @@ public class RobotContainer {
 
     // Setting default command for drivetrain as VelocityDrive
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_driverXboxController));
-    m_feeder.setDefaultCommand(new BallControl(m_feeder));
   }
 
   public static RobotContainer getInstance() {
@@ -70,37 +66,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Create some buttons
-    final JoystickButton xboxFeedBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kRightBumper.value);
-    xboxFeedBtn.whileHeld(new Fire(m_feeder, m_launcher, m_targeting, m_logger));
 
     final JoystickButton xboxTargetBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kLeftBumper.value);
-    xboxTargetBtn.whileHeld(new TrackTarget(m_drivetrain, m_targeting, m_launcher));
-
-    // Raise the launcher piston
-    final POVButton dpadUpButton = new POVButton(m_operatorXboxController, 0);
-    dpadUpButton.whenPressed(new ExtendClimb(m_climb));
-
-    // Lower the launcher piston
-    final POVButton dpadDownButton = new POVButton(m_operatorXboxController, 180);
-    dpadDownButton.whenPressed(new RetractClimb(m_climb));
+    xboxTargetBtn.whileHeld(new TrackTarget(m_drivetrain, m_targeting));
 
     final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
     xboxRotate180Btn.whenPressed(new Rotate(m_drivetrain, 180.0));
-
-    final JoystickButton forceDump = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kX.value);
-    forceDump.whileHeld(new Fire(m_feeder, m_launcher, m_targeting,  m_logger, 2000.0d));
-
-    final JoystickButton eject = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kB.value);
-    eject.whileHeld(new Eject(m_feeder));
-
-    final JoystickButton badBallDump = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kY.value);
-    badBallDump.whileHeld(new Fire(m_feeder, m_launcher, m_targeting,  m_logger, 1000.0d)); /////BJM Why do we have this?
   }
 
   /**
@@ -141,7 +114,7 @@ public class RobotContainer {
     if (StartPositions.INVALID == startingPosition) {
       System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
     } else {
-      autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_feeder, m_targeting, m_launcher,
+      autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_targeting,
           startingPosition, m_logger);
     }
 
