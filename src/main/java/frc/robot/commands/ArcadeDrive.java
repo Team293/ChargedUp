@@ -11,10 +11,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
+import edu.wpi.first.math.MathUtil;
 import static frc.robot.Constants.DrivetrainConstants.*;
 import frc.robot.classes.SPIKE293Utils;
 
@@ -95,7 +94,7 @@ public class ArcadeDrive extends CommandBase
         SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
 
         //Get turning. Note that the controls are inverted!        
-        turning = m_xboxcontroller.getX(Hand.kLeft) * -1.0d;
+        turning = m_xboxcontroller.getLeftX() * -1.0d;
 
         //Checks if joystick value is higher or lower than deadband value
         turning = SPIKE293Utils.applyDeadband(turning, m_arcadeDeadband);
@@ -104,9 +103,9 @@ public class ArcadeDrive extends CommandBase
         if(m_forzaEnabled)
         {
             //Get trigger values
-            triggerRight = m_xboxcontroller.getTriggerAxis(Hand.kRight);
+            triggerRight = m_xboxcontroller.getRightTriggerAxis();
             triggerRight = SPIKE293Utils.applyDeadband(triggerRight, m_forzaDeadband);
-            triggerLeft = m_xboxcontroller.getTriggerAxis(Hand.kLeft);
+            triggerLeft = m_xboxcontroller.getLeftTriggerAxis();
             triggerLeft = SPIKE293Utils.applyDeadband(triggerLeft, m_forzaDeadband);
 
             if(triggerRight >= triggerLeft)
@@ -123,7 +122,7 @@ public class ArcadeDrive extends CommandBase
         else
         {
             //Use the stick, note that the joystick is inverted, -1 is up, 1 is down
-            speed = m_xboxcontroller.getY(Hand.kLeft) * -1.0d;
+            speed = m_xboxcontroller.getLeftY() * -1.0d;
             speed = SPIKE293Utils.applyDeadband(speed, m_arcadeDeadband);
         }
 
