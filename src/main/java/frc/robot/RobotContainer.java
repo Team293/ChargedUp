@@ -10,10 +10,10 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /**
@@ -32,7 +32,8 @@ public class RobotContainer {
   public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0, 0.0, 0.0));
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
-  public final WriteToCSV m_logger = new WriteToCSV();
+  public final GrippyGravityClaw m_claw = new GrippyGravityClaw();
+  // public final WriteToCSV m_logger = new WriteToCSV();
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
@@ -66,14 +67,20 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Create some buttons
+    final POVButton dpadUpButton = new POVButton(m_driverXboxController, 0);
+    dpadUpButton.onTrue(new OpenClaw(m_claw));
 
-    final JoystickButton xboxTargetBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kLeftBumper.value);
-    xboxTargetBtn.whileHeld(new TrackTarget(m_drivetrain, m_targeting));
+    final POVButton dpadDownButton = new POVButton(m_driverXboxController, 180);
+    dpadDownButton.onTrue(new CloseClaw(m_claw));
 
-    final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kA.value);
-    xboxRotate180Btn.whenPressed(new Rotate(m_drivetrain, 180.0));
+
+    // final JoystickButton xboxTargetBtn = new JoystickButton(m_operatorXboxController,
+    //     XboxController.Button.kLeftBumper.value);
+    // xboxTargetBtn.whileHeld(new TrackTarget(m_drivetrain, m_targeting));
+
+    // final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
+    //     XboxController.Button.kA.value);
+    // xboxRotate180Btn.whenPressed(new Rotate(m_drivetrain, 180.0));
   }
 
   /**
@@ -114,8 +121,8 @@ public class RobotContainer {
     if (StartPositions.INVALID == startingPosition) {
       System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
     } else {
-      autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_targeting,
-          startingPosition, m_logger);
+      // autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_targeting,
+      //     startingPosition, m_logger);
     }
 
     return autoCommand;
