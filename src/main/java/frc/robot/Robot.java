@@ -25,6 +25,7 @@ import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import frc.robot.classes.Kinematics;
+import frc.robot.classes.Position2D;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,6 +38,8 @@ public class Robot extends TimedRobot {
 
      DoubleLogEntry myDoubleLogLeft;
      DoubleLogEntry myDoubleLogRight;
+     DoubleLogEntry myDoubleLogX;
+     DoubleLogEntry myDoubleLogY;
 
     private Command m_autonomousCommand;
 
@@ -65,9 +68,12 @@ public class Robot extends TimedRobot {
 
          // Set up custom log entries
         DataLog log = DataLogManager.getLog();
-        myDoubleLogLeft.append(m_robotContainer.m_kinematics());
+        
         myDoubleLogLeft = new DoubleLogEntry(log, "left encoder");
+        myDoubleLogLeft.append(m_robotContainer.m_drivetrain.getLeftEncoderPosition());
         myDoubleLogRight = new DoubleLogEntry(log, "right encoder");
+        myDoubleLogRight.append(m_robotContainer.m_drivetrain.getRightEncoderPosition());
+
     }
 
     /**
