@@ -12,7 +12,7 @@ public class CloseClaw extends CommandBase{
   }
   @Override
   public void initialize(){
-    m_claw.spikeSolenoidPHForward();
+    m_claw.spikeSolenoidPHReverse();
   }
 
   @Override

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
@@ -74,13 +75,13 @@ public class RobotContainer {
     dpadDownButton.onTrue(new CloseClaw(m_claw));
 
 
-    // final JoystickButton xboxTargetBtn = new JoystickButton(m_operatorXboxController,
-    //     XboxController.Button.kLeftBumper.value);
-    // xboxTargetBtn.whileHeld(new TrackTarget(m_drivetrain, m_targeting));
+    final JoystickButton xboxTargetBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kLeftBumper.value);
+    xboxTargetBtn.whileTrue(new TrackTarget(m_drivetrain, m_targeting));
 
-    // final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
-    //     XboxController.Button.kA.value);
-    // xboxRotate180Btn.whenPressed(new Rotate(m_drivetrain, 180.0));
+    final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kA.value);
+    xboxRotate180Btn.onTrue(new Rotate(m_drivetrain, 180.0));
   }
 
   /**
