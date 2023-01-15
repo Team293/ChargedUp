@@ -68,6 +68,19 @@ public final class SPIKE293Utils {
     }
 
     /**
+     * Converts from feet per second to encoder edges per 100 milliseconds.
+     * @param Speed in ft/s
+     * @param Wheel diameter in ft
+     * @param Gearbox ratio
+     * 
+     * @return Drivetrain velocity in encoder units(edges per 100 milliseconds)
+     */
+    public static double feetPerSecToControllerVelocity(double feetPerSec, double wheelDiameter, double gearboxRatio) {
+        return ((feetPerSec * gearboxRatio * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION) / (wheelDiameter * Math.PI))
+                * DrivetrainConstants.SECONDS_TO_DECISEC;
+    }
+
+    /**
      * 
      * @param Encoder Units
      * @return feet from encoder units for drivetrain
@@ -144,7 +157,7 @@ public final class SPIKE293Utils {
      * @return velocity in ft/s
      */
     public static double convertRPMToFeetPerSec(double rpm, double wheelDiameter) {
-        return rpm * Math.PI * wheelDiameter / 60;
+        return rpm * Math.PI * wheelDiameter / DrivetrainConstants.SECONDS_PER_MINUTE;
     }
 
     /**
@@ -154,7 +167,7 @@ public final class SPIKE293Utils {
      * @return rpm
      */
     public static double convertFeetPerSecToRPM(double velocity, double wheelDiameter) {
-        return velocity * 60 / (Math.PI * wheelDiameter);
+        return velocity * DrivetrainConstants.SECONDS_PER_MINUTE / (Math.PI * wheelDiameter);
     }
 
     /**

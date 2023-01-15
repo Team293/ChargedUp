@@ -84,6 +84,7 @@ public class Constants {
                                                                                         // to feet
         public static final double SECONDS_TO_DECISEC = 1.0d / 10.0d;
         public static final double DECISEC_TO_SECONDS = 10.0d / 1.0d;
+        public static final int SECONDS_PER_MINUTE = 60;
         public static final double GEARBOX_RATIO_TO_ONE = 9.52d;
         public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
         public static final int ENCODER_EDGES_PER_STEP = 1;
