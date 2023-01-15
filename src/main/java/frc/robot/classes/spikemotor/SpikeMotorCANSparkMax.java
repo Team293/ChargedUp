@@ -4,9 +4,9 @@ import com.revrobotics.*;
 import frc.robot.classes.SPIKE293Utils;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
-class SpikeMotorCANSparkMax extends SpikeMotor {
+public class SpikeMotorCANSparkMax extends SpikeMotor {
     private CANSparkMax motor;
-    private CANPIDController pidController;
+    private SparkMaxPIDController pidController;
     private double wheelDiameter;
     private boolean isBrushed;
 
@@ -32,7 +32,7 @@ class SpikeMotorCANSparkMax extends SpikeMotor {
 
     @Override
     protected void setSpeedImpl(double speed) {
-        pidController.setReference(SPIKE293Utils.convertFeetPerSecToRPM(speed, wheelDiameter), ControlType.kVelocity);
+        pidController.setReference(SPIKE293Utils.convertFeetPerSecToRPM(speed, wheelDiameter), CANSparkMax.ControlType.kVelocity);
     }
 
     @Override
@@ -41,7 +41,17 @@ class SpikeMotorCANSparkMax extends SpikeMotor {
     }
 
     @Override
+    protected void setPositionImpl(double position) {
+        motor.getEncoder().setPosition(SPIKE293Utils.convertFeetToRotations(position, wheelDiameter));
+    }
+
+    @Override
     protected double getPositionImpl() {
         return SPIKE293Utils.convertRotationsToFeet(motor.getEncoder().getPosition(), wheelDiameter);
+    }
+
+    @Override
+    protected void moveToImpl(double position) {
+        // todo
     }
 }

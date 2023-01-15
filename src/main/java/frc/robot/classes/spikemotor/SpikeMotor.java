@@ -1,10 +1,14 @@
 package frc.robot.classes.spikemotor;
 
+import java.util.ArrayList;
+
 /**
 * An abstracted motor interface designed for easy replacement.
 */
-abstract class SpikeMotor {
+public abstract class SpikeMotor {
     private boolean isInitialized = false;
+    private ArrayList<SpikeMotor> followers;
+    private SpikeMotor follower = null;
 
     /**
     * Initializes this motor with the given device number.
@@ -19,8 +23,32 @@ abstract class SpikeMotor {
             throw new IllegalStateException(
                 "Motor cannot be initialized twice"
             );
+        followers = new ArrayList<SpikeMotor>();
         initImpl(deviceNumber);
         isInitialized = true;
+    }
+
+    /**
+    * Follows another motor.
+    *
+    * @param motor  the SpikeMotor to follow
+    * @return       nothing
+    * @throws       IllegalStateException if either motor is not initialized
+    */
+    public final void follow(SpikeMotor otherMotor) {
+        if (!isInitialized)
+            throw new IllegalStateException(
+                "Motor must be initialized first"
+            );
+        if (!otherMotor.isInitialized)
+            throw new IllegalStateException(
+                "Cannot follow a motor that has not been initialized"
+            );
+        if (otherMotor.follower != null) {
+            otherMotor = otherMotor.follower;
+        }
+        otherMotor.followers.add(this);
+        follower = otherMotor;
     }
 
     /**
@@ -36,6 +64,9 @@ abstract class SpikeMotor {
             throw new IllegalStateException(
                 "Motor must be initialized first"
             );
+        for (SpikeMotor follower : followers) {
+            follower.setSpeed(speed);
+        }
         setSpeedImpl(speed);
     }
 
@@ -55,6 +86,27 @@ abstract class SpikeMotor {
     }
 
     /**
+    * Sets the position of the motor in feet. Note that this does not move the motor,
+    * but instead sets the internal encoder such that a following getPosition() call
+    * will return the set value.
+    *
+    * @param position   a double indicating the position to set
+    * @return           nothing
+    * @throws           IllegalStateException if not initialized
+    * @see              #setPositionImpl()
+    */
+    public final void setPosition(double position) {
+        if (!isInitialized)
+            throw new IllegalStateException(
+                "Motor must be initialized first"
+            );
+        for (SpikeMotor follower : followers) {
+            follower.setPosition(position);
+        }
+        setPositionImpl(position);
+    }
+
+    /**
     * Gets the position of the motor in feet.
     *
     * @return    a double indicating the position
@@ -70,11 +122,30 @@ abstract class SpikeMotor {
     }
 
     /**
+    * Moves the motor to the given encoder position such that
+    * a following getPosition() will return the set value.
+    *
+    * @param position   a double indicating the position to set
+    * @return           nothing
+    * @throws           IllegalStateException if not initialized
+    * @see              #moveToImpl()
+    */
+    public final void moveTo(double position) {
+        if (!isInitialized)
+            throw new IllegalStateException(
+                "Motor must be initialized first"
+            );
+        for (SpikeMotor follower : followers) {
+            follower.moveTo(position);
+        }
+        moveToImpl(position);
+    }
+
+    /**
     * The implementation of init.
     *
     * @param deviceNumber    an int giving the device number
     * @return                nothing
-    * @throws                IllegalStateException if already initialized
     * @see                   #init(int deviceNumber)
     */
     abstract protected void initImpl(int deviceNumber);
@@ -83,7 +154,6 @@ abstract class SpikeMotor {
     * The implementation of setSpeed.
     * @param speed    a double indicating the speed
     * @return         nothing
-    * @throws         IllegalStateException if not initialized
     * @see            #setSpeed(double speed)
     */
     abstract protected void setSpeedImpl(double speed);
@@ -92,17 +162,33 @@ abstract class SpikeMotor {
     * The implementation of getSpeed.
     *
     * @return    a double indicating the speed
-    * @throws    IllegalStateException if not initialized
     * @see       #getSpeed()
     */
     abstract protected double getSpeedImpl();
 
     /**
+    * The implementation of setPosition.
+    *
+    * @param position   a double indicating the position to set
+    * @return           nothing
+    * @see              #setPosition()
+    */
+    abstract protected void setPositionImpl(double position);
+    
+    /**
     * The implementation of getPosition.
     *
     * @return    a double indicating the position
-    * @throws    IllegalStateException if not initialized
     * @see       #getPosition()
     */
     abstract protected double getPositionImpl();
+
+    /**
+    * The implementation of moveTo.
+    *
+    * @param position   a double indicating the position to move to
+    * @return           nothing
+    * @see              #moveTo()
+    */
+    abstract protected void moveToImpl(double position);
 }
