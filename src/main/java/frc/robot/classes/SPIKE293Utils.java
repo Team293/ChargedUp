@@ -37,6 +37,14 @@ public final class SPIKE293Utils {
     }
 
     /**
+    * Converts from encoder edges per 100 milliseconds to feet per second.
+    *@return Drivetrain velocity in ft/s from encoder units
+    */
+    public static double controllerVelocityToFeetPerSec(double encoderUnits, double wheelDiameter) {
+        return controllerUnitsToFeet(encoderUnits, wheelDiameter) * DrivetrainConstants.DECISEC_TO_SECONDS;
+    }
+
+    /**
      * Converts from feet per second to encoder edges per 100 milliseconds.
      * @param Speed in ft/s
      * 
@@ -44,6 +52,18 @@ public final class SPIKE293Utils {
      */
     public static double feetPerSecToControllerVelocity(double feetPerSec) {
         return ((feetPerSec * DrivetrainConstants.GEARBOX_RATIO_TO_ONE * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION) / (DrivetrainConstants.WHEEL_CIRCUMFERENCE_FEET))
+                * DrivetrainConstants.SECONDS_TO_DECISEC;
+    }
+
+    /**
+     * Converts from feet per second to encoder edges per 100 milliseconds.
+     * @param Speed in ft/s
+     * @param Wheel diameter in ft
+     * 
+     * @return Drivetrain velocity in encoder units(edges per 100 milliseconds)
+     */
+    public static double feetPerSecToControllerVelocity(double feetPerSec, double wheelDiameter) {
+        return ((feetPerSec * DrivetrainConstants.GEARBOX_RATIO_TO_ONE * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION) / (wheelDiameter * Math.PI))
                 * DrivetrainConstants.SECONDS_TO_DECISEC;
     }
 
@@ -58,12 +78,34 @@ public final class SPIKE293Utils {
 
     /**
      * 
+     * @param Encoder Units
+     * @param Wheel diameter in ft
+     * @return feet from encoder units for drivetrain
+     */
+    public static double controllerUnitsToFeet(double encoderUnits, double wheelDiameter) {
+        return (encoderUnits * wheelDiameter * Math.PI) / (DrivetrainConstants.GEARBOX_RATIO_TO_ONE * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION);
+    }
+
+    /**
+     * 
      * @param feet
      * @return encoder units from feet for drivetrain
      */
     public static double feetToControllerUnits(double feet) {
         double controllerUnits = 0.0d;
         controllerUnits = ((feet * DrivetrainConstants.GEARBOX_RATIO_TO_ONE * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION) / (DrivetrainConstants.WHEEL_CIRCUMFERENCE_FEET));
+        return controllerUnits;
+    }
+
+    /**
+     * 
+     * @param feet
+     * @param Wheel diameter in ft
+     * @return encoder units from feet for drivetrain
+     */
+    public static double feetToControllerUnits(double feet, double wheelDiameter) {
+        double controllerUnits = 0.0d;
+        controllerUnits = ((feet * DrivetrainConstants.GEARBOX_RATIO_TO_ONE * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION) / (wheelDiameter * Math.PI));
         return controllerUnits;
     }
 
@@ -93,5 +135,45 @@ public final class SPIKE293Utils {
      */
     public static double convertControllerVelocityToRPM(double velocity) {
         return (velocity * LauncherConstants.MINUTES_TO_DECISECONDS) / (LauncherConstants.ENCODER_UNITS_PER_REVOLUTION * LauncherConstants.GEAR_RATIO);
+    }
+
+    /**
+     * Converts RPMs to ft/s
+     * @param rpm
+     * @param Wheel diameter in ft
+     * @return velocity in ft/s
+     */
+    public static double convertRPMToFeetPerSec(double rpm, double wheelDiameter) {
+        return rpm * Math.PI * wheelDiameter / 60;
+    }
+
+    /**
+     * Converts ft/s to RPMs
+     * @param velocity in ft/s
+     * @param Wheel diameter in ft
+     * @return rpm
+     */
+    public static double convertFeetPerSecToRPM(double velocity, double wheelDiameter) {
+        return velocity * 60 / (Math.PI * wheelDiameter);
+    }
+
+    /**
+     * Convert rotations to feet
+     * @param rotations
+     * @param Wheel diameter in ft
+     * @return feet
+     */
+    public static double convertRotationsToFeet(double rotations, double wheelDiameter) {
+        return rotations * wheelDiameter * Math.PI;
+    }
+
+    /**
+     * Convert feet to rotations
+     * @param feet
+     * @param Wheel diameter in ft
+     * @return rotations
+     */
+    public static double convertFeetToRotations(double feet, double wheelDiameter) {
+        return feet / (wheelDiameter * Math.PI);
     }
 }
