@@ -19,6 +19,12 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
+import frc.robot.classes.Kinematics;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,6 +35,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
+     DoubleLogEntry myDoubleLogLeft;
+     DoubleLogEntry myDoubleLogRight;
+
     private Command m_autonomousCommand;
 
     private RobotContainer m_robotContainer;
@@ -36,6 +45,7 @@ public class Robot extends TimedRobot {
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
+     * @param DriverStation 
      */
     @Override
     public void robotInit() {
@@ -49,6 +59,15 @@ public class Robot extends TimedRobot {
         PortForwarder.add(5803, "limelight.local", 5803);
         PortForwarder.add(5804, "limelight.local", 5804);
         PortForwarder.add(5805, "limelight.local", 5805);
+
+         // Starts recording to data log
+         DataLogManager.start();
+
+         // Set up custom log entries
+        DataLog log = DataLogManager.getLog();
+        myDoubleLogLeft.append(m_robotContainer.m_kinematics());
+        myDoubleLogLeft = new DoubleLogEntry(log, "left encoder");
+        myDoubleLogRight = new DoubleLogEntry(log, "right encoder");
     }
 
     /**
