@@ -304,7 +304,7 @@ public class Drivetrain extends SubsystemBase {
         rightTalonLead.set(ControlMode.Position, posR);
     }
 
-    public double getMotorError() {
+    public double getMotorError(){
         return leftTalonLead.getClosedLoopError(0);
     }
 }

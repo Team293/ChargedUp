@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.PneumaticConstants.*;
+import static frc.robot.Constants.ClimberConstants.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -34,13 +36,13 @@ public class GrippyGravityClaw extends SubsystemBase {
     int proximity = m_colorSensor.getProximity();
     SmartDashboard.putNumber("Proximity", proximity);
 
-    pcmCompressor.enableAnalog(100.0, 119.5);
+    pcmCompressor.enableAnalog(LOWEST_COMPRESSOR_PSI, HIGHEST_COMPRESSOR_PSI);
   }
 
   public void spikeSolenoidPHForward(){
     spikeSolenoidPH.set(Value.kForward);
   }
   public void spikeSolenoidPHReverse(){
-    spikeSolenoidPH.set(Value.kOff);
+    spikeSolenoidPH.set(Value.kReverse);
   }
 }

@@ -172,6 +172,8 @@ public class Constants {
 
     public static final class PneumaticConstants
     {
+        public static final int FORWARD_CHANNEL = 1;
+        public static final int REVERSE_CHANNEL = 2;
         public static final int PNEUMATIC_MODULE_ID = 7;
         public static final double LOWEST_COMPRESSOR_PSI = 100.0d;
         public static final double HIGHEST_COMPRESSOR_PSI = 119.5d;
