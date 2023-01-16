@@ -33,12 +33,13 @@ public class RobotContainer {
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
   public final GrippyGravityClaw m_claw = new GrippyGravityClaw();
+  public final GrippyGravityClaw
   // public final WriteToCSV m_logger = new WriteToCSV();
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
   public final XboxController m_operatorXboxController = new XboxController(1);
-
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */

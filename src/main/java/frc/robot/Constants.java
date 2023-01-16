@@ -72,6 +72,7 @@ public class Constants {
         public static final int LEFT_FOLLOWER_TALON_CAN_ID = 0;
         public static final int RIGHT_LEAD_TALON_CAN_ID = 1;
         public static final int RIGHT_FOLLOWER_TALON_CAN_ID = 3;
+        public static final int PISTON_LEAD_SCREW_MOTOR = 4;
         public static final int VELOCITY_PID_SLOT_ID = 0;
         public static final int POSITION_PID_SLOT_ID = 1;
         public static final int PID_CONFIG_TIMEOUT_MS = 10;
