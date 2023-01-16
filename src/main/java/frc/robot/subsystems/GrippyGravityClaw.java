@@ -13,16 +13,16 @@ public class GrippyGravityClaw extends SubsystemBase {
   private Compressor pcmCompressor;
 
   public GrippyGravityClaw() {
-    spikeSolenoidPH = new DoubleSolenoid(PneumaticsModuleType.REVPH, 1, 2);
+    spikeSolenoidPH = new DoubleSolenoid(PneumaticsModuleType.REVPH, FORWARD_CHANNEL, REVERSE_CHANNEL);
     pcmCompressor = new Compressor(PNEUMATIC_MODULE_ID, PneumaticsModuleType.REVPH);
 
-    pcmCompressor.enableAnalog(100.0, 119.5);
+    pcmCompressor.enableAnalog(LOWEST_COMPRESSOR_PSI, HIGHEST_COMPRESSOR_PSI);
   }
 
   public void spikeSolenoidPHForward(){
     spikeSolenoidPH.set(Value.kForward);
   }
   public void spikeSolenoidPHReverse(){
-    spikeSolenoidPH.set(Value.kOff);
+    spikeSolenoidPH.set(Value.kReverse);
   }
 }
