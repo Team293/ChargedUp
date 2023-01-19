@@ -49,6 +49,7 @@ public class Robot extends LoggedRobot {
      * @param DriverStation 
      */
     @Override
+    @SuppressWarnings("resource") // It's only instantiated once, it's fine
     public void robotInit() {
         Logger.getInstance().recordMetadata(LOGGER_KEY, LOGGER_VALUE); // Set a metadata value
 

@@ -32,7 +32,6 @@ import edu.wpi.first.wpilibj.SerialPort;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 import org.littletonrobotics.junction.Logger;
@@ -138,22 +137,37 @@ public class Drivetrain extends SubsystemBase {
         Position2D currentPose = m_kinematics.getPose();
 
         // Log Position w/ Pose2d class
-        Pose2d currentPose2d = new Pose2d(currentPose.getX(), currentPose.getY(), Rotation2d.fromDegrees(currentPose.getHeadingDegrees()));
+        Pose2d currentPose2d = new Pose2d(currentPose.getX(), currentPose.getY(),
+                Rotation2d.fromDegrees(currentPose.getHeadingDegrees()));
         Logger.getInstance().recordOutput("odometry", currentPose2d);
-        
+
         // Push robot info to Dashboard
         SmartDashboard.putNumber("Kinematics X (Feet)", currentPose.getX());
         SmartDashboard.putNumber("Kinematics Y (Feet)", currentPose.getY());
         SmartDashboard.putNumber("Kinematics Heading (degrees)", currentPose.getHeadingDegrees());
 
-        Hashtable<String,Double> doubleVals = new Hashtable<String, Double>() {{
-            put("Left Encoder Velocity (Ft/S)", getLeftEncoderVelocity());
-            put("Left Encoder Position (Ft)", getLeftEncoderPosition());
-            put("Right Encoder Veloctiy (Ft/S)", getRightEncoderVelocity());
-            put("Right Encoder Position (Ft)", getRightEncoderPosition());
-            put("Raw Left Encoder", leftTalonLead.getSelectedSensorPosition(0));
-            put("Raw Right Encoder", rightTalonLead.getSelectedSensorPosition(0));
-        }};
+        Hashtable<String, Double> doubleVals = new Hashtable<String, Double>() {
+            {
+                put("Left Encoder Velocity (Ft per S)", getLeftEncoderVelocity());
+                put("Left Encoder Position (Ft)", getLeftEncoderPosition());
+                put("Right Encoder Veloctiy (Ft per S)", getRightEncoderVelocity());
+                put("Right Encoder Position (Ft)", getRightEncoderPosition());
+                put("Raw Left Encoder", leftTalonLead.getSelectedSensorPosition(0));
+                put("Raw Right Encoder", rightTalonLead.getSelectedSensorPosition(0));
+
+                put("Robot Heading (degrees)", getGyroHeadingDegrees());
+                put("NavX X Accel", (double) navX.getWorldLinearAccelX());
+                put("NavX Y Accel", (double) navX.getWorldLinearAccelY());
+                put("NavX Z Accel", (double) navX.getWorldLinearAccelZ());
+                put("NavX Yaw", getGyroYawDegrees());
+                put("NavX Angle", getGyroHeadingDegrees());
+                put("NavX Fused Heading", getGyroFusedHeadingDegrees());
+                put("NavX TurnRate dg per s", navX.getRate());
+
+                put("Left Motor Position Error", leftTalonLead.getClosedLoopError(0));
+                put("Right Motor Position Error", rightTalonLead.getClosedLoopError(0));
+            }
+        };
         Enumeration<String> doubleValsKeys = doubleVals.keys();
         String key = "";
         double val = 0;
@@ -164,17 +178,25 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber(key, val);
             Logger.getInstance().recordOutput(key, val);
         }
-/*
-        SmartDashboard.putNumber("Left Encoder Velocity (Ft/S)", getLeftEncoderVelocity());
-        Logger.getInstance().recordOutput("Left Encoder Velocity (Ft/S)", getLeftEncoderVelocity());
-        SmartDashboard.putNumber("Left Encoder Position (Ft)", getLeftEncoderPosition());
-        Logger.getInstance().recordOutput("Left Encoder Position (Ft)", getLeftEncoderPosition());
-        SmartDashboard.putNumber("Right Encoder Velocity (Ft/S)", getRightEncoderVelocity());
-        Logger.getInstance().recordOutput("Right Encoder Velocity (Ft/S)", getRightEncoderVelocity());
-        SmartDashboard.putNumber("Right Encoder Position (Ft)", getRightEncoderPosition());
-        SmartDashboard.putNumber("Raw Left Encoder", leftTalonLead.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Raw Right Encoder", rightTalonLead.getSelectedSensorPosition(0));
-*/
+        /*
+         * SmartDashboard.putNumber("Left Encoder Velocity (Ft/S)",
+         * getLeftEncoderVelocity());
+         * Logger.getInstance().recordOutput("Left Encoder Velocity (Ft/S)",
+         * getLeftEncoderVelocity());
+         * SmartDashboard.putNumber("Left Encoder Position (Ft)",
+         * getLeftEncoderPosition());
+         * Logger.getInstance().recordOutput("Left Encoder Position (Ft)",
+         * getLeftEncoderPosition());
+         * SmartDashboard.putNumber("Right Encoder Velocity (Ft/S)",
+         * getRightEncoderVelocity());
+         * Logger.getInstance().recordOutput("Right Encoder Velocity (Ft/S)",
+         * getRightEncoderVelocity());
+         * SmartDashboard.putNumber("Right Encoder Position (Ft)",
+         * getRightEncoderPosition());
+         * SmartDashboard.putNumber("Raw Left Encoder",
+         * leftTalonLead.getSelectedSensorPosition(0));
+         * SmartDashboard.putNumber("Raw Right Encoder",
+         * rightTalonLead.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
         SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
         SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
@@ -182,10 +204,11 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
         SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
         SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
-        SmartDashboard.putNumber("NavX TurnRate dg/s", navX.getRate());
+        SmartDashboard.putNumber("NavX TurnRate dg per s", navX.getRate());
 
         SmartDashboard.putNumber("Left Motor Position Error", leftTalonLead.getClosedLoopError(0));
         SmartDashboard.putNumber("Right Motor Position Error", rightTalonLead.getClosedLoopError(0));
+        */
     }
 
     public void percentDrive(double leftPercentage, double rightPercentage) {

@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.subsystems.Drivetrain;
@@ -16,7 +17,6 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
         private Drivetrain m_drivetrain;
         private Kinematics m_kinematics;
         private Targeting m_targeting;
-        private WriteToCSV m_logger;
 
     public SequentialAutoCommand(Drivetrain drivetrain, Kinematics kinematics, Targeting targeting, 
                                 StartPositions startPosition, WriteToCSV logger) {
@@ -24,7 +24,6 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
         m_kinematics = kinematics;
         m_startPosition = startPosition;
         m_targeting = targeting;
-        m_logger = logger;
 
         SmartDashboard.putBoolean("AutoDone", false);
 
@@ -36,15 +35,15 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
                     new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics),
 
                     // Drive to the first ball and collect it
-                    deadline(new DriveTo(new Position2D(0, 6, Math.toRadians(90)), 2.0d, false, m_kinematics, m_drivetrain)),
+                    Commands.deadline(new DriveTo(new Position2D(0, 6, Math.toRadians(90)), 2.0d, false, m_kinematics, m_drivetrain)),
 
                     // Turn around to face the hub
-                    deadline(new Rotate(m_drivetrain, 180.0)),
+                    Commands.deadline(new Rotate(m_drivetrain, 180.0)),
 
                         // Aim at the hub
                         // Fire both balls!
-                    deadline(new Wait(3),
-                             new TrackTarget(m_drivetrain, m_targeting))
+                    Commands.deadline(new Wait(3),
+                                      new TrackTarget(m_drivetrain, m_targeting))
                 );
                 // new ParallelRaceGroup(
                 // new Fire(m_feeder, m_launcher, m_targeting),
