@@ -12,13 +12,23 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.LoggerConstants.*;
+
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.net.PortForwarder;
+
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.PowerDistribution;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,7 +37,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * creating this project, you must also update the build.properties file in 
  * the project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
 
     private Command m_autonomousCommand;
 
@@ -36,9 +46,25 @@ public class Robot extends TimedRobot {
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
+     * @param DriverStation 
      */
     @Override
+    @SuppressWarnings("resource") // It's only instantiated once, it's fine
     public void robotInit() {
+        Logger.getInstance().recordMetadata(LOGGER_KEY, LOGGER_VALUE); // Set a metadata value
+
+        if (isReal()) {
+            Logger.getInstance().addDataReceiver(new WPILOGWriter(LOGGER_PATH)); // Log to a USB stick
+            Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+            new PowerDistribution(LOGGER_MODULE, LOGGER_MODULE_TYPE); // Enables power distribution logging
+        } else {
+            setUseTiming(LOGGER_USE_TIMING); // Run as fast as possible
+            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+            Logger.getInstance().setReplaySource(new WPILOGReader(logPath)); // Read replay log
+            Logger.getInstance().addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, LOGGER_SUFFIX))); // Save outputs to a new log
+        }
+
+        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
