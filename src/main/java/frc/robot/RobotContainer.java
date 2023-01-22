@@ -73,6 +73,8 @@ public class RobotContainer {
     final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
     xboxRotate180Btn.onTrue(new Rotate(m_drivetrain, 180.0));
+    final JoystickButton xboxBalanceBtn = new JoystickButton(m_driverXboxController, XboxController.Button.kA.value);
+    xboxBalanceBtn.whileTrue(new Autobalance(m_drivetrain));
   }
 
   /**
