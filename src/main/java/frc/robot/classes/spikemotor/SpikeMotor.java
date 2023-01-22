@@ -191,4 +191,37 @@ public abstract class SpikeMotor {
     * @see              #moveTo()
     */
     abstract protected void moveToImpl(double position);
+
+    /**
+    * Accelerates the mover towards the given speed.
+    * @param speed    a double indicating the speed to accelerate to
+    * @param maxStep  a double indicating the maximum speed change
+    * @return         nothing
+    * @see            #accelTowardImpl()
+    */
+    public final void accelToward(double speed, double maxStep) {
+        if (!isInitialized)
+            throw new IllegalStateException(
+                "Motor must be initialized first"
+            );
+        accelTowardImpl(speed, maxStep);
+    }
+
+    /**
+    * The implementation of accelToward.
+    * @param speed    a double indicating the speed to accelerate to
+    * @param maxStep  a double indicating the maximum speed change
+    * @return         nothing
+    * @see            #accelToward()
+    */
+    protected void accelTowardImpl(double speed, double maxStep) {
+        double currentSpeed = getSpeed();
+        double newSpeed = speed;
+        if (speed > currentSpeed) {
+            newSpeed = Math.min(currentSpeed + maxStep, speed);
+        } else {
+            newSpeed = Math.max(currentSpeed - maxStep, speed);
+        }
+        setSpeed(newSpeed);
+    }
 }
