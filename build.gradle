@@ -19,8 +19,6 @@ configurations.all {
     exclude group: "edu.wpi.first.wpilibj"
 }
 
-
-
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
