@@ -96,9 +96,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void percentDrive(double leftPercentage, double rightPercentage) {
-        double maxVelocity = 1.0; // in ft/sec
-        leftTalonLead.setSpeed(leftPercentage * maxVelocity);
-        rightTalonLead.setSpeed(rightPercentage * maxVelocity);
+        leftTalonLead.setSpeed(leftPercentage * PERCENT_DRIVE_MAX_SPEED);
+        rightTalonLead.setSpeed(rightPercentage * PERCENT_DRIVE_MAX_SPEED);
     }
 
     public void accelDrive(double leftTargetSpeed, double rightTargetSpeed) {
