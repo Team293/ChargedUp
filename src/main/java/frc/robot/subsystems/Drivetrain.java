@@ -101,9 +101,18 @@ public class Drivetrain extends SubsystemBase {
         rightTalonLead.setSpeed(rightPercentage * maxVelocity);
     }
 
+    public void accelDrive(double leftTargetSpeed, double rightTargetSpeed) {
+        leftTalonLead.accelToward(leftTargetSpeed, MAX_ACCEL);
+        rightTalonLead.accelToward(rightTargetSpeed, MAX_ACCEL);
+    }
+
     public void stop() {
         leftTalonLead.setSpeed(0);
         rightTalonLead.setSpeed(0);
+    }
+
+    public void accelStop() {
+        accelDrive(0, 0);
     }
 
     // Sets the motors to ft/sec, uses the onboard motor PID

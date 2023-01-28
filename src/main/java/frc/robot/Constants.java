@@ -79,6 +79,8 @@ public class Constants {
         public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
         public static final int ALLOWABLE_DRIVETRAIN_ERROR = 200;
 
+        public static final double MAX_ACCEL = 1.0; // ft/sec for max accelToward change
+
         // MISC Constants
         public static final double WHEEL_CIRCUMFERENCE_FEET = (4.0d / 12.0d) * Math.PI; // Wheel radius 4 in, converting
                                                                                         // to feet
