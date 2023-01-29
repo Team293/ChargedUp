@@ -10,9 +10,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 /**
@@ -93,6 +90,23 @@ public class Constants {
         public static final boolean USE_NAVX_HEADING = false;
     }
 
+    public static final class ArmConstants {
+        public static final int SHOULDER_TALON_FX_CAN_ID = 6;
+        public static final int REACH_TALON_FX_CAN_ID = 7;
+        public static final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
+        public static final double POSITION_KF = 0.0d;
+        public static final double POSITION_KP = 0.0d;
+        public static final double POSITION_KI = 0.0d;
+        public static final double POSITION_KD = 0.0d;
+        public static final int PID_CONFIG_TIMEOUT_MS = 10;
+        public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
+        public static final double PERIODIC_RUNS_PER_SECOND = 20.0d;
+        public static final double ARM_X_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
+        public static final double ARM_Y_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
+        public static final double ARM_SHOULDER_X_INCHES = 0.0d;
+        public static final double ARM_SHOULDER_Y_INCHES = 24.0d; //NEED TO KNOW THIS
+    }
+
     public static final class SmoothControlConstants {
         public static final double K1 = 1.0d;
         public static final double K2 = 3.0d;
@@ -138,14 +152,6 @@ public class Constants {
         public static final double MAX_SHOOTER_RPM = 2900.0d;
     }
 
-    public static final class FeederConstants {
-        public static final int BELT_CAN_ID = 5;
-        public static final int TRIGGER_CAN_ID = 4;
-        public static final int BELT_SENSOR_PORT = 0;
-        public static final Port COLOR_SENSOR_PORT = I2C.Port.kMXP;
-        public static final int PROXIMITY_THRESHOLD = 110;
-    }
-
     public static final class TargetingConstants {
         public static final int LIMELIGHT_LED_ON = 3;
         public static final int LIMELIGHT_LED_OFF = 1;
@@ -162,20 +168,6 @@ public class Constants {
         public static final double TIMER_NOT_STARTED_VALUE = 0.0;
         public static final double ERROR_INTEGRAL_DEFAULT = 0.0;
         public static final double LAST_ERROR_DEFAULT = 0.0;
-    }
-
-    public static final class ClimberConstants
-    {
-        public static final int CLIMB_RETRACTION_SOLENOID = 0;
-        public static final int CLIMB_EXTENSION_SOLENOID = 1;
-    }
-
-    public static final class PneumaticConstants
-    {
-        public static final int PNEUMATIC_MODULE_ID = 7;
-        public static final double LOWEST_COMPRESSOR_PSI = 100.0d;
-        public static final double HIGHEST_COMPRESSOR_PSI = 119.5d;
-        public static final PneumaticsModuleType PNUEMATIC_MODULE_TYPE = PneumaticsModuleType.REVPH;
     }
 
     public static final class LoggerConstants
