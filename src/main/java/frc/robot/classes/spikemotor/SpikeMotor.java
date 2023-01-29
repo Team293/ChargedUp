@@ -240,4 +240,13 @@ public abstract class SpikeMotor {
     public final void moveToAngle(double angle) {
         moveTo(Math.PI * getWheelDiameter() * angle);
     }
+
+    /**
+    * Move a given number of radians.
+    * @param angle  a double indicating the number of radians to turn
+    * @return       nothing
+    */
+    public final void moveByAngle(double angle) {
+        moveTo(Math.PI * getWheelDiameter() * angle + getPosition());
+    }
 }
