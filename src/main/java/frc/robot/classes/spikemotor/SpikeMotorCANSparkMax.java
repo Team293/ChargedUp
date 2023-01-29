@@ -54,4 +54,9 @@ public class SpikeMotorCANSparkMax extends SpikeMotor {
     protected void moveToImpl(double position) {
         pidController.setReference(SPIKE293Utils.convertFeetToRotations(position, wheelDiameter), CANSparkMax.ControlType.kPosition);
     }
+
+    @Override
+    protected double getWheelDiameter() {
+        return wheelDiameter;
+    }
 }

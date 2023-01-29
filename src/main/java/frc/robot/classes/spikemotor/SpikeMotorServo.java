@@ -48,4 +48,9 @@ public class SpikeMotorServo extends SpikeMotor {
     private double feetToServoUnits(double feet) {
         return feet / Math.PI / wheelDiameter * 2;
     }
+
+    @Override
+    protected double getWheelDiameter() {
+        return wheelDiameter;
+    }
 }

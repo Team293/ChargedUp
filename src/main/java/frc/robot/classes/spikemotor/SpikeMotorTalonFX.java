@@ -82,4 +82,9 @@ public class SpikeMotorTalonFX extends SpikeMotor {
     protected void moveToImpl(double position) {
         motor.set(ControlMode.Position, SPIKE293Utils.feetToControllerUnits(position));
     }
+
+    @Override
+    protected double getWheelDiameter() {
+        return wheelDiameter;
+    }
 }

@@ -193,6 +193,13 @@ public abstract class SpikeMotor {
     abstract protected void moveToImpl(double position);
 
     /**
+    * Gets the wheel diameter in feet.
+    *
+    * @return   the wheel diameter in feet
+    */
+    abstract protected double getWheelDiameter();
+
+    /**
     * Accelerates the mover towards the given speed.
     * @param speed    a double indicating the speed to accelerate to
     * @param maxStep  a double indicating the maximum speed change
@@ -223,5 +230,14 @@ public abstract class SpikeMotor {
             newSpeed = Math.max(currentSpeed - maxStep, speed);
         }
         setSpeed(newSpeed);
+    }
+
+    /**
+    * Move to a given angle in radians.
+    * @param angle  a double indicating the angle in radians
+    * @return       nothing
+    */
+    public final void moveToAngle(double angle) {
+        moveTo(Math.PI * getWheelDiameter() * angle);
     }
 }
