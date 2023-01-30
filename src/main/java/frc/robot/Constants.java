@@ -100,11 +100,13 @@ public class Constants {
         public static final double POSITION_KD = 0.0d;
         public static final int PID_CONFIG_TIMEOUT_MS = 10;
         public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
-        public static final double PERIODIC_RUNS_PER_SECOND = 20.0d;
+        public static final double PERIODIC_RUNS_PER_SECOND = 1000.0d;
         public static final double ARM_X_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
         public static final double ARM_Y_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
         public static final double ARM_SHOULDER_X_INCHES = 0.0d;
-        public static final double ARM_SHOULDER_Y_INCHES = 24.0d; //NEED TO KNOW THIS
+        public static final double ARM_SHOULDER_Y_INCHES = 24.0d;
+        // Arm shoulder Y inches is between pivot point and (drivetrain|ground)
+        // NEED TO KNOW THIS
     }
 
     public static final class SmoothControlConstants {
