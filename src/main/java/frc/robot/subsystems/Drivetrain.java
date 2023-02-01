@@ -103,10 +103,10 @@ public class Drivetrain extends SubsystemBase {
         rightTalonLead.config_IntegralZone(POSITION_PID_SLOT_ID, 1000);
         rightTalonLead.config_kD(POSITION_PID_SLOT_ID, POSITION_KD, PID_CONFIG_TIMEOUT_MS);
 
-        rightTalonLead.setNeutralMode(NeutralMode.Coast);
-        rightTalonFollower.setNeutralMode(NeutralMode.Coast);
-        leftTalonLead.setNeutralMode(NeutralMode.Coast);
-        leftTalonFollower.setNeutralMode(NeutralMode.Coast);
+        rightTalonLead.setNeutralMode(NeutralMode.Brake);
+        rightTalonFollower.setNeutralMode(NeutralMode.Brake);
+        leftTalonLead.setNeutralMode(NeutralMode.Brake);
+        leftTalonFollower.setNeutralMode(NeutralMode.Brake);
 
         rightTalonLead.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
         leftTalonLead.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
