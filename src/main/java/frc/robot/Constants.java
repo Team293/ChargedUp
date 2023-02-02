@@ -104,7 +104,7 @@ public class Constants {
         public static final double ARM_X_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
         public static final double ARM_Y_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
         public static final double ARM_SHOULDER_X_INCHES = 0.0d;
-        public static final double ARM_SHOULDER_Y_INCHES = 24.0d;
+        public static final double ARM_SHOULDER_Y_INCHES = 54.0d;
         // Arm shoulder Y inches is between pivot point and (drivetrain|ground)
         // NEED TO KNOW THIS
     }
