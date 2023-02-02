@@ -65,7 +65,8 @@ public class Arm extends SubsystemBase {
      * @param angle - the angle in degrees
      */
     public void rotateTo(double angle) {
-        shoulderTalonFX.set(TalonFXControlMode.Position, angle);
+        double encoderUnits = angle * SHOULDER_ENCODER_UNITS_PER_DEGREE;
+        shoulderTalonFX.set(TalonFXControlMode.Position, encoderUnits);
     }
 
     /**
@@ -73,7 +74,8 @@ public class Arm extends SubsystemBase {
      * @param length - the length to extend/retract to in inches
      */
     public void extendTo(double length) {
-        reachTalonFX.set(TalonFXControlMode.Position, length);
+        double encoderUnits = length * REACH_ENCODER_UNITS_PER_INCH;
+        reachTalonFX.set(TalonFXControlMode.Position, encoderUnits);
     }
 
     /**

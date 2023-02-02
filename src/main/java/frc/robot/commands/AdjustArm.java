@@ -33,7 +33,7 @@ public class AdjustArm extends CommandBase {
     }
 
     // Returns true when the command should end.
-    @Override   
+    @Override
     public boolean isFinished() {
         return false;
     }
