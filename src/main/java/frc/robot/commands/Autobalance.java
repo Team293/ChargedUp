@@ -73,7 +73,6 @@ public class Autobalance extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        // return m_balencedTimes>7;
-        return false;
+        return m_balencedTimes > 7 && false;
     }
 }
