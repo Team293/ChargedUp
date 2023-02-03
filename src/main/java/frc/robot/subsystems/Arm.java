@@ -18,10 +18,11 @@ public class Arm extends SubsystemBase {
         shoulderTalonFX = new WPI_TalonFX(SHOULDER_TALON_FX_CAN_ID);
         reachTalonFX = new WPI_TalonFX(REACH_TALON_FX_CAN_ID);
 
+        // Clears motor errors
         shoulderTalonFX.clearStickyFaults();
         reachTalonFX.clearStickyFaults();
 
-        // Set facotry defaults for onboard PID
+        // Set factory defaults for onboard PID
         shoulderTalonFX.configFactoryDefault();
         reachTalonFX.configFactoryDefault();
 
