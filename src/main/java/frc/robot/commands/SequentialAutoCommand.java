@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.subsystems.Drivetrain;
@@ -17,7 +18,6 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
         private Drivetrain m_drivetrain;
         private Kinematics m_kinematics;
         private Targeting m_targeting;
-        private WriteToCSV m_logger;
 
     public SequentialAutoCommand(Drivetrain drivetrain, Kinematics kinematics, Targeting targeting, 
                                 StartPositions startPosition, WriteToCSV logger) {
@@ -25,7 +25,6 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
         m_kinematics = kinematics;
         m_startPosition = startPosition;
         m_targeting = targeting;
-        m_logger = logger;
 
         SmartDashboard.putBoolean("AutoDone", false);
 

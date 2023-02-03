@@ -13,6 +13,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -179,5 +180,16 @@ public class Constants {
         public static final double LOWEST_COMPRESSOR_PSI = 100.0d;
         public static final double HIGHEST_COMPRESSOR_PSI = 119.5d;
         public static final PneumaticsModuleType PNUEMATIC_MODULE_TYPE = PneumaticsModuleType.REVPH;
+    }
+
+    public static final class LoggerConstants
+    {
+        public static final String LOGGER_KEY = "SpikeTest";
+        public static final String LOGGER_VALUE = "LogTest";
+        public static final String LOGGER_PATH = "/media/sda1/";
+        public static final int LOGGER_MODULE = 1;
+        public static final ModuleType LOGGER_MODULE_TYPE = ModuleType.kRev;
+        public static final boolean LOGGER_USE_TIMING = false;
+        public static final String LOGGER_SUFFIX = "_sim";
     }
 }
