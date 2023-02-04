@@ -110,6 +110,10 @@ public class Constants {
         public static final double DEGREES_PER_REVOLUTION = 360;
         public static final double SHOULDER_ENCODER_UNITS_PER_DEGREE = ENCODER_UNITS_PER_REVOLUTION / DEGREES_PER_REVOLUTION;
         public static final double REACH_ENCODER_UNITS_PER_INCH = 5.0d; // NEED TO FIND THIS
+        // Gear ratios
+        public static final double MOTOR_ROTATIONS_PER_ENCODER_UNIT = 1 / ENCODER_UNITS_PER_REVOLUTION;
+        public static final double SHOULDER_GEARBOX_RATIO = 1 / 100.0d;
+        public static final double PULLEY_RATIO = 1;
     }
 
     public static final class SmoothControlConstants {
