@@ -109,4 +109,9 @@ public class Arm extends SubsystemBase {
         x += ARM_X_DELTA_MODIFIER * xPercentage;
         y += ARM_Y_DELTA_MODIFIER * yPercentage;
     }
+
+    public double encoderToDegrees(double encoderUnits) {
+        return encoderUnits / ENCODER_UNITS_PER_REVOLUTION * DEGREES_PER_REVOLUTION;
+    }
+
 }
