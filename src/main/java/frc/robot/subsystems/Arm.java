@@ -8,6 +8,36 @@ import static frc.robot.Constants.ArmConstants.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
+    /* Constants */
+    public final int PID_CONFIG_TIMEOUT_MS = 10;
+    public final int TALON_FX_CAN_ID = 6;
+    public final int REACH_TALON_FX_CAN_ID = 7;
+    public final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
+    public final double SHOULDER_KF = 0.0d;
+    public final double SHOULDER_KP = 0.0d;
+    public final double SHOULDER_KI = 0.0d;
+    public final double SHOULDER_KD = 0.0d;
+    public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
+    public final double PERIODIC_RUNS_PER_SECOND = 50.0d;
+    public final double ARM_X_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
+    public final double ARM_Y_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
+    public final double ARM_SHOULDER_X_INCHES = 17.0d;
+    public final double ARM_SHOULDER_Y_INCHES = 54.0d;
+    // Arm shoulder Y inches is between pivot point and ground
+    public final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d;
+    public final double SHOULDER_ENCODER_UNITS_PER_DEGREE = ENCODER_UNITS_PER_REVOLUTION / DEGREES_PER_REVOLUTION;
+    public final double REACH_ENCODER_UNITS_PER_INCH = 5.0d; // NEED TO FIND THIS
+    // Gear ratios
+    public final double MOTOR_ROTATIONS_PER_ENCODER_UNIT = 1.0d / ENCODER_UNITS_PER_REVOLUTION;
+    public final double SHOULDER_GEARBOX_RATIO = 1.0d / 100.0d;
+    public final double PULLEY_RATIO = 1.0d;
+
+    public final double REACH_KF = 0.0d;
+    public final double REACH_KP = 0.0d;
+    public final double REACH_KI = 0.0d;
+    public final double REACH_KD = 0.0d;
+
+    /* Members */
     private WPI_TalonFX shoulderTalonFX;
     private WPI_TalonFX reachTalonFX;
     private double x;
