@@ -19,10 +19,11 @@ public abstract class SpikeMotor {
     * @see                   #initImpl(int deviceNumber)
     */
     public final void init(int deviceNumber) {
-        if (isInitialized)
+        if (isInitialized) {
             throw new IllegalStateException(
                 "Motor cannot be initialized twice"
             );
+        }
         followers = new ArrayList<SpikeMotor>();
         initImpl(deviceNumber);
         isInitialized = true;
@@ -36,19 +37,31 @@ public abstract class SpikeMotor {
     * @throws       IllegalStateException if either motor is not initialized
     */
     public final void follow(SpikeMotor otherMotor) {
-        if (!isInitialized)
+        if (!isInitialized) {
             throw new IllegalStateException(
                 "Motor must be initialized first"
             );
-        if (!otherMotor.isInitialized)
+        }
+        if (!otherMotor.isInitialized) {
             throw new IllegalStateException(
                 "Cannot follow a motor that has not been initialized"
             );
+        }
         if (otherMotor.follower != null) {
             otherMotor = otherMotor.follower;
         }
-        otherMotor.followers.add(this);
+        otherMotor.addFollower(this);
         follower = otherMotor;
+    }
+
+    /**
+    * Adds another motor as a follower of this one.
+    *
+    * @param follower   the SpikeMotor follower
+    * @return           nothing
+    */
+    private final void addFollower(SpikeMotor follower) {
+        followers.add(follower);
     }
 
     /**
@@ -60,10 +73,11 @@ public abstract class SpikeMotor {
     * @see            #setSpeedImpl(double speed)
     */
     public final void setSpeed(double speed) {
-        if (!isInitialized)
+        if (!isInitialized) {
             throw new IllegalStateException(
                 "Motor must be initialized first"
             );
+        }
         for (SpikeMotor follower : followers) {
             follower.setSpeed(speed);
         }
@@ -78,10 +92,11 @@ public abstract class SpikeMotor {
     * @see       #getSpeedImpl()
     */
     public final double getSpeed() {
-        if (!isInitialized)
+        if (!isInitialized) {
             throw new IllegalStateException(
                 "Motor must be initialized first"
             );
+        }
         return getSpeedImpl();
     }
 
@@ -96,10 +111,11 @@ public abstract class SpikeMotor {
     * @see              #setPositionImpl()
     */
     public final void setPosition(double position) {
-        if (!isInitialized)
+        if (!isInitialized) {
             throw new IllegalStateException(
                 "Motor must be initialized first"
             );
+        }
         for (SpikeMotor follower : followers) {
             follower.setPosition(position);
         }
@@ -114,10 +130,11 @@ public abstract class SpikeMotor {
     * @see       #getPositionImpl()
     */
     public final double getPosition() {
-        if (!isInitialized)
+        if (!isInitialized) {
             throw new IllegalStateException(
                 "Motor must be initialized first"
             );
+        }
         return getPositionImpl();
     }
 
@@ -131,10 +148,11 @@ public abstract class SpikeMotor {
     * @see              #moveToImpl()
     */
     public final void moveTo(double position) {
-        if (!isInitialized)
+        if (!isInitialized) {
             throw new IllegalStateException(
                 "Motor must be initialized first"
             );
+        }
         for (SpikeMotor follower : followers) {
             follower.moveTo(position);
         }

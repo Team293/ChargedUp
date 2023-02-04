@@ -94,8 +94,6 @@ public class Drivetrain extends SubsystemBase {
                 put("Left Encoder Position (Ft)", getLeftEncoderPosition());
                 put("Right Encoder Veloctiy (Ft per S)", getRightEncoderVelocity());
                 put("Right Encoder Position (Ft)", getRightEncoderPosition());
-                put("Raw Left Encoder", leftTalonLead.getSelectedSensorPosition(0));
-                put("Raw Right Encoder", rightTalonLead.getSelectedSensorPosition(0));
 
                 put("Robot Heading (degrees)", getGyroHeadingDegrees());
                 put("NavX X Accel", (double) navX.getWorldLinearAccelX());
@@ -105,9 +103,6 @@ public class Drivetrain extends SubsystemBase {
                 put("NavX Angle", getGyroHeadingDegrees());
                 put("NavX Fused Heading", getGyroFusedHeadingDegrees());
                 put("NavX TurnRate dg per s", navX.getRate());
-
-                put("Left Motor Position Error", leftTalonLead.getClosedLoopError(0));
-                put("Right Motor Position Error", rightTalonLead.getClosedLoopError(0));
             }
         };
         Enumeration<String> doubleValsKeys = doubleVals.keys();
