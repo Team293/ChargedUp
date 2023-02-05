@@ -21,6 +21,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *
  */
 public class Targeting extends SubsystemBase {
+    public static final int DEFAULT_TARGET_RPM = 2000;
+
+    public static final int LIMELIGHT_LED_ON = 3;
+    public static final int LIMELIGHT_LED_OFF = 1;
+    
+    public static final double CONFIRMED_THRESHOLD = 0.2;
+    
     private NetworkTable m_limeData; // Data from limelight
     private NetworkTableEntry m_tAcquired; // t stands for target
     private NetworkTableEntry m_targetX; // x value of the target
