@@ -43,18 +43,17 @@ public class SpikeMotorCANSparkMax extends SpikeMotor {
 
     @Override
     protected void setPositionImpl(double position) {
-        //motor.setSelectedSensorPosition(SPIKE293Utils.feetToControllerUnits(position, wheelDiameter));
+        motor.getEncoder().setPosition(position * secondToMinute / (Math.PI * conversionFactor));
     }
 
     @Override
     protected double getPositionImpl() {
-        return 0.0d;
-        //return SPIKE293Utils.controllerUnitsToFeet(motor.getSelectedSensorPosition(0), wheelDiameter);
+        return motor.getEncoder().getPosition() / secondToMinute * Math.PI * conversionFactor;
     }
 
     @Override
     protected void moveToImpl(double position) {
-        //motor.set(ControlMode.Position, SPIKE293Utils.feetToControllerUnits(position));
+        pidController.setReference(position / (Math.PI * conversionFactor), CANSparkMax.ControlType.kPosition);
     }
 
     @Override

@@ -6,8 +6,6 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-
-import frc.robot.classes.SPIKE293Utils;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 public class SpikeMotorTalonFX extends SpikeMotor {
@@ -69,24 +67,22 @@ public class SpikeMotorTalonFX extends SpikeMotor {
 
     @Override
     protected double getSpeedImpl() {
-        return 0.0d;
-        //return SPIKE293Utils.controllerVelocityToFeetPerSec(motor.getSelectedSensorVelocity(), wheelDiameter);
+        return motor.getSelectedSensorVelocity() / conversionFactor / encoderUnitsToDecisec;
     }
 
     @Override
     protected void setPositionImpl(double position) {
-        //motor.setSelectedSensorPosition(SPIKE293Utils.feetToControllerUnits(position, wheelDiameter));
+        motor.setSelectedSensorPosition(conversionFactor * encoderUnitsPerRevolution * position);
     }
 
     @Override
     protected double getPositionImpl() {
-        return 0.0d;
-        //return SPIKE293Utils.controllerUnitsToFeet(motor.getSelectedSensorPosition(0), wheelDiameter);
+        return motor.getSelectedSensorPosition(0) / conversionFactor / encoderUnitsPerRevolution;
     }
 
     @Override
     protected void moveToImpl(double position) {
-        //motor.set(ControlMode.Position, SPIKE293Utils.feetToControllerUnits(position));
+        motor.set(ControlMode.Position, conversionFactor * encoderUnitsPerRevolution * position);
     }
 
     @Override

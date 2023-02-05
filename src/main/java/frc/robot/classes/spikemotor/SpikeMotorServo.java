@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.Servo;
 public class SpikeMotorServo extends SpikeMotor {
     private Servo motor;
     private double offset = 0;
-    private double wheelDiameter;
+    private double conversionFactor;
     
-    public SpikeMotorServo(double wheelDiameter) {
-        this.wheelDiameter = wheelDiameter;
+    public SpikeMotorServo(double conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
 
     @Override
@@ -28,29 +28,29 @@ public class SpikeMotorServo extends SpikeMotor {
 
     @Override
     protected void setPositionImpl(double position) {
-        offset = position - servoUnitsToFeet(motor.getPosition());
+        offset = position - servoUnitsToEncoder(motor.getPosition());
     }
 
     @Override
     protected double getPositionImpl() {
-        return servoUnitsToFeet(motor.getPosition()) + offset;
+        return servoUnitsToEncoder(motor.getPosition()) + offset;
     }
 
     @Override
     protected void moveToImpl(double position) {
-        motor.setPosition(feetToServoUnits(position));
+        motor.setPosition(encoderToServoUnits(position));
     }
 
-    private double servoUnitsToFeet(double servoUnits) {
-        return servoUnits * Math.PI * wheelDiameter / 2;
+    private double servoUnitsToEncoder(double servoUnits) {
+        return servoUnits * Math.PI * conversionFactor / 2;
     }
 
-    private double feetToServoUnits(double feet) {
-        return feet / Math.PI / wheelDiameter * 2;
+    private double encoderToServoUnits(double feet) {
+        return feet / Math.PI / conversionFactor * 2;
     }
 
     @Override
     protected double getConversionFactor() {
-        return wheelDiameter;
+        return conversionFactor;
     }
 }

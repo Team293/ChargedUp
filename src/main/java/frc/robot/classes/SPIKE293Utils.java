@@ -1,7 +1,6 @@
 package frc.robot.classes;
 
 import static frc.robot.Constants.DrivetrainConstants;
-import static frc.robot.Constants.LauncherConstants;
 import edu.wpi.first.math.MathUtil;
 
 public final class SPIKE293Utils {
