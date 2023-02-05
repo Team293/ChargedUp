@@ -1,17 +1,18 @@
 package frc.robot.classes.spikemotor;
 
 import com.revrobotics.*;
-import frc.robot.classes.SPIKE293Utils;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 public class SpikeMotorCANSparkMax extends SpikeMotor {
+    private final double secondToMinute = 60.0d / 1.0d;
+    private final double minuteToSecond = 1.0d / 60.0d;
+    private double conversionFactor;
     private CANSparkMax motor;
     private SparkMaxPIDController pidController;
-    private double wheelDiameter;
     private boolean isBrushed;
 
-    public SpikeMotorCANSparkMax(double wheelDiameter, boolean isBrushed) {
-        this.wheelDiameter = wheelDiameter;
+    public SpikeMotorCANSparkMax(double conversionFactor, boolean isBrushed) {
+        this.conversionFactor = conversionFactor;
         this.isBrushed = isBrushed;
     }
 
@@ -32,31 +33,32 @@ public class SpikeMotorCANSparkMax extends SpikeMotor {
 
     @Override
     protected void setSpeedImpl(double speed) {
-        pidController.setReference(SPIKE293Utils.convertFeetPerSecToRPM(speed, wheelDiameter), CANSparkMax.ControlType.kVelocity);
+        pidController.setReference(speed * secondToMinute / (Math.PI * conversionFactor), CANSparkMax.ControlType.kVelocity);
     }
 
     @Override
     protected double getSpeedImpl() {
-        return SPIKE293Utils.convertRPMToFeetPerSec(motor.getEncoder().getVelocity(), wheelDiameter);
+        return (motor.getEncoder().getVelocity() * conversionFactor *  minuteToSecond);
     }
 
     @Override
     protected void setPositionImpl(double position) {
-        motor.getEncoder().setPosition(SPIKE293Utils.convertFeetToRotations(position, wheelDiameter));
+        //motor.setSelectedSensorPosition(SPIKE293Utils.feetToControllerUnits(position, wheelDiameter));
     }
 
     @Override
     protected double getPositionImpl() {
-        return SPIKE293Utils.convertRotationsToFeet(motor.getEncoder().getPosition(), wheelDiameter);
+        return 0.0d;
+        //return SPIKE293Utils.controllerUnitsToFeet(motor.getSelectedSensorPosition(0), wheelDiameter);
     }
 
     @Override
     protected void moveToImpl(double position) {
-        pidController.setReference(SPIKE293Utils.convertFeetToRotations(position, wheelDiameter), CANSparkMax.ControlType.kPosition);
+        //motor.set(ControlMode.Position, SPIKE293Utils.feetToControllerUnits(position));
     }
 
     @Override
-    protected double getWheelDiameter() {
-        return wheelDiameter;
+    protected double getConversionFactor() {
+        return conversionFactor;
     }
 }

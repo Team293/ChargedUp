@@ -84,8 +84,6 @@ public class Constants {
         public static final double PERCENT_DRIVE_MAX_SPEED = 10.8; // max ft/sec for percentDrive
 
         // MISC Constants
-        public static final double WHEEL_CIRCUMFERENCE_FEET = (4.0d / 12.0d) * Math.PI; // Wheel radius 4 in, converting
-                                                                                        // to feet
         public static final double SECONDS_TO_DECISEC = 1.0d / 10.0d;
         public static final double DECISEC_TO_SECONDS = 10.0d / 1.0d;
         public static final int SECONDS_PER_MINUTE = 60;

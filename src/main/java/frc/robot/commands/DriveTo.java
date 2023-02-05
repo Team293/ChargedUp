@@ -71,8 +71,6 @@ public class DriveTo extends CommandBase {
                 m_targetPose.getX() + ", " + m_targetPose.getY() + ", " + m_targetPose.getHeadingDegrees());
 
         // Converting ft/s equation output to controller velocity
-        vR = SPIKE293Utils.feetPerSecToControllerVelocity(vR);
-        vL = SPIKE293Utils.feetPerSecToControllerVelocity(vL);
 
         // Send vR and vL to velocity drive, units are in controller velocity
         m_drivetrain.velocityDrive(vL, vR);

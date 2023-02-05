@@ -50,7 +50,7 @@ public class SpikeMotorServo extends SpikeMotor {
     }
 
     @Override
-    protected double getWheelDiameter() {
+    protected double getConversionFactor() {
         return wheelDiameter;
     }
 }

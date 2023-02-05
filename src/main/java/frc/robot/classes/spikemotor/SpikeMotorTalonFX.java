@@ -11,19 +11,23 @@ import frc.robot.classes.SPIKE293Utils;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 public class SpikeMotorTalonFX extends SpikeMotor {
+    private final double secondToDeciSec = 1.0d / 10.0d;
+    private final double DeciSecToSec = 10.0d / 1.0d;
+    private final double encoderUnitsPerRevolution = 2048.0d;
+    private final double encoderUnitsToDecisec = encoderUnitsPerRevolution * secondToDeciSec;
     private TalonFX motor;
-    private double wheelDiameter;
+    private double conversionFactor;
     private Boolean inverted;
     private InvertType invertType;
 
-    public SpikeMotorTalonFX(double wheelDiameter, boolean inverted) {
-        this.wheelDiameter = wheelDiameter;
+    public SpikeMotorTalonFX(double conversionFactor, boolean inverted) {
+        this.conversionFactor = conversionFactor;
         this.inverted = inverted;
     }
 
-    public SpikeMotorTalonFX(double wheelDiameter, InvertType invertType) {
-        this.wheelDiameter = wheelDiameter;
-        this.invertType = invertType;
+    public SpikeMotorTalonFX(double conversionFactor, InvertType inverted) {
+        this.conversionFactor = conversionFactor;
+        this.invertType = inverted;
     }
 
     @Override
@@ -60,31 +64,33 @@ public class SpikeMotorTalonFX extends SpikeMotor {
 
     @Override
     protected void setSpeedImpl(double speed) {
-        motor.set(TalonFXControlMode.Velocity, SPIKE293Utils.feetPerSecToControllerVelocity(speed, wheelDiameter));
+        motor.set(TalonFXControlMode.Velocity, conversionFactor * encoderUnitsToDecisec * speed);
     }
 
     @Override
     protected double getSpeedImpl() {
-        return SPIKE293Utils.controllerVelocityToFeetPerSec(motor.getSelectedSensorVelocity(), wheelDiameter);
+        return 0.0d;
+        //return SPIKE293Utils.controllerVelocityToFeetPerSec(motor.getSelectedSensorVelocity(), wheelDiameter);
     }
 
     @Override
     protected void setPositionImpl(double position) {
-        motor.setSelectedSensorPosition(SPIKE293Utils.feetToControllerUnits(position, wheelDiameter));
+        //motor.setSelectedSensorPosition(SPIKE293Utils.feetToControllerUnits(position, wheelDiameter));
     }
 
     @Override
     protected double getPositionImpl() {
-        return SPIKE293Utils.controllerUnitsToFeet(motor.getSelectedSensorPosition(0), wheelDiameter);
+        return 0.0d;
+        //return SPIKE293Utils.controllerUnitsToFeet(motor.getSelectedSensorPosition(0), wheelDiameter);
     }
 
     @Override
     protected void moveToImpl(double position) {
-        motor.set(ControlMode.Position, SPIKE293Utils.feetToControllerUnits(position));
+        //motor.set(ControlMode.Position, SPIKE293Utils.feetToControllerUnits(position));
     }
 
     @Override
-    protected double getWheelDiameter() {
-        return wheelDiameter;
+    protected double getConversionFactor() {
+        return conversionFactor;
     }
 }

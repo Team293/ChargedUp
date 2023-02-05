@@ -215,7 +215,7 @@ public abstract class SpikeMotor {
     *
     * @return   the wheel diameter in feet
     */
-    abstract protected double getWheelDiameter();
+    abstract protected double getConversionFactor();
 
     /**
     * Accelerates the mover towards the given speed.
@@ -256,7 +256,7 @@ public abstract class SpikeMotor {
     * @return       nothing
     */
     public final void moveToAngle(double angle) {
-        moveTo(Math.PI * getWheelDiameter() * angle);
+        moveTo(Math.PI * getConversionFactor() * angle);
     }
 
     /**
@@ -265,6 +265,6 @@ public abstract class SpikeMotor {
     * @return       nothing
     */
     public final void moveByAngle(double angle) {
-        moveTo(Math.PI * getWheelDiameter() * angle + getPosition());
+        moveTo(Math.PI * getConversionFactor() * angle + getPosition());
     }
 }
