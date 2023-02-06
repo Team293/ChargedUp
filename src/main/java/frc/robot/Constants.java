@@ -33,6 +33,7 @@ public class Constants {
         public static final double DEFAULT_JOYSTICK_DEADBAND = 0.15;
         public static final double DEFAULT_FORZA_DEADBAND = 0.01;
         public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
+        public static final double DEFAULT_RCF_JOY_DEADBAND = 0.01;
         public static final boolean DEFAULT_FORZA_MODE = true;
 
         // PID Constants

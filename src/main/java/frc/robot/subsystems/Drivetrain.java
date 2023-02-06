@@ -232,6 +232,36 @@ public class Drivetrain extends SubsystemBase {
         rightTalonLead.set(TalonFXControlMode.Velocity, vR);
     }
 
+    public void arcadeDrive(double velocity, double turning) {
+        // Convert turning and speed to left right encoder velocity
+        double leftMotorOutput;
+        double rightMotorOutput;
+
+        double maxInput = Math.copySign(Math.max(Math.abs(velocity), Math.abs(turning)), velocity);
+        if (velocity >= 0.0) {
+            // First quadrant, else second quadrant
+            if (turning >= 0.0) {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = velocity - turning;
+            } else {
+                leftMotorOutput = velocity + turning;
+                rightMotorOutput = maxInput;
+            }
+        } else {
+            // Third quadrant, else fourth quadrant
+            if (turning >= 0.0) {
+                leftMotorOutput = velocity + turning;
+                rightMotorOutput = maxInput;
+            } else {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = velocity - turning;
+            }
+        }
+
+        // Send to motors
+        percentDrive(leftMotorOutput, rightMotorOutput);
+    }
+
     public void initAutonomous(Position2D startingPose) {
         // reset encoders
         zeroDriveTrainEncoders();
