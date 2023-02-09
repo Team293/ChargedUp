@@ -23,6 +23,7 @@ public class Arm extends SubsystemBase {
     public final double ARM_Y_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
     public final double ARM_SHOULDER_X_INCHES = 17.0d;
     public final double ARM_SHOULDER_Y_INCHES = 54.0d;
+    public final double CALIBRATION_MOTOR_SPEED = 0.1;
     // Angles are in DEGREES
     public final double MIN_ANGLE = 0;
     public final double MAX_ANGLE = 110;
@@ -148,4 +149,28 @@ public class Arm extends SubsystemBase {
         return encoderUnits / ENCODER_UNITS_PER_REVOLUTION * DEGREES_PER_REVOLUTION;
     }
 
+    public void zeroEncoders() {
+        shoulderTalonFX.setSelectedSensorPosition(0);
+        reachTalonFX.setSelectedSensorPosition(0);
+    }
+
+    public void startCalibration() {
+        shoulderTalonFX.set(-CALIBRATION_MOTOR_SPEED);
+        reachTalonFX.set(-CALIBRATION_MOTOR_SPEED);
+    }
+
+    public boolean checkCalibration() {
+        boolean done = true;
+        if (shoulderTalonFX.isRevLimitSwitchClosed() == 1) {
+            shoulderTalonFX.set(0);
+        } else {
+            done = false;
+        }
+        if (reachTalonFX.isRevLimitSwitchClosed() == 1) {
+            reachTalonFX.set(0);
+        } else {
+            done = false;
+        }
+        return done;
+    }
 }
