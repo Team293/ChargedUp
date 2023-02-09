@@ -23,6 +23,9 @@ public class Arm extends SubsystemBase {
     public final double ARM_Y_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
     public final double ARM_SHOULDER_X_INCHES = 17.0d;
     public final double ARM_SHOULDER_Y_INCHES = 54.0d;
+    // Angles are in DEGREES
+    public final double MIN_ANGLE = 0;
+    public final double MAX_ANGLE = 110;
     // Arm shoulder Y inches is between pivot point and ground
     public final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d;
     public final double SHOULDER_ENCODER_UNITS_PER_DEGREE = ENCODER_UNITS_PER_REVOLUTION / DEGREES_PER_REVOLUTION;
@@ -96,6 +99,7 @@ public class Arm extends SubsystemBase {
      * @param angle - the angle in degrees
      */
     public void rotateTo(double angle) {
+        angle = Math.max(Math.min(angle, MAX_ANGLE), MIN_ANGLE);
         double encoderUnits = angle * SHOULDER_ENCODER_UNITS_PER_DEGREE;
         shoulderTalonFX.set(TalonFXControlMode.Position, encoderUnits);
     }
