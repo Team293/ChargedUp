@@ -10,6 +10,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,18 +38,20 @@ public class RobotContainer {
   public final XboxController m_driverXboxController = new XboxController(0);
   public final XboxController m_operatorXboxController = new XboxController(1);
 
+
+  public final SendableChooser<Command> m_driveChooser = new SendableChooser<Command>();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
     // SmartDashboard Buttons
-    SmartDashboard.putData("ArcadeDrive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
+    SmartDashboard.putData("ArcadeDrive", new ForzaDrive(m_drivetrain, m_driverXboxController));
 
     // Configure the button bindings
     configureButtonBindings();
 
     // Setting default command for drivetrain as VelocityDrive
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_driverXboxController));
+    setDefaultDrive();
   }
 
   public static RobotContainer getInstance() {
@@ -73,8 +76,21 @@ public class RobotContainer {
     final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
     xboxRotate180Btn.onTrue(new Rotate(m_drivetrain, 180.0));
+    
+    // Added options to the dropdown for driveChooser and putting it into smartdashboard
+    m_driveChooser.setDefaultOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
+    m_driveChooser.addOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
+    m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
+    SmartDashboard.putData(m_driveChooser);
   }
 
+  private Command getDriveCommand() {
+    return m_driveChooser.getSelected();
+  }
+
+  public void setDefaultDrive() {
+    m_drivetrain.setDefaultCommand(getDriveCommand());
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -121,6 +137,6 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand() {
-    return new ArcadeDrive(m_drivetrain, m_driverXboxController);
+    return new ForzaDrive(m_drivetrain, m_driverXboxController);
   }
 }
