@@ -24,6 +24,12 @@ public class Arm extends SubsystemBase {
     public final double ARM_SHOULDER_X_INCHES = 17.0d;
     public final double ARM_SHOULDER_Y_INCHES = 54.0d;
     public final double CALIBRATION_MOTOR_SPEED = 0.1;
+    public final double SCORE_LOW_X_INCHES = 20.0d; // TODO: Low: Find the value for how far the extension motor has to extend in inches.  
+    public final double SCORE_LOW_ANGLE = 42.0d;
+    public final double SCORE_MID_X_INCHES = 40.0d; // TODO: Mid: Find the value for how far the extension motor has to extend in inches. 
+    public final double SCORE_MID_ANGLE = 87.0d;
+    public final double SCORE_HIGH_X_INCHES = 60.0; // TODO: High: Find the value for how far the extension motor has to extend in inches.
+    public final double SCORE_HIGH_ANGLE = 106.0d;
     // Angles are in DEGREES
     public final double MIN_ANGLE = 0;
     public final double MAX_ANGLE = 110;

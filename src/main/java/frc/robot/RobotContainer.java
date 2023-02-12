@@ -32,7 +32,7 @@ public class RobotContainer {
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
   public final WriteToCSV m_logger = new WriteToCSV();
-  public final Arm arm = new Arm();
+  public final Arm m_arm = new Arm();
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
@@ -50,7 +50,7 @@ public class RobotContainer {
 
     // Setting default command for drivetrain as VelocityDrive
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_driverXboxController));
-    arm.setDefaultCommand(new AdjustArm(arm, m_operatorXboxController));
+    m_arm.setDefaultCommand(new AdjustArm(m_arm, m_operatorXboxController));
   }
 
   public static RobotContainer getInstance() {
