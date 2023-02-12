@@ -14,17 +14,29 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static frc.robot.Constants.TargetingConstants.*;
-import static frc.robot.Constants.LauncherConstants.*; 
+import static frc.robot.Constants.LauncherConstants.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.classes.Position2D;
 
 /**
  *
  */
 public class Targeting extends SubsystemBase {
+
+    private double vP = 0.001; // TODO Add these to constants and get instance of them
+    private double vI = 0.0;
+    private double vD = vP * 10;
+
     private NetworkTable m_limeData; // Data from limelight
     private NetworkTableEntry m_tAcquired; // t stands for target
     private NetworkTableEntry m_targetX; // x value of the target
     private NetworkTableEntry m_targetY; // y value of the target
+    private NetworkTableEntry m_targetArea; // area of the target
+    private double[] m_botPose;
+
+    private double m_errorIntegral = 0.0;
+    private double m_lastError = 0.0;
 
     private boolean m_isReadyToFire = false;
 
@@ -34,11 +46,16 @@ public class Targeting extends SubsystemBase {
         m_tAcquired = m_limeData.getEntry("tv");
         m_targetX = m_limeData.getEntry("tx");
         m_targetY = m_limeData.getEntry("ty");
+        m_targetArea = m_limeData.getEntry("ta");
+        m_botPose = m_limeData.getEntry("botpose").getDoubleArray(new double[1]);
 
         // Set default values for shuffleboard
         m_limeData.getEntry("camMode").setNumber(0);
         m_limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
 
+        SmartDashboard.putNumber("P Gain", vP);
+        SmartDashboard.putNumber("I Gain", vI);
+        SmartDashboard.putNumber("D Gain", vD);
         SmartDashboard.putBoolean("isTargetted", false);
 
         controlLight(true);
@@ -50,6 +67,16 @@ public class Targeting extends SubsystemBase {
         SmartDashboard.putNumber("Ty", m_targetY.getDouble(10000));
         SmartDashboard.putBoolean("isTargetted", isTargeted());
         SmartDashboard.putNumber("Distance from Target", calcDistance());
+
+        m_botPose = m_limeData.getEntry("botpose").getDoubleArray(new double[1]);
+        if (hasTarget()) {
+            SmartDashboard.putNumberArray("Lime Pose", new double[] { m_botPose[0], m_botPose[1], m_botPose[5] });
+
+            SmartDashboard.putNumber("Lime X", m_botPose[0]);
+            SmartDashboard.putNumber("Lime Y", m_botPose[1]);
+            SmartDashboard.putNumber("Lime Heading", m_botPose[5]);
+            SmartDashboard.putBoolean("Lime has target", hasTarget());
+        }
     }
 
     public boolean getIsReadyToFire() {
@@ -65,21 +92,64 @@ public class Targeting extends SubsystemBase {
         }
     }
 
+    public double navToTarget() {
+        double percentOutput = 0.0d;
+
+        // Do we have a target?
+        if (m_tAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            double limeError = m_targetX.getDouble(0.0); // Get the error of the target X
+            double headingError = limeError; // 29.5 is the range of the limelight which goes from -29.5 to 29.5
+            double change = headingError - m_lastError;
+
+            // Is this still used? INTEGRAL_LIMIT is the same as CONFIRMED_THRESHOLD
+            if (Math.abs(m_errorIntegral) < INTEGRAL_LIMIT) {
+                // Accumulate the error into the integral
+                m_errorIntegral += headingError * INTEGRAL_WEIGHT;
+                SmartDashboard.putNumber("Integral", m_errorIntegral);
+            }
+
+            // Calculate percent output to feed to velocity drive
+            percentOutput = (vP * headingError) + (vI * m_errorIntegral) + (vD * change);
+
+            clampPercentOutput(percentOutput);
+
+            // Save last error
+            m_lastError = headingError;
+        }
+
+        return percentOutput;
+    }
+
+    private double clampPercentOutput(double percent) {
+        if (percent > PERCENT_OUTPUT_LIMIT) {
+            percent = PERCENT_OUTPUT_LIMIT;
+        } else if (percent < -PERCENT_OUTPUT_LIMIT) {
+            percent = -PERCENT_OUTPUT_LIMIT;
+        }
+
+        return percent;
+    }
+
     public double calcShooterRPM() {
         double retval = DEFAULT_TARGET_RPM;
         double ty = m_targetY.getDouble(0.0);
         if (m_tAcquired.getDouble(0.0) == TARGET_ACQUIRED) {
-            //retv  al = (-30.07 * ty) + 1690.42;
+            // retv al = (-30.07 * ty) + 1690.42;
             retval = (230 * Math.pow(Math.E, ((-0.237 * ty) - 1.5))) + 1680.48;
-            if(retval > 2900.0){
+            if (retval > 2900.0) {
                 retval = 2900.0;
             }
-            if(retval < 1600.0){
+            if (retval < 1600.0) {
                 retval = 1600.0;
             }
         }
 
         return retval;
+    }
+
+    public void resetPID() {
+        m_errorIntegral = ERROR_INTEGRAL_DEFAULT;
+        m_lastError = LAST_ERROR_DEFAULT;
     }
 
     public boolean isTargeted() {
@@ -111,10 +181,19 @@ public class Targeting extends SubsystemBase {
         return -1 * m_targetX.getDouble(0);
     }
 
-    public boolean hasTarget(){
-        if (m_tAcquired.getDouble(0.0) == TARGET_ACQUIRED) {
-            return true;
-        }
-        return false;
+    public double getTargetArea() {
+        return m_targetArea.getDouble(-1.0);
+    }
+
+    public boolean hasTarget() {
+        return m_tAcquired.getDouble(-1) == 1 && m_botPose.length > 1;
+    }
+
+    public Position2D getRobotPose() {
+        return new Position2D(m_botPose[0] * 3.28, m_botPose[1] * 3.28, Math.toRadians(m_botPose[5])); // reading array
+                                                                                                       // of values and
+                                                                                                       // converting
+                                                                                                       // from meters to
+                                                                                                       // feet
     }
 }

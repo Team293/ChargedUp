@@ -42,7 +42,13 @@ public class RobotContainer {
    */
   private RobotContainer() {
     // SmartDashboard Buttons
+    SmartDashboard.putData("Autonomous Command",
+        new SequentialAutoCommand(m_drivetrain, m_kinematics, StartPositions.BLUE_LEFT, m_targeting));
+
     SmartDashboard.putData("ArcadeDrive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
+
+    SmartDashboard.putData("Reset Kinematics",
+        new ResetKinematics(new Position2D(0, 0, 0), m_drivetrain, m_kinematics));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -73,6 +79,11 @@ public class RobotContainer {
     final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
     xboxRotate180Btn.onTrue(new Rotate(m_drivetrain, 180.0));
+
+    final JoystickButton aBtn = new JoystickButton(m_operatorXboxController, XboxController.Button.kA.value);
+    aBtn.whileTrue(
+        new DriveToAT(new Position2D(23.762 - 1.5526, -4.13, 0), 1, false, m_kinematics, m_drivetrain, m_targeting));
+
   }
 
   /**
@@ -84,7 +95,8 @@ public class RobotContainer {
     // The selected command will be run in autonomous
     // When either the alliance colour check or the location check fails it defaults
     // to the blue left side
-    Command autoCommand = null;
+    Command autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, StartPositions.BLUE_LEFT, m_targeting);
+    ;
     Alliance allianceColor = DriverStation.getAlliance();
 
     StartPositions startingPosition = StartPositions.INVALID;
@@ -113,10 +125,8 @@ public class RobotContainer {
     if (StartPositions.INVALID == startingPosition) {
       System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
     } else {
-      autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_targeting,
-          startingPosition, m_logger);
+      autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, startingPosition, m_targeting);
     }
-
     return autoCommand;
   }
 
