@@ -90,32 +90,6 @@ public class Constants {
         public static final boolean USE_NAVX_HEADING = false;
     }
 
-    public static final class ArmConstants {
-        public static final int SHOULDER_TALON_FX_CAN_ID = 6;
-        public static final int REACH_TALON_FX_CAN_ID = 7;
-        public static final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-        public static final double POSITION_KF = 0.0d;
-        public static final double POSITION_KP = 0.0d;
-        public static final double POSITION_KI = 0.0d;
-        public static final double POSITION_KD = 0.0d;
-        public static final int PID_CONFIG_TIMEOUT_MS = 10;
-        public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
-        public static final double PERIODIC_RUNS_PER_SECOND = 50.0d;
-        public static final double ARM_X_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
-        public static final double ARM_Y_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
-        public static final double ARM_SHOULDER_X_INCHES = 17.0d;
-        public static final double ARM_SHOULDER_Y_INCHES = 54.0d;
-        // Arm shoulder Y inches is between pivot point and ground
-        public static final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d;
-        public static final double DEGREES_PER_REVOLUTION = 360;
-        public static final double SHOULDER_ENCODER_UNITS_PER_DEGREE = ENCODER_UNITS_PER_REVOLUTION / DEGREES_PER_REVOLUTION;
-        public static final double REACH_ENCODER_UNITS_PER_INCH = 5.0d; // NEED TO FIND THIS
-        // Gear ratios
-        public static final double MOTOR_ROTATIONS_PER_ENCODER_UNIT = 1 / ENCODER_UNITS_PER_REVOLUTION;
-        public static final double SHOULDER_GEARBOX_RATIO = 1 / 100.0d;
-        public static final double PULLEY_RATIO = 1;
-    }
-
     public static final class SmoothControlConstants {
         public static final double K1 = 1.0d;
         public static final double K2 = 3.0d;
