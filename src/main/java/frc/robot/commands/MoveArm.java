@@ -8,7 +8,8 @@ public class MoveArm extends CommandBase {
     public enum Node {
         LOW,
         MID,
-        HIGH
+        HIGH,
+        SUBSTATION
     }
     private final Arm m_arm;
     public final XboxController m_operatorXboxController;
@@ -42,6 +43,10 @@ public class MoveArm extends CommandBase {
             case HIGH:
                 m_arm.rotateTo(m_arm.SCORE_HIGH_ANGLE);
                 m_arm.extendTo(m_arm.SCORE_HIGH_X_INCHES);
+                break;
+            case SUBSTATION:
+                m_arm.rotateTo(m_arm.SUBSTATION_PICKUP_ANGLE);
+                m_arm.extendTo(m_arm.SUBSTATION_PICKUP_X_INCHES);
                 break;
         }
     }
