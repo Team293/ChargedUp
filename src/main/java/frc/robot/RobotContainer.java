@@ -3,6 +3,8 @@
 
 package frc.robot;
 
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArm.Node;
 import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
@@ -32,6 +34,7 @@ public class RobotContainer {
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
   public final WriteToCSV m_logger = new WriteToCSV();
+  public final Arm m_arm = new Arm();
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
@@ -49,6 +52,7 @@ public class RobotContainer {
 
     // Setting default command for drivetrain as VelocityDrive
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_driverXboxController));
+    m_arm.setDefaultCommand(new AdjustArm(m_arm, m_operatorXboxController));
   }
 
   public static RobotContainer getInstance() {
@@ -71,8 +75,24 @@ public class RobotContainer {
     xboxTargetBtn.whileTrue(new TrackTarget(m_drivetrain, m_targeting));
 
     final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kA.value);
+        XboxController.Button.kRightBumper.value);
     xboxRotate180Btn.onTrue(new Rotate(m_drivetrain, 180.0));
+
+    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kB.value);
+    xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
+
+    final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kX.value);
+    xboxXBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.MID));
+
+    final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kA.value);
+    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.LOW));
+
+    final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kY.value);
+    xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
   }
 
   /**
