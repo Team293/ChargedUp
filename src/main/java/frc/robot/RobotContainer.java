@@ -37,11 +37,13 @@ public class RobotContainer {
   public final XboxController m_driverXboxController = new XboxController(0);
   public final XboxController m_operatorXboxController = new XboxController(1);
 
+  public long m_startTime = -1;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
     // SmartDashboard Buttons
+    SmartDashboard.putNumber("ElapsedTime", m_startTime);
     SmartDashboard.putData("ArcadeDrive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
 
     // Configure the button bindings
@@ -116,7 +118,7 @@ public class RobotContainer {
       System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
     } else {
       autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_targeting,
-          startingPosition, m_logger);
+          startingPosition, m_logger, () -> resetTime(), () -> stopTime());
     }
 
     return autoCommand;
@@ -124,5 +126,21 @@ public class RobotContainer {
 
   public Command getTeleopCommand() {
     return new ArcadeDrive(m_drivetrain, m_driverXboxController);
+  }
+  
+  public Long resetTime() {
+    m_startTime = System.currentTimeMillis();
+    
+    System.out.println("TIMER RESET" + m_startTime);
+    SmartDashboard.putBoolean("Timer Reset", true);
+    SmartDashboard.putNumber("Reset Time", m_startTime);
+    return m_startTime;
+  }
+
+  public Long stopTime() {
+    long elapsedTime = System.currentTimeMillis() - m_startTime;
+    System.out.println("TIME STOPPED:" + elapsedTime/1000);
+    SmartDashboard.putNumber("Elapsed Time", elapsedTime);
+    return elapsedTime;
   }
 }

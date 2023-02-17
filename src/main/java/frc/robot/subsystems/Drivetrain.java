@@ -54,7 +54,7 @@ public class Drivetrain extends SubsystemBase {
         leftTalonLead.clearStickyFaults();
         rightTalonLead.clearStickyFaults();
 
-        // Set facotry defaults for onboard PID
+        // Set factory defaults for onboard PID
         leftTalonLead.configFactoryDefault();
         rightTalonLead.configFactoryDefault();
 

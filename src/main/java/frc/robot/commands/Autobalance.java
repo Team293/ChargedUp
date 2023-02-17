@@ -12,41 +12,89 @@ public class Autobalance extends CommandBase {
     private double m_change = 0.0d;
     private double m_errorIntegral = 0.0d;
     private double m_velOutput = 0.0d;
+
+    private double m_velMultipliedOutput = 0.0d;
+
     // start (gives throttle) (may make it overshoot if too high)
     private double m_P = 0.0055d;
     // finicky (depends on situation) (within 5 to 3 degress of error)
     private double m_I = 0.00d;
     // good rule of thumb for d: m_d = m_p * 10
     private double m_D = m_P * 10;
-    private double m_clamp = 0.1;
+
+ 
     private int m_balencedTimes = 0;
+    // speed
+    
+
+    private double m_clamp = 0.5;
+    private int m_balancedTimes = 0;
+    private double m_maxBalance = 20;
+    private double vel = 2.5;
+    private double initialposition;
+    private int autobalancePhase = 0;
+    private int autobalancePrecision = 5;
     // speed
     private Drivetrain m_driveTrain;
 
-    public Autobalance(
-            Drivetrain driveTrain) {
+    public Autobalance(Drivetrain driveTrain) {
+
         m_driveTrain = driveTrain;
         addRequirements(driveTrain);
         SmartDashboard.putNumber("m_P", m_P);
         SmartDashboard.putNumber("m_I", m_I);
         SmartDashboard.putNumber("m_D", m_D);
         SmartDashboard.putNumber("m_Clamp", m_clamp);
+
+        SmartDashboard.putNumber("m_initpos", initialposition);
+        SmartDashboard.putNumber("vel", vel);
+        SmartDashboard.putNumber("maxbalance", m_maxBalance);
+    }
+
+    public int CheckNearestNumber(int back, int num, int front){
+        var frontDiff = Math.abs(front - num);
+        var backDiff = Math.abs(back - num);
+        if(frontDiff<backDiff){
+            return front;
+        }else{
+            return back;
+        }
+    }
+    public void SetAutobalancePhase(int autobalancePrecision){
+        autobalancePhase = CheckNearestNumber(0, 35/autobalancePrecision, 35/autobalancePrecision * 2);
     }
 
     @Override
     public void execute() {
         // calculate pid variables (error (p), change (d), error integral (i))
+
+        m_P = SmartDashboard.getNumber("m_P", m_P);
+        m_I = SmartDashboard.getNumber("m_I", m_I);
+        m_D = SmartDashboard.getNumber("m_D", m_D);
+        m_maxBalance = SmartDashboard.getNumber("maxbalance", m_maxBalance);
+        m_clamp = SmartDashboard.getNumber("m_Clamp", m_clamp);
+        vel = SmartDashboard.getNumber("vel", vel);
+
         m_lastError = m_error;
 
         m_pitch = m_driveTrain.getGyroPitchDegrees();
 
         m_error = m_pitch - 90;
 
+
         if (Math.abs(m_error)<3) {
             m_balencedTimes+=1;
             return;
         } else {
             m_balencedTimes = 0;
+
+        SmartDashboard.putNumber("Error", m_error);
+
+        if (Math.abs(m_error) < 2) {
+            m_balancedTimes += 1;
+        } else {
+            m_balancedTimes = 0;
+
         }
 
         m_change = m_error - m_lastError;
@@ -56,6 +104,7 @@ public class Autobalance extends CommandBase {
             // Accumulate the error into the integral
             m_errorIntegral += m_error;
         }
+
         SmartDashboard.putNumber("Error", m_error);
         SmartDashboard.putNumber("Change", m_change);
         SmartDashboard.putNumber("ErrorIntegral", m_errorIntegral);
@@ -63,16 +112,48 @@ public class Autobalance extends CommandBase {
         m_velOutput = (m_P * m_error) + (m_I * m_errorIntegral) + (m_D * m_change);
         MathUtil.clamp(m_velOutput, -m_clamp, m_clamp);
         SmartDashboard.putNumber("velOutput", m_velOutput);
+
         m_driveTrain.arcadeDrive(m_velOutput, 0);
+
+        SmartDashboard.putNumber("velMultipliedOutput", m_velMultipliedOutput);
+        m_velMultipliedOutput = m_velOutput * vel;
+        
+        if ( Math.abs(m_error) > 14 && Math.abs(m_error) < 30){
+            m_driveTrain.arcadeDrive(m_velMultipliedOutput, 0);  
+            autobalancePhase = 1; 
+        }
+        else if( Math.abs(m_error) <= 14 ){
+            m_driveTrain.arcadeDrive(m_velOutput, 0);
+            autobalancePhase = 2;
+        }
+
+        SmartDashboard.putNumber("Autobalance Phase", autobalancePhase);
+        SmartDashboard.putNumber("BalancedTime", m_balancedTimes);
+    }
+
     }
 
     @Override
     public void end(boolean interrupted) {
         m_driveTrain.arcadeDrive(0, 0);
+        autobalancePhase = 0;
+
     }
 
     @Override
     public boolean isFinished() {
-        return m_balencedTimes > 7 && false;
+        //return m_balencedTimes > 7 && false;
+        
+
+        if (m_balancedTimes > 20) {
+            m_driveTrain.arcadeDrive(0.1, 0);
+
+            return true;
+        } else {
+            
+            return false;
+        }
+        
+
     }
 }
