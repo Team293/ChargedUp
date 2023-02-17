@@ -32,8 +32,8 @@ public class Constants {
     public static final class DrivetrainConstants {
         public static final double DEFAULT_JOYSTICK_DEADBAND = 0.15;
         public static final double DEFAULT_FORZA_DEADBAND = 0.01;
-        public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
-        public static final double DEFAULT_RCF_JOY_DEADBAND = 0.01;
+        public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.04;
+        public static final double DEFAULT_RCF_JOY_DEADBAND = 0.04;
         public static final boolean DEFAULT_FORZA_MODE = true;
 
         // PID Constants
@@ -165,22 +165,19 @@ public class Constants {
         public static final double LAST_ERROR_DEFAULT = 0.0;
     }
 
-    public static final class ClimberConstants
-    {
+    public static final class ClimberConstants {
         public static final int CLIMB_RETRACTION_SOLENOID = 0;
         public static final int CLIMB_EXTENSION_SOLENOID = 1;
     }
 
-    public static final class PneumaticConstants
-    {
+    public static final class PneumaticConstants {
         public static final int PNEUMATIC_MODULE_ID = 7;
         public static final double LOWEST_COMPRESSOR_PSI = 100.0d;
         public static final double HIGHEST_COMPRESSOR_PSI = 119.5d;
         public static final PneumaticsModuleType PNUEMATIC_MODULE_TYPE = PneumaticsModuleType.REVPH;
     }
 
-    public static final class LoggerConstants
-    {
+    public static final class LoggerConstants {
         public static final String LOGGER_KEY = "SpikeTest";
         public static final String LOGGER_VALUE = "LogTest";
         public static final String LOGGER_PATH = "/media/sda1/";

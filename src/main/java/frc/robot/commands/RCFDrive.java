@@ -54,6 +54,9 @@ public class RCFDrive extends CommandBase {
         double speed = m_xboxcontroller.getLeftY();
         double turning = m_xboxcontroller.getRightX();
 
+        SmartDashboard.putNumber("RCF Joystick speed", speed);
+        SmartDashboard.putNumber("RCF Joystick turning", turning);
+
         // Grab variables from SmartDashboard and clamping
         m_rcfDeadband = SmartDashboard.getNumber("RCF Joy Deadband", DEFAULT_RCF_JOY_DEADBAND);
         m_rcfDeadband = MathUtil.clamp(m_rcfDeadband, 0.0d, 1.0d);
@@ -69,9 +72,12 @@ public class RCFDrive extends CommandBase {
         turning = SPIKE293Utils.applyDeadband(turning, m_rcfDeadband);
         speed = SPIKE293Utils.applyDeadband(speed, m_rcfDeadband);
 
-        // Applying percentages 
+        // Applying percentages
         turning *= m_turningLimitPercentage;
         speed *= m_velocityLimitPercentage;
+
+        SmartDashboard.putNumber("RCF ACTUAL speed", speed);
+        SmartDashboard.putNumber("RCF ACTUAL turning", turning);
 
         // Move robot
         m_drivetrain.arcadeDrive(speed, turning);
