@@ -10,9 +10,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 /**
@@ -168,15 +165,6 @@ public class Constants {
         public static final double MAX_SHOOTER_RPM = 2900.0d;
     }
 
-    public static final class FeederConstants {
-        // not used
-        public static final int BELT_CAN_ID = 5;
-        public static final int TRIGGER_CAN_ID = 4;
-        public static final int BELT_SENSOR_PORT = 0;
-        public static final Port COLOR_SENSOR_PORT = I2C.Port.kMXP;
-        public static final int PROXIMITY_THRESHOLD = 110;
-    }
-
     public static final class TargetingConstants {
         // targeting
         public static final int LIMELIGHT_LED_ON = 3;
@@ -200,22 +188,6 @@ public class Constants {
         public static final double ERROR_INTEGRAL_DEFAULT = 0.0;
         public static final double LAST_ERROR_DEFAULT = 0.0;
     }
-    
-    public static final class ClimberConstants
-    {
-        // not used
-        public static final int CLIMB_RETRACTION_SOLENOID = 0;
-        public static final int CLIMB_EXTENSION_SOLENOID = 1;
-    }
-
-    public static final class PneumaticConstants
-    {
-        // not used
-        public static final int PNEUMATIC_MODULE_ID = 7;
-        public static final double LOWEST_COMPRESSOR_PSI = 100.0d;
-        public static final double HIGHEST_COMPRESSOR_PSI = 119.5d;
-        public static final PneumaticsModuleType PNUEMATIC_MODULE_TYPE = PneumaticsModuleType.REVPH;
-    }
 
     public static final class LoggerConstants
     {
@@ -229,10 +201,3 @@ public class Constants {
         public static final String LOGGER_SUFFIX = "_sim";
     }
 }
-
-
-// robot done
-// arcade drive done
-// spike293utils done
-// targeting done
-// drive train

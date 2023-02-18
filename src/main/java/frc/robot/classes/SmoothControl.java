@@ -1,8 +1,9 @@
 package frc.robot.classes;
 
-import static frc.robot.Constants.SmoothControlConstants.*;
-
 public class SmoothControl {
+  public static final double K1 = 1.0d;
+  public static final double K2 = 3.0d;
+  
   private double m_range; // Feet
 
   public SmoothControl() {
