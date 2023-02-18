@@ -8,6 +8,7 @@ import frc.robot.commands.MoveArm.Node;
 import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
+import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.Rotate;
