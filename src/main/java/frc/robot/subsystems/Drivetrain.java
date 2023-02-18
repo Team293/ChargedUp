@@ -29,14 +29,74 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 
-import static frc.robot.Constants.DrivetrainConstants.*;
-
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.littletonrobotics.junction.Logger;
 
 public class Drivetrain extends SubsystemBase {
+
+    public static final double DEFAULT_JOYSTICK_DEADBAND = 0.15;
+    public static final double DEFAULT_FORZA_DEADBAND = 0.01;
+    public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
+    public static final boolean DEFAULT_FORZA_MODE = true;
+
+    // PID Constants
+    /*
+     * To tune the PID:
+     * 1. Using Pheonix tuner, set motors to factory default
+     * 2. Set the velocity to 100%, this is the MAX_ENCODER_VELOCITY,
+     * use the slower of the two motor systems!
+     * 3. Calculate KF by hand using the KF equation below
+     * 4. Increase P until the system oscillates by a measureable time
+     * 5. Measure the period of the oscillation in seconds
+     * 6. The P gain used to get this measureable oscillation is KU, enter KU
+     * 7. The measured period of the oscillation, in seconds, is TU, enter TU
+     * Done.
+     */
+
+    // Choose the slower motor speed max, in this case the right motor
+    public static final double MAX_ENCODER_VELOCITY = 20743.0d;
+    public static final double KF_TYPICAL_PERCENT_USAGE = 0.75d; // We will typically use 75% of max speed
+    public static final double TALON_FULL_OUTPUT_SETTING = 1023;
+    public static final double VELOCITY_KF = 0.046d;
+    public static final double VELOCITY_KP = 0.03d;
+    public static final double VELOCITY_KI = 0.0d;
+    public static final double VELOCITY_KD = 0.06d;
+
+    public static final double POSITION_KF = 0.0d;
+    public static final double POSITION_KP = 0.029d;
+    public static final double POSITION_KI = 0.0004d;
+    public static final double POSITION_KD = 0.29d;
+
+    public static final double CLOSED_LOOP_RAMP = 0.5;
+    public static final double MAX_VELOCITY = 21549;
+
+    public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
+    public static final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
+    public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25d;
+    public static final int LEFT_LEAD_TALON_CAN_ID = 2;
+    public static final int LEFT_FOLLOWER_TALON_CAN_ID = 0;
+    public static final int RIGHT_LEAD_TALON_CAN_ID = 1;
+    public static final int RIGHT_FOLLOWER_TALON_CAN_ID = 3;
+    public static final int VELOCITY_PID_SLOT_ID = 0;
+    public static final int POSITION_PID_SLOT_ID = 1;
+    public static final int PID_CONFIG_TIMEOUT_MS = 10;
+    public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
+    public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
+    public static final int ALLOWABLE_DRIVETRAIN_ERROR = 200;
+
+    // MISC Constants
+    public static final double WHEEL_CIRCUMFERENCE_FEET = (4.0d / 12.0d) * Math.PI; // Wheel radius 4 in, converting
+                                                                                    // to feet
+    public static final double SECONDS_TO_DECISEC = 1.0d / 10.0d;
+    public static final double DECISEC_TO_SECONDS = 10.0d / 1.0d;
+    public static final double GEARBOX_RATIO_TO_ONE = 9.52d;
+    public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
+    public static final int ENCODER_EDGES_PER_STEP = 1;
+    public static final int ENCODER_UNITS_PER_REVOLUTION = ENCODER_COUNTS_PER_REVOLUTION; // Edges per Rotation
+    public static final double TRACK_WIDTH_FEET = 27.5d / 12.0d; // Track width is 27.5 inches
+    public static final boolean USE_NAVX_HEADING = false;
     private WPI_TalonFX leftTalonLead;
     private WPI_TalonFX rightTalonLead;
     private WPI_TalonFX leftTalonFollower;
@@ -197,23 +257,55 @@ public class Drivetrain extends SubsystemBase {
          * leftTalonLead.getSelectedSensorPosition(0));
          * SmartDashboard.putNumber("Raw Right Encoder",
          * rightTalonLead.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
-        SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
-        SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
-        SmartDashboard.putNumber("NavX Z Accel", navX.getWorldLinearAccelZ());
-        SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
-        SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
-        SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
-        SmartDashboard.putNumber("NavX TurnRate dg per s", navX.getRate());
-
-        SmartDashboard.putNumber("Left Motor Position Error", leftTalonLead.getClosedLoopError(0));
-        SmartDashboard.putNumber("Right Motor Position Error", rightTalonLead.getClosedLoopError(0));
-        */
+         * SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
+         * SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
+         * SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
+         * SmartDashboard.putNumber("NavX Z Accel", navX.getWorldLinearAccelZ());
+         * SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
+         * SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
+         * SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
+         * SmartDashboard.putNumber("NavX TurnRate dg per s", navX.getRate());
+         * 
+         * SmartDashboard.putNumber("Left Motor Position Error",
+         * leftTalonLead.getClosedLoopError(0));
+         * SmartDashboard.putNumber("Right Motor Position Error",
+         * rightTalonLead.getClosedLoopError(0));
+         */
     }
 
     public void percentDrive(double leftPercentage, double rightPercentage) {
         leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
         rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
+    }
+
+    public void arcadeDrive(double velocity, double turning) {
+        // Convert turning and speed to left right encoder velocity
+        double leftMotorOutput;
+        double rightMotorOutput;
+
+        double maxInput = Math.copySign(Math.max(Math.abs(velocity), Math.abs(turning)), velocity);
+        if (velocity >= 0.0) {
+            // First quadrant, else second quadrant
+            if (turning >= 0.0) {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = velocity - turning;
+            } else {
+                leftMotorOutput = velocity + turning;
+                rightMotorOutput = maxInput;
+            }
+        } else {
+            // Third quadrant, else fourth quadrant
+            if (turning >= 0.0) {
+                leftMotorOutput = velocity + turning;
+                rightMotorOutput = maxInput;
+            } else {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = velocity - turning;
+            }
+        }
+
+        // Send to motors
+        percentDrive(leftMotorOutput, rightMotorOutput);
     }
 
     public void stop() {
