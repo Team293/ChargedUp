@@ -52,8 +52,6 @@ public class ArcadeDrive extends CommandBase {
     public void execute() {
         double turning;
         double speed;
-        double triggerRight;
-        double triggerLeft;
 
         // Get deadband value set in SmartDashboard
         m_arcadeDeadband = SmartDashboard.getNumber("Arcade Joy Deadband", DEFAULT_ARCADE_JOY_DEADBAND);
