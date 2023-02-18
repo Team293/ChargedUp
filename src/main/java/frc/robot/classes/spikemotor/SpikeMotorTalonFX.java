@@ -9,10 +9,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 public class SpikeMotorTalonFX extends SpikeMotor {
-    private final double secondToDeciSec = 1.0d / 10.0d;
-    private final double DeciSecToSec = 10.0d / 1.0d;
     private final double encoderUnitsPerRevolution = 2048.0d;
-    private final double encoderUnitsToDecisec = encoderUnitsPerRevolution * secondToDeciSec;
+    private final double encoderUnitsToDecisec = encoderUnitsPerRevolution * SECONDS_TO_DECISEC;
     private TalonFX motor;
     private double conversionFactor;
     private Boolean inverted;
@@ -34,9 +32,9 @@ public class SpikeMotorTalonFX extends SpikeMotor {
         motor.clearStickyFaults();
         motor.configFactoryDefault();
         motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0,
-            CONFIG_FEEDBACKSENSOR_TIMEOUT_MS);
+                CONFIG_FEEDBACKSENSOR_TIMEOUT_MS);
         motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 1,
-            CONFIG_FEEDBACKSENSOR_TIMEOUT_MS);
+                CONFIG_FEEDBACKSENSOR_TIMEOUT_MS);
         if (inverted != null) {
             motor.setInverted(inverted);
             motor.setSensorPhase(inverted);

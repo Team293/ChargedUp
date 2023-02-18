@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
-import frc.robot.classes.SPIKE293Utils;
 import frc.robot.classes.SmoothControl;
 import frc.robot.subsystems.Drivetrain;
 
@@ -21,7 +20,8 @@ public class DriveTo extends CommandBase {
     private boolean m_inReverse = false;
     private boolean m_isDone = false;
 
-    public DriveTo(Position2D targetPose, double maxVelocity, boolean inReverse, Kinematics kinematics, Drivetrain drivetrain) {
+    public DriveTo(Position2D targetPose, double maxVelocity, boolean inReverse, Kinematics kinematics,
+            Drivetrain drivetrain) {
         addRequirements(drivetrain);
         m_targetPose = targetPose;
         m_maxVelocity = maxVelocity;
