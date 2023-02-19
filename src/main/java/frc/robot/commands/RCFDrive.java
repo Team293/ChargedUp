@@ -14,7 +14,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.DrivetrainConstants.*;
+import static frc.robot.Constants.DriveConstants.*;
 import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Drivetrain;
 
@@ -22,6 +22,8 @@ import frc.robot.subsystems.Drivetrain;
  *
  */
 public class RCFDrive extends CommandBase {
+    public static final double DEFAULT_RCF_JOY_DEADBAND = 0.04;
+
     private final Drivetrain m_drivetrain;
     private final XboxController m_xboxcontroller;
 

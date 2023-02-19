@@ -415,4 +415,8 @@ public class Drivetrain extends SubsystemBase {
     // public double getMotorError(){
     // return leftTalonLead.getClosedLoopError(0);
     // }
+
+    public static double getTrackWidthFeet() {
+        return TRACK_WIDTH_FEET;
+    }
 }

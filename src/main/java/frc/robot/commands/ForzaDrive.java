@@ -14,7 +14,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.DrivetrainConstants.*;
+import static frc.robot.Constants.DriveConstants.*;
 import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Drivetrain;
 
@@ -78,7 +78,7 @@ public class ForzaDrive extends CommandBase {
 
         // Checks if joystick value is higher or lower than deadband value
         turning = SPIKE293Utils.applyDeadband(turning, m_arcadeDeadband);
-        
+
         // Get trigger values
         triggerRight = m_xboxcontroller.getRightTriggerAxis();
         triggerRight = SPIKE293Utils.applyDeadband(triggerRight, m_forzaDeadband);
@@ -92,7 +92,6 @@ public class ForzaDrive extends CommandBase {
             // Going in reverse! Right trigger was zero, set speed to left trigger
             speed = -triggerLeft;
         }
-        
 
         // Clamp input to verify they are valid and greater than the deadband
         turning = MathUtil.clamp(turning, -1.0d, 1.0d);

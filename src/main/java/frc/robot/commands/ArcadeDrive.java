@@ -16,19 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Drivetrain;
-
-
+import static frc.robot.Constants.DriveConstants.*;
 
 /**
  *
  */
 public class ArcadeDrive extends CommandBase {
-    public static final double DEFAULT_FORZA_DEADBAND = 0.01;
-    public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
     public static final boolean DEFAULT_FORZA_MODE = true;
-    
-    public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
-    public static final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
 
     private final Drivetrain m_drivetrain;
     private final XboxController m_xboxcontroller;
@@ -79,7 +73,7 @@ public class ArcadeDrive extends CommandBase {
 
         // Checks if joystick value is higher or lower than deadband value
         turning = SPIKE293Utils.applyDeadband(turning, m_arcadeDeadband);
-      
+
         speed = m_xboxcontroller.getLeftY();
         speed = SPIKE293Utils.applyDeadband(speed, m_arcadeDeadband);
 

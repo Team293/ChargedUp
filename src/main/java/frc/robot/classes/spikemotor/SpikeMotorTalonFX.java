@@ -6,11 +6,29 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-import static frc.robot.Constants.DrivetrainConstants.*;
+import static frc.robot.Constants.TimeConstants.*;
 
 public class SpikeMotorTalonFX extends SpikeMotor {
+    public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
+    public static final int PID_CONFIG_TIMEOUT_MS = 10;
+    public static final double CLOSED_LOOP_RAMP = 0.5;
+    public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
+
+    public static final double VELOCITY_KF = 0.046d;
+    public static final double VELOCITY_KP = 0.03d;
+    public static final double VELOCITY_KI = 0.0d;
+    public static final double VELOCITY_KD = 0.06d;
+
+    public static final double POSITION_KF = 0.0d;
+    public static final double POSITION_KP = 0.029d;
+    public static final double POSITION_KI = 0.0004d;
+    public static final double POSITION_KD = 0.29d;
+
+    public static final int VELOCITY_PID_SLOT_ID = 0;
+    public static final int POSITION_PID_SLOT_ID = 1;
+
     private final double encoderUnitsPerRevolution = 2048.0d;
-    private final double encoderUnitsToDecisec = encoderUnitsPerRevolution * SECONDS_TO_DECISEC;
+    private final double encoderUnitsToDecisec = encoderUnitsPerRevolution * SECOND_TO_DECISECS;
     private TalonFX motor;
     private double conversionFactor;
     private Boolean inverted;

@@ -14,7 +14,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static frc.robot.Constants.TargetingConstants.*;
-import static frc.robot.Constants.LauncherConstants.*; 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -65,23 +64,6 @@ public class Targeting extends SubsystemBase {
         }
     }
 
-    public double calcShooterRPM() {
-        double retval = DEFAULT_TARGET_RPM;
-        double ty = m_targetY.getDouble(0.0);
-        if (m_tAcquired.getDouble(0.0) == TARGET_ACQUIRED) {
-            //retv  al = (-30.07 * ty) + 1690.42;
-            retval = (230 * Math.pow(Math.E, ((-0.237 * ty) - 1.5))) + 1680.48;
-            if(retval > 2900.0){
-                retval = 2900.0;
-            }
-            if(retval < 1600.0){
-                retval = 1600.0;
-            }
-        }
-
-        return retval;
-    }
-
     public boolean isTargeted() {
         boolean targeted = false;
         double limeError = m_targetX.getDouble(0.0); // Get the error of the target X
@@ -111,7 +93,7 @@ public class Targeting extends SubsystemBase {
         return -1 * m_targetX.getDouble(0);
     }
 
-    public boolean hasTarget(){
+    public boolean hasTarget() {
         if (m_tAcquired.getDouble(0.0) == TARGET_ACQUIRED) {
             return true;
         }

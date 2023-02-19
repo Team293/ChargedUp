@@ -1,11 +1,14 @@
 package frc.robot.classes.spikemotor;
 
 import com.revrobotics.*;
-import static frc.robot.Constants.DrivetrainConstants.*;
+import static frc.robot.Constants.TimeConstants.*;
 
 public class SpikeMotorCANSparkMax extends SpikeMotor {
-    private final double secondToMinute = 60.0d / 1.0d;
-    private final double minuteToSecond = 1.0d / 60.0d;
+    public static final double VELOCITY_KF = 0.046d;
+    public static final double VELOCITY_KP = 0.03d;
+    public static final double VELOCITY_KI = 0.0d;
+    public static final double VELOCITY_KD = 0.06d;
+
     private double conversionFactor;
     private CANSparkMax motor;
     private SparkMaxPIDController pidController;
@@ -19,11 +22,8 @@ public class SpikeMotorCANSparkMax extends SpikeMotor {
     @Override
     protected void initImpl(int deviceNumber) {
         motor = new CANSparkMax(
-            deviceNumber,
-            isBrushed ?
-                CANSparkMaxLowLevel.MotorType.kBrushed :
-                CANSparkMaxLowLevel.MotorType.kBrushless
-        );
+                deviceNumber,
+                isBrushed ? CANSparkMaxLowLevel.MotorType.kBrushed : CANSparkMaxLowLevel.MotorType.kBrushless);
         pidController = motor.getPIDController();
         pidController.setFF(VELOCITY_KF);
         pidController.setI(VELOCITY_KI);
@@ -33,22 +33,23 @@ public class SpikeMotorCANSparkMax extends SpikeMotor {
 
     @Override
     protected void setSpeedImpl(double speed) {
-        pidController.setReference(speed * secondToMinute / (Math.PI * conversionFactor), CANSparkMax.ControlType.kVelocity);
+        pidController.setReference(speed * SECOND_TO_MINUTES / (Math.PI * conversionFactor),
+                CANSparkMax.ControlType.kVelocity);
     }
 
     @Override
     protected double getSpeedImpl() {
-        return (motor.getEncoder().getVelocity() * conversionFactor *  minuteToSecond);
+        return (motor.getEncoder().getVelocity() * conversionFactor * MINUTE_TO_SECONDS);
     }
 
     @Override
     protected void setPositionImpl(double position) {
-        motor.getEncoder().setPosition(position * secondToMinute / (Math.PI * conversionFactor));
+        motor.getEncoder().setPosition(position * SECOND_TO_MINUTES / (Math.PI * conversionFactor));
     }
 
     @Override
     protected double getPositionImpl() {
-        return motor.getEncoder().getPosition() / secondToMinute * Math.PI * conversionFactor;
+        return motor.getEncoder().getPosition() * MINUTE_TO_SECONDS * Math.PI * conversionFactor;
     }
 
     @Override
