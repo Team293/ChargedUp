@@ -96,7 +96,7 @@ public class RobotContainer {
 
     final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.LOW));
+    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
 
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
