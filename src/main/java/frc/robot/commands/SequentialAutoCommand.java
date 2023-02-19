@@ -13,8 +13,6 @@ import frc.robot.subsystems.WriteToCSV;
 
 import java.util.function.Supplier;
 
-import static frc.robot.Constants.AutonomousCommandConstants.*;
-
 public class SequentialAutoCommand extends SequentialCommandGroup {
         private StartPositions m_startPosition;
         private Drivetrain m_drivetrain;

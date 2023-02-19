@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class Autobalance extends CommandBase {
-    private Double m_pitch;
+    private double m_pitch;
     private double m_error = 0.0d;
     private double m_lastError = 0.0d;
     private double m_change = 0.0d;
@@ -22,31 +22,24 @@ public class Autobalance extends CommandBase {
     // good rule of thumb for d: m_d = m_p * 10
     private double m_D = m_P * 10;
 
- 
-    private int m_balencedTimes = 0;
-    // speed
-    
-
+    // speed control
     private double m_clamp = 0.5;
     private int m_balancedTimes = 0;
     private double m_maxBalance = 20;
     private double vel = 2.5;
-    private double initialposition;
-    private int autobalancePhase = 0;
-    private int autobalancePrecision = 5;
-    // speed
+
     private Drivetrain m_driveTrain;
 
     public Autobalance(Drivetrain driveTrain) {
 
         m_driveTrain = driveTrain;
         addRequirements(driveTrain);
+
         SmartDashboard.putNumber("m_P", m_P);
         SmartDashboard.putNumber("m_I", m_I);
         SmartDashboard.putNumber("m_D", m_D);
         SmartDashboard.putNumber("m_Clamp", m_clamp);
 
-        SmartDashboard.putNumber("m_initpos", initialposition);
         SmartDashboard.putNumber("vel", vel);
         SmartDashboard.putNumber("maxbalance", m_maxBalance);
     }
@@ -60,14 +53,10 @@ public class Autobalance extends CommandBase {
             return back;
         }
     }
-    public void SetAutobalancePhase(int autobalancePrecision){
-        autobalancePhase = CheckNearestNumber(0, 35/autobalancePrecision, 35/autobalancePrecision * 2);
-    }
 
     @Override
     public void execute() {
         // calculate pid variables (error (p), change (d), error integral (i))
-
         m_P = SmartDashboard.getNumber("m_P", m_P);
         m_I = SmartDashboard.getNumber("m_I", m_I);
         m_D = SmartDashboard.getNumber("m_D", m_D);
@@ -78,15 +67,7 @@ public class Autobalance extends CommandBase {
         m_lastError = m_error;
 
         m_pitch = m_driveTrain.getGyroPitchDegrees();
-
         m_error = m_pitch - 90;
-
-
-        if (Math.abs(m_error)<3) {
-            m_balencedTimes+=1;
-            return;
-        } else {
-            m_balencedTimes = 0;
 
         SmartDashboard.putNumber("Error", m_error);
 
@@ -94,7 +75,6 @@ public class Autobalance extends CommandBase {
             m_balancedTimes += 1;
         } else {
             m_balancedTimes = 0;
-
         }
 
         m_change = m_error - m_lastError;
@@ -117,43 +97,21 @@ public class Autobalance extends CommandBase {
 
         SmartDashboard.putNumber("velMultipliedOutput", m_velMultipliedOutput);
         m_velMultipliedOutput = m_velOutput * vel;
-        
-        if ( Math.abs(m_error) > 14 && Math.abs(m_error) < 30){
-            m_driveTrain.arcadeDrive(m_velMultipliedOutput, 0);  
-            autobalancePhase = 1; 
-        }
-        else if( Math.abs(m_error) <= 14 ){
-            m_driveTrain.arcadeDrive(m_velOutput, 0);
-            autobalancePhase = 2;
-        }
 
-        SmartDashboard.putNumber("Autobalance Phase", autobalancePhase);
         SmartDashboard.putNumber("BalancedTime", m_balancedTimes);
-    }
-
     }
 
     @Override
     public void end(boolean interrupted) {
         m_driveTrain.arcadeDrive(0, 0);
-        autobalancePhase = 0;
-
     }
 
     @Override
     public boolean isFinished() {
-        //return m_balencedTimes > 7 && false;
-        
-
         if (m_balancedTimes > 20) {
-            m_driveTrain.arcadeDrive(0.1, 0);
-
             return true;
         } else {
-            
             return false;
         }
-        
-
     }
 }
