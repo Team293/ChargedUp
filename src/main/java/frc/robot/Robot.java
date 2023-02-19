@@ -12,8 +12,6 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.LoggerConstants.*;
-
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.net.PortForwarder;
@@ -29,6 +27,7 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,6 +37,14 @@ import edu.wpi.first.wpilibj.PowerDistribution;
  * the project.
  */
 public class Robot extends LoggedRobot {
+
+    public static final String LOGGER_KEY = "SpikeTest";
+    public static final String LOGGER_VALUE = "LogTest";
+    public static final String LOGGER_PATH = "/media/sda1/";
+    public static final int LOGGER_MODULE = 1;
+    public static final ModuleType LOGGER_MODULE_TYPE = ModuleType.kRev;
+    public static final boolean LOGGER_USE_TIMING = false;
+    public static final String LOGGER_SUFFIX = "_sim";
 
     private Command m_autonomousCommand;
 
@@ -149,6 +156,7 @@ public class Robot extends LoggedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        m_robotContainer.setDefaultDrive();
     }
 
     /**
