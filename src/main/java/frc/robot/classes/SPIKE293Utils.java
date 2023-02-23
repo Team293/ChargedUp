@@ -1,7 +1,5 @@
 package frc.robot.classes;
 
-import static frc.robot.Constants.DrivetrainConstants;
-import static frc.robot.Constants.LauncherConstants;
 import edu.wpi.first.math.MathUtil;
 
 public final class SPIKE293Utils {
@@ -49,7 +47,7 @@ public final class SPIKE293Utils {
     *@return Drivetrain velocity in ft/s from encoder units
     */
     public static double controllerVelocityToFeetPerSec(double encoderUnits) {
-        return controllerUnitsToFeet(encoderUnits) * DrivetrainConstants.DECISEC_TO_SECONDS;
+        return controllerUnitsToFeet(encoderUnits) * DECISEC_TO_SECONDS;
     }
 
     /**
@@ -59,8 +57,8 @@ public final class SPIKE293Utils {
      * @return Drivetrain velocity in encoder units(edges per 100 milliseconds)
      */
     public static double feetPerSecToControllerVelocity(double feetPerSec) {
-        return ((feetPerSec * DrivetrainConstants.GEARBOX_RATIO_TO_ONE * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION) / (DrivetrainConstants.WHEEL_CIRCUMFERENCE_FEET))
-                * DrivetrainConstants.SECONDS_TO_DECISEC;
+        return ((feetPerSec * GEARBOX_RATIO_TO_ONE * ENCODER_UNITS_PER_REVOLUTION) / (WHEEL_CIRCUMFERENCE_FEET))
+                * SECONDS_TO_DECISEC;
     }
 
     /**
@@ -69,7 +67,7 @@ public final class SPIKE293Utils {
      * @return feet from encoder units for drivetrain
      */
     public static double controllerUnitsToFeet(double encoderUnits) {
-        return (encoderUnits * DrivetrainConstants.WHEEL_CIRCUMFERENCE_FEET) / (DrivetrainConstants.GEARBOX_RATIO_TO_ONE * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION);
+        return (encoderUnits * WHEEL_CIRCUMFERENCE_FEET) / (GEARBOX_RATIO_TO_ONE * ENCODER_UNITS_PER_REVOLUTION);
     }
 
     /**
@@ -79,7 +77,7 @@ public final class SPIKE293Utils {
      */
     public static double feetToControllerUnits(double feet) {
         double controllerUnits = 0.0d;
-        controllerUnits = ((feet * DrivetrainConstants.GEARBOX_RATIO_TO_ONE * DrivetrainConstants.ENCODER_UNITS_PER_REVOLUTION) / (DrivetrainConstants.WHEEL_CIRCUMFERENCE_FEET));
+        controllerUnits = ((feet * GEARBOX_RATIO_TO_ONE * ENCODER_UNITS_PER_REVOLUTION) / (WHEEL_CIRCUMFERENCE_FEET));
         return controllerUnits;
     }
 
@@ -90,7 +88,7 @@ public final class SPIKE293Utils {
      */
     public static double percentageToControllerVelocity(double percentage) {
         MathUtil.clamp(percentage, -1.0d, 1.0d);
-        return (percentage * DrivetrainConstants.MAX_ENCODER_VELOCITY);
+        return (percentage * MAX_ENCODER_VELOCITY);
     }
 
     /**
@@ -99,7 +97,7 @@ public final class SPIKE293Utils {
      * @return velocity in encoder units (edges per 100) of shooter wheel
      */
     public static double convertRPMToControllerVelocity(double rpm) {
-        return (rpm * LauncherConstants.GEAR_RATIO * LauncherConstants.ENCODER_UNITS_PER_REVOLUTION) / LauncherConstants.MINUTES_TO_DECISECONDS;
+        return (rpm * GEAR_RATIO * ENCODER_UNITS_PER_REVOLUTION) / MINUTES_TO_DECISECONDS;
     }
 
     /**
@@ -108,6 +106,6 @@ public final class SPIKE293Utils {
      * @return rpm of shooter wheel
      */
     public static double convertControllerVelocityToRPM(double velocity) {
-        return (velocity * LauncherConstants.MINUTES_TO_DECISECONDS) / (LauncherConstants.ENCODER_UNITS_PER_REVOLUTION * LauncherConstants.GEAR_RATIO);
+        return (velocity * MINUTES_TO_DECISECONDS) / (ENCODER_UNITS_PER_REVOLUTION * GEAR_RATIO);
     }
 }

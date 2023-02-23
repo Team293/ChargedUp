@@ -10,8 +10,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -27,13 +25,6 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
  */
 public class Constants {
     public static final class DrivetrainConstants {
-        // not used
-        public static final double DEFAULT_JOYSTICK_DEADBAND = 0.15;
-        // arcade drive
-        public static final double DEFAULT_FORZA_DEADBAND = 0.01;
-        public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
-        public static final boolean DEFAULT_FORZA_MODE = true;
-
         // PID Constants
         /*
          * To tune the PID:
@@ -49,81 +40,17 @@ public class Constants {
          */
 
         // Choose the slower motor speed max, in this case the right motor
-        // spike293utils
-        public static final double MAX_ENCODER_VELOCITY = 20743.0d;
-        // not used
-        public static final double KF_TYPICAL_PERCENT_USAGE = 0.75d; // We will typically use 75% of max speed
-        public static final double TALON_FULL_OUTPUT_SETTING = 1023;
-        // drive train
-        public static final double VELOCITY_KF = 0.046d;
-        public static final double VELOCITY_KP = 0.03d;
-        public static final double VELOCITY_KI = 0.0d;
-        public static final double VELOCITY_KD = 0.06d;
-
-        // drive train
-        public static final double POSITION_KF = 0.0d;
-        public static final double POSITION_KP = 0.029d;
-        public static final double POSITION_KI = 0.0004d;
-        public static final double POSITION_KD = 0.29d;
-
-        // drive train
-        public static final double CLOSED_LOOP_RAMP = 0.5;
-        // not used
-        public static final double MAX_VELOCITY = 21549;
-
-        // arcade drive
-        public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
-        public static final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
-        // not used
-        public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25d;
-        // drive train
-        public static final int LEFT_LEAD_TALON_CAN_ID = 2;
-        public static final int LEFT_FOLLOWER_TALON_CAN_ID = 0;
-        public static final int RIGHT_LEAD_TALON_CAN_ID = 1;
-        public static final int RIGHT_FOLLOWER_TALON_CAN_ID = 3;
-        public static final int VELOCITY_PID_SLOT_ID = 0;
-        public static final int POSITION_PID_SLOT_ID = 1;
-        public static final int PID_CONFIG_TIMEOUT_MS = 10;
-        public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-        public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
-        // not used
-        public static final int ALLOWABLE_DRIVETRAIN_ERROR = 200;
-
         // MISC Constants
-        // spike293utils
-        public static final double WHEEL_CIRCUMFERENCE_FEET = (4.0d / 12.0d) * Math.PI; // Wheel radius 4 in, converting
-                                                                                        // to feet
-        public static final double SECONDS_TO_DECISEC = 1.0d / 10.0d;
-        public static final double DECISEC_TO_SECONDS = 10.0d / 1.0d;
-        public static final double GEARBOX_RATIO_TO_ONE = 9.52d;
-        // used in constants - spike293utils
-        public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
-        // not used
-        public static final int ENCODER_EDGES_PER_STEP = 1;
-        // spike293utils
-        public static final int ENCODER_UNITS_PER_REVOLUTION = ENCODER_COUNTS_PER_REVOLUTION; // Edges per Rotation
         // kinematics - driveto - drivetrain
         public static final double TRACK_WIDTH_FEET = 27.5d / 12.0d; // Track width is 27.5 inches
-        // drive train
-        public static final boolean USE_NAVX_HEADING = false;
     }
 
-    public static final class SmoothControlConstants {
-        //smooth control 
-        public static final double K1 = 1.0d;
-        public static final double K2 = 3.0d;
-    }
+
 
     public static final class AutonomousCommandConstants {
         // drive to
         public static final double TARGET_WITHIN_RANGE_FEET = DrivetrainConstants.TRACK_WIDTH_FEET / 4.0d; // quarter of
                                                                                                            // trackwidth
-        // not used
-        public static final double STARTING_X = 0.0d;
-        public static final double STARTING_Y = 0.0d;
-        public static final double STARTING_HEADING = Math.toRadians(0.0d);
-        public static final int AUTO_LAUNCHER_RPM = 2050;
-
         // Positions relative to location of driver station
         public static enum StartPositions {
             // robot container
@@ -138,66 +65,5 @@ public class Constants {
             RED_MIDDLE,
             RED_RIGHT
         }
-    }
-
-    public static final class LauncherConstants {
-        // not used
-        public static final int LAUNCHER_CAN_ID = 6;
-        public static final double TARGET_RPM_READY_THRESHOLD = 10;
-        // targeting
-        public static final int DEFAULT_TARGET_RPM = 2000;
-        // not used
-        public static final double CLOSED_LOOP_RAMPRATE = 0.5d;
-        public static final int PID_SLOT_ID = 0;
-        public static final int PID_CONFIG_TIMEOUT_MS = 10;
-        public static final double KF = 0.059d;
-        public static final double KP = 1.1d;
-        public static final double KI = 0.0001d;
-        public static final double KD = 15.0d;
-        public static final double I_ZONE = 100.0d;
-        // spike293utils
-        public static final double GEAR_RATIO = 1.0d;
-        public static final int ENCODER_UNITS_PER_REVOLUTION = 2048;
-        public static final double MINUTES_TO_DECISECONDS = 600.0d;
-        // not used
-        public static final double VOLTAGE_SATURATION = 12.0d;
-        public static final double DUMP_RPM = 1000.0d;
-        public static final double MAX_SHOOTER_RPM = 2900.0d;
-    }
-
-    public static final class TargetingConstants {
-        // targeting
-        public static final int LIMELIGHT_LED_ON = 3;
-        public static final int LIMELIGHT_LED_OFF = 1;
-        // not used
-        public static final int LEFT_MOTOR_IND = 0;
-        public static final int RIGHT_MOTOR_IND = 1;
-        // targeting
-        public static final double TARGET_ACQUIRED = 1.0;
-        // not used
-        public static final double TARGET_NO_TARGET = 0.0;
-        public static final double INTEGRAL_WEIGHT = .2;
-        // targeting
-        public static final double CONFIRMED_THRESHOLD = 0.2;
-        // not used
-        public static final double CONFIRMED_TIME = .25; // Amount of seconds before it considers a target confirmed
-        public static final double INTEGRAL_LIMIT = 0.5;
-        public static final double LIMELIGHT_ERROR_MAX = 29.5;
-        public static final double PERCENT_OUTPUT_LIMIT = .5;
-        public static final double TIMER_NOT_STARTED_VALUE = 0.0;
-        public static final double ERROR_INTEGRAL_DEFAULT = 0.0;
-        public static final double LAST_ERROR_DEFAULT = 0.0;
-    }
-
-    public static final class LoggerConstants
-    {
-        // robot
-        public static final String LOGGER_KEY = "SpikeTest";
-        public static final String LOGGER_VALUE = "LogTest";
-        public static final String LOGGER_PATH = "/media/sda1/";
-        public static final int LOGGER_MODULE = 1;
-        public static final ModuleType LOGGER_MODULE_TYPE = ModuleType.kRev;
-        public static final boolean LOGGER_USE_TIMING = false;
-        public static final String LOGGER_SUFFIX = "_sim";
     }
 }
