@@ -12,27 +12,27 @@
 
 package frc.robot.subsystems;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-
-import org.littletonrobotics.junction.Logger;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.classes.Kinematics;
+import frc.robot.classes.Position2D;
+import frc.robot.classes.SPIKE293Utils;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.classes.Kinematics;
-import frc.robot.classes.Position2D;
-import frc.robot.classes.SPIKE293Utils;
+
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import org.littletonrobotics.junction.Logger;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -273,6 +273,11 @@ public class Drivetrain extends SubsystemBase {
          */
     }
 
+    public void percentDrive(double leftPercentage, double rightPercentage) {
+        leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
+        rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
+    }
+
     public void arcadeDrive(double velocity, double turning) {
         // Convert turning and speed to left right encoder velocity
         double leftMotorOutput;
@@ -300,7 +305,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         // Send to motors
-        velocityDrive(leftMotorOutput, rightMotorOutput);
+        percentDrive(leftMotorOutput, rightMotorOutput);
     }
 
     public void stop() {
