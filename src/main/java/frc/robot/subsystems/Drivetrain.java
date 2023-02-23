@@ -305,7 +305,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         // Send to motors
-        percentDrive(leftMotorOutput, rightMotorOutput);
+        velocityDrive(leftMotorOutput * MAX_VELOCITY, rightMotorOutput * MAX_VELOCITY);
     }
 
     public void stop() {

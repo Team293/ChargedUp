@@ -54,7 +54,7 @@ public class Rotate extends CommandBase {
 
         m_lastError = m_error;
 
-        m_drivetrain.percentDrive(-percentOutput, percentOutput);
+        m_drivetrain.velocityDrive(-percentOutput, percentOutput);
     }
 
     // Called once the command ends or is interrupted.
