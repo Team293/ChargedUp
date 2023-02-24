@@ -29,15 +29,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 
-import static frc.robot.Constants.DrivetrainConstants.*;
-
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.littletonrobotics.junction.Logger;
 
 public class Drivetrain extends SubsystemBase {
-    
     private WPI_TalonFX leftTalonLead;
     private WPI_TalonFX rightTalonLead;
     private WPI_TalonFX leftTalonFollower;
@@ -221,23 +218,55 @@ public class Drivetrain extends SubsystemBase {
          * leftTalonLead.getSelectedSensorPosition(0));
          * SmartDashboard.putNumber("Raw Right Encoder",
          * rightTalonLead.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
-        SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
-        SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
-        SmartDashboard.putNumber("NavX Z Accel", navX.getWorldLinearAccelZ());
-        SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
-        SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
-        SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
-        SmartDashboard.putNumber("NavX TurnRate dg per s", navX.getRate());
-
-        SmartDashboard.putNumber("Left Motor Position Error", leftTalonLead.getClosedLoopError(0));
-        SmartDashboard.putNumber("Right Motor Position Error", rightTalonLead.getClosedLoopError(0));
-        */
+         * SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
+         * SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
+         * SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
+         * SmartDashboard.putNumber("NavX Z Accel", navX.getWorldLinearAccelZ());
+         * SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
+         * SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
+         * SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
+         * SmartDashboard.putNumber("NavX TurnRate dg per s", navX.getRate());
+         * 
+         * SmartDashboard.putNumber("Left Motor Position Error",
+         * leftTalonLead.getClosedLoopError(0));
+         * SmartDashboard.putNumber("Right Motor Position Error",
+         * rightTalonLead.getClosedLoopError(0));
+         */
     }
 
     public void percentDrive(double leftPercentage, double rightPercentage) {
         leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
         rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
+    }
+
+    public void arcadeDrive(double velocity, double turning) {
+        // Convert turning and speed to left right encoder velocity
+        double leftMotorOutput;
+        double rightMotorOutput;
+
+        double maxInput = Math.copySign(Math.max(Math.abs(velocity), Math.abs(turning)), velocity);
+        if (velocity >= 0.0) {
+            // First quadrant, else second quadrant
+            if (turning >= 0.0) {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = velocity - turning;
+            } else {
+                leftMotorOutput = velocity + turning;
+                rightMotorOutput = maxInput;
+            }
+        } else {
+            // Third quadrant, else fourth quadrant
+            if (turning >= 0.0) {
+                leftMotorOutput = velocity + turning;
+                rightMotorOutput = maxInput;
+            } else {
+                leftMotorOutput = maxInput;
+                rightMotorOutput = velocity - turning;
+            }
+        }
+
+        // Send to motors
+        percentDrive(leftMotorOutput, rightMotorOutput);
     }
 
     public void stop() {

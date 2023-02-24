@@ -14,38 +14,30 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import static frc.robot.Constants.DrivetrainConstants.*;
 import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Drivetrain;
-
-
 
 /**
  *
  */
-public class ArcadeDrive extends CommandBase {
-    public static final double DEFAULT_FORZA_DEADBAND = 0.01;
-    public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
-    public static final boolean DEFAULT_FORZA_MODE = true;
-    
-    public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
-    public static final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
-
+public class RCFDrive extends CommandBase {
     private final Drivetrain m_drivetrain;
     private final XboxController m_xboxcontroller;
 
-    private double m_arcadeDeadband;
+    private double m_rcfDeadband;
     private double m_velocityLimitPercentage;
     private double m_turningLimitPercentage;
 
-    public ArcadeDrive(Drivetrain subsystem, XboxController xboxcontroller) {
+    public RCFDrive(Drivetrain subsystem, XboxController xboxcontroller) {
         m_drivetrain = subsystem;
         addRequirements(m_drivetrain);
         m_xboxcontroller = xboxcontroller;
 
         m_velocityLimitPercentage = DEFAULT_MAX_VELOCITY_PERCENTAGE;
         m_turningLimitPercentage = DEFAULT_MAX_TURNING_SPEED;
-        m_arcadeDeadband = DEFAULT_ARCADE_JOY_DEADBAND;
-        SmartDashboard.putNumber("Arcade Joy Deadband", m_arcadeDeadband);
+        m_rcfDeadband = DEFAULT_RCF_JOY_DEADBAND;
+        SmartDashboard.putNumber("RCF Joy Deadband", m_rcfDeadband);
         SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
         SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
     }
@@ -58,38 +50,36 @@ public class ArcadeDrive extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double turning;
-        double speed;
+        // Grab values from controller.
+        double speed = m_xboxcontroller.getLeftY();
+        double turning = m_xboxcontroller.getRightX();
 
-        // Get deadband value set in SmartDashboard
-        m_arcadeDeadband = SmartDashboard.getNumber("Arcade Joy Deadband", DEFAULT_ARCADE_JOY_DEADBAND);
-        m_arcadeDeadband = MathUtil.clamp(m_arcadeDeadband, 0.0d, 1.0d);
+        SmartDashboard.putNumber("RCF Joystick speed", speed);
+        SmartDashboard.putNumber("RCF Joystick turning", turning);
 
+        // Grab variables from SmartDashboard and clamping
+        m_rcfDeadband = SmartDashboard.getNumber("RCF Joy Deadband", DEFAULT_RCF_JOY_DEADBAND);
+        m_rcfDeadband = MathUtil.clamp(m_rcfDeadband, 0.0d, 1.0d);
         m_velocityLimitPercentage = SmartDashboard.getNumber("Max Velocity Percentage",
                 DEFAULT_MAX_VELOCITY_PERCENTAGE);
         m_velocityLimitPercentage = MathUtil.clamp(m_velocityLimitPercentage, 0.0d, 1.0d);
+        m_turningLimitPercentage = SmartDashboard.getNumber("Max Turning Percentage",
+                DEFAULT_MAX_TURNING_SPEED);
+        m_turningLimitPercentage = MathUtil.clamp(m_turningLimitPercentage, 0.0d, 1.0d);
         SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
 
-        m_turningLimitPercentage = SmartDashboard.getNumber("Max Turning Percentage", DEFAULT_MAX_TURNING_SPEED);
-        m_turningLimitPercentage = MathUtil.clamp(m_turningLimitPercentage, 0.0d, 1.0d);
-        SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
+        // Applying deadband to turning and speed
+        turning = SPIKE293Utils.applyDeadband(turning, m_rcfDeadband);
+        speed = SPIKE293Utils.applyDeadband(speed, m_rcfDeadband);
 
-        // Get turning. Note that the controls are inverted!
-        turning = m_xboxcontroller.getLeftX();
-
-        // Checks if joystick value is higher or lower than deadband value
-        turning = SPIKE293Utils.applyDeadband(turning, m_arcadeDeadband);
-      
-        speed = m_xboxcontroller.getLeftY();
-        speed = SPIKE293Utils.applyDeadband(speed, m_arcadeDeadband);
-
-        // Clamp input to verify they are valid and greater than the deadband
-        turning = MathUtil.clamp(turning, -1.0d, 1.0d);
-        speed = MathUtil.clamp(speed, -1.0d, 1.0d);
-
-        // Apply limiting percentage
+        // Applying percentages
         turning *= m_turningLimitPercentage;
         speed *= m_velocityLimitPercentage;
+
+        SmartDashboard.putNumber("RCF ACTUAL speed", speed);
+        SmartDashboard.putNumber("RCF ACTUAL turning", turning);
+
+        // Move robot
         m_drivetrain.arcadeDrive(speed, turning);
     }
 

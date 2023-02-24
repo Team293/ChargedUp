@@ -37,21 +37,25 @@ public final class SPIKE293Utils {
             if (input < 0) {
                 retval = -1 * retval;
             }
+        } else {
+            retval = 0;
         }
 
         return retval;
     }
 
     /**
-    * Converts from encoder edges per 100 milliseconds to feet per second.
-    *@return Drivetrain velocity in ft/s from encoder units
-    */
+     * Converts from encoder edges per 100 milliseconds to feet per second.
+     * 
+     * @return Drivetrain velocity in ft/s from encoder units
+     */
     public static double controllerVelocityToFeetPerSec(double encoderUnits) {
         return controllerUnitsToFeet(encoderUnits) * DECISEC_TO_SECONDS;
     }
 
     /**
      * Converts from feet per second to encoder edges per 100 milliseconds.
+     * 
      * @param Speed in ft/s
      * 
      * @return Drivetrain velocity in encoder units(edges per 100 milliseconds)
@@ -83,6 +87,7 @@ public final class SPIKE293Utils {
 
     /**
      * Converts percentage to encoder velocity
+     * 
      * @param percentage
      * @return velocity in encoder units(edges per 100 milliseconds) for drivetrain
      */
@@ -93,6 +98,7 @@ public final class SPIKE293Utils {
 
     /**
      * Converts RPMs to encoder units per desiseconds (100ms)
+     * 
      * @param rpm
      * @return velocity in encoder units (edges per 100) of shooter wheel
      */
@@ -102,6 +108,7 @@ public final class SPIKE293Utils {
 
     /**
      * Converts Encoder units per desiseconds (100ms) to RPMs
+     * 
      * @param velocity (encoder units per 100 milliseconds)
      * @return rpm of shooter wheel
      */
