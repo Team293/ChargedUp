@@ -24,32 +24,8 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public class Constants {
-    public static final class DrivetrainConstants {
-        // PID Constants
-        /*
-         * To tune the PID:
-         * 1. Using Pheonix tuner, set motors to factory default
-         * 2. Set the velocity to 100%, this is the MAX_ENCODER_VELOCITY,
-         * use the slower of the two motor systems!
-         * 3. Calculate KF by hand using the KF equation below
-         * 4. Increase P until the system oscillates by a measureable time
-         * 5. Measure the period of the oscillation in seconds
-         * 6. The P gain used to get this measureable oscillation is KU, enter KU
-         * 7. The measured period of the oscillation, in seconds, is TU, enter TU
-         * Done.
-         */
-
-        // Choose the slower motor speed max, in this case the right motor
-        // MISC Constants
-        // kinematics - driveto - drivetrain
-    }
-
-
-
     public static final class AutonomousCommandConstants {
         // drive to
-        public static final double TARGET_WITHIN_RANGE_FEET = DrivetrainConstants.TRACK_WIDTH_FEET / 4.0d; // quarter of
-                                                                                                           // trackwidth
         // Positions relative to location of driver station
         public static enum StartPositions {
             // robot container
