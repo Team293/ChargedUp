@@ -42,7 +42,6 @@ public class Constants {
         // Choose the slower motor speed max, in this case the right motor
         // MISC Constants
         // kinematics - driveto - drivetrain
-        public static final double TRACK_WIDTH_FEET = 27.5d / 12.0d; // Track width is 27.5 inches
     }
 
 
