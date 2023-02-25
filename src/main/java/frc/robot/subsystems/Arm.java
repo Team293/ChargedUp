@@ -10,7 +10,7 @@ public class Arm extends SubsystemBase {
     /* Constants */
     public final int PID_CONFIG_TIMEOUT_MS = 10;
     public final int TALON_FX_CAN_ID = 6;
-    public final int REACH_TALON_FX_CAN_ID = 7;
+    public final int REACH_TALON_FX_CAN_ID = 5;
     public final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
     public final double SHOULDER_KF = 0.0d;
     public final double SHOULDER_KP = 0.0d;
@@ -54,7 +54,7 @@ public class Arm extends SubsystemBase {
     private double x;
     private double y;
 
-    public static final int SHOULDER_TALON_FX_CAN_ID = 6;
+    public static final int SHOULDER_TALON_FX_CAN_ID = 4;
     public static final double POSITION_KF = 0.0d;
     public static final double POSITION_KP = 0.0d;
     public static final double POSITION_KI = 0.0d;
