@@ -273,10 +273,10 @@ public class Drivetrain extends SubsystemBase {
          */
     }
 
-    public void percentDrive(double leftPercentage, double rightPercentage) {
-        leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
-        rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
-    }
+    //public void percentDrive(double leftPercentage, double rightPercentage) {
+    ////    leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
+    //    rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
+   // }
 
     public void arcadeDrive(double velocity, double turning) {
         // Convert turning and speed to left right encoder velocity
