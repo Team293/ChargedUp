@@ -59,15 +59,15 @@ public class Drivetrain extends SubsystemBase {
     public static final double MAX_ENCODER_VELOCITY = 20743.0d;
     public static final double KF_TYPICAL_PERCENT_USAGE = 0.75d; // We will typically use 75% of max speed
     public static final double TALON_FULL_OUTPUT_SETTING = 1023;
-    public static final double VELOCITY_KF = 0.0d;
-    public static final double VELOCITY_KP = 0.0d;
+    public static final double VELOCITY_KF = 0.046d;
+    public static final double VELOCITY_KP = 0.03d;
     public static final double VELOCITY_KI = 0.0d;
-    public static final double VELOCITY_KD = 0.0d;
+    public static final double VELOCITY_KD = 0.06d;
 
     public static final double POSITION_KF = 0.0d;
-    public static final double POSITION_KP = 0.0d;
-    public static final double POSITION_KI = 0.0d;
-    public static final double POSITION_KD = 0.0d;
+    public static final double POSITION_KP = 0.029d;
+    public static final double POSITION_KI = 0.0004d;
+    public static final double POSITION_KD = 0.29d;
 
     public static final double CLOSED_LOOP_RAMP = 0.5;
     public static final double MAX_VELOCITY = 21549;
