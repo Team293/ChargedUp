@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase {
     /* Constants */
     public final int PID_CONFIG_TIMEOUT_MS = 10;
-    public final int PIVOT_TALON_FX_CAN_ID = 6;
+    public final int PIVOT_TALON_FX_CAN_ID = 4;
     public final int EXTENDER_TALON_FX_CAN_ID = 5;
     public final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
     public final double PIVOT_KF = 0.0d;
@@ -58,7 +58,6 @@ public class Arm extends SubsystemBase {
     private double x;
     private double y;
 
-    public static final int _TALON_FX_CAN_ID = 4;
     public static final double POSITION_KF = 0.0d;
     public static final double POSITION_KP = 0.0d;
     public static final double POSITION_KI = 0.0d;
