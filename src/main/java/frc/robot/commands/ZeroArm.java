@@ -17,8 +17,8 @@ public class ZeroArm extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        arm.startShulderCalibration();
-        arm.startShulderCalibration();
+        arm.startPivotCalibration();
+        arm.startPivotCalibration();
     }                      
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -26,8 +26,8 @@ public class ZeroArm extends CommandBase {
     public void execute() {
         done = arm.checkCalibration();
         if (done) {
-            arm.shoulderZero();
-            arm.reachZero();
+            arm.pivotZero();
+            arm.extenderZero();
         }
     }
 
