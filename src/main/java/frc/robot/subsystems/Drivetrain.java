@@ -233,8 +233,8 @@ public class Drivetrain extends SubsystemBase {
          * rightTalonLead.getClosedLoopError(0));
          */
     }
-
-    public void percentDrive(double leftPercentage, double rightPercentage) {
+    
+    public void percentDrive(double leftPercentage, double rightPercentage) {  
         leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
         rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
     }
@@ -266,7 +266,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         // Send to motors
-        percentDrive(leftMotorOutput, rightMotorOutput);
+        velocityDrive(leftMotorOutput * MAX_VELOCITY, rightMotorOutput * MAX_VELOCITY);
     }
 
     public void stop() {

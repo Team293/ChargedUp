@@ -54,7 +54,7 @@ public class RCFDrive extends CommandBase {
     @Override
     public void execute() {
         // Grab values from controller.
-        double speed = m_xboxcontroller.getLeftY();
+        double speed = -m_xboxcontroller.getLeftY();
         double turning = m_xboxcontroller.getRightX();
 
         SmartDashboard.putNumber("RCF Joystick speed", speed);
