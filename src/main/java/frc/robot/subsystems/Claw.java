@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Arm extends SubsystemBase {
+public class Claw extends SubsystemBase {
     /* Constants */
     public final int PID_CONFIG_TIMEOUT_MS = 10;
     public final int TALON_FX_CAN_ID = 6;
