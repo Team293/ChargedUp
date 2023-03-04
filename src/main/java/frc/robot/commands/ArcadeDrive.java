@@ -21,8 +21,8 @@ import frc.robot.subsystems.Drivetrain;
  *
  */
 public class ArcadeDrive extends CommandBase {
-    public static final double DEFAULT_FORZA_DEADBAND = 0.01;
-    public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
+    public static final double DEFAULT_FORZA_DEADBAND = 0.04;
+    public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.04;
     public static final boolean DEFAULT_FORZA_MODE = true;
 
     public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
