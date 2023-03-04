@@ -4,6 +4,7 @@
 package frc.robot;
 
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveClaw;
 import frc.robot.commands.MoveArm.Node;
 import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
 import frc.robot.classes.Kinematics;
@@ -19,6 +20,7 @@ import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.WriteToCSV;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -45,6 +47,7 @@ public class RobotContainer {
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
   public final WriteToCSV m_logger = new WriteToCSV();
   public final Arm m_arm = new Arm();
+  public final Claw m_claw = new Claw();
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
@@ -86,7 +89,7 @@ public class RobotContainer {
         XboxController.Button.kRightBumper.value);
     xboxRotate180Btn.onTrue(new Rotate(m_drivetrain, 180.0));
 
-    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
+    /*final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
     xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
 
@@ -101,6 +104,11 @@ public class RobotContainer {
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
     xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
+    */
+
+    final JoystickButton xboxRightStickBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kRightStick.value);
+    xboxRightStickBtn.onTrue(new MoveClaw(m_claw, m_operatorXboxController));
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard
