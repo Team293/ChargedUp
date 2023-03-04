@@ -6,7 +6,7 @@ public class SpikeMotorServo extends SpikeMotor {
     private Servo motor;
     private double offset = 0;
     private double conversionFactor;
-    
+
     public SpikeMotorServo(double conversionFactor) {
         this.conversionFactor = conversionFactor;
     }
@@ -52,5 +52,25 @@ public class SpikeMotorServo extends SpikeMotor {
     @Override
     protected double getConversionFactor() {
         return conversionFactor;
+    }
+
+    @Override
+    protected void setPidImpl(int slotId, double kP, double kI, double kD, double kF, double izone) {
+        // TODO
+    }
+
+    @Override
+    protected void selectPidImpl(int slotId) {
+        // TODO
+    }
+
+    @Override
+    protected void setClosedLoopRampImpl(double ramp) {
+        // TODO
+    }
+
+    @Override
+    protected void setOpenLoopRampImpl(double ramp) {
+        // TODO
     }
 }

@@ -61,17 +61,17 @@ public class SpikeMotorTalonFX extends SpikeMotor {
         }
         motor.setNeutralMode(NeutralMode.Coast);
         if (invertType != InvertType.FollowMaster) {
-            motor.config_kF(VELOCITY_PID_SLOT_ID, VELOCITY_KF, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kP(VELOCITY_PID_SLOT_ID, VELOCITY_KP, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kI(VELOCITY_PID_SLOT_ID, VELOCITY_KI, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kD(VELOCITY_PID_SLOT_ID, VELOCITY_KD, PID_CONFIG_TIMEOUT_MS);
-            motor.configClosedloopRamp(CLOSED_LOOP_RAMP);
-            motor.configOpenloopRamp(0.2);
-            motor.config_kF(POSITION_PID_SLOT_ID, POSITION_KF, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kP(POSITION_PID_SLOT_ID, POSITION_KP, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kI(POSITION_PID_SLOT_ID, POSITION_KI, PID_CONFIG_TIMEOUT_MS);
-            motor.config_IntegralZone(POSITION_PID_SLOT_ID, 1000);
-            motor.config_kD(POSITION_PID_SLOT_ID, POSITION_KD, PID_CONFIG_TIMEOUT_MS);
+            // motor.config_kF(VELOCITY_PID_SLOT_ID, VELOCITY_KF, PID_CONFIG_TIMEOUT_MS);
+            // motor.config_kP(VELOCITY_PID_SLOT_ID, VELOCITY_KP, PID_CONFIG_TIMEOUT_MS);
+            // motor.config_kI(VELOCITY_PID_SLOT_ID, VELOCITY_KI, PID_CONFIG_TIMEOUT_MS);
+            // motor.config_kD(VELOCITY_PID_SLOT_ID, VELOCITY_KD, PID_CONFIG_TIMEOUT_MS);
+            // motor.configClosedloopRamp(CLOSED_LOOP_RAMP);
+            // motor.configOpenloopRamp(0.2);
+            // motor.config_kF(POSITION_PID_SLOT_ID, POSITION_KF, PID_CONFIG_TIMEOUT_MS);
+            // motor.config_kP(POSITION_PID_SLOT_ID, POSITION_KP, PID_CONFIG_TIMEOUT_MS);
+            // motor.config_kI(POSITION_PID_SLOT_ID, POSITION_KI, PID_CONFIG_TIMEOUT_MS);
+            // motor.config_IntegralZone(POSITION_PID_SLOT_ID, 1000);
+            // motor.config_kD(POSITION_PID_SLOT_ID, POSITION_KD, PID_CONFIG_TIMEOUT_MS);
             motor.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
         }
     }
@@ -104,5 +104,29 @@ public class SpikeMotorTalonFX extends SpikeMotor {
     @Override
     protected double getConversionFactor() {
         return conversionFactor;
+    }
+
+    @Override
+    protected void setPidImpl(int slotId, double kP, double kI, double kD, double kF, double izone) {
+        motor.config_kF(slotId, kF, PID_CONFIG_TIMEOUT_MS);
+        motor.config_kP(slotId, kP, PID_CONFIG_TIMEOUT_MS);
+        motor.config_kI(slotId, kI, PID_CONFIG_TIMEOUT_MS);
+        motor.config_kD(slotId, kD, PID_CONFIG_TIMEOUT_MS);
+        motor.config_IntegralZone(slotId, izone, PID_CONFIG_TIMEOUT_MS);
+    }
+
+    @Override
+    protected void selectPidImpl(int slotId) {
+        motor.selectProfileSlot(slotId, 0);
+    }
+
+    @Override
+    protected void setClosedLoopRampImpl(double ramp) {
+        motor.configClosedloopRamp(ramp);
+    }
+
+    @Override
+    protected void setOpenLoopRampImpl(double ramp) {
+        motor.configOpenloopRamp(ramp);
     }
 }
