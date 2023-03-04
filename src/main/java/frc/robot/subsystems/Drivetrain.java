@@ -29,6 +29,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -190,48 +191,10 @@ public class Drivetrain extends SubsystemBase {
             }
         };
         Enumeration<String> doubleValsKeys = doubleVals.keys();
-        String key = "";
-        double val = 0;
-        while (doubleValsKeys.hasMoreElements()) {
-            key = doubleValsKeys.nextElement();
-            val = doubleVals.get(key);
-
+        for (String key : Collections.list(doubleValsKeys)) {
+            double val = doubleVals.get(key);
             SmartDashboard.putNumber(key, val);
-            Logger.getInstance().recordOutput(key, val);
         }
-        /*
-         * SmartDashboard.putNumber("Left Encoder Velocity (Ft/S)",
-         * getLeftEncoderVelocity());
-         * Logger.getInstance().recordOutput("Left Encoder Velocity (Ft/S)",
-         * getLeftEncoderVelocity());
-         * SmartDashboard.putNumber("Left Encoder Position (Ft)",
-         * getLeftEncoderPosition());
-         * Logger.getInstance().recordOutput("Left Encoder Position (Ft)",
-         * getLeftEncoderPosition());
-         * SmartDashboard.putNumber("Right Encoder Velocity (Ft/S)",
-         * getRightEncoderVelocity());
-         * Logger.getInstance().recordOutput("Right Encoder Velocity (Ft/S)",
-         * getRightEncoderVelocity());
-         * SmartDashboard.putNumber("Right Encoder Position (Ft)",
-         * getRightEncoderPosition());
-         * SmartDashboard.putNumber("Raw Left Encoder",
-         * leftTalonLead.getSelectedSensorPosition(0));
-         * SmartDashboard.putNumber("Raw Right Encoder",
-         * rightTalonLead.getSelectedSensorPosition(0));
-         * SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
-         * SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
-         * SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
-         * SmartDashboard.putNumber("NavX Z Accel", navX.getWorldLinearAccelZ());
-         * SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
-         * SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
-         * SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
-         * SmartDashboard.putNumber("NavX TurnRate dg per s", navX.getRate());
-         * 
-         * SmartDashboard.putNumber("Left Motor Position Error",
-         * leftTalonLead.getClosedLoopError(0));
-         * SmartDashboard.putNumber("Right Motor Position Error",
-         * rightTalonLead.getClosedLoopError(0));
-         */
     }
 
     public void percentDrive(double leftPercentage, double rightPercentage) {
