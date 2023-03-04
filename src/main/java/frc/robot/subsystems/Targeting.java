@@ -13,8 +13,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import static frc.robot.Constants.TargetingConstants.*;
-import static frc.robot.Constants.LauncherConstants.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.classes.Position2D;
@@ -24,10 +22,31 @@ import frc.robot.classes.Position2D;
  */
 public class Targeting extends SubsystemBase {
 
-    private double vP = 0.001; // TODO Add these to constants and get instance of them
+    private double vP = 0.001; 
     private double vI = 0.0;
     private double vD = vP * 10;
 
+    public static final int DEFAULT_TARGET_RPM = 2000;
+    
+    public static final int LIMELIGHT_LED_ON = 3;
+    public static final int LIMELIGHT_LED_OFF = 1;
+    
+    public static final double TARGET_ACQUIRED = 1.0;
+    public static final double CONFIRMED_THRESHOLD = 0.2;
+
+    
+        
+        
+        public static final double TARGET_NO_TARGET = 0.0;
+        public static final double INTEGRAL_WEIGHT = .2;
+        public static final double CONFIRMED_TIME = .25; // Amount of seconds before it considers a target confirmed
+        public static final double INTEGRAL_LIMIT = 0.5;
+        public static final double LIMELIGHT_ERROR_MAX = 29.5;
+        public static final double PERCENT_OUTPUT_LIMIT = .5;
+        public static final double TIMER_NOT_STARTED_VALUE = 0.0;
+        public static final double ERROR_INTEGRAL_DEFAULT = 0.0;
+        public static final double LAST_ERROR_DEFAULT = 0.0;
+    
     private NetworkTable m_limeData; // Data from limelight
     private NetworkTableEntry m_tAcquired; // t stands for target
     private NetworkTableEntry m_targetX; // x value of the target
@@ -66,7 +85,6 @@ public class Targeting extends SubsystemBase {
         SmartDashboard.putNumber("Tx", m_targetX.getDouble(10000));
         SmartDashboard.putNumber("Ty", m_targetY.getDouble(10000));
         SmartDashboard.putBoolean("isTargetted", isTargeted());
-        SmartDashboard.putNumber("Distance from Target", calcDistance());
 
         m_botPose = m_limeData.getEntry("botpose").getDoubleArray(new double[1]);
         if (hasTarget()) {
@@ -130,23 +148,6 @@ public class Targeting extends SubsystemBase {
         return percent;
     }
 
-    public double calcShooterRPM() {
-        double retval = DEFAULT_TARGET_RPM;
-        double ty = m_targetY.getDouble(0.0);
-        if (m_tAcquired.getDouble(0.0) == TARGET_ACQUIRED) {
-            // retv al = (-30.07 * ty) + 1690.42;
-            retval = (230 * Math.pow(Math.E, ((-0.237 * ty) - 1.5))) + 1680.48;
-            if (retval > 2900.0) {
-                retval = 2900.0;
-            }
-            if (retval < 1600.0) {
-                retval = 1600.0;
-            }
-        }
-
-        return retval;
-    }
-
     public void resetPID() {
         m_errorIntegral = ERROR_INTEGRAL_DEFAULT;
         m_lastError = LAST_ERROR_DEFAULT;
@@ -161,20 +162,6 @@ public class Targeting extends SubsystemBase {
         }
 
         return targeted;
-    }
-
-    public double calcDistance() {
-        double targetOffsetAngle_Vertical = m_targetY.getDouble(0.0);
-        double limelightMountAngleDegrees = 36.574;
-        double limelightLensHeightInches = 33.5;
-        double goalHeightInches = 104.0;
-
-        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-        double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
-        double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches)
-                / Math.tan(angleToGoalRadians);
-
-        return distanceFromLimelightToGoalInches;
     }
 
     public double getAngleToTargetDegrees() {

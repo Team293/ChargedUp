@@ -9,11 +9,10 @@ import frc.robot.classes.SmoothControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Targeting;
 
-import static frc.robot.Constants.DrivetrainConstants.*;
-
 import static frc.robot.Constants.AutonomousCommandConstants.*;
 
 public class DriveToAT extends CommandBase {
+    public static final double WITHIN_RANGE_MODIFIER = 1.0d/4.0d;
 
     private Drivetrain m_drivetrain;
     private Kinematics m_kinematics;
@@ -46,6 +45,7 @@ public class DriveToAT extends CommandBase {
     public void execute() {
         double vR = 0.0;
         double vL = 0.0;
+        final double trackWidthFeet = Drivetrain.TRACK_WIDTH_FEET;
 
         // Start auto nav drive routine
         if (true == m_inReverse) {
@@ -64,14 +64,14 @@ public class DriveToAT extends CommandBase {
 
         if (true == m_inReverse) {
             // Calculate vR in feet per second
-            vR = -m_maxVelocity - (TRACK_WIDTH_FEET / 2) * omegaDesired;
+            vR = -m_maxVelocity - (Drivetrain.TRACK_WIDTH_FEET / 2) * omegaDesired;
             // Calculate vL in feet per second
-            vL = -m_maxVelocity + (TRACK_WIDTH_FEET / 2) * omegaDesired;
+            vL = -m_maxVelocity + (Drivetrain.TRACK_WIDTH_FEET / 2) * omegaDesired;
         } else {
             // Calculate vR in feet per second
-            vR = m_maxVelocity + (TRACK_WIDTH_FEET / 2) * omegaDesired;
+            vR = m_maxVelocity + (Drivetrain.TRACK_WIDTH_FEET / 2) * omegaDesired;
             // Calculate vL in feet per second
-            vL = m_maxVelocity - (TRACK_WIDTH_FEET / 2) * omegaDesired;
+            vL = m_maxVelocity - (Drivetrain.TRACK_WIDTH_FEET / 2) * omegaDesired;
         }
 
         SmartDashboard.putNumber("Desired Left Velocity (ft/s)", vL);
@@ -87,18 +87,20 @@ public class DriveToAT extends CommandBase {
 
         // Send vR and vL to velocity drive, units are in controller velocity
         m_drivetrain.velocityDrive(vL, vR);
+
+        // Have we reached the target?
+        if ((trackWidthFeet * WITHIN_RANGE_MODIFIER >= m_smoothControl.getRange())
+                && (Math.abs(m_kinematics.getPose().getHeadingDegrees() - m_targetPose.getHeadingDegrees()) < 5)) {
+            // ending the command to allow the next sequential command with next point to
+            // run
+            m_isDone = true;
+        }
+        m_isDone = false;
     }
 
     @Override
     public boolean isFinished() {
-        // Have we reached the target?
-        if ((TARGET_WITHIN_RANGE_FEET >= m_smoothControl.getRange())
-                && (Math.abs(m_kinematics.getPose().getHeadingDegrees() - m_targetPose.getHeadingDegrees()) < 5)) {
-            // ending the command to allow the next sequential command with next point to
-            // run
-            return true;
-        }
-        return false;
+        return m_isDone;
     }
 
     @Override

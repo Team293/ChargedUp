@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import static frc.robot.Constants.DrivetrainConstants.DEFAULT_FORZA_DEADBAND;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

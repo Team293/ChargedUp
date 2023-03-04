@@ -71,7 +71,6 @@ public class Rotate extends CommandBase {
             retVal = true;
         }
         
-
         return retVal;
     }
     
