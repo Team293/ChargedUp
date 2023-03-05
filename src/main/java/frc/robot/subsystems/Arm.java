@@ -44,8 +44,9 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_ENCODER_UNITS_PER_INCH = 5.0d; // NEED TO FIND THIS
     // Gear ratios
     public final double MOTOR_ROTATIONS_PER_ENCODER_UNIT = 1.0d / ENCODER_UNITS_PER_REVOLUTION;
-    public final double PIVOT_GEARBOX_RATIO = 1.0d / 100.0d;
-    public final double PULLEY_RATIO = 1.0d;
+    public final double PIVOT_GEARBOX_RATIO = 36.0d / 1.0d;
+    public final double EXTEND_GEARBOX_RATIO = 4.0 / 1.0d;
+    public final double PULLEY_RATIO = 2.0 / 1.0d;
 
     public final double EXTENDER_KF = 0.0d;
     public final double EXTENDER_KP = 0.0d;

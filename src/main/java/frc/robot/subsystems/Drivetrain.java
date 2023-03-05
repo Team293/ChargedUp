@@ -44,6 +44,10 @@ public class Drivetrain extends SubsystemBase {
     private Kinematics m_kinematics;
 
     public static final double VELOCITY_KF = 0.046d;
+    public static final double MAX_ENCODER_VELOCITY = 20743.0d;
+    public static final double MAX_VELOCITY = 21549;
+    public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
+    public static final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
     public static final double VELOCITY_KP = 0.03d;
     public static final double VELOCITY_KD = 0.06d;
     public static final double POSITION_KF = 0.0d;
@@ -201,7 +205,7 @@ public class Drivetrain extends SubsystemBase {
         leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
         rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
     }
-
+  
     public void arcadeDrive(double velocity, double turning) {
         // Convert turning and speed to left right encoder velocity
         double leftMotorOutput;
