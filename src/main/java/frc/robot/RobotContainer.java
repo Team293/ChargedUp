@@ -3,9 +3,7 @@
 
 package frc.robot;
 
-import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveClaw;
-import frc.robot.commands.MoveArm.Node;
 import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
@@ -22,14 +20,11 @@ import frc.robot.subsystems.WriteToCSV;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
-import org.littletonrobotics.junction.inputs.LoggedDriverStation.JoystickInputs;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
