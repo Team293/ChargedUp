@@ -84,7 +84,7 @@ public class ArcadeDrive extends CommandBase {
         // Apply limiting percentage
         turning *= m_turningLimitPercentage;
         speed *= m_velocityLimitPercentage;
-        m_drivetrain.arcadeDrive(0, turning);
+        m_drivetrain.arcadeDrive(speed, turning);
     }
 
     // Called once the command ends or is interrupted.

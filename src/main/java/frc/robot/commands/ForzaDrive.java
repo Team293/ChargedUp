@@ -30,7 +30,7 @@ public class ForzaDrive extends CommandBase {
     private double m_velocityLimitPercentage;
     private double m_turningLimitPercentage;
 
-    private final double DEFAULT_FORZA_DEADBAND = 0.1;
+    private final double DEFAULT_FORZA_DEADBAND = 0.05;
     private final double DEFAULT_ARCADE_JOY_DEADBAND = 0.04;
     private final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
     private final double DEFAULT_MAX_TURNING_SPEED = 0.55d;

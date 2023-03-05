@@ -83,7 +83,7 @@ public class RCFDrive extends CommandBase {
         SmartDashboard.putNumber("RCF ACTUAL turning", turning);
 
         // Move robot
-        m_drivetrain.arcadeDrive(0, turning);
+        m_drivetrain.arcadeDrive(speed, turning);
     }
 
     // Called once the command ends or is interrupted.
