@@ -13,7 +13,7 @@ public class MoveClaw extends CommandBase {
     private final Claw m_claw;
     public final XboxController m_operatorXboxController;
     public double m_triggerDeadband = 0.05;
-    public double m_velocityLimitPercentage = 0.01; //TODO
+    public double m_velocityLimitPercentage = 0.01;
 
 
     public MoveClaw(Claw givenClaw, XboxController givenController) {
