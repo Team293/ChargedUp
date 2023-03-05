@@ -1,12 +1,14 @@
 package frc.robot.classes.spikemotor;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import static frc.robot.Constants.TimeConstants.*;
+
+import java.util.Optional;
 
 public class SpikeMotorTalonFX extends SpikeMotor {
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
@@ -29,7 +31,7 @@ public class SpikeMotorTalonFX extends SpikeMotor {
 
     private final double encoderUnitsPerRevolution = 2048.0d;
     private final double encoderUnitsToDecisec = encoderUnitsPerRevolution * SECOND_TO_DECISECS;
-    private TalonFX motor;
+    private WPI_TalonFX motor;
     private double conversionFactor;
     private Boolean inverted;
     private InvertType invertType;
@@ -46,7 +48,7 @@ public class SpikeMotorTalonFX extends SpikeMotor {
 
     @Override
     protected void initImpl(int deviceNumber) {
-        motor = new TalonFX(deviceNumber);
+        motor = new WPI_TalonFX(deviceNumber);
         motor.clearStickyFaults();
         motor.configFactoryDefault();
         motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0,
@@ -61,19 +63,12 @@ public class SpikeMotorTalonFX extends SpikeMotor {
         }
         motor.setNeutralMode(NeutralMode.Coast);
         if (invertType != InvertType.FollowMaster) {
-            motor.config_kF(VELOCITY_PID_SLOT_ID, VELOCITY_KF, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kP(VELOCITY_PID_SLOT_ID, VELOCITY_KP, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kI(VELOCITY_PID_SLOT_ID, VELOCITY_KI, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kD(VELOCITY_PID_SLOT_ID, VELOCITY_KD, PID_CONFIG_TIMEOUT_MS);
-            motor.configClosedloopRamp(CLOSED_LOOP_RAMP);
-            motor.configOpenloopRamp(0.2);
-            motor.config_kF(POSITION_PID_SLOT_ID, POSITION_KF, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kP(POSITION_PID_SLOT_ID, POSITION_KP, PID_CONFIG_TIMEOUT_MS);
-            motor.config_kI(POSITION_PID_SLOT_ID, POSITION_KI, PID_CONFIG_TIMEOUT_MS);
-            motor.config_IntegralZone(POSITION_PID_SLOT_ID, 1000);
-            motor.config_kD(POSITION_PID_SLOT_ID, POSITION_KD, PID_CONFIG_TIMEOUT_MS);
             motor.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
         }
+    }
+
+    protected void addFollower(SpikeMotorTalonFX lead) {
+        motor.follow(lead.motor);
     }
 
     @Override
@@ -104,5 +99,30 @@ public class SpikeMotorTalonFX extends SpikeMotor {
     @Override
     protected double getConversionFactor() {
         return conversionFactor;
+    }
+
+    @Override
+    protected void setPidImpl(int slotId, double kP, double kI, double kD, double kF, Optional<Double> izone) {
+        motor.config_kF(slotId, kF, PID_CONFIG_TIMEOUT_MS);
+        motor.config_kP(slotId, kP, PID_CONFIG_TIMEOUT_MS);
+        motor.config_kI(slotId, kI, PID_CONFIG_TIMEOUT_MS);
+        motor.config_kD(slotId, kD, PID_CONFIG_TIMEOUT_MS);
+        if (izone.isPresent())
+            motor.config_IntegralZone(slotId, izone.get(), PID_CONFIG_TIMEOUT_MS);
+    }
+
+    @Override
+    protected void selectPidImpl(int slotId) {
+        motor.selectProfileSlot(slotId, 0);
+    }
+
+    @Override
+    protected void setClosedLoopRampImpl(double ramp) {
+        motor.configClosedloopRamp(ramp);
+    }
+
+    @Override
+    protected void setOpenLoopRampImpl(double ramp) {
+        motor.configOpenloopRamp(ramp);
     }
 }

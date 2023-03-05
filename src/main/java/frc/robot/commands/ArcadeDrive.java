@@ -74,7 +74,7 @@ public class ArcadeDrive extends CommandBase {
         // Checks if joystick value is higher or lower than deadband value
         turning = SPIKE293Utils.applyDeadband(turning, m_arcadeDeadband);
 
-        speed = m_xboxcontroller.getLeftY();
+        speed = -m_xboxcontroller.getLeftY();
         speed = SPIKE293Utils.applyDeadband(speed, m_arcadeDeadband);
 
         // Clamp input to verify they are valid and greater than the deadband
@@ -84,7 +84,7 @@ public class ArcadeDrive extends CommandBase {
         // Apply limiting percentage
         turning *= m_turningLimitPercentage;
         speed *= m_velocityLimitPercentage;
-        m_drivetrain.arcadeDrive(speed, turning);
+        m_drivetrain.arcadeDrive(0, turning);
     }
 
     // Called once the command ends or is interrupted.

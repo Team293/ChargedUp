@@ -24,84 +24,48 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.classes.spikemotor.*;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Optional;
 
 import org.littletonrobotics.junction.Logger;
 
 public class Drivetrain extends SubsystemBase {
-
-    public static final double DEFAULT_JOYSTICK_DEADBAND = 0.15;
-    public static final double DEFAULT_FORZA_DEADBAND = 0.01;
-    public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.01;
-    public static final boolean DEFAULT_FORZA_MODE = true;
-
-    // PID Constants
-    /*
-     * To tune the PID:
-     * 1. Using Pheonix tuner, set motors to factory default
-     * 2. Set the velocity to 100%, this is the MAX_ENCODER_VELOCITY,
-     * use the slower of the two motor systems!
-     * 3. Calculate KF by hand using the KF equation below
-     * 4. Increase P until the system oscillates by a measureable time
-     * 5. Measure the period of the oscillation in seconds
-     * 6. The P gain used to get this measureable oscillation is KU, enter KU
-     * 7. The measured period of the oscillation, in seconds, is TU, enter TU
-     * Done.
-     */
-
-    // Choose the slower motor speed max, in this case the right motor
-    public static final double MAX_ENCODER_VELOCITY = 20743.0d;
-    public static final double KF_TYPICAL_PERCENT_USAGE = 0.75d; // We will typically use 75% of max speed
-    public static final double TALON_FULL_OUTPUT_SETTING = 1023;
-    public static final double VELOCITY_KF = 0.046d;
-    public static final double VELOCITY_KP = 0.03d;
-    public static final double VELOCITY_KI = 0.0d;
-    public static final double VELOCITY_KD = 0.06d;
-
-    public static final double POSITION_KF = 0.0d;
-    public static final double POSITION_KP = 0.029d;
-    public static final double POSITION_KI = 0.0004d;
-    public static final double POSITION_KD = 0.29d;
-
-    public static final double CLOSED_LOOP_RAMP = 0.5;
-    public static final double MAX_VELOCITY = 21549;
-
-    public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
-    public static final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
-    public static final double VELOCITY_SLOWDOWN_MODIFIER = 0.25d;
-    public static final int LEFT_LEAD_TALON_CAN_ID = 2;
-    public static final int LEFT_FOLLOWER_TALON_CAN_ID = 0;
-    public static final int RIGHT_LEAD_TALON_CAN_ID = 1;
-    public static final int RIGHT_FOLLOWER_TALON_CAN_ID = 3;
-    public static final int VELOCITY_PID_SLOT_ID = 0;
-    public static final int POSITION_PID_SLOT_ID = 1;
-    public static final int PID_CONFIG_TIMEOUT_MS = 10;
-    public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-    public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
-    public static final int ALLOWABLE_DRIVETRAIN_ERROR = 200;
-
-    // MISC Constants
-    public static final double GEARBOX_RATIO_TO_ONE = 9.52d;
-    public static final int ENCODER_COUNTS_PER_REVOLUTION = 2048;
-    public static final int ENCODER_EDGES_PER_STEP = 1;
-    public static final int ENCODER_UNITS_PER_REVOLUTION = ENCODER_COUNTS_PER_REVOLUTION; // Edges per Rotation
-    public static final double TRACK_WIDTH_FEET = 27.5d / 12.0d; // Track width is 27.5 inches
-    public static final boolean USE_NAVX_HEADING = false;
-
-    private final double WHEEL_DIAMETER = 6.0 / 12.0; // Wheel diameter in feet
-    private final double WHEEL_CIRCUMFERENCE_FEET = WHEEL_DIAMETER * 2.0d * Math.PI;
-    private final double GEARBOX_RATIO = 100.0d / 1.0d;
-
-    public static final double MAX_ACCEL = 1.0; // ft/sec for max accelToward change
-    public static final double PERCENT_DRIVE_MAX_SPEED = 10.8; // max ft/sec for percentDrive
-
     private SpikeMotor leftTalonLead;
     private SpikeMotor rightTalonLead;
     private SpikeMotor leftTalonFollower;
     private SpikeMotor rightTalonFollower;
     private AHRS navX;
     private Kinematics m_kinematics;
+
+    public static final double VELOCITY_KF = 0.046d;
+    public static final double VELOCITY_KP = 0.03d;
+    public static final double VELOCITY_KD = 0.06d;
+    public static final double POSITION_KF = 0.0d;
+    public static final double POSITION_KP = 0.029d;
+    public static final double POSITION_KI = 0.0004d;
+    public static final double VELOCITY_KI = 0.0d;
+    public static final double POSITION_KD = 0.29d;
+    public static final double CLOSED_LOOP_RAMP = 0.5;
+    public static final int LEFT_LEAD_TALON_CAN_ID = 1;
+    public static final int LEFT_FOLLOWER_TALON_CAN_ID = 3;
+    public static final int RIGHT_LEAD_TALON_CAN_ID = 0;
+    public static final int RIGHT_FOLLOWER_TALON_CAN_ID = 2;
+    public static final int VELOCITY_PID_SLOT_ID = 0;
+    public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
+    public static final int POSITION_PID_SLOT_ID = 1;
+    public static final int PID_CONFIG_TIMEOUT_MS = 10;
+    public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
+    public static final double WHEEL_CIRCUMFERENCE_FEET = (4.0d / 12.0d) * Math.PI;
+    public static final double GEARBOX_RATIO = 9.52d;
+    public static final double MAX_ACCEL = 1.0;
+    public static final double PERCENT_DRIVE_MAX_SPEED = 10.8;
+    public static final double MAX_VELOCITY = 1;
+
+    public static final boolean USE_NAVX_HEADING = false;
+
+    public static final double TRACK_WIDTH_FEET = 27.5d / 12.0d; // Track width is 27.5 inches
 
     public Drivetrain(Kinematics kinematics) {
         // BEGIN AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=CONSTRUCTORS
@@ -114,6 +78,23 @@ public class Drivetrain extends SubsystemBase {
         rightTalonLead.init(RIGHT_LEAD_TALON_CAN_ID);
         leftTalonFollower.init(LEFT_FOLLOWER_TALON_CAN_ID);
         rightTalonFollower.init(RIGHT_FOLLOWER_TALON_CAN_ID);
+
+        // VELOCITY PIDS
+        leftTalonLead.setPid(VELOCITY_PID_SLOT_ID, VELOCITY_KP, VELOCITY_KI, VELOCITY_KD, VELOCITY_KF,
+                Optional.empty());
+        leftTalonLead.setClosedLoopRamp(CLOSED_LOOP_RAMP);
+        leftTalonLead.setOpenLoopRamp(0.2);
+
+        rightTalonLead.setPid(VELOCITY_PID_SLOT_ID, VELOCITY_KP, VELOCITY_KI, VELOCITY_KD, VELOCITY_KF,
+                Optional.empty());
+        rightTalonLead.setClosedLoopRamp(CLOSED_LOOP_RAMP);
+        rightTalonLead.setOpenLoopRamp(0.2);
+
+        // POSITIONAL PIDS
+        leftTalonLead.setPid(POSITION_PID_SLOT_ID, POSITION_KP, POSITION_KI, POSITION_KD, POSITION_KF,
+                Optional.of(1000.0));
+        rightTalonLead.setPid(POSITION_PID_SLOT_ID, POSITION_KP, POSITION_KI, POSITION_KD, POSITION_KF,
+                Optional.of(1000.0));
 
         navX = new AHRS(SerialPort.Port.kMXP);
 
@@ -168,60 +149,10 @@ public class Drivetrain extends SubsystemBase {
             }
         };
         Enumeration<String> doubleValsKeys = doubleVals.keys();
-        String key = "";
-        double val = 0;
-        while (doubleValsKeys.hasMoreElements()) {
-            key = doubleValsKeys.nextElement();
-            val = doubleVals.get(key);
-
+        for (String key : Collections.list(doubleValsKeys)) {
+            double val = doubleVals.get(key);
             SmartDashboard.putNumber(key, val);
-            Logger.getInstance().recordOutput(key, val);
         }
-        /*
-         * SmartDashboard.putNumber("Left Encoder Velocity (Ft/S)",
-         * getLeftEncoderVelocity());
-         * Logger.getInstance().recordOutput("Left Encoder Velocity (Ft/S)",
-         * getLeftEncoderVelocity());
-         * SmartDashboard.putNumber("Left Encoder Position (Ft)",
-         * getLeftEncoderPosition());
-         * Logger.getInstance().recordOutput("Left Encoder Position (Ft)",
-         * getLeftEncoderPosition());
-         * SmartDashboard.putNumber("Right Encoder Velocity (Ft/S)",
-         * getRightEncoderVelocity());
-         * Logger.getInstance().recordOutput("Right Encoder Velocity (Ft/S)",
-         * getRightEncoderVelocity());
-         * SmartDashboard.putNumber("Right Encoder Position (Ft)",
-         * getRightEncoderPosition());
-         * SmartDashboard.putNumber("Raw Left Encoder",
-         * leftTalonLead.getSelectedSensorPosition(0));
-         * SmartDashboard.putNumber("Raw Right Encoder",
-         * rightTalonLead.getSelectedSensorPosition(0));
-         * SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
-         * SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
-         * SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
-         * SmartDashboard.putNumber("NavX Z Accel", navX.getWorldLinearAccelZ());
-         * SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
-         * SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
-         * SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
-         * SmartDashboard.putNumber("NavX TurnRate dg per s", navX.getRate());
-         * 
-         * SmartDashboard.putNumber("Left Motor Position Error",
-         * leftTalonLead.getClosedLoopError(0));
-         * SmartDashboard.putNumber("Right Motor Position Error",
-         * rightTalonLead.getClosedLoopError(0));
-         * SmartDashboard.putNumber("Robot Heading (degrees)", getGyroHeadingDegrees());
-         * SmartDashboard.putNumber("NavX X Accel", navX.getWorldLinearAccelX());
-         * SmartDashboard.putNumber("NavX Y Accel", navX.getWorldLinearAccelY());
-         * SmartDashboard.putNumber("NavX Z Accel", navX.getWorldLinearAccelZ());
-         * SmartDashboard.putNumber("NavX Yaw", getGyroYawDegrees());
-         * SmartDashboard.putNumber("NavX Angle", getGyroHeadingDegrees());
-         * SmartDashboard.putNumber("NavX Fused Heading", getGyroFusedHeadingDegrees());
-         * SmartDashboard.putNumber("NavX TurnRate dg per s", navX.getRate());
-         * SmartDashboard.putNumber("Left Motor Position Error",
-         * leftTalonLead.getClosedLoopError(0));
-         * SmartDashboard.putNumber("Right Motor Position Error",
-         * rightTalonLead.getClosedLoopError(0));
-         */
     }
 
     public void percentDrive(double leftPercentage, double rightPercentage) {
@@ -261,7 +192,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         // Send to motors
-        percentDrive(leftMotorOutput, rightMotorOutput);
+        velocityDrive(leftMotorOutput * MAX_VELOCITY, rightMotorOutput * MAX_VELOCITY);
     }
 
     public void stop() {

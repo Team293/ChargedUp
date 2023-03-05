@@ -30,6 +30,11 @@ public class ForzaDrive extends CommandBase {
     private double m_velocityLimitPercentage;
     private double m_turningLimitPercentage;
 
+    private final double DEFAULT_FORZA_DEADBAND = 0.1;
+    private final double DEFAULT_ARCADE_JOY_DEADBAND = 0.04;
+    private final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
+    private final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
+
     public ForzaDrive(Drivetrain subsystem, XboxController xboxcontroller) {
         m_drivetrain = subsystem;
         addRequirements(m_drivetrain);
@@ -39,10 +44,11 @@ public class ForzaDrive extends CommandBase {
         m_turningLimitPercentage = DEFAULT_MAX_TURNING_SPEED;
         m_arcadeDeadband = DEFAULT_ARCADE_JOY_DEADBAND;
         m_forzaDeadband = DEFAULT_FORZA_DEADBAND;
-        SmartDashboard.putNumber("Arcade Joy Deadband", m_arcadeDeadband);
-        SmartDashboard.putNumber("Forza Deadband", m_forzaDeadband);
-        SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
-        SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
+        // SmartDashboard.putNumber("Arcade Joy Deadband", m_arcadeDeadband);
+        // SmartDashboard.putNumber("Forza Deadband", m_forzaDeadband);
+        // SmartDashboard.putNumber("Max Velocity Percentage",
+        // m_velocityLimitPercentage);
+        // SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
     }
 
     // Called when the command is initially scheduled.
@@ -77,7 +83,7 @@ public class ForzaDrive extends CommandBase {
         turning = m_xboxcontroller.getLeftX();
 
         // Checks if joystick value is higher or lower than deadband value
-        turning = SPIKE293Utils.applyDeadband(turning, m_arcadeDeadband);
+        turning = SPIKE293Utils.applyDeadband(turning, m_forzaDeadband);
 
         // Get trigger values
         triggerRight = m_xboxcontroller.getRightTriggerAxis();

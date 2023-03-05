@@ -1,11 +1,12 @@
 package frc.robot.classes;
 
-import static frc.robot.Constants.AutonomousCommandConstants.*;
+import frc.robot.subsystems.Drivetrain;
 
 public class Kinematics {
   private Position2D m_currentPose;
   private double m_previousLeftEncoderPosition;
   private double m_previousRightEncoderPosition;
+  private double m_trackWidthFeet = Drivetrain.TRACK_WIDTH_FEET;
 
   public Kinematics(Position2D startingPosition) {
     m_currentPose = startingPosition;
@@ -50,8 +51,8 @@ public class Kinematics {
     m_previousRightEncoderPosition = rightEncoderPosition;
 
     // Use encoders to calculate heading
-    deltaPsi = (deltaRight - deltaLeft) / (TARGET_WITHIN_RANGE_FEET * 4); // this is the width from center left wheel to
-                                                                          // center right wheel
+    deltaPsi = (deltaRight - deltaLeft) / m_trackWidthFeet; // this is the width from center left wheel to center right
+                                                            // wheel
 
     // Limit psi between Pi and -Pi
     deltaPsi = limitRadians(deltaPsi);

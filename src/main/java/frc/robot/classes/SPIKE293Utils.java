@@ -1,5 +1,7 @@
 package frc.robot.classes;
 
+import edu.wpi.first.math.MathUtil;
+
 public final class SPIKE293Utils {
     public static final double SECONDS_TO_DECISEC = 1.0d / 10.0d;
     public static final double DECISEC_TO_SECONDS = 10.0d / 1.0d;
