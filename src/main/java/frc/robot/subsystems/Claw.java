@@ -33,11 +33,7 @@ public class Claw extends SubsystemBase {
         clawTalonFX.setSensorPhase(false);
     }
 
-    public void openClaw() {
-        clawTalonFX.set(ControlMode.Position, CLAW_OPEN_POSITION);
-    }
-
-    public void closeClaw() {
-        clawTalonFX.set(ControlMode.Position, CLAW_CLOSE_POSITION);
+    public void moveClaw(double percentage) {
+        clawTalonFX.set(ControlMode.Position, percentage);
     }
 }

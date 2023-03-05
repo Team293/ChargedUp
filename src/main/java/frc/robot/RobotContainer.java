@@ -21,11 +21,15 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.WriteToCSV;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
+
+import org.littletonrobotics.junction.inputs.LoggedDriverStation.JoystickInputs;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
@@ -65,6 +69,7 @@ public class RobotContainer {
     // Setting default command for drivetrain as VelocityDrive
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_driverXboxController));
     m_arm.setDefaultCommand(new AdjustArm(m_arm, m_operatorXboxController));
+    m_claw.setDefaultCommand(new MoveClaw(m_claw, m_driverXboxController));
   }
 
   public static RobotContainer getInstance() {
@@ -106,9 +111,9 @@ public class RobotContainer {
     xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
     */
 
-    final JoystickButton xboxRightStickBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kRightStick.value);
-    xboxRightStickBtn.onTrue(new MoveClaw(m_claw, m_operatorXboxController));
+    // final JoystickButton xboxRightTriggerBtn = new JoystickButton(m_operatorXboxController,
+    //     XboxController.Button.k11.value);
+    // xboxRightTriggerBtn.onTrue(new MoveClaw(m_claw, m_operatorXboxController));
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard
