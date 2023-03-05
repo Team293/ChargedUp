@@ -14,7 +14,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.DrivetrainConstants.*;
 import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Drivetrain;
 
@@ -28,6 +27,10 @@ public class RCFDrive extends CommandBase {
     private double m_rcfDeadband;
     private double m_velocityLimitPercentage;
     private double m_turningLimitPercentage;
+
+    private final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
+    private final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
+    private final double DEFAULT_RCF_JOY_DEADBAND = 0.04;
 
     public RCFDrive(Drivetrain subsystem, XboxController xboxcontroller) {
         m_drivetrain = subsystem;
@@ -51,7 +54,7 @@ public class RCFDrive extends CommandBase {
     @Override
     public void execute() {
         // Grab values from controller.
-        double speed = m_xboxcontroller.getLeftY();
+        double speed = -m_xboxcontroller.getLeftY();
         double turning = m_xboxcontroller.getRightX();
 
         SmartDashboard.putNumber("RCF Joystick speed", speed);
