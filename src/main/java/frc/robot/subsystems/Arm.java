@@ -12,10 +12,12 @@ public class Arm extends SubsystemBase {
     public final int PIVOT_TALON_FX_CAN_ID = 4;
     public final int EXTENDER_TALON_FX_CAN_ID = 5;
     public final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-    public final double PIVOT_KF = 0.0d;
-    public final double PIVOT_KP = 0.0d;
+    public final double PIVOT_KF = 0.0112d;
+    public final double PIVOT_KP = 0.3d;
     public final double PIVOT_KI = 0.0d;
-    public final double PIVOT_KD = 0.0d;
+    public final double PIVOT_KD = 3d;
+    public final double PIVOT_MAX_VELOCITY = 3000d;
+    public final double PIVOT_MAX_ACCELERATION = 2000d;
     public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
     public final double PERIODIC_RUNS_PER_SECOND = 50.0d;
     public final double ARM_X_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
@@ -49,9 +51,11 @@ public class Arm extends SubsystemBase {
     public final double EXTENSION_RATIO = 4.0d / 1.0d;
 
     public final double EXTENDER_KF = 0.0d;
-    public final double EXTENDER_KP = 0.0d;
-    public final double EXTENDER_KI = 0.0d;
-    public final double EXTENDER_KD = 0.0d;
+    public final double EXTENDER_KP = 0.1d;
+    public final double EXTENDER_KI = 0.001d;
+    public final double EXTENDER_KD = 1d;
+    public final double EXTENDER_MAX_VELOCITY = 30000d;
+    public final double EXTENDER_MAX_ACCELERATION = 30000d;
 
     /* Members */
     private WPI_TalonFX pivotTalonFX;
@@ -84,23 +88,27 @@ public class Arm extends SubsystemBase {
         extenderTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0,
                 CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS);
 
-        pivotTalonFX.setInverted(false);
-        pivotTalonFX.setSensorPhase(false);
-        extenderTalonFX.setInverted(true);
-        extenderTalonFX.setSensorPhase(true);
+        pivotTalonFX.setInverted(true);
+        pivotTalonFX.setSensorPhase(true);
+        extenderTalonFX.setInverted(false);
+        extenderTalonFX.setSensorPhase(false);
 
         // Configure Position PID
-        pivotTalonFX.config_kF(0, POSITION_KF, PID_CONFIG_TIMEOUT_MS);
-        pivotTalonFX.config_kP(0, POSITION_KP, PID_CONFIG_TIMEOUT_MS);
-        pivotTalonFX.config_kI(0, POSITION_KI, PID_CONFIG_TIMEOUT_MS);
+        pivotTalonFX.config_kF(0, PIVOT_KF, PID_CONFIG_TIMEOUT_MS);
+        pivotTalonFX.config_kP(0, PIVOT_KP, PID_CONFIG_TIMEOUT_MS);
+        pivotTalonFX.config_kI(0, PIVOT_KI, PID_CONFIG_TIMEOUT_MS);
         pivotTalonFX.config_IntegralZone(0, 1000);
-        pivotTalonFX.config_kD(0, POSITION_KD, PID_CONFIG_TIMEOUT_MS);
+        pivotTalonFX.config_kD(0, PIVOT_KD, PID_CONFIG_TIMEOUT_MS);
+        pivotTalonFX.configMotionCruiseVelocity(PIVOT_MAX_VELOCITY, PID_CONFIG_TIMEOUT_MS);
+        pivotTalonFX.configMotionAcceleration(PIVOT_MAX_ACCELERATION, PID_CONFIG_TIMEOUT_MS);
 
-        extenderTalonFX.config_kF(0, POSITION_KF, PID_CONFIG_TIMEOUT_MS);
-        extenderTalonFX.config_kP(0, POSITION_KP, PID_CONFIG_TIMEOUT_MS);
-        extenderTalonFX.config_kI(0, POSITION_KI, PID_CONFIG_TIMEOUT_MS);
-        extenderTalonFX.config_IntegralZone(0, 1000);
-        extenderTalonFX.config_kD(0, POSITION_KD, PID_CONFIG_TIMEOUT_MS);
+        extenderTalonFX.config_kF(0, EXTENDER_KF, PID_CONFIG_TIMEOUT_MS);
+        extenderTalonFX.config_kP(0, EXTENDER_KP, PID_CONFIG_TIMEOUT_MS);
+        extenderTalonFX.config_kI(0, EXTENDER_KI, PID_CONFIG_TIMEOUT_MS);
+        extenderTalonFX.config_IntegralZone(0, 100);
+        extenderTalonFX.config_kD(0, EXTENDER_KD, PID_CONFIG_TIMEOUT_MS);
+        extenderTalonFX.configMotionCruiseVelocity(EXTENDER_MAX_VELOCITY, PID_CONFIG_TIMEOUT_MS);
+        extenderTalonFX.configMotionAcceleration(EXTENDER_MAX_ACCELERATION, PID_CONFIG_TIMEOUT_MS);
 
         extenderTalonFX.setNeutralMode(NeutralMode.Brake);
         pivotTalonFX.setNeutralMode(NeutralMode.Brake);
@@ -122,7 +130,7 @@ public class Arm extends SubsystemBase {
     public void rotateTo(double angle) {
         angle = Math.max(Math.min(angle, MAX_ANGLE), MIN_ANGLE);
         double encoderUnits = angle * PIVOT_ENCODER_UNITS_PER_DEGREE;
-        pivotTalonFX.set(TalonFXControlMode.Position, encoderUnits);
+        pivotTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits);
     }
 
     /**
@@ -132,7 +140,7 @@ public class Arm extends SubsystemBase {
      */
     public void extendTo(double length) {
         double encoderUnits = length * EXTENDER_ENCODER_UNITS_PER_INCH;
-        extenderTalonFX.set(TalonFXControlMode.Position, encoderUnits);
+        extenderTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits);
     }
 
     /**
