@@ -37,18 +37,20 @@ public class Arm extends SubsystemBase {
     public final double SUBSTATION_PICKUP_ANGLE = 104.0d;
     public final double SUBSTATION_PICKUP_X_INCHES = 10.0d; // TODO: High: Find the value for how far the extension
                                                             // motor has to extend in inches.
+    // Gear ratios
+    public final double PIVOT_GEARBOX_RATIO = 36.00d / 1.0d;
+    public final double PULLEY_RATIO = 2.0d / 1.0d;
+    public final double EXTENSION_PULLEY_RATIO = 3.75; // one rotation of pulley moves extender 3.75 inches
+    public final double EXTENSION_GEARBOX_RATIO = 4.0d / 1.0d;
     // Angles are in DEGREES
     public final double MIN_ANGLE = 0;
     public final double MAX_ANGLE = 110;
     // Arm shoulder Y inches is between pivot point and ground
-    public final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d;
+    public final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d * PIVOT_GEARBOX_RATIO * PULLEY_RATIO;
     public final double PIVOT_ENCODER_UNITS_PER_DEGREE = ENCODER_UNITS_PER_REVOLUTION / DEGREES_PER_REVOLUTION;
-    public final double EXTENDER_ENCODER_UNITS_PER_INCH = 5.0d; // NEED TO FIND THIS
-    // Gear ratios
+    public final double EXTENDER_ENCODER_UNITS_PER_INCH = (ENCODER_UNITS_PER_REVOLUTION * EXTENSION_GEARBOX_RATIO) / EXTENSION_PULLEY_RATIO; // NEED TO FIND THIS
     public final double MOTOR_ROTATIONS_PER_ENCODER_UNIT = 1.0d / ENCODER_UNITS_PER_REVOLUTION;
-    public final double PIVOT_GEARBOX_RATIO = 36.00d / 1.0d;
-    public final double PULLEY_RATIO = 2.0d / 1.0d;
-    public final double EXTENSION_RATIO = 4.0d / 1.0d;
+    
 
     public final double EXTENDER_KF = 0.0d;
     public final double EXTENDER_KP = 0.1d;

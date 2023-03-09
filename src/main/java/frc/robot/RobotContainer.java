@@ -60,7 +60,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Setting default command for drivetrain as VelocityDrive
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_driverXboxController));
+    m_drivetrain.setDefaultCommand(new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_arm.setDefaultCommand(new AdjustArm(m_arm, m_operatorXboxController));
   }
 
@@ -104,8 +104,8 @@ public class RobotContainer {
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard
-    m_driveChooser.setDefaultOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
-    m_driveChooser.addOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
+    m_driveChooser.setDefaultOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
+    m_driveChooser.addOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
     SmartDashboard.putData(m_driveChooser);
   }
