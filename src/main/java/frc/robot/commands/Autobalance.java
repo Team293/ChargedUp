@@ -90,7 +90,7 @@ public class Autobalance extends CommandBase {
         SmartDashboard.putNumber("ErrorIntegral", m_errorIntegral);
         // calculate turning output using the pid
         m_velOutput = (m_P * m_error) + (m_I * m_errorIntegral) + (m_D * m_change);
-        MathUtil.clamp(m_velOutput, -m_clamp, m_clamp);
+        m_velOutput = MathUtil.clamp(m_velOutput, -m_clamp, m_clamp);
         SmartDashboard.putNumber("velOutput", m_velOutput);
 
         m_driveTrain.arcadeDrive(m_velOutput, 0);
