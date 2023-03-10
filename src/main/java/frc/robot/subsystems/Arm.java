@@ -8,68 +8,62 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
     /* Constants */
-    public final int PID_CONFIG_TIMEOUT_MS = 10;
+    /* CAN IDs */
     public final int PIVOT_TALON_FX_CAN_ID = 4;
     public final int EXTENDER_TALON_FX_CAN_ID = 5;
-    public final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
+
+    /* PIDs */
     public final double PIVOT_KF = 0.0112d;
     public final double PIVOT_KP = 0.3d;
     public final double PIVOT_KI = 0.0d;
     public final double PIVOT_KD = 3d;
-    public final double PIVOT_MAX_VELOCITY = 3000d;
-    public final double PIVOT_MAX_ACCELERATION = 2000d;
-    public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
-    public final double PERIODIC_RUNS_PER_SECOND = 50.0d;
-    public final double ARM_X_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
-    public final double ARM_Y_DELTA_MODIFIER = 6.0 / PERIODIC_RUNS_PER_SECOND;
-    public final double ARM_PIVOT_X_INCHES = 17.0d;
-    public final double ARM_PIVOT_Y_INCHES = 54.0d;
-    public final double CALIBRATION_MOTOR_SPEED = 0.1;
-    public final double SCORE_HYBRID_X_INCHES = 20.0d; // TODO: Low: Find the value for how far the extension motor has
-                                                       // to extend in inches.
-    public final double SCORE_HYBRID_ANGLE = 42.0d;
-    public final double SCORE_MID_X_INCHES = 40.0d; // TODO: Mid: Find the value for how far the extension motor has to
-                                                    // extend in inches.
-    public final double SCORE_MID_ANGLE = 87.0d;
-    public final double SCORE_HIGH_X_INCHES = 60.0; // TODO: High: Find the value for how far the extension motor has to
-                                                    // extend in inches.
-    public final double SCORE_HIGH_ANGLE = 106.0d;
-    public final double SUBSTATION_PICKUP_ANGLE = 104.0d;
-    public final double SUBSTATION_PICKUP_X_INCHES = 10.0d; // TODO: High: Find the value for how far the extension
-                                                            // motor has to extend in inches.
-    // Gear ratios
-    public final double PIVOT_GEARBOX_RATIO = 36.00d / 1.0d;
-    public final double PULLEY_RATIO = 2.0d / 1.0d;
-    public final double EXTENSION_PULLEY_RATIO = 3.75; // one rotation of pulley moves extender 3.75 inches
-    public final double EXTENSION_GEARBOX_RATIO = 4.0d / 1.0d;
-    // Angles are in DEGREES
-    public final double MIN_ANGLE = 0;
-    public final double MAX_ANGLE = 110;
-    // Arm shoulder Y inches is between pivot point and ground
-    public final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d * PIVOT_GEARBOX_RATIO * PULLEY_RATIO;
-    public final double PIVOT_ENCODER_UNITS_PER_DEGREE = ENCODER_UNITS_PER_REVOLUTION / DEGREES_PER_REVOLUTION;
-    public final double EXTENDER_ENCODER_UNITS_PER_INCH = (ENCODER_UNITS_PER_REVOLUTION * EXTENSION_GEARBOX_RATIO) / EXTENSION_PULLEY_RATIO; // NEED TO FIND THIS
-    public final double MOTOR_ROTATIONS_PER_ENCODER_UNIT = 1.0d / ENCODER_UNITS_PER_REVOLUTION;
-    
 
     public final double EXTENDER_KF = 0.0d;
     public final double EXTENDER_KP = 0.1d;
     public final double EXTENDER_KI = 0.001d;
     public final double EXTENDER_KD = 1d;
+
+    /* Velocity */
+    public final double PIVOT_MAX_VELOCITY = 3000d;
+    public final double PIVOT_MAX_ACCELERATION = 2000d;
     public final double EXTENDER_MAX_VELOCITY = 30000d;
     public final double EXTENDER_MAX_ACCELERATION = 30000d;
 
+    /* Motor constants */
+    public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
+    public final int PID_CONFIG_TIMEOUT_MS = 10;
+    public final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 10;
+    public final double CALIBRATION_MOTOR_SPEED = 0.1d;
+
+    /* Conversion Factors */
+    public final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d / 1.0d;
+
+    public final double PIVOT_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO = 36.00d / 1.0d;
+    public final double PIVOT_PULLEY_MOTOR_TO_PULLEY_ARM_RATIO = 36.00d / 72.0d;
+
+    public final double EXTENDER_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO = 4.0d / 1.0d;
+    public final double EXTENDER_PULLEY_ROTATION_TO_INCHES = 3.75d; // One rotation of the final extender pulley moves the arm 3.75 inches 
+
+    /* Physical constants */
+    public final double ARM_PIVOT_OFFSET_X_INCHES = 17.0d; /* (0,0) is located at the floor to the center point of the robot */
+    public final double ARM_PIVOT_OFFSET_Y_INCHES = 54.0d;
+    public final double MIN_ANGLE_DEGREES = 0;
+    public final double MAX_ANGLE_DEGREES = 110;
+    public final double MIN_INCHES = 0; // TODO: FIND MINIMUM
+    public final double MAX_INCHES = 1000; // TODO: FIND MAX    
+
+    public final double ARM_X_DELTA_MODIFIER = 1.0d;
+    public final double ARM_Y_DELTA_MODIFIER = 1.0d;
+
+    public final double ZEROED_X_POSITION_INCHES = 0.0d; // TODO: Find X position when arm is zeroed!
+    public final double ZEROED_Y_POSITION_INCHES = 15.0d; // TODO: Find Y position when arm is zeroed!
+    
     /* Members */
     private WPI_TalonFX pivotTalonFX;
     private WPI_TalonFX extenderTalonFX;
     private double x;
     private double y;
-
-    public static final double POSITION_KF = 0.0d;
-    public static final double POSITION_KP = 0.0d;
-    public static final double POSITION_KI = 0.0d;
-    public static final double POSITION_KD = 0.0d;
-    public static final double DEGREES_PER_REVOLUTION = 360;
+    private boolean isCalibrated = false;
 
     // Gear ratios
     public Arm() {
@@ -99,16 +93,16 @@ public class Arm extends SubsystemBase {
         pivotTalonFX.config_kF(0, PIVOT_KF, PID_CONFIG_TIMEOUT_MS);
         pivotTalonFX.config_kP(0, PIVOT_KP, PID_CONFIG_TIMEOUT_MS);
         pivotTalonFX.config_kI(0, PIVOT_KI, PID_CONFIG_TIMEOUT_MS);
-        pivotTalonFX.config_IntegralZone(0, 1000);
         pivotTalonFX.config_kD(0, PIVOT_KD, PID_CONFIG_TIMEOUT_MS);
+        pivotTalonFX.config_IntegralZone(0, 1000);
         pivotTalonFX.configMotionCruiseVelocity(PIVOT_MAX_VELOCITY, PID_CONFIG_TIMEOUT_MS);
         pivotTalonFX.configMotionAcceleration(PIVOT_MAX_ACCELERATION, PID_CONFIG_TIMEOUT_MS);
 
         extenderTalonFX.config_kF(0, EXTENDER_KF, PID_CONFIG_TIMEOUT_MS);
         extenderTalonFX.config_kP(0, EXTENDER_KP, PID_CONFIG_TIMEOUT_MS);
         extenderTalonFX.config_kI(0, EXTENDER_KI, PID_CONFIG_TIMEOUT_MS);
-        extenderTalonFX.config_IntegralZone(0, 100);
         extenderTalonFX.config_kD(0, EXTENDER_KD, PID_CONFIG_TIMEOUT_MS);
+        extenderTalonFX.config_IntegralZone(0, 100);
         extenderTalonFX.configMotionCruiseVelocity(EXTENDER_MAX_VELOCITY, PID_CONFIG_TIMEOUT_MS);
         extenderTalonFX.configMotionAcceleration(EXTENDER_MAX_ACCELERATION, PID_CONFIG_TIMEOUT_MS);
 
@@ -121,27 +115,42 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        moveToPosition(x, y);
+        if(isCalibrated){
+            moveToPosition(x, y);
+        } else {
+            /* Arm is not calibrated, do not attempt to move to a new position */
+            checkCalibration();
+        }
     }
 
     /**
      * Rotate the arm to a specific angle.
      * 
-     * @param angle - the angle in degrees
+     * @param angle - the angle in radians
      */
-    public void rotateTo(double angle) {
-        angle = Math.max(Math.min(angle, MAX_ANGLE), MIN_ANGLE);
-        double encoderUnits = angle * PIVOT_ENCODER_UNITS_PER_DEGREE;
+    public void rotateTo(double radians) {
+        final double maxRadians = Math.toRadians(MAX_ANGLE_DEGREES);
+        final double minRadians = Math.toRadians(MIN_ANGLE_DEGREES);
+        double encoderUnits = 0.0d;
+
+        /* Clamp the value to the max or min if needed */
+        radians = Math.max(Math.min(radians, maxRadians), minRadians);
+        
+        /* Convert radians to encoder units */
+        encoderUnits = radians * (1.0d / ENCODER_UNITS_PER_REVOLUTION) * (1.0d / PIVOT_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO) * (1.0d / PIVOT_PULLEY_MOTOR_TO_PULLEY_ARM_RATIO);
+
         pivotTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits);
     }
+
 
     /**
      * Extends arm to a given amount of inches.
      * 
      * @param length - the length to extend/retract to in inches
      */
-    public void extendTo(double length) {
-        double encoderUnits = length * EXTENDER_ENCODER_UNITS_PER_INCH;
+    public void extendTo(double inches) {
+        double encoderUnits = inches * EXTENDER_PULLEY_ROTATION_TO_INCHES * EXTENDER_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO * ENCODER_UNITS_PER_REVOLUTION;
+
         extenderTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits);
     }
 
@@ -152,12 +161,12 @@ public class Arm extends SubsystemBase {
      * @param targetY - position in inches
      */
     public void moveToPosition(double targetX, double targetY) {
-        double xDist = targetX - ARM_PIVOT_X_INCHES;
-        double yDist = targetY - ARM_PIVOT_Y_INCHES;
+        double xDist = targetX - ARM_PIVOT_OFFSET_X_INCHES;
+        double yDist = targetY - ARM_PIVOT_OFFSET_Y_INCHES;
         double length = Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
-        double theta = Math.atan2(yDist, xDist);
+        double radians = Math.atan2(yDist, xDist);
 
-        rotateTo(theta);
+        rotateTo(radians);
         extendTo(length);
     }
 
@@ -177,10 +186,6 @@ public class Arm extends SubsystemBase {
         y += ARM_Y_DELTA_MODIFIER * yPercentage;
     }
 
-    public double encoderToDegrees(double encoderUnits) {
-        return encoderUnits / ENCODER_UNITS_PER_REVOLUTION * DEGREES_PER_REVOLUTION;
-    }
-
     public void pivotZero() {
         pivotTalonFX.setSelectedSensorPosition(0);
     }
@@ -189,26 +194,34 @@ public class Arm extends SubsystemBase {
         extenderTalonFX.setSelectedSensorPosition(0);
     }
 
-    public void startPivotCalibration() {
+    public void startCalibration() {
+        isCalibrated = false;
         pivotTalonFX.set(-CALIBRATION_MOTOR_SPEED);
-    }
-
-    public void startExtenderCalibration() {
         extenderTalonFX.set(-CALIBRATION_MOTOR_SPEED);
     }
 
-    public boolean checkCalibration() {
+    private void checkCalibration() {
         boolean done = true;
         if (pivotTalonFX.isRevLimitSwitchClosed() == 1) {
             pivotTalonFX.set(0);
         } else {
             done = false;
         }
+
         if (extenderTalonFX.isRevLimitSwitchClosed() == 1) {
             extenderTalonFX.set(0);
         } else {
             done = false;
         }
-        return done;
+
+        if(done) {
+            /* Now that calibration is complete, we need to set the known position */
+            setPosition(ZEROED_X_POSITION_INCHES, ZEROED_Y_POSITION_INCHES);
+            isCalibrated = true;
+        }
+    }
+
+    public boolean isCalibrated() {
+        return (isCalibrated);
     }
 }
