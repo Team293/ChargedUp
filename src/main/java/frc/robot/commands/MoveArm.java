@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
+    // TODO: CHANGE THESE VALUES TO THE ARM COORDINATE SYSTEM
     public final double SCORE_HYBRID_X_INCHES = 20.0d; // TODO: Low: Find the value for how far the extension motor has
                                                        // to extend in inches.
     public final double SCORE_HYBRID_ANGLE = 42.0d;

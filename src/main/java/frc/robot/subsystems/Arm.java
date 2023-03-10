@@ -45,18 +45,16 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_PULLEY_ROTATION_TO_INCHES = 3.75d; // One rotation of the final extender pulley moves the arm 3.75 inches 
 
     /* Physical constants */
-    public final double ARM_PIVOT_OFFSET_X_INCHES = 17.0d; /* (0,0) is located at the floor to the center point of the robot */
-    public final double ARM_PIVOT_OFFSET_Y_INCHES = 54.0d;
-    public final double MIN_ANGLE_DEGREES = 0;
-    public final double MAX_ANGLE_DEGREES = 110;
-    public final double MIN_INCHES = 22.5d; // TODO: FIND MINIMUM
-    public final double MAX_INCHES = 37.0d; // TODO: FIND MAX    
+    public final double MIN_ANGLE_DEGREES = -90.0d;
+    public final double MAX_ANGLE_DEGREES = 20.0d;
+    public final double MIN_INCHES = 34.712d;
+    public final double MAX_INCHES = 49.6d; 
 
     public final double ARM_X_DELTA_MODIFIER = 1.0d;
     public final double ARM_Y_DELTA_MODIFIER = 1.0d;
 
-    public final double ZEROED_X_POSITION_INCHES = 0.0d; // TODO: Find X position when arm is zeroed!
-    public final double ZEROED_Y_POSITION_INCHES = 15.0d; // TODO: Find Y position when arm is zeroed!
+    public final double ZEROED_X_POSITION_INCHES = 0.0d;
+    public final double ZEROED_Y_POSITION_INCHES = -34.712d; 
     
     /* Members */
     private WPI_TalonFX pivotTalonFX;
@@ -161,8 +159,8 @@ public class Arm extends SubsystemBase {
      * @param targetY - position in inches
      */
     public void moveToPosition(double targetX, double targetY) {
-        double xDist = targetX - ARM_PIVOT_OFFSET_X_INCHES;
-        double yDist = targetY - ARM_PIVOT_OFFSET_Y_INCHES;
+        double xDist = targetX;
+        double yDist = targetY;
         double length = Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
         double radians = Math.atan2(yDist, xDist);
 
