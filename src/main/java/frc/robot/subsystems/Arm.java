@@ -49,8 +49,8 @@ public class Arm extends SubsystemBase {
     public final double ARM_PIVOT_OFFSET_Y_INCHES = 54.0d;
     public final double MIN_ANGLE_DEGREES = 0;
     public final double MAX_ANGLE_DEGREES = 110;
-    public final double MIN_INCHES = 0; // TODO: FIND MINIMUM
-    public final double MAX_INCHES = 1000; // TODO: FIND MAX    
+    public final double MIN_INCHES = 22.5d; // TODO: FIND MINIMUM
+    public final double MAX_INCHES = 37.0d; // TODO: FIND MAX    
 
     public final double ARM_X_DELTA_MODIFIER = 1.0d;
     public final double ARM_Y_DELTA_MODIFIER = 1.0d;
