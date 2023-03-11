@@ -9,7 +9,7 @@ import frc.robot.subsystems.Arm;
 
 public class AdjustArm extends CommandBase {
 
-    private static final double DEFAULT_ADJUST_ARM_DEADBAND = 0.01;
+    private static final double DEFAULT_ADJUST_ARM_DEADBAND = 0.02;
 
     private final Arm m_arm;
     public final XboxController m_operatorXboxController;

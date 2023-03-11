@@ -14,6 +14,7 @@ import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.Rotate;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
+import frc.robot.commands.ZeroArm;
 import frc.robot.commands.RCFDrive;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
@@ -84,7 +85,7 @@ public class RobotContainer {
 
     final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kRightBumper.value);
-    xboxRotate180Btn.onTrue(new Rotate(m_drivetrain, 180.0));
+    xboxRotate180Btn.onTrue(new ZeroArm(m_arm));
 
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
