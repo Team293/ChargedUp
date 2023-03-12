@@ -61,7 +61,7 @@ public class Drivetrain extends SubsystemBase {
     public static final int POSITION_PID_SLOT_ID = 1;
     public static final int PID_CONFIG_TIMEOUT_MS = 10;
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-    public static final double MAX_VELOCITY = 21549;
+    public static final int MAX_VELOCITY = 20580;
 
     public static final boolean USE_NAVX_HEADING = false;
 
