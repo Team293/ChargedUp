@@ -11,26 +11,18 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.WriteToCSV;
 
-import java.util.function.Supplier;
-
 public class SequentialAutoCommand extends SequentialCommandGroup {
         private StartPositions m_startPosition;
         private Drivetrain m_drivetrain;
         private Kinematics m_kinematics;
         private Targeting m_targeting;
-        private Supplier<Long> m_resetTimer;
-        private Supplier<Long> m_elapsedTime;
 
         public SequentialAutoCommand(Drivetrain drivetrain, Kinematics kinematics, Targeting targeting,
-                        StartPositions startPosition, WriteToCSV logger, Supplier<Long> resetTimer,
-                        Supplier<Long> elapsedTime) {
+                        StartPositions startPosition, WriteToCSV logger) {
                 m_drivetrain = drivetrain;
                 m_kinematics = kinematics;
                 m_startPosition = startPosition;
                 m_targeting = targeting;
-                m_resetTimer = resetTimer;
-                m_elapsedTime = elapsedTime;
-
                 var VELOCITY = 2.0d;
 
                 SmartDashboard.putBoolean("AutoDone", false);
@@ -40,24 +32,17 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
                                            // Middle, Right
                         case BLUE_LEFT:
                                 addCommands(
+                                                // Reset kinematics to the blue left position
+                                                new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)),
+                                                                m_drivetrain, m_kinematics),
 
-                                        new ResetTimer(m_resetTimer),
+                                                // Drive to the first ball and collect it
+                                                Commands.deadline(new DriveTo(
+                                                                new Position2D(0, 10, Math.toRadians(90)), 6.0d,
+                                                                false, m_kinematics, m_drivetrain)),
 
-                                        // Reset kinematics to the blue left position
-                                        new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)),
-                                        m_drivetrain, m_kinematics),
-
-                                        // Drive to the first ball and collect it
-                                        Commands.deadline(new DriveTo(
-                                                new Position2D(0, 10, Math.toRadians(90)), 6.0d,
-                                                false, m_kinematics, m_drivetrain)),
-
-
-                                        // Turn around to face the hub
-                                        new Autobalance(m_drivetrain),
-                                        new StopTimer(m_elapsedTime)
-
-                                );
+                                                // Turn around to face the hub
+                                                new Autobalance(m_drivetrain));
                                 // new ParallelRaceGroup(
                                 // new Fire(m_feeder, m_launcher, m_targeting),
                                 // new Wait(3.0)

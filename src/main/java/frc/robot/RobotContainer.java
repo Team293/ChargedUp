@@ -8,10 +8,21 @@ import frc.robot.commands.MoveArm.Node;
 import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.AdjustArm;
+import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.Autobalance;
+import frc.robot.commands.ForzaDrive;
+import frc.robot.commands.Rotate;
+import frc.robot.commands.SequentialAutoCommand;
+import frc.robot.commands.TrackTarget;
+import frc.robot.commands.RCFDrive;
+import frc.robot.subsystems.Targeting;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.WriteToCSV;
+import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,13 +51,15 @@ public class RobotContainer {
   public final XboxController m_driverXboxController = new XboxController(0);
   public final XboxController m_operatorXboxController = new XboxController(1);
 
+  public final SendableChooser<Command> m_driveChooser = new SendableChooser<Command>();
+
   public long m_startTime = -1;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
     // SmartDashboard Buttons
-    SmartDashboard.putNumber("ElapsedTime", m_startTime);
     SmartDashboard.putData("ArcadeDrive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
 
     // Configure the button bindings
@@ -71,7 +84,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Create some buttons
-
     final JoystickButton xboxTargetBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kLeftBumper.value);
     xboxTargetBtn.whileTrue(new TrackTarget(m_drivetrain, m_targeting));
@@ -92,11 +104,26 @@ public class RobotContainer {
 
     final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.LOW));
+    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
 
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
     xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
+
+    // Added options to the dropdown for driveChooser and putting it into
+    // smartdashboard
+    m_driveChooser.setDefaultOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
+    m_driveChooser.addOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
+    m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
+    SmartDashboard.putData(m_driveChooser);
+  }
+
+  private Command getDriveCommand() {
+    return m_driveChooser.getSelected();
+  }
+
+  public void setDefaultDrive() {
+    m_drivetrain.setDefaultCommand(getDriveCommand());
   }
 
   /**
@@ -138,29 +165,9 @@ public class RobotContainer {
       System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
     } else {
       autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_targeting,
-          startingPosition, m_logger, () -> resetTime(), () -> stopTime());
+          startingPosition, m_logger);
     }
 
     return autoCommand;
-  }
-
-  public Command getTeleopCommand() {
-    return new ArcadeDrive(m_drivetrain, m_driverXboxController);
-  }
-  
-  public Long resetTime() {
-    m_startTime = System.currentTimeMillis();
-    
-    System.out.println("TIMER RESET" + m_startTime);
-    SmartDashboard.putBoolean("Timer Reset", true);
-    SmartDashboard.putNumber("Reset Time", m_startTime);
-    return m_startTime;
-  }
-
-  public Long stopTime() {
-    long elapsedTime = System.currentTimeMillis() - m_startTime;
-    System.out.println("TIME STOPPED:" + elapsedTime/1000);
-    SmartDashboard.putNumber("Elapsed Time", elapsedTime);
-    return elapsedTime;
   }
 }

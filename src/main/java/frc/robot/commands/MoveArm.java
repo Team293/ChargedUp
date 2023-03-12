@@ -6,7 +6,7 @@ import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
     public enum Node {
-        LOW,
+        HYBRID,
         MID,
         HIGH,
         SUBSTATION
@@ -32,9 +32,9 @@ public class MoveArm extends CommandBase {
     @Override
     public void execute() {
         switch(m_node) {
-            case LOW:
-                m_arm.rotateTo(m_arm.SCORE_LOW_ANGLE);
-                m_arm.extendTo(m_arm.SCORE_LOW_X_INCHES);
+            case HYBRID:
+                m_arm.rotateTo(m_arm.SCORE_HYBRID_ANGLE);
+                m_arm.extendTo(m_arm.SCORE_HYBRID_X_INCHES);
                 break;
             case MID:
                 m_arm.rotateTo(m_arm.SCORE_MID_ANGLE);
