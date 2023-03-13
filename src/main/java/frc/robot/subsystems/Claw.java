@@ -35,6 +35,9 @@ public class Claw extends SubsystemBase {
         SmartDashboard.putNumber("Claw Percent Output", CLAW_LIMIT_PERCENTAGE);
     }
 
+    @Override
+    public void periodic() {}
+
     public void percentClaw(double percentage) {
         clawTalonFX.set(ControlMode.PercentOutput, percentage * CLAW_LIMIT_PERCENTAGE);
     }
