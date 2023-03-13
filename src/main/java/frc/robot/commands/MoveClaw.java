@@ -13,16 +13,13 @@ public class MoveClaw extends CommandBase {
     private final Claw m_claw;
     public final XboxController m_operatorXboxController;
     public double m_triggerDeadband = 0.05;
-    public double m_velocityLimitPercentage = 0.01;
-
 
     public MoveClaw(Claw givenClaw, XboxController givenController) {
         m_claw = givenClaw;
         m_operatorXboxController = givenController;
 
         addRequirements(m_claw);
-        SmartDashboard.putNumber("Arm Trigger Deadband", m_triggerDeadband);
-        SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
+        SmartDashboard.putNumber("Claw Trigger Deadband", m_triggerDeadband);    
     }
 
     // Called when the command is initially scheduled.
@@ -37,22 +34,16 @@ public class MoveClaw extends CommandBase {
         double rightTrigger = m_operatorXboxController.getRightTriggerAxis(); 
         double leftTrigger = m_operatorXboxController.getLeftTriggerAxis();
 
-        m_triggerDeadband = SmartDashboard.getNumber("Arm Trigger Deadband", m_triggerDeadband);
+        m_triggerDeadband = SmartDashboard.getNumber("Claw Trigger Deadband", m_triggerDeadband);
         m_triggerDeadband = MathUtil.clamp(m_triggerDeadband, 0.0, 1.0);
-
-        m_velocityLimitPercentage = SmartDashboard.getNumber("Claw Velocity Limit Percentage", m_velocityLimitPercentage);
-        m_velocityLimitPercentage = MathUtil.clamp(m_velocityLimitPercentage, -1.0, 1.0);
 
         rightTrigger = SPIKE293Utils.applyDeadband(rightTrigger, m_triggerDeadband);
         leftTrigger = SPIKE293Utils.applyDeadband(leftTrigger, m_triggerDeadband);
 
-        rightTrigger *= m_velocityLimitPercentage; 
-        leftTrigger *= m_velocityLimitPercentage;
-
         if (rightTrigger > leftTrigger) {
-            m_claw.moveClaw(rightTrigger);
+            m_claw.percentClaw(rightTrigger);
         } else {
-            m_claw.moveClaw(leftTrigger);
+            m_claw.percentClaw(-leftTrigger);
         }
     }
 
@@ -65,6 +56,6 @@ public class MoveClaw extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 }
