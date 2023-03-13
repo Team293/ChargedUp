@@ -13,6 +13,7 @@ import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.Rotate;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
+import frc.robot.commands.ZeroArm;
 import frc.robot.commands.RCFDrive;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
@@ -62,7 +63,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Setting default command for drivetrain as VelocityDrive
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_driverXboxController));
+    m_drivetrain.setDefaultCommand(new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_arm.setDefaultCommand(new AdjustArm(m_arm, m_operatorXboxController));
     m_claw.setDefaultCommand(new MoveClaw(m_claw, m_driverXboxController));
   }
@@ -87,7 +88,7 @@ public class RobotContainer {
 
     final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kRightBumper.value);
-    xboxRotate180Btn.onTrue(new Rotate(m_drivetrain, 180.0));
+    xboxRotate180Btn.onTrue(new ZeroArm(m_arm));
 
     /*final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
@@ -112,8 +113,8 @@ public class RobotContainer {
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard
-    m_driveChooser.setDefaultOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
-    m_driveChooser.addOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
+    m_driveChooser.setDefaultOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
+    m_driveChooser.addOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
     SmartDashboard.putData(m_driveChooser);
   }

@@ -23,6 +23,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -58,6 +60,11 @@ public class Robot extends LoggedRobot {
     @Override
     @SuppressWarnings("resource") // It's only instantiated once, it's fine
     public void robotInit() {
+
+        UsbCamera camera = CameraServer.startAutomaticCapture();
+        // Set the resolution
+        camera.setResolution(320, 240);
+        
         Logger.getInstance().recordMetadata(LOGGER_KEY, LOGGER_VALUE); // Set a metadata value
 
         if (isReal()) {
