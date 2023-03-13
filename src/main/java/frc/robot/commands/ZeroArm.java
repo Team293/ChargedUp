@@ -5,11 +5,9 @@ import frc.robot.subsystems.Arm;
 
 public class ZeroArm extends CommandBase {
     private final Arm arm;
-    private boolean done;
 
     public ZeroArm(Arm givenArm) {
         arm = givenArm;
-        done = false;
         
         addRequirements(arm);                                                            
     }
@@ -17,18 +15,14 @@ public class ZeroArm extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        arm.startPivotCalibration();
-        arm.startPivotCalibration();
+        arm.startCalibration();
     }                      
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        done = arm.checkCalibration();
-        if (done) {
-            arm.pivotZero();
-            arm.extenderZero();
-        }
+        /* Nothing to continuously do. */ 
+        /* isFinished will check if the arm is still calibrating and end when done */
     }
 
     // Called once the command ends or is interrupted.
@@ -39,6 +33,6 @@ public class ZeroArm extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return done;
+        return (arm.isCalibrated());
     }
 }
