@@ -10,6 +10,7 @@ import frc.robot.classes.Position2D;
 import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ForzaDrive;
+import frc.robot.commands.ManualCalibration;
 import frc.robot.commands.Rotate;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
@@ -69,6 +70,7 @@ public class RobotContainer {
 
     /* Add a button for auto calibration */
     SmartDashboard.putData("Auto Calibrate", new ZeroArm(m_arm));
+    SmartDashboard.putData("Manual Calibrate", new ManualCalibration(m_arm));
   }
 
   public static RobotContainer getInstance() {

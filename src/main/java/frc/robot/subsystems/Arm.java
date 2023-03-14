@@ -268,4 +268,10 @@ public class Arm extends SubsystemBase {
     public boolean isCalibrated() {
         return ((true == isPivotCalibrated) && (true == isExtenderCalibrated));
     }
+
+    /* Intended for use when manually calibrating the arm */
+    public void triggerManualCalibrationPosition(){
+        extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
+        pivotSetEncoderUnits(ZEROED_PIVOT_ENCODER_LIMIT);
+    }
 }
