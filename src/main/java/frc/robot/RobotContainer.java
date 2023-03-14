@@ -65,7 +65,7 @@ public class RobotContainer {
     // Setting default command for drivetrain as VelocityDrive
     m_drivetrain.setDefaultCommand(new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_arm.setDefaultCommand(new AdjustArm(m_arm, m_operatorXboxController));
-    m_claw.setDefaultCommand(new MoveClaw(m_claw, m_driverXboxController));
+    m_claw.setDefaultCommand(new MoveClaw(m_claw, m_operatorXboxController));
   }
 
   public static RobotContainer getInstance() {

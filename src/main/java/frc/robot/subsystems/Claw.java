@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Claw extends SubsystemBase {
     /* Constants */
     public final int PID_CONFIG_TIMEOUT_MS = 10;
-    public final int CLAW_TALON_FX_CAN_ID = 7;
+    public final int CLAW_TALON_FX_CAN_ID = 6;
     public final int CONFIG_CLAW_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
     private WPI_TalonFX clawTalonFX;
 
@@ -36,7 +36,8 @@ public class Claw extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+    }
 
     public void percentClaw(double percentage) {
         clawTalonFX.set(ControlMode.PercentOutput, percentage * CLAW_LIMIT_PERCENTAGE);

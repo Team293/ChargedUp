@@ -138,9 +138,11 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("R(inches)", rInches);
         SmartDashboard.putNumber("pivotMotor encoder", pivotTalonFX.getSelectedSensorPosition());
         SmartDashboard.putNumber("extender motor position", extenderTalonFX.getSelectedSensorPosition());
+        SmartDashboard.putBoolean("Pivot Rev Limit", (1 == pivotTalonFX.isRevLimitSwitchClosed()));
+        SmartDashboard.putBoolean("Extender Rev Limit", (1 == extenderTalonFX.isRevLimitSwitchClosed()));
 
         /* Are we calibrated? */
-        if (true == checkCalibration()) {
+        if (true == isCalibrated()) {
             /* Clamp the value to the max or min if needed */
             theta = Math.max(Math.min(theta, MAX_ANGLE_RADIANS), MIN_ANGLE_RADIANS);
 
@@ -159,6 +161,9 @@ public class Arm extends SubsystemBase {
                 extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
                 pivotSetEncoderUnits(ZEROED_PIVOT_ENCODER_LIMIT);
             }
+
+            /* Update calibration status */
+            checkCalibration();
         }
     }
 
