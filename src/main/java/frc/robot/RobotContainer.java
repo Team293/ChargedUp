@@ -66,6 +66,9 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_arm.setDefaultCommand(new AdjustArm(m_arm, m_operatorXboxController));
     m_claw.setDefaultCommand(new MoveClaw(m_claw, m_driverXboxController));
+
+    /* Add a button for auto calibration */
+    SmartDashboard.putData("Auto Calibrate", new ZeroArm(m_arm));
   }
 
   public static RobotContainer getInstance() {
@@ -86,10 +89,6 @@ public class RobotContainer {
         XboxController.Button.kLeftBumper.value);
     xboxTargetBtn.whileTrue(new TrackTarget(m_drivetrain, m_targeting));
 
-    final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kRightBumper.value);
-    xboxRotate180Btn.onTrue(new ZeroArm(m_arm));
-
     /*final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
     xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
@@ -106,10 +105,6 @@ public class RobotContainer {
         XboxController.Button.kY.value);
     xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
     */
-
-    // final JoystickButton xboxRightTriggerBtn = new JoystickButton(m_operatorXboxController,
-    //     XboxController.Button.k11.value);
-    // xboxRightTriggerBtn.onTrue(new MoveClaw(m_claw, m_operatorXboxController));
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard

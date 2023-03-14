@@ -36,8 +36,8 @@ public class Arm extends SubsystemBase {
     public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
     public final int PID_CONFIG_TIMEOUT_MS = 10;
     public final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 10;
-    public final double PIVOT_CALIBRATION_MOTOR_SPEED = 0.1d;
-    public final double EXTENDER_CALIBRATION_MOTOR_SPEED = 0.1d;
+    public final double PIVOT_CALIBRATION_MOTOR_SPEED = 0.05d; // When calibrating, move with only 5% power
+    public final double EXTENDER_CALIBRATION_MOTOR_SPEED = PIVOT_CALIBRATION_MOTOR_SPEED;
 
     /* Conversion Factors */
     public final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d / 1.0d;
@@ -67,8 +67,8 @@ public class Arm extends SubsystemBase {
     public final double ZEROED_R_POSITION_RADIANS = 0.0d;
     public final double ZEROED_THETA_POSITION_INCHES = -34.712d;
 
-    public final int ZEROED_PIVOT_ENCODER_LIMIT = (int) (MIN_ANGLE_RADIANS * PIVOT_ENCODER_UNITS_PER_RADIANS);                                                                                
-    public final int ZEROED_EXTENDER_ENCODER_LIMIT = (int) (MIN_INCHES * EXTENDER_ENCODER_UNITS_PER_INCH); 
+    public final int ZEROED_PIVOT_ENCODER_LIMIT = (int) (MIN_ANGLE_RADIANS * PIVOT_ENCODER_UNITS_PER_RADIANS);
+    public final int ZEROED_EXTENDER_ENCODER_LIMIT = (int) (MIN_INCHES * EXTENDER_ENCODER_UNITS_PER_INCH);
 
     /* Members */
     private WPI_TalonFX pivotTalonFX;
@@ -125,10 +125,17 @@ public class Arm extends SubsystemBase {
         extenderTalonFX.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
         pivotTalonFX.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
 
-        // Start the calibration process
-        isPivotCalibrated = false;
-        isExtenderCalibrated = false;
-        startCalibration();
+        // Start with a manual calibration
+        isPivotCalibrated = true;
+        isExtenderCalibrated = true;
+
+        /* Set the calibration manually */
+        /****
+         * NOTE that the arm must be at 3PI/2 radians (straight down), and the extender
+         * MUST be fully retracted, BEFORE starting the code!
+         ****/
+        extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
+        pivotSetEncoderUnits(ZEROED_PIVOT_ENCODER_LIMIT);
     }
 
     @Override
@@ -151,9 +158,9 @@ public class Arm extends SubsystemBase {
         } else {
             /* Not calibrated, do calibration! */
             if (false == isExtenderCalibrated) {
-                extenderTalonFX.set(-EXTENDER_CALIBRATION_MOTOR_SPEED);
+                extenderTalonFX.set(TalonFXControlMode.PercentOutput, -EXTENDER_CALIBRATION_MOTOR_SPEED);
             } else if (false == isPivotCalibrated) {
-                pivotTalonFX.set(-PIVOT_CALIBRATION_MOTOR_SPEED);
+                pivotTalonFX.set(TalonFXControlMode.PercentOutput, -PIVOT_CALIBRATION_MOTOR_SPEED);
             } else {
                 /* Calibration is complete! */
                 extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
@@ -179,7 +186,7 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("Pivot commanded", encoderUnits);
 
         pivotTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits, DemandType.ArbitraryFeedForward,
-                PIVOT_KF * Math.abs((Math.cos(radians)))); //
+                         PIVOT_KF * Math.abs((Math.cos(radians))));
     }
 
     /**
@@ -241,7 +248,7 @@ public class Arm extends SubsystemBase {
 
         if (extenderTalonFX.isRevLimitSwitchClosed() == 1) {
             extenderTalonFX.set(0);
-            
+
             isExtenderCalibrated = true;
         } else {
             done = false;
@@ -249,7 +256,7 @@ public class Arm extends SubsystemBase {
 
         if (pivotTalonFX.isRevLimitSwitchClosed() == 1) {
             pivotTalonFX.set(0);
-            
+
             isPivotCalibrated = true;
         } else {
             done = false;
