@@ -16,14 +16,14 @@ public class Arm extends SubsystemBase {
     public final int EXTENDER_TALON_FX_CAN_ID = 5;
 
     /* PIDs */
-    public final double PIVOT_KF = 0.0112d;
-    public final double PIVOT_KP = 0.3d;
-    public final double PIVOT_KI = 0.0d;
+    public final double PIVOT_KF = 0.2d;
+    public final double PIVOT_KP = 0.35d;
+    public final double PIVOT_KI = 0.001d;
     public final double PIVOT_KD = 3d;
 
-    public final double EXTENDER_KF = 0.0d;
+    public final double EXTENDER_KF = 0.08d;
     public final double EXTENDER_KP = 0.1d;
-    public final double EXTENDER_KI = 0.001d;
+    public final double EXTENDER_KI = 0.0025d;
     public final double EXTENDER_KD = 1d;
 
     /* Velocity */
