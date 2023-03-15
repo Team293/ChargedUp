@@ -168,7 +168,7 @@ public class Arm extends SubsystemBase {
      * 
      * @param angle - the angle in radians
      */
-    public void rotateTo(double radians) {
+    private void rotateTo(double radians) {
         double encoderUnits = 0.0d;
 
         /* Clamp the value to the max or min if needed */
@@ -188,7 +188,7 @@ public class Arm extends SubsystemBase {
      * 
      * @param inches - the length to extend/retract to in inches
      */
-    public void extendTo(double inches) {
+    private void extendTo(double inches) {
         double encoderUnits = inches * EXTENDER_ENCODER_UNITS_PER_INCH;
         /* Clamp the value to the max or min if needed */
         inches = Math.max(Math.min(inches, MAX_INCHES), MIN_INCHES);

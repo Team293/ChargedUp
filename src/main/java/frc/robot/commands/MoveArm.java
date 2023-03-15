@@ -46,20 +46,16 @@ public class MoveArm extends CommandBase {
     public void execute() {
         switch(m_node) {
             case HYBRID:
-                m_arm.rotateTo(SCORE_HYBRID_ANGLE);
-                m_arm.extendTo(SCORE_HYBRID_X_INCHES);
+                m_arm.setPosition(SCORE_HYBRID_ANGLE, SCORE_HYBRID_X_INCHES);
                 break;
             case MID:
-                m_arm.rotateTo(SCORE_MID_ANGLE);
-                m_arm.extendTo(SCORE_MID_X_INCHES);
+                m_arm.setPosition(SCORE_MID_ANGLE, SCORE_MID_X_INCHES);
                 break;
             case HIGH:
-                m_arm.rotateTo(SCORE_HIGH_ANGLE);
-                m_arm.extendTo(SCORE_HIGH_X_INCHES);
+                m_arm.setPosition(SCORE_HIGH_ANGLE, SCORE_HIGH_X_INCHES);
                 break;
             case SUBSTATION:
-                m_arm.rotateTo(SUBSTATION_PICKUP_ANGLE);
-                m_arm.extendTo(SUBSTATION_PICKUP_X_INCHES);
+                m_arm.setPosition(SUBSTATION_PICKUP_ANGLE, SUBSTATION_PICKUP_X_INCHES);
                 break;
         }
     }
