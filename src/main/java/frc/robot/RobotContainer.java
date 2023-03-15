@@ -3,23 +3,25 @@
 
 package frc.robot;
 
-import frc.robot.commands.MoveArm;
-import frc.robot.commands.MoveArm.Node;
+import frc.robot.commands.MoveClaw;
 import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ForzaDrive;
-import frc.robot.commands.Rotate;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
 import frc.robot.commands.ZeroArm;
 import frc.robot.commands.RCFDrive;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArm.Node;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.WriteToCSV;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -46,6 +48,7 @@ public class RobotContainer {
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
   public final WriteToCSV m_logger = new WriteToCSV();
   public final Arm m_arm = new Arm();
+  public final Claw m_claw = new Claw();
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
@@ -63,6 +66,7 @@ public class RobotContainer {
     // Setting default command for drivetrain as VelocityDrive
     m_drivetrain.setDefaultCommand(new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_arm.setDefaultCommand(new AdjustArm(m_arm, m_operatorXboxController));
+    m_claw.setDefaultCommand(new MoveClaw(m_claw, m_operatorXboxController));
   }
 
   public static RobotContainer getInstance() {
@@ -88,7 +92,7 @@ public class RobotContainer {
     xboxRotate180Btn.onTrue(new ZeroArm(m_arm));
 
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kB.value);
+        XboxController.Button.kY.value);
     xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
 
     final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
@@ -100,7 +104,7 @@ public class RobotContainer {
     xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
 
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kY.value);
+        XboxController.Button.kB.value);
     xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
 
     // Added options to the dropdown for driveChooser and putting it into

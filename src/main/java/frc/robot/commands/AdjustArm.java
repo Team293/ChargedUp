@@ -45,6 +45,10 @@ public class AdjustArm extends CommandBase {
         anglePercent = SPIKE293Utils.applyDeadband(anglePercent, m_adjustArmDeadband);
         extendPercent = SPIKE293Utils.applyDeadband(extendPercent, m_adjustArmDeadband);
 
+        //Fix the sticks being inverted
+        anglePercent *= -1.0d;
+        extendPercent *= -1.0d;
+
         // Moves the arm
         m_arm.adjustPosition(anglePercent, extendPercent);
     }
