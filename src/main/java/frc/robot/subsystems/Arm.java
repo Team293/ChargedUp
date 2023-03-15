@@ -16,7 +16,7 @@ public class Arm extends SubsystemBase {
     public final int EXTENDER_TALON_FX_CAN_ID = 5;
 
     /* PIDs */
-    public final double PIVOT_KF = 0.2d;
+    public final double PIVOT_KF = 0.7d;
     public final double PIVOT_KP = 0.3d;
     public final double PIVOT_KI = 0.001d;
     public final double PIVOT_KD = 3d;
@@ -27,10 +27,10 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_KD = 1d;
 
     /* Velocity */
-    public final double PIVOT_MAX_VELOCITY = 3000d;
-    public final double PIVOT_MAX_ACCELERATION = 2000d;
-    public final double EXTENDER_MAX_VELOCITY = 30000d;
-    public final double EXTENDER_MAX_ACCELERATION = 30000d;
+    public final double PIVOT_MAX_VELOCITY = 3000.0d;
+    public final double PIVOT_MAX_ACCELERATION = 3000.0d;
+    public final double EXTENDER_MAX_VELOCITY = 20000.0d;
+    public final double EXTENDER_MAX_ACCELERATION = 20000.0d;
 
     /* Motor constants */
     public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
@@ -67,8 +67,11 @@ public class Arm extends SubsystemBase {
     public final double ZEROED_R_POSITION_RADIANS = 0.0d;
     public final double ZEROED_THETA_POSITION_INCHES = -34.712d;
 
-    public final int ZEROED_PIVOT_ENCODER_LIMIT = (int) (MIN_ANGLE_RADIANS * PIVOT_ENCODER_UNITS_PER_RADIANS);                                                                                
-    public final int ZEROED_EXTENDER_ENCODER_LIMIT = (int) (MIN_INCHES * EXTENDER_ENCODER_UNITS_PER_INCH); 
+    public final int ZEROED_PIVOT_ENCODER_LIMIT = (int) (MIN_ANGLE_RADIANS * PIVOT_ENCODER_UNITS_PER_RADIANS);
+    public final int ZEROED_EXTENDER_ENCODER_LIMIT = (int) (MIN_INCHES * EXTENDER_ENCODER_UNITS_PER_INCH);
+
+    public final double MIN_RESTRICTED_THETA = -74.0d * ((2 * Math.PI) / 360.0d); // radians
+    public final double MAX_RESTRICTED_INCHES = MIN_INCHES;
 
     /* Members */
     private WPI_TalonFX pivotTalonFX;
@@ -169,10 +172,15 @@ public class Arm extends SubsystemBase {
      * @param angle - the angle in radians
      */
     private void rotateTo(double radians) {
+        double minClamp = MIN_ANGLE_RADIANS;
         double encoderUnits = 0.0d;
 
+        if (rInches >= MIN_INCHES) {
+            minClamp = MIN_RESTRICTED_THETA;
+        }
+
         /* Clamp the value to the max or min if needed */
-        radians = Math.max(Math.min(radians, MAX_ANGLE_RADIANS), MIN_ANGLE_RADIANS);
+        radians = Math.max(Math.min(radians, MAX_ANGLE_RADIANS), minClamp);
 
         /* Convert radians to encoder units */
         encoderUnits = radians * PIVOT_ENCODER_UNITS_PER_RADIANS;
@@ -180,7 +188,7 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("Pivot commanded", encoderUnits);
 
         pivotTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits, DemandType.ArbitraryFeedForward,
-                PIVOT_KF * Math.abs((Math.cos(radians)))); //
+                PIVOT_KF * Math.abs((Math.cos(radians))));
     }
 
     /**
@@ -189,9 +197,19 @@ public class Arm extends SubsystemBase {
      * @param inches - the length to extend/retract to in inches
      */
     private void extendTo(double inches) {
-        double encoderUnits = inches * EXTENDER_ENCODER_UNITS_PER_INCH;
+        double maxClamp = MAX_INCHES;
+        double encoderUnits;
+
+        /* Prevent a collision with the robot bumpers */
+        if (theta <= MIN_RESTRICTED_THETA) {
+            maxClamp = MAX_RESTRICTED_INCHES;
+        }
+
+        // Convert from inches to encoder units
+        encoderUnits = inches * EXTENDER_ENCODER_UNITS_PER_INCH;
+
         /* Clamp the value to the max or min if needed */
-        inches = Math.max(Math.min(inches, MAX_INCHES), MIN_INCHES);
+        inches = Math.max(Math.min(inches, maxClamp), MIN_INCHES);
 
         SmartDashboard.putNumber("extender encoder", encoderUnits);
         extenderTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits, DemandType.ArbitraryFeedForward, 0.0d);
@@ -243,7 +261,7 @@ public class Arm extends SubsystemBase {
         if (extenderTalonFX.isRevLimitSwitchClosed() == 1) {
             extenderTalonFX.set(0);
             extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
-                
+
             isExtenderCalibrated = true;
         } else {
             done = false;
