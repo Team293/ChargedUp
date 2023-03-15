@@ -10,11 +10,12 @@ import frc.robot.classes.Position2D;
 import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ForzaDrive;
-import frc.robot.commands.Rotate;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
 import frc.robot.commands.ZeroArm;
 import frc.robot.commands.RCFDrive;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArm.Node;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.WriteToCSV;
@@ -90,8 +91,8 @@ public class RobotContainer {
         XboxController.Button.kRightBumper.value);
     xboxRotate180Btn.onTrue(new ZeroArm(m_arm));
 
-    /*final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kB.value);
+    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kY.value);
     xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
 
     final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
@@ -103,13 +104,8 @@ public class RobotContainer {
     xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
 
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kY.value);
+        XboxController.Button.kB.value);
     xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
-    */
-
-    // final JoystickButton xboxRightTriggerBtn = new JoystickButton(m_operatorXboxController,
-    //     XboxController.Button.k11.value);
-    // xboxRightTriggerBtn.onTrue(new MoveClaw(m_claw, m_operatorXboxController));
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard

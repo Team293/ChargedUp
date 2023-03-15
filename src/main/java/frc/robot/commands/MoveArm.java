@@ -5,19 +5,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
-    // TODO: CHANGE THESE VALUES TO THE ARM COORDINATE SYSTEM
-    public final double SCORE_HYBRID_X_INCHES = 20.0d; // TODO: Low: Find the value for how far the extension motor has
-                                                       // to extend in inches.
-    public final double SCORE_HYBRID_ANGLE = 42.0d;
-    public final double SCORE_MID_X_INCHES = 40.0d; // TODO: Mid: Find the value for how far the extension motor has to
-                                                    // extend in inches.
-    public final double SCORE_MID_ANGLE = 87.0d;
-    public final double SCORE_HIGH_X_INCHES = 60.0; // TODO: High: Find the value for how far the extension motor has to
-                                                    // extend in inches.
-    public final double SCORE_HIGH_ANGLE = 106.0d;
-    public final double SUBSTATION_PICKUP_ANGLE = 104.0d;
-    public final double SUBSTATION_PICKUP_X_INCHES = 10.0d; // TODO: High: Find the value for how far the extension
-                                                            // motor has to extend in inches.
+    public final double SCORE_HYBRID_X_INCHES = 38.1365966d; /* Coordinates: 15.6in, -34.8in */
+    public final double SCORE_HYBRID_ANGLE = -1.14937712d;
+
+    public final double SCORE_MID_X_INCHES = 36.60874213d; /* Coordinates: 36.6in, -0.8in */
+    public final double SCORE_MID_ANGLE = -0.02185444348d;
+
+    public final double SCORE_HIGH_X_INCHES = 47.68398578d; /* Coordinates: 46.35in, 11.2in */
+    public final double SCORE_HIGH_ANGLE = 0.237094798d;
+
+    public final double SUBSTATION_PICKUP_ANGLE = 0.1888971809d; /* Coordinates: 13.6in, 2.6in */
+    public final double SUBSTATION_PICKUP_X_INCHES = 13.84629914d;
 
     public enum Node {
         HYBRID,
@@ -25,6 +23,7 @@ public class MoveArm extends CommandBase {
         HIGH,
         SUBSTATION
     }
+
     private final Arm m_arm;
     public final XboxController m_operatorXboxController;
     private final Node m_node;
