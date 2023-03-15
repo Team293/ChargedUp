@@ -17,7 +17,7 @@ public class Arm extends SubsystemBase {
 
     /* PIDs */
     public final double PIVOT_KF = 0.2d;
-    public final double PIVOT_KP = 0.35d;
+    public final double PIVOT_KP = 0.3d;
     public final double PIVOT_KI = 0.001d;
     public final double PIVOT_KD = 3d;
 
@@ -246,7 +246,8 @@ public class Arm extends SubsystemBase {
 
         if (extenderTalonFX.isRevLimitSwitchClosed() == 1) {
             extenderTalonFX.set(0);
-            
+            extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
+                
             isExtenderCalibrated = true;
         } else {
             done = false;
@@ -254,7 +255,7 @@ public class Arm extends SubsystemBase {
 
         if (pivotTalonFX.isRevLimitSwitchClosed() == 1) {
             pivotTalonFX.set(0);
-            
+            pivotSetEncoderUnits(ZEROED_PIVOT_ENCODER_LIMIT);
             isPivotCalibrated = true;
         } else {
             done = false;
