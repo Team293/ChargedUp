@@ -156,10 +156,6 @@ public class Arm extends SubsystemBase {
                 extenderTalonFX.set(-EXTENDER_CALIBRATION_MOTOR_SPEED);
             } else if (false == isPivotCalibrated) {
                 pivotTalonFX.set(-PIVOT_CALIBRATION_MOTOR_SPEED);
-            } else {
-                /* Calibration is complete! */
-                extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
-                pivotSetEncoderUnits(ZEROED_PIVOT_ENCODER_LIMIT);
             }
 
             /* Update calibration status */
