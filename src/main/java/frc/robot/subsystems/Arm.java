@@ -70,7 +70,7 @@ public class Arm extends SubsystemBase {
     public final int ZEROED_PIVOT_ENCODER_LIMIT = (int) (MIN_ANGLE_RADIANS * PIVOT_ENCODER_UNITS_PER_RADIANS);
     public final int ZEROED_EXTENDER_ENCODER_LIMIT = (int) (MIN_INCHES * EXTENDER_ENCODER_UNITS_PER_INCH);
 
-    public final double MIN_RESTRICTED_THETA = -74.0d * ((2 * Math.PI) / 360.0d); // radians
+    public final double MIN_RESTRICTED_THETA = -72.0d * ((2 * Math.PI) / 360.0d); // radians
     public final double MAX_RESTRICTED_INCHES = MIN_INCHES;
 
     /* Members */
@@ -175,7 +175,7 @@ public class Arm extends SubsystemBase {
         double minClamp = MIN_ANGLE_RADIANS;
         double encoderUnits = 0.0d;
 
-        if (rInches >= MIN_INCHES) {
+        if (rInches >= (MIN_INCHES + 1)) {
             minClamp = MIN_RESTRICTED_THETA;
         }
 
