@@ -270,7 +270,11 @@ public class Arm extends SubsystemBase {
         if (pivotTalonFX.isRevLimitSwitchClosed() == 1) {
             pivotTalonFX.set(0);
             pivotSetEncoderUnits(ZEROED_PIVOT_ENCODER_LIMIT);
+            isPivotCalibrated = true;
+        } else {
+            done = false;
         }
+
         return (done);
     }
 
