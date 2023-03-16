@@ -131,7 +131,6 @@ public class Arm extends SubsystemBase {
         // Start the calibration process
         isPivotCalibrated = false;
         isExtenderCalibrated = false;
-        startCalibration();
     }
 
     @Override
@@ -144,25 +143,26 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putBoolean("Pivot Rev Limit", (1 == pivotTalonFX.isRevLimitSwitchClosed()));
         SmartDashboard.putBoolean("Extender Rev Limit", (1 == extenderTalonFX.isRevLimitSwitchClosed()));
 
+        // Check both extender and pivot calibrations
+        checkExtenderCalibration();
+        checkPivotCalibration();
+
         /* Are we calibrated? */
-        if (true == isCalibrated()) {
-            /* Clamp the value to the max or min if needed */
-            theta = Math.max(Math.min(theta, MAX_ANGLE_RADIANS), MIN_ANGLE_RADIANS);
-
-            /* Clamp the value to the max or min if needed */
-            rInches = Math.max(Math.min(rInches, MAX_INCHES), MIN_INCHES);
-
-            moveToPosition(theta, rInches);
-        } else {
-            /* Not calibrated, do calibration! */
-            if (false == isExtenderCalibrated) {
+        if (false == isExtenderCalibrated) {
+            // The extender is not calibrated, start the extender calibration
+            extenderTalonFX.set(-EXTENDER_CALIBRATION_MOTOR_SPEED);
+        } else if (false == isPivotCalibrated) {
+            // The extender is calibrated, but the pivot is not calibrated
+            // Double Check: Is extender is pulled in?
+            if (0 == extenderTalonFX.isRevLimitSwitchClosed()) {
+                // Extender is not pulled in, pull it in
                 extenderTalonFX.set(-EXTENDER_CALIBRATION_MOTOR_SPEED);
-            } else if (false == isPivotCalibrated) {
+            } else {
                 pivotTalonFX.set(-PIVOT_CALIBRATION_MOTOR_SPEED);
             }
-
-            /* Update calibration status */
-            checkCalibration();
+        } else {
+            // We are now calibrated and we know the position of the arm!
+            moveToPosition(theta, rInches); 
         }
     }
 
@@ -250,32 +250,50 @@ public class Arm extends SubsystemBase {
         extenderTalonFX.setSelectedSensorPosition(encoderUnits);
     }
 
-    public void startCalibration() {
+    public void invalidatePivotCalibration() { 
         isPivotCalibrated = false;
-        isExtenderCalibrated = false;
     }
 
-    private boolean checkCalibration() {
-        boolean done = true;
+    public void invalidateExtenderCalibration() {
+        isExtenderCalibrated = false;
+    }
+    
+    private void checkExtenderCalibration() {
+        // Do we need to check for calibration?
+        if(false == isExtenderCalibrated) {
+            // The extender is not calibrated! Check to see if it is now calibrated
+            // Is limit switch closed?
+            if (extenderTalonFX.isRevLimitSwitchClosed() == 1) {
+                // Stop moving motor
+                extenderTalonFX.set(0);
+                extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
 
-        if (extenderTalonFX.isRevLimitSwitchClosed() == 1) {
-            extenderTalonFX.set(0);
-            extenderSetEncoderUnits(ZEROED_EXTENDER_ENCODER_LIMIT);
+                // We know where rInches is now, set it
+                rInches = MIN_INCHES;
 
-            isExtenderCalibrated = true;
-        } else {
-            done = false;
+                // Extender is now calibrated!
+                isExtenderCalibrated = true;
+            }
         }
+    }
 
-        /*if (pivotTalonFX.isRevLimitSwitchClosed() == 1) {
-            pivotTalonFX.set(0);
-            pivotSetEncoderUnits(ZEROED_PIVOT_ENCODER_LIMIT);
-            isPivotCalibrated = true;
-        } else {
-            done = false;
-        } */
+    private void checkPivotCalibration() {
+        // Do we need to check for calibration?
+        if(false == isPivotCalibrated) {
+            // The pivot is not calibrated! Check to see if it is now calibrated
+            // Is limit switch closed?
+            if (pivotTalonFX.isRevLimitSwitchClosed() == 1) {
+                // Stop moving motor
+                pivotTalonFX.set(0);
+                pivotSetEncoderUnits(ZEROED_PIVOT_ENCODER_LIMIT);
 
-        return (done);
+                // We know where theta is now, set it
+                theta = MIN_ANGLE_RADIANS; 
+
+                // Pivot is now calibrated!
+                isPivotCalibrated = true;
+            }
+        }
     }
 
     public boolean isCalibrated() {

@@ -10,6 +10,8 @@ import frc.robot.classes.Position2D;
 import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.CalibrateExtender;
+import frc.robot.commands.CalibratePivot;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
@@ -88,10 +90,12 @@ public class RobotContainer {
         XboxController.Button.kLeftBumper.value);
     xboxTargetBtn.whileTrue(new TrackTarget(m_drivetrain, m_targeting));
 
-    final JoystickButton xboxRotate180Btn = new JoystickButton(m_operatorXboxController,
+    final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kRightBumper.value);
-    xboxRotate180Btn.onTrue(new ZeroArm(m_arm));
-
+    xboxCalibrateExtenderBtn.whileTrue(new CalibrateExtender(m_arm));
+    
+    // Make the pivot calibration a soft button since it shouldn't need to be calibrated often
+    SmartDashboard.putData("Calibrate Pivot", new CalibratePivot(m_arm));
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
     xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
