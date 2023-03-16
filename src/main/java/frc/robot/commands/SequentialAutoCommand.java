@@ -35,15 +35,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
                     new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics),
 
                     // Drive to the first ball and collect it
-                    Commands.deadline(new DriveTo(new Position2D(0, 6, Math.toRadians(90)), 2.0d, false, m_kinematics, m_drivetrain)),
-
-                    // Turn around to face the hub
-                    Commands.deadline(new Rotate(m_drivetrain, 180.0)),
-
-                        // Aim at the hub
-                        // Fire both balls!
-                    Commands.deadline(new Wait(3),
-                                      new TrackTarget(m_drivetrain, m_targeting))
+                    Commands.deadline(new DriveTo(new Position2D(0, 6, Math.toRadians(90)), 2.0d, false, m_kinematics, m_drivetrain))
                 );
                 // new ParallelRaceGroup(
                 // new Fire(m_feeder, m_launcher, m_targeting),
@@ -72,27 +64,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
                                 m_kinematics),
                         // Drive to the first blue ball and collect it
                         new DriveTo(new Position2D(-10.412, -7.359, Math.toRadians(0)), 2.0d, false, m_kinematics,
-                                m_drivetrain),
-                        // Turn around to face the hub
-                        new Rotate(m_drivetrain, 180.0),
-                        // Aim at the hub
-                        new TrackTarget(m_drivetrain, m_targeting),
-                        // Fire both balls!
-                        new ParallelRaceGroup(
-                                new Wait(3.0)),
-                        // Rotate towards terminal
-                        new Rotate(m_drivetrain, 180),
-                        // Drive to terminal ball and get ball
-                        new DriveTo(new Position2D(-23.507, -9.810, Math.toRadians(0)), 2.0d, false, m_kinematics,
-                                m_drivetrain),
-                        // Rotate towards launching position
-                        new Rotate(m_drivetrain, 180),
-                        // Drive to launching position
-                        new DriveTo(new Position2D(-10.412, -7.359, Math.toRadians(0)), 2.0d, false, m_kinematics,
-                                m_drivetrain),
-                        // Launches terminal ball
-                        new ParallelRaceGroup(
-                                new Wait(3.0)));
+                                m_drivetrain)
+                        );
                 break;
 
             case BLUE_RIGHT:
@@ -102,24 +75,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
                                 m_kinematics),
                         // Drives to first ball and collects
                         new DriveTo(new Position2D(-2.159, -12.566, Math.toRadians(0)), 2.0d, false, m_kinematics,
-                                m_drivetrain),
-                        // Rotates to face the hub
-                        new Rotate(m_drivetrain, 180.0),
-                        // Aims at the hub
-                        new TrackTarget(m_drivetrain, m_targeting),
-                        // Fire both balls!
-                        new ParallelRaceGroup(
-                                new Wait(3.0)),
-                        // Rotates towards opposing ball
-                        new Rotate(m_drivetrain, -90.0),
-                        // Drives and pickups opposing ball
-                        new DriveTo(new Position2D(2.814, -12.436, Math.toRadians(0)), 2.0d, false, m_kinematics,
-                                m_drivetrain),
-                        // Rotate away from the hub
-                        new Rotate(m_drivetrain, 180.0),
-                        // Dumps enemy ball
-                        new ParallelRaceGroup(
-                                new Wait(3.0)));
+                                m_drivetrain)
+                        );
                 break;
 
             case RED_LEFT:
@@ -129,24 +86,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
                                 m_kinematics),
                         // Drive to the first ball and collect it
                         new DriveTo(new Position2D(10.783, -6.804, Math.toRadians(0)), 2.0d, false, m_kinematics,
-                                m_drivetrain),
-                        // Rotates to face the hub
-                        new Rotate(m_drivetrain, 180.0),
-                        // Aims at the hub
-                        new TrackTarget(m_drivetrain, m_targeting),
-                        // Fire both balls!
-                        new ParallelRaceGroup(
-                                new Wait(3.0)),
-                        // Rotates towards opposing ball
-                        new Rotate(m_drivetrain, -90.0),
-                        // Drive to opposing ball
-                        new DriveTo(new Position2D(7.359, -10.412, Math.toRadians(0)), 2.0d, false, m_kinematics,
-                                m_drivetrain),
-                        // Rotate away from hub
-                        new Rotate(m_drivetrain, 135.0),
-                        // Dumps opposing ball
-                        new ParallelRaceGroup(
-                                new Wait(3.0)));
+                                m_drivetrain)
+                        );
                 break;
 
             case RED_MIDDLE:
@@ -203,7 +144,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
                         new Rotate(m_drivetrain, 180.0),
                         // Dumps enemy ball
                         new ParallelRaceGroup(
-                                new Wait(3.0)));
+                                new Wait(3.0))
+                        );
                 break;
 
             default:
