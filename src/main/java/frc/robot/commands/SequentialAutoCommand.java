@@ -32,7 +32,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
                     new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics),
 
                     // Drive to the first ball and collect it
-                    Commands.deadline(new DriveTo(new Position2D(0, 6, Math.toRadians(90)), 2.0d, false, m_kinematics, m_drivetrain))
+                    Commands.deadline(new DriveTo(new Position2D(0, 8.4, Math.toRadians(90)), 2.0d, false, m_kinematics, m_drivetrain))
                 );
                 // new ParallelRaceGroup(
                 // new Fire(m_feeder, m_launcher, m_targeting),
@@ -57,7 +57,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
             case BLUE_MIDDLE:
                 addCommands(
                         // Reset kinematics to the blue middle position
-                        new ResetKinematics(new Position2D(-5.350, -5.363, Math.toRadians(133.5)), m_drivetrain,
+                        new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain,
                                 m_kinematics),
                         // Drive to the first blue ball and collect it
                         new DriveTo(new Position2D(-10.412, -7.359, Math.toRadians(0)), 2.0d, false, m_kinematics,
