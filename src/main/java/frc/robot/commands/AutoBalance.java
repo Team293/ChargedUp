@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class Autobalance extends CommandBase {
+public class AutoBalance extends CommandBase {
     private double m_pitch;
     private double m_error = 0.0d;
     private double m_lastError = 0.0d;
@@ -30,7 +30,7 @@ public class Autobalance extends CommandBase {
 
     private Drivetrain m_driveTrain;
 
-    public Autobalance(Drivetrain driveTrain) {
+    public AutoBalance(Drivetrain driveTrain) {
 
         m_driveTrain = driveTrain;
         addRequirements(driveTrain);
@@ -44,12 +44,12 @@ public class Autobalance extends CommandBase {
         SmartDashboard.putNumber("maxbalance", m_maxBalance);
     }
 
-    public int CheckNearestNumber(int back, int num, int front)  {
+    public int CheckNearestNumber(int back, int num, int front) {
         var frontDiff = Math.abs(front - num);
         var backDiff = Math.abs(back - num);
-        if  (frontDif f  < backDi ff) {
+        if (frontDiff < backDiff) {
             return front;
-        }  els e {
+        } else {
             return back;
         }
     }
