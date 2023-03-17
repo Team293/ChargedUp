@@ -12,6 +12,8 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.CalibrateExtender;
+import frc.robot.commands.CalibratePivot;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
