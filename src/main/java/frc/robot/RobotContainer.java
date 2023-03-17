@@ -95,8 +95,9 @@ public class RobotContainer {
     final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kRightBumper.value);
     xboxCalibrateExtenderBtn.whileTrue(new CalibrateExtender(m_arm));
-    
-    // Make the pivot calibration a soft button since it shouldn't need to be calibrated often
+
+    // Make the pivot calibration a soft button since it shouldn't need to be
+    // calibrated often
     SmartDashboard.putData("Calibrate Pivot", new CalibratePivot(m_arm));
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
@@ -115,7 +116,7 @@ public class RobotContainer {
     xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
 
     final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
-    XboxController.Button.kA.value);
+        XboxController.Button.kA.value);
     xboxAButton.onTrue(new AutoBalance(m_drivetrain));
 
     // Added options to the dropdown for driveChooser and putting it into
@@ -147,7 +148,7 @@ public class RobotContainer {
     Alliance allianceColor = DriverStation.getAlliance();
 
     StartPositions startingPosition = StartPositions.INVALID;
-    int location = 1;
+    int location = DriverStation.getLocation();
 
     if (allianceColor == Alliance.Blue) {
       if (1 == location) {
@@ -159,7 +160,7 @@ public class RobotContainer {
       }
     } else if (allianceColor == Alliance.Red) {
       if (1 == location) {
-        startingPosition = StartPositions.BLUE_LEFT;
+        startingPosition = StartPositions.RED_LEFT;
       } else if (2 == location) {
         startingPosition = StartPositions.RED_MIDDLE;
       } else if (3 == location) {
