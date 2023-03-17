@@ -100,19 +100,19 @@ public class RobotContainer {
     SmartDashboard.putData("Calibrate Pivot", new CalibratePivot(m_arm));
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
-    xboxBBtn.onTrue(new MoveArm(m_arm, Node.HIGH));
+    xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
 
     final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kX.value);
-    xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
+    xboxXBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.MID));
 
     final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
+    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
 
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
-    xboxYBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
+    xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
 
     final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
         XboxController.Button.kA.value);

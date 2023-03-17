@@ -8,14 +8,14 @@ public class MoveArm extends CommandBase {
     public final double SCORE_HYBRID_R_INCHES = 38.1365966d; /* Coordinates: 15.6in, -34.8in */
     public final double SCORE_HYBRID_ANGLE = -1.14937712d;
 
-    public final double SCORE_MID_R_INCHES = 34.712d; /* Coordinates: 36.6in, -0.8in */
-    public final double SCORE_MID_ANGLE = -1236d;
+    public final double SCORE_MID_R_INCHES = 36.60874213d; /* Coordinates: 36.6in, -0.8in */
+    public final double SCORE_MID_ANGLE = -0.02185444348d;
 
-    public final double SCORE_HIGH_R_INCHES = 46.92472d; /* Coordinates: 46.35in, 11.2in */
-    public final double SCORE_HIGH_ANGLE = 0.125958d;
+    public final double SCORE_HIGH_R_INCHES = 47.68398578d; /* Coordinates: 46.35in, 11.2in */
+    public final double SCORE_HIGH_ANGLE = 0.237094798d;
 
-    public final double SUBSTATION_PICKUP_ANGLE = -0.1734d; /* Coordinates: 13.6in, 2.6in */
-    public final double SUBSTATION_PICKUP_X_INCHES = 34.712d;
+    public final double SUBSTATION_PICKUP_ANGLE = 0.1888971809d; /* Coordinates: 13.6in, 2.6in */
+    public final double SUBSTATION_PICKUP_X_INCHES = 13.84629914d;
 
     public enum Node {
         HYBRID,
@@ -25,10 +25,12 @@ public class MoveArm extends CommandBase {
     }
 
     private final Arm m_arm;
+    public final XboxController m_operatorXboxController;
     private final Node m_node;
 
-    public MoveArm(Arm givenArm, Node node) {
+    public MoveArm(Arm givenArm, XboxController givenController, Node node) {
         m_arm = givenArm;
+        m_operatorXboxController = givenController;
         m_node = node;
 
         addRequirements(m_arm);
@@ -42,7 +44,7 @@ public class MoveArm extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        switch(m_node) {
+        switch (m_node) {
             case HYBRID:
                 m_arm.setPosition(SCORE_HYBRID_ANGLE, SCORE_HYBRID_R_INCHES);
                 break;
@@ -69,4 +71,3 @@ public class MoveArm extends CommandBase {
         return true;
     }
 }
-
