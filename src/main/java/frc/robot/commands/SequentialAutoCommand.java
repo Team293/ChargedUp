@@ -72,12 +72,9 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private void Middle() {
 		addCommands(
 				// Reset kinematics to the blue left position
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics),
-
-				// Drive to the first ball and collect it
-				new DriveTo(new Position2D(0, 4.2, Math.toRadians(90)), 2.0d, false, m_kinematics,
-						m_drivetrain));
-		new AutoBalance(m_drivetrain);
+			new DriveToBalance(m_drivetrain),
+			new AutoBalance(m_drivetrain)
+		);
 	}
 
 	private void Bottom() {
@@ -89,4 +86,5 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				new DriveTo(new Position2D(0, 15.1, Math.toRadians(90)), 2.0d, false, m_kinematics,
 						m_drivetrain));
 	}
+
 }
