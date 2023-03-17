@@ -25,12 +25,10 @@ public class MoveArm extends CommandBase {
     }
 
     private final Arm m_arm;
-    public final XboxController m_operatorXboxController;
     private final Node m_node;
 
-    public MoveArm(Arm givenArm, XboxController givenController, Node node) {
+    public MoveArm(Arm givenArm, Node node) {
         m_arm = givenArm;
-        m_operatorXboxController = givenController;
         m_node = node;
 
         addRequirements(m_arm);
