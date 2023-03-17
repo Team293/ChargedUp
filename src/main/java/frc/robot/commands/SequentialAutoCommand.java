@@ -35,27 +35,27 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot Left,
 									// Middle, Right
 			case BLUE_LEFT:
-				Bottom();
+				bottom();
 				break;
 
 			case BLUE_MIDDLE:
-				Middle();
+				middle();
 				break;
 
 			case BLUE_RIGHT:
-				Top();
+				top();
 				break;
 
 			case RED_LEFT:
-				Top();
+				top();
 				break;
 
 			case RED_MIDDLE:
-				Middle();
+				middle();
 				break;
 
 			case RED_RIGHT:
-				Bottom();
+				bottom();
 				break;
 
 			default:
@@ -67,7 +67,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		SmartDashboard.putBoolean("AutoDone", true);
 	}
 
-	private void Top() {
+	private void top() {
 		addCommands(
 				// Reset kinematics to the blue left position
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics),
@@ -90,7 +90,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				
 	}
 
-	private void Middle() {
+	private void middle() {
 		addCommands(
 				// Reset kinematics to the blue left position
 			new DriveToBalance(m_drivetrain),
@@ -98,7 +98,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		);
 	}
 
-	private void Bottom() {
+	private void bottom() {
 		addCommands(
 				// Reset kinematics to the blue left position
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics),
