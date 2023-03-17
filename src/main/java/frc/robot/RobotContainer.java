@@ -11,6 +11,7 @@ import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
+import frc.robot.commands.AutoBalance;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
@@ -110,6 +111,10 @@ public class RobotContainer {
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
     xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
+
+    final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
+    XboxController.Button.kA.value);
+    xboxAButton.onTrue(new AutoBalance(m_drivetrain));
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard
