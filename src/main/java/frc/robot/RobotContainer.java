@@ -12,12 +12,9 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
 import frc.robot.commands.AutoBalance;
-import frc.robot.commands.CalibrateExtender;
-import frc.robot.commands.CalibratePivot;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
-import frc.robot.commands.ZeroArm;
 import frc.robot.commands.RCFDrive;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArm.Node;
@@ -50,7 +47,6 @@ public class RobotContainer {
   public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0, 0.0, 0.0));
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
-  public final WriteToCSV m_logger = new WriteToCSV();
   public final Arm m_arm = new Arm();
   public final Claw m_claw = new Claw();
 
@@ -98,9 +94,10 @@ public class RobotContainer {
     // Make the pivot calibration a soft button since it shouldn't need to be
     // calibrated often
     SmartDashboard.putData("Calibrate Pivot", new CalibratePivot(m_arm));
-    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
+    
+    final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
-    xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
+    xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
 
     final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kX.value);
@@ -110,9 +107,9 @@ public class RobotContainer {
         XboxController.Button.kA.value);
     xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
 
-    final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
+    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
-    xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
+    xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
 
     final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
         XboxController.Button.kA.value);
@@ -173,7 +170,7 @@ public class RobotContainer {
       System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
     } else {
       autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
-          startingPosition, m_logger);
+          startingPosition);
     }
 
     return autoCommand;

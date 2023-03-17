@@ -2,18 +2,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
-import frc.robot.commands.MoveArm.Node;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Targeting;
 
 import static frc.robot.Constants.AutonomousCommandConstants.*;
-
-import java.nio.file.ClosedWatchServiceException;
 
 public class SequentialAutoCommand extends SequentialCommandGroup {
 	private StartPositions m_startPosition;
@@ -23,7 +19,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private Kinematics m_kinematics;
 
 	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw,  Kinematics kinematics, Targeting targeting,
-			StartPositions startPosition, WriteToCSV logger) {
+			StartPositions startPosition) {
 		m_drivetrain = drivetrain;
 		m_arm = arm;
 		m_claw = claw;
@@ -70,9 +66,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private void top() {
 		addCommands(
 				// Reset kinematics to the blue left position
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics),
-
-				new CloseClaw(m_claw)
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics)
 				// new MoveArm(m_arm, Node.HIGH),
 
 				// // Drive to the first ball and collect it
@@ -81,11 +75,6 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				// m_drivetrain), new CloseClaw(m_claw)), 
 
 				// new OpenClaw(m_claw)
-
-				
-				
-				
-						
 		);
 				
 	}
