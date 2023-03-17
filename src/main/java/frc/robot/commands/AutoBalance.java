@@ -16,7 +16,7 @@ public class AutoBalance extends CommandBase {
     private double m_velMultipliedOutput = 0.0d;
 
     // start (gives throttle) (may make it overshoot if too high)
-    private double m_P = 0.0055d;
+    private double m_P = 0.0031d;
     // finicky (depends on situation) (within 5 to 3 degress of error)
     private double m_I = 0.00d;
     // good rule of thumb for d: m_d = m_p * 10
@@ -67,7 +67,7 @@ public class AutoBalance extends CommandBase {
         m_lastError = m_error;
 
         m_pitch = m_driveTrain.getGyroPitchDegrees();
-        m_error = m_pitch - 90;
+        m_error = m_pitch - 70;
 
         SmartDashboard.putNumber("Error", m_error);
 
@@ -108,7 +108,7 @@ public class AutoBalance extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (m_balancedTimes > 5) {
+        if (m_balancedTimes > 60) {
             return true;
         } else {
             return false;

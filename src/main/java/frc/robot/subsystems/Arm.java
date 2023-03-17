@@ -175,7 +175,7 @@ public class Arm extends SubsystemBase {
         double minClamp = MIN_ANGLE_RADIANS;
         double encoderUnits = 0.0d;
 
-        if (rInches >= (MIN_INCHES + 1)) {
+        if (rInches >= (MIN_INCHES + 3)) {
             minClamp = MIN_RESTRICTED_THETA;
         }
 
