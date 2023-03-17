@@ -10,7 +10,6 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Targeting;
-import frc.robot.subsystems.WriteToCSV;
 
 import static frc.robot.Constants.AutonomousCommandConstants.*;
 
