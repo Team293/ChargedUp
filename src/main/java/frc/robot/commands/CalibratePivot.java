@@ -3,10 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class ZeroArm extends CommandBase {
+public class CalibratePivot extends CommandBase {
     private final Arm arm;
 
-    public ZeroArm(Arm givenArm) {
+    public CalibratePivot(Arm givenArm) {
         arm = givenArm;
         
         addRequirements(arm);                                                            
@@ -15,8 +15,7 @@ public class ZeroArm extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        // Invalidate both the extender and the pivot calibrations.
-        arm.invalidateExtenderCalibration();
+        // Invalidate the pivot calibrations.
         arm.invalidatePivotCalibration();
     }                      
 
