@@ -27,8 +27,8 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_KD = 1d;
 
     /* Velocity */
-    public final double PIVOT_MAX_VELOCITY = 3000.0d;
-    public final double PIVOT_MAX_ACCELERATION = 3000.0d;
+    public final double PIVOT_MAX_VELOCITY = 3500.0d;
+    public final double PIVOT_MAX_ACCELERATION = 4000.0d;
     public final double EXTENDER_MAX_VELOCITY = 20000.0d;
     public final double EXTENDER_MAX_ACCELERATION = 20000.0d;
 
@@ -311,4 +311,17 @@ public class Arm extends SubsystemBase {
     public boolean isCalibrated() {
         return ((true == isPivotCalibrated) && (true == isExtenderCalibrated));
     }
+
+    public double getPivotEncoderPosition(){
+        return pivotTalonFX.getSelectedSensorPosition();
+    }
+
+    public double getExtenderEncoderPosition(){
+        return extenderTalonFX.getSelectedSensorPosition();
+    }
+
+    public boolean atTargetPosition(){
+        return theta * PIVOT_ENCODER_UNITS_PER_RADIANS == getPivotEncoderPosition() && rInches * EXTENDER_ENCODER_UNITS_PER_INCH == getExtenderEncoderPosition();
+    }
 }
+ 

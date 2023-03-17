@@ -101,19 +101,19 @@ public class RobotContainer {
     SmartDashboard.putData("Calibrate Pivot", new CalibratePivot(m_arm));
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
-    xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
+    xboxBBtn.onTrue(new MoveArm(m_arm, Node.HIGH));
 
     final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kX.value);
-    xboxXBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.MID));
+    xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
 
     final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
+    xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
 
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
-    xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
+    xboxYBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
 
     final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
         XboxController.Button.kA.value);
@@ -173,7 +173,7 @@ public class RobotContainer {
     if (StartPositions.INVALID == startingPosition) {
       System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
     } else {
-      autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_targeting,
+      autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
           startingPosition, m_logger);
     }
 
