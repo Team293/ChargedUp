@@ -6,6 +6,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutoBalance extends CommandBase {
+    private static final double PITCH_OFFSET = -70.0d;
+    private static final int BALANCE_THRESHOLD = 3;
+    private static final int BALANCE_ITERATIONS = 60;
+    private static final double INTERGRAL_LIMIT = 5;
+
     private double m_pitch;
     private double m_error = 0.0d;
     private double m_lastError = 0.0d;
@@ -44,14 +49,22 @@ public class AutoBalance extends CommandBase {
         SmartDashboard.putNumber("maxbalance", m_maxBalance);
     }
 
+    /**
+     * Checks the nearest number to the current number
+     * 
+     * @param back
+     * @param num
+     * @param front
+     * @return the nearest number
+     */
     public int CheckNearestNumber(int back, int num, int front) {
-        var frontDiff = Math.abs(front - num);
-        var backDiff = Math.abs(back - num);
+        int frontDiff = Math.abs(front - num);
+        int backDiff = Math.abs(back - num);
+        int retVal = backDiff;
         if (frontDiff < backDiff) {
-            return front;
-        } else {
-            return back;
+            retVal = frontDiff;
         }
+        return retVal;
     }
 
     @Override
@@ -67,11 +80,11 @@ public class AutoBalance extends CommandBase {
         m_lastError = m_error;
 
         m_pitch = m_driveTrain.getGyroPitchDegrees();
-        m_error = m_pitch - 70;
+        m_error = m_pitch + PITCH_OFFSET;
 
         SmartDashboard.putNumber("Error", m_error);
 
-        if (Math.abs(m_error) < 3) {
+        if (Math.abs(m_error) < BALANCE_THRESHOLD) {
             m_balancedTimes += 1;
         } else {
             m_balancedTimes = 0;
@@ -79,8 +92,7 @@ public class AutoBalance extends CommandBase {
 
         m_change = m_error - m_lastError;
 
-        if (Math.abs(m_errorIntegral) < 5) // this is an integral limit to keep from excessive I commanded movement
-        {
+        if (Math.abs(m_errorIntegral) < INTERGRAL_LIMIT) {
             // Accumulate the error into the integral
             m_errorIntegral += m_error;
         }
@@ -108,10 +120,6 @@ public class AutoBalance extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (m_balancedTimes > 60) {
-            return true;
-        } else {
-            return false;
-        }
+        return m_balancedTimes > BALANCE_ITERATIONS;
     }
 }
