@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
@@ -21,16 +20,15 @@ public class MoveArm extends CommandBase {
         HYBRID,
         MID,
         HIGH,
-        SUBSTATION
+        SUBSTATION,
+        STOW
     }
 
     private final Arm m_arm;
-    public final XboxController m_operatorXboxController;
     private final Node m_node;
 
-    public MoveArm(Arm givenArm, XboxController givenController, Node node) {
+    public MoveArm(Arm givenArm, Node node) {
         m_arm = givenArm;
-        m_operatorXboxController = givenController;
         m_node = node;
 
         addRequirements(m_arm);
@@ -57,6 +55,8 @@ public class MoveArm extends CommandBase {
             case SUBSTATION:
                 m_arm.setPosition(SUBSTATION_PICKUP_ANGLE, SUBSTATION_PICKUP_X_INCHES);
                 break;
+            case STOW:
+                m_arm.stowArm();
         }
     }
 

@@ -16,9 +16,7 @@ public class DriveToBalance extends CommandBase{
 
     @Override
     public void execute() {
-
-        m_drivetrain.percentDrive(0.1, 0.1);
-        
+        m_drivetrain.percentDrive(0.3, 0.3);
     }
 
     @Override

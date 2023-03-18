@@ -9,7 +9,6 @@ import frc.robot.subsystems.Claw;
 
 
 public class MoveClaw extends CommandBase {
-    public boolean opened = false;
     private final Claw m_claw;
     public final XboxController m_operatorXboxController;
     public double m_triggerDeadband = 0.05;
@@ -25,7 +24,6 @@ public class MoveClaw extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-
     }
 
     // Called every time the scheduler runs while the command is scheduled.

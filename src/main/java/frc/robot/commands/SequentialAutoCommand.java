@@ -14,15 +14,15 @@ import static frc.robot.Constants.AutonomousCommandConstants.*;
 public class SequentialAutoCommand extends SequentialCommandGroup {
 	private StartPositions m_startPosition;
 	private Drivetrain m_drivetrain;
-	private Arm m_arm;
-	private Claw m_claw;
+	// private Arm m_arm;
+	// private Claw m_claw;
 	private Kinematics m_kinematics;
 
-	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw,  Kinematics kinematics, Targeting targeting,
+	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw, Kinematics kinematics, Targeting targeting,
 			StartPositions startPosition) {
 		m_drivetrain = drivetrain;
-		m_arm = arm;
-		m_claw = claw;
+		// m_arm = arm;
+		// m_claw = claw;
 		m_kinematics = kinematics;
 		m_startPosition = startPosition;
 
@@ -66,35 +66,26 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private void top() {
 		addCommands(
 				// Reset kinematics to the blue left position
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics)
-				// new MoveArm(m_arm, Node.HIGH),
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
+				// driving
+				new DriveTo(new Position2D(-6, 0, Math.toRadians(0)), 1.5d, true, m_kinematics, m_drivetrain));
 
-				// // Drive to the first ball and collect it
-				
-				// Commands.race(new DriveTo(new Position2D(0, 8.4, Math.toRadians(90)), 1.5d, false, m_kinematics,
-				// m_drivetrain), new CloseClaw(m_claw)), 
-
-				// new OpenClaw(m_claw)
-		);
-				
 	}
 
 	private void middle() {
 		addCommands(
 				// Reset kinematics to the blue left position
-			new DriveToBalance(m_drivetrain),
-			new AutoBalance(m_drivetrain)
-		);
+				new DriveToBalance(m_drivetrain),
+				new AutoBalance(m_drivetrain));
 	}
 
 	private void bottom() {
 		addCommands(
 				// Reset kinematics to the blue left position
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(90)), m_drivetrain, m_kinematics),
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
 
-				// Drive to the first ball and collect it
-				new DriveTo(new Position2D(0, 15.1, Math.toRadians(90)), 2.0d, false, m_kinematics,
-						m_drivetrain));
+				// Drive backwards for taxi auto points
+				new DriveTo(new Position2D(-7, 0, Math.toRadians(0)), 2.0d, true, m_kinematics, m_drivetrain));
 	}
 
 }
