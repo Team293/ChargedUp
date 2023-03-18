@@ -139,13 +139,11 @@ public class RobotContainer {
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
     SmartDashboard.putData(m_driveChooser);
 
-    // Added options to the dropdown for autoChooser and putting it into smartdashboard
     m_autoChooser.setDefaultOption("Top", StartPositions.RED_LEFT);
     m_autoChooser.addOption("Middle", StartPositions.RED_MIDDLE);
     m_autoChooser.addOption("Bottom", StartPositions.RED_RIGHT);
     SmartDashboard.putData(m_autoChooser);
   }
-
   private Command getDriveCommand() {
     return m_driveChooser.getSelected();
   }
