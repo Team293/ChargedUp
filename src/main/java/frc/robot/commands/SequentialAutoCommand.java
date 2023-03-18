@@ -77,7 +77,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private void middle() {
 		addCommands(
 				// Reset kinematics to the blue left position
-				new DriveToBalance(m_drivetrain).withTimeout(5),
+				new DriveToBalance(m_drivetrain),
 				new AutoBalance(m_drivetrain)
             );
 	}
