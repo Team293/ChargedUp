@@ -5,9 +5,14 @@ import frc.robot.subsystems.Drivetrain;
 
 public class DriveToBalance extends CommandBase{
     private Drivetrain m_drivetrain;
+    private static final double WAIT_TIME = 5000;
+    private double m_startTime;
 
     public DriveToBalance(Drivetrain drivetrain) {
         m_drivetrain = drivetrain;
+        addRequirements(drivetrain);
+        
+        m_startTime = System.currentTimeMillis();
     }
     
     @Override
@@ -21,7 +26,7 @@ public class DriveToBalance extends CommandBase{
 
     @Override
     public boolean isFinished() {
-        return (m_drivetrain.getGyroPitchDegrees() > 85);
+        return (m_drivetrain.getGyroPitchDegrees() > 85) || ((System.currentTimeMillis() - m_startTime) >= WAIT_TIME);
     }
 
     @Override

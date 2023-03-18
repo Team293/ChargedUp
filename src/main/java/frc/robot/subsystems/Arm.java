@@ -71,7 +71,7 @@ public class Arm extends SubsystemBase {
     public final int ZEROED_EXTENDER_ENCODER_LIMIT = (int) (MIN_INCHES * EXTENDER_ENCODER_UNITS_PER_INCH);
 
     public final double MIN_RESTRICTED_THETA = -72.0d * ((2 * Math.PI) / 360.0d); // radians
-    public final double MAX_RESTRICTED_INCHES = MIN_INCHES + 3.0d;
+    public final double MAX_RESTRICTED_INCHES = MIN_INCHES + 2.0d;
 
     /* Members */
     private WPI_TalonFX pivotTalonFX;
