@@ -11,16 +11,15 @@ import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
+import frc.robot.commands.AutoBalance;
+import frc.robot.commands.BumpDrive;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.SequentialAutoCommand;
-import frc.robot.commands.TrackTarget;
-import frc.robot.commands.ZeroArm;
 import frc.robot.commands.RCFDrive;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArm.Node;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.WriteToCSV;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
@@ -48,7 +47,6 @@ public class RobotContainer {
   public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0, 0.0, 0.0));
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
-  public final WriteToCSV m_logger = new WriteToCSV();
   public final Arm m_arm = new Arm();
   public final Claw m_claw = new Claw();
 
@@ -84,35 +82,59 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Create some buttons
-    final JoystickButton xboxTargetBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kLeftBumper.value);
-    xboxTargetBtn.whileTrue(new TrackTarget(m_drivetrain, m_targeting));
-
-    final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_operatorXboxController,
+    /******** Operator Controls ********/
+    // Bump drive right slightly
+    final JoystickButton xboxBumpRight = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kRightBumper.value);
-    xboxCalibrateExtenderBtn.whileTrue(new CalibrateExtender(m_arm));
-    
-    // Make the pivot calibration a soft button since it shouldn't need to be calibrated often
-    SmartDashboard.putData("Calibrate Pivot", new CalibratePivot(m_arm));
-    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kY.value);
-    xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
+    xboxBumpRight.whileTrue(new BumpDrive(m_drivetrain, 0.1d));
 
+    // Bump drive left slightly
+    final JoystickButton xboxBumpLeft = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kLeftBumper.value);
+    xboxBumpLeft.whileTrue(new BumpDrive(m_drivetrain, -0.1d));
+
+    // Set arm preset to high location
+    final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kY.value);
+    xboxYBtn.onTrue(new MoveArm(m_arm, Node.HIGH));
+
+    // Set arm preset to mid location
     final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kX.value);
-    xboxXBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.MID));
+    xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
 
+    // Set arm preset to hybrid location
     final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
+    xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
 
-    final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
+    // Set arm preset to substation location
+    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
-    xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
+    xboxBBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
 
-    // Added options to the dropdown for driveChooser and putting it into
-    // smartdashboard
+    /******** Driver Controls ********/
+    // Invalidate the extender calibration
+    final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_driverXboxController,
+        XboxController.Button.kRightBumper.value);
+    xboxCalibrateExtenderBtn.whileTrue(new CalibrateExtender(m_arm));
+
+    // Invalidate the pivot calibration
+    final JoystickButton xboxCalibratePivotBtn = new JoystickButton(m_driverXboxController,
+        XboxController.Button.kLeftBumper.value);
+    xboxCalibratePivotBtn.whileTrue(new CalibratePivot(m_arm));
+
+    // Set the arm preset to the stow location, inside the robot
+    final JoystickButton xboxStowButton = new JoystickButton(m_driverXboxController,
+        XboxController.Button.kX.value);
+    xboxStowButton.onTrue(new MoveArm(m_arm, Node.STOW));
+
+    // Trigger autobalance
+    final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
+        XboxController.Button.kA.value);
+    xboxAButton.onTrue(new AutoBalance(m_drivetrain));
+
+    // Added options to the dropdown for driveChooser and putting it into smartdashboard
     m_driveChooser.setDefaultOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
@@ -140,7 +162,7 @@ public class RobotContainer {
     Alliance allianceColor = DriverStation.getAlliance();
 
     StartPositions startingPosition = StartPositions.INVALID;
-    int location = 1;
+    int location = DriverStation.getLocation();
 
     if (allianceColor == Alliance.Blue) {
       if (1 == location) {
@@ -152,7 +174,7 @@ public class RobotContainer {
       }
     } else if (allianceColor == Alliance.Red) {
       if (1 == location) {
-        startingPosition = StartPositions.BLUE_LEFT;
+        startingPosition = StartPositions.RED_LEFT;
       } else if (2 == location) {
         startingPosition = StartPositions.RED_MIDDLE;
       } else if (3 == location) {
@@ -165,8 +187,8 @@ public class RobotContainer {
     if (StartPositions.INVALID == startingPosition) {
       System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
     } else {
-      autoCommand = new SequentialAutoCommand(m_drivetrain, m_kinematics, m_targeting,
-          startingPosition, m_logger);
+      autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
+          startingPosition);
     }
 
     return autoCommand;

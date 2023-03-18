@@ -27,8 +27,8 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_KD = 1d;
 
     /* Velocity */
-    public final double PIVOT_MAX_VELOCITY = 3000.0d;
-    public final double PIVOT_MAX_ACCELERATION = 3000.0d;
+    public final double PIVOT_MAX_VELOCITY = 4000.0d; // Controls the speed of the pivot
+    public final double PIVOT_MAX_ACCELERATION = 4000.0d; // Controls the acceleration of the pivot
     public final double EXTENDER_MAX_VELOCITY = 20000.0d;
     public final double EXTENDER_MAX_ACCELERATION = 20000.0d;
 
@@ -71,7 +71,7 @@ public class Arm extends SubsystemBase {
     public final int ZEROED_EXTENDER_ENCODER_LIMIT = (int) (MIN_INCHES * EXTENDER_ENCODER_UNITS_PER_INCH);
 
     public final double MIN_RESTRICTED_THETA = -72.0d * ((2 * Math.PI) / 360.0d); // radians
-    public final double MAX_RESTRICTED_INCHES = MIN_INCHES;
+    public final double MAX_RESTRICTED_INCHES = MIN_INCHES + 2.0d;
 
     /* Members */
     private WPI_TalonFX pivotTalonFX;
@@ -175,7 +175,7 @@ public class Arm extends SubsystemBase {
         double minClamp = MIN_ANGLE_RADIANS;
         double encoderUnits = 0.0d;
 
-        if (rInches >= (MIN_INCHES + 1)) {
+        if (rInches >= (MAX_RESTRICTED_INCHES)) {
             minClamp = MIN_RESTRICTED_THETA;
         }
 
@@ -240,6 +240,14 @@ public class Arm extends SubsystemBase {
     public void adjustPosition(double anglePercent, double extendPercent) {
         theta += ARM_THETA_DELTA_MODIFIER * anglePercent;
         rInches += ARM_R_DELTA_MODIFIER * extendPercent;
+    }
+
+    /**
+     * Stows the arm within the robot
+     */
+    public void stowArm() {
+        rInches = MIN_INCHES;
+        theta = MIN_ANGLE_RADIANS;
     }
 
     public void pivotSetEncoderUnits(int encoderUnits) {

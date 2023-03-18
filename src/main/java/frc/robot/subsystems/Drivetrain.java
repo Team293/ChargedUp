@@ -325,6 +325,10 @@ public class Drivetrain extends SubsystemBase {
         return (navX.getFusedHeading() * -1.0d);
     }
 
+    public double getGyroPitchDegrees() {
+        return (navX.getPitch() * -1.0d);
+    }
+
     public double getGyroYawDegrees() {
         return (navX.getYaw() * -1.0d);
     }
