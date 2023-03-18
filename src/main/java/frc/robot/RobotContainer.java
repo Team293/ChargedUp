@@ -12,9 +12,9 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.BumpDrive;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.SequentialAutoCommand;
-import frc.robot.commands.TrackTarget;
 import frc.robot.commands.RCFDrive;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArm.Node;
@@ -82,41 +82,59 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Create some buttons
-    final JoystickButton xboxTargetBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kLeftBumper.value);
-    xboxTargetBtn.whileTrue(new TrackTarget(m_drivetrain, m_targeting));
+    /******** Operator Controls ********/
+    // Bump drive right slightly
+    final JoystickButton xboxBumpRight = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kRightBumper.value);
+    xboxBumpRight.whileTrue(new BumpDrive(m_drivetrain, 0.1d));
 
-    final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_operatorXboxController,
+    // Bump drive left slightly
+    final JoystickButton xboxBumpLeft = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kLeftBumper.value);
+    xboxBumpLeft.whileTrue(new BumpDrive(m_drivetrain, -0.1d));
+
+    // Set arm preset to high location
+    final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kY.value);
+    xboxYBtn.onTrue(new MoveArm(m_arm, Node.HIGH));
+
+    // Set arm preset to mid location
+    final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kX.value);
+    xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
+
+    // Set arm preset to hybrid location
+    final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kA.value);
+    xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
+
+    // Set arm preset to substation location
+    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
+        XboxController.Button.kB.value);
+    xboxBBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
+
+    /******** Driver Controls ********/
+    // Invalidate the extender calibration
+    final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_driverXboxController,
         XboxController.Button.kRightBumper.value);
     xboxCalibrateExtenderBtn.whileTrue(new CalibrateExtender(m_arm));
 
-    // Make the pivot calibration a soft button since it shouldn't need to be
-    // calibrated often
-    SmartDashboard.putData("Calibrate Pivot", new CalibratePivot(m_arm));
-    
-    final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kY.value);
-    xboxYBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HIGH));
+    // Invalidate the pivot calibration
+    final JoystickButton xboxCalibratePivotBtn = new JoystickButton(m_driverXboxController,
+        XboxController.Button.kLeftBumper.value);
+    xboxCalibratePivotBtn.whileTrue(new CalibratePivot(m_arm));
 
-    final JoystickButton xboxXBtn = new JoystickButton(m_operatorXboxController,
+    // Set the arm preset to the stow location, inside the robot
+    final JoystickButton xboxStowButton = new JoystickButton(m_driverXboxController,
         XboxController.Button.kX.value);
-    xboxXBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.MID));
+    xboxStowButton.onTrue(new MoveArm(m_arm, Node.STOW));
 
-    final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.HYBRID));
-
-    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kB.value);
-    xboxBBtn.onTrue(new MoveArm(m_arm, m_operatorXboxController, Node.SUBSTATION));
-
+    // Trigger autobalance
     final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
         XboxController.Button.kA.value);
     xboxAButton.onTrue(new AutoBalance(m_drivetrain));
 
-    // Added options to the dropdown for driveChooser and putting it into
-    // smartdashboard
+    // Added options to the dropdown for driveChooser and putting it into smartdashboard
     m_driveChooser.setDefaultOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));

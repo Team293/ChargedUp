@@ -25,7 +25,7 @@ public class ArcadeDrive extends CommandBase {
     public static final double DEFAULT_ARCADE_JOY_DEADBAND = 0.04;
     public static final boolean DEFAULT_FORZA_MODE = true;
 
-    public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
+    public static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.95;
     public static final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
 
     private final Drivetrain m_drivetrain;

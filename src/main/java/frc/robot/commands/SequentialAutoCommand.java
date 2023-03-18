@@ -14,15 +14,15 @@ import static frc.robot.Constants.AutonomousCommandConstants.*;
 public class SequentialAutoCommand extends SequentialCommandGroup {
 	private StartPositions m_startPosition;
 	private Drivetrain m_drivetrain;
-	private Arm m_arm;
-	private Claw m_claw;
+	// private Arm m_arm;
+	// private Claw m_claw;
 	private Kinematics m_kinematics;
 
 	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw, Kinematics kinematics, Targeting targeting,
 			StartPositions startPosition) {
 		m_drivetrain = drivetrain;
-		m_arm = arm;
-		m_claw = claw;
+		// m_arm = arm;
+		// m_claw = claw;
 		m_kinematics = kinematics;
 		m_startPosition = startPosition;
 

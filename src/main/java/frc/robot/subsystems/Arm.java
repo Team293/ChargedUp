@@ -242,6 +242,14 @@ public class Arm extends SubsystemBase {
         rInches += ARM_R_DELTA_MODIFIER * extendPercent;
     }
 
+    /**
+     * Stows the arm within the robot
+     */
+    public void stowArm() {
+        rInches = MIN_INCHES;
+        theta = MIN_ANGLE_RADIANS;
+    }
+
     public void pivotSetEncoderUnits(int encoderUnits) {
         pivotTalonFX.setSelectedSensorPosition(encoderUnits);
     }
