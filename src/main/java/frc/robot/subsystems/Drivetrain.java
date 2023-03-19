@@ -249,14 +249,14 @@ public class Drivetrain extends SubsystemBase {
         
         if((Math.abs(vL) < VELOCITY_LOWER_LIMIT)){
             leftTalonLead.set(TalonFXControlMode.PercentOutput, 0);
-            
+        } else {
+            leftTalonLead.set(TalonFXControlMode.Velocity, vL);
         }
 
         if( (Math.abs(vR) < VELOCITY_LOWER_LIMIT)){
             rightTalonLead.set(TalonFXControlMode.PercentOutput, 0);
         }
         else{
-            leftTalonLead.set(TalonFXControlMode.Velocity, vL);
             rightTalonLead.set(TalonFXControlMode.Velocity, vR);
         }
         
