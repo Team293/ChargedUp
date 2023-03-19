@@ -41,7 +41,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 public class Robot extends LoggedRobot {
 
     public static final String LOGGER_KEY = "ChargedUp";
-    public static final String LOGGER_VALUE = "Robinsville";
+    public static final String LOGGER_VALUE = "Robbinsville";
     public static final String LOGGER_PATH = "/media/sda1/";
     public static final int LOGGER_MODULE = 1;
     public static final ModuleType LOGGER_MODULE_TYPE = ModuleType.kRev;
