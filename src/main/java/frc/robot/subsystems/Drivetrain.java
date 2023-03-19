@@ -247,13 +247,17 @@ public class Drivetrain extends SubsystemBase {
         leftTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         rightTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         
-        if((Math.abs(vL) < VELOCITY_LOWER_LIMIT) || (Math.abs(vR) < VELOCITY_LOWER_LIMIT)){
+        if((Math.abs(vL) < VELOCITY_LOWER_LIMIT)){
             leftTalonLead.set(TalonFXControlMode.PercentOutput, 0);
+            
+        }
+
+        if( (Math.abs(vR) < VELOCITY_LOWER_LIMIT)){
             rightTalonLead.set(TalonFXControlMode.PercentOutput, 0);
         }
         else{
             leftTalonLead.set(TalonFXControlMode.Velocity, vL);
-        rightTalonLead.set(TalonFXControlMode.Velocity, vR);
+            rightTalonLead.set(TalonFXControlMode.Velocity, vR);
         }
         
     }
