@@ -47,7 +47,7 @@ public class Drivetrain extends SubsystemBase {
     public static final double VELOCITY_KP = 0.03d;
     public static final double VELOCITY_KD = 0.06d;
     public static final double POSITION_KF = 0.0d;
-    public static final double POSITION_KP = 0.029d;
+    public static final double POSITION_KP = 0.028d;
     public static final double POSITION_KI = 0.0004d;
     public static final double VELOCITY_KI = 0.0d;
     public static final double POSITION_KD = 0.29d;
@@ -62,6 +62,7 @@ public class Drivetrain extends SubsystemBase {
     public static final int PID_CONFIG_TIMEOUT_MS = 10;
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
     public static final int MAX_VELOCITY = 20580;
+    public static final double VELOCITY_LOWER_LIMIT = MAX_VELOCITY * 0.01;
 
     public static final boolean USE_NAVX_HEADING = false;
 
@@ -245,8 +246,16 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Set Velocity Right (Encoder units/100ms)", vR);
         leftTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         rightTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
-        leftTalonLead.set(TalonFXControlMode.Velocity, vL);
+        
+        if((Math.abs(vL) < VELOCITY_LOWER_LIMIT) || (Math.abs(vR) < VELOCITY_LOWER_LIMIT)){
+            leftTalonLead.set(TalonFXControlMode.PercentOutput, 0);
+            rightTalonLead.set(TalonFXControlMode.PercentOutput, 0);
+        }
+        else{
+            leftTalonLead.set(TalonFXControlMode.Velocity, vL);
         rightTalonLead.set(TalonFXControlMode.Velocity, vR);
+        }
+        
     }
 
     public void initAutonomous(Position2D startingPose) {
