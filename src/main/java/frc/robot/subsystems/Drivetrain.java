@@ -143,6 +143,13 @@ public class Drivetrain extends SubsystemBase {
         rightTalonFollower.follow(rightTalonLead);
     }
 
+    public void setNeutralMode(NeutralMode nm) {
+        rightTalonLead.setNeutralMode(nm);
+        rightTalonFollower.setNeutralMode(nm);
+        leftTalonLead.setNeutralMode(nm);
+        leftTalonFollower.setNeutralMode(nm);
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
@@ -247,19 +254,10 @@ public class Drivetrain extends SubsystemBase {
         leftTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         rightTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         
-        if((Math.abs(vL) < VELOCITY_LOWER_LIMIT)){
-            leftTalonLead.set(TalonFXControlMode.PercentOutput, 0);
-        } else {
-            leftTalonLead.set(TalonFXControlMode.Velocity, vL);
-        }
-
-        if( (Math.abs(vR) < VELOCITY_LOWER_LIMIT)){
-            rightTalonLead.set(TalonFXControlMode.PercentOutput, 0);
-        }
-        else{
-            rightTalonLead.set(TalonFXControlMode.Velocity, vR);
-        }
         
+            leftTalonLead.set(TalonFXControlMode.Velocity, vL);
+            rightTalonLead.set(TalonFXControlMode.Velocity, vR);
+    
     }
 
     public void initAutonomous(Position2D startingPose) {
