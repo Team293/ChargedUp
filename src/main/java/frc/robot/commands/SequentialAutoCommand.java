@@ -64,7 +64,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	}
 
 	private void top() {
-        // FACE GRID
+		//Face Field
 		addCommands(
 				// Reset kinematics to the blue left position
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
@@ -82,7 +82,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
             );
 	}
 
-    // FACE GRID
+    // FACE FIELD
 	private void bottom() {
 		addCommands(
 				// Reset kinematics to the blue left position
