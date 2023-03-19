@@ -23,13 +23,11 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -55,6 +53,7 @@ public class RobotContainer {
   public final XboxController m_operatorXboxController = new XboxController(1);
 
   public final SendableChooser<Command> m_driveChooser = new SendableChooser<Command>();
+  public final SendableChooser<StartPositions> m_autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -139,8 +138,12 @@ public class RobotContainer {
     m_driveChooser.addOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
     SmartDashboard.putData(m_driveChooser);
-  }
 
+    m_autoChooser.setDefaultOption("Top", StartPositions.RED_LEFT);
+    m_autoChooser.addOption("Middle", StartPositions.RED_MIDDLE);
+    m_autoChooser.addOption("Bottom", StartPositions.RED_RIGHT);
+    SmartDashboard.putData(m_autoChooser);
+  }
   private Command getDriveCommand() {
     return m_driveChooser.getSelected();
   }
@@ -159,37 +162,37 @@ public class RobotContainer {
     // When either the alliance colour check or the location check fails it defaults
     // to the blue left side
     Command autoCommand = null;
-    Alliance allianceColor = DriverStation.getAlliance();
+    // Alliance allianceColor = DriverStation.getAlliance();
 
-    StartPositions startingPosition = StartPositions.INVALID;
-    int location = DriverStation.getLocation();
+    // StartPositions startingPosition = StartPositions.INVALID;
+    // int location = DriverStation.getLocation();
 
-    if (allianceColor == Alliance.Blue) {
-      if (1 == location) {
-        startingPosition = StartPositions.BLUE_LEFT;
-      } else if (2 == location) {
-        startingPosition = StartPositions.BLUE_MIDDLE;
-      } else if (3 == location) {
-        startingPosition = StartPositions.BLUE_RIGHT;
-      }
-    } else if (allianceColor == Alliance.Red) {
-      if (1 == location) {
-        startingPosition = StartPositions.RED_LEFT;
-      } else if (2 == location) {
-        startingPosition = StartPositions.RED_MIDDLE;
-      } else if (3 == location) {
-        startingPosition = StartPositions.RED_RIGHT;
-      }
-    } else {
-      System.out.println("WARNING - Invalid alliance color! [" + allianceColor + "]");
-    }
+    // if (allianceColor == Alliance.Blue) {
+    //   if (1 == location) {
+    //     startingPosition = StartPositions.BLUE_LEFT;
+    //   } else if (2 == location) {
+    //     startingPosition = StartPositions.BLUE_MIDDLE;
+    //   } else if (3 == location) {
+    //     startingPosition = StartPositions.BLUE_RIGHT;
+    //   }
+    // } else if (allianceColor == Alliance.Red) {
+    //   if (1 == location) {
+    //     startingPosition = StartPositions.RED_LEFT;
+    //   } else if (2 == location) {
+    //     startingPosition = StartPositions.RED_MIDDLE;
+    //   } else if (3 == location) {
+    //     startingPosition = StartPositions.RED_RIGHT;
+    //   }
+    // } else {
+    //   System.out.println("WARNING - Invalid alliance color! [" + allianceColor + "]");
+    // }
 
-    if (StartPositions.INVALID == startingPosition) {
-      System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
-    } else {
-      autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
-          startingPosition);
-    }
+    // if (StartPositions.INVALID == startingPosition) {
+    //   System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
+    // } else {
+    autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
+        m_autoChooser.getSelected());
+    // }
 
     return autoCommand;
   }

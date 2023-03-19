@@ -29,8 +29,8 @@ public class Arm extends SubsystemBase {
     /* Velocity */
     public final double PIVOT_MAX_VELOCITY = 4000.0d; // Controls the speed of the pivot
     public final double PIVOT_MAX_ACCELERATION = 4000.0d; // Controls the acceleration of the pivot
-    public final double EXTENDER_MAX_VELOCITY = 20000.0d;
-    public final double EXTENDER_MAX_ACCELERATION = 20000.0d;
+    public final double EXTENDER_MAX_VELOCITY = 30000.0d;
+    public final double EXTENDER_MAX_ACCELERATION = 30000.0d;
 
     /* Motor constants */
     public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
@@ -62,7 +62,7 @@ public class Arm extends SubsystemBase {
     public final double MAX_INCHES = 49.6d;
 
     public final double ARM_THETA_DELTA_MODIFIER = 1.0d * ((2 * Math.PI) / 360.0d); // radians
-    public final double ARM_R_DELTA_MODIFIER = 1.0d; // inches
+    public final double ARM_R_DELTA_MODIFIER = 0.75d; // inches
 
     public final double ZEROED_R_POSITION_RADIANS = 0.0d;
     public final double ZEROED_THETA_POSITION_INCHES = -34.712d;
