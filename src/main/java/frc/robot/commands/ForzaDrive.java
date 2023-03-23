@@ -24,6 +24,9 @@ public class ForzaDrive extends CommandBase {
     private final Drivetrain m_drivetrain;
     private final XboxController m_xboxcontroller;
 
+    public double m_currentTurning = 0d;
+    public double m_currentSpeed = 0d;
+
     private double m_arcadeDeadband;
     private double m_forzaDeadband;
     private double m_velocityLimitPercentage;
@@ -106,7 +109,15 @@ public class ForzaDrive extends CommandBase {
         turning *= m_turningLimitPercentage;
         speed *= m_velocityLimitPercentage;
         m_drivetrain.arcadeDrive(speed, turning);
+    
+
+    if (speed != 0 && turning != 0) {
+        m_drivetrain.arcadeDrive(speed, turning);
+    } else {
+        m_drivetrain.decelerationDrive();
     }
+
+}
 
     // Called once the command ends or is interrupted.
     @Override
