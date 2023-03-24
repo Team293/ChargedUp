@@ -9,7 +9,7 @@ import frc.robot.subsystems.Arm;
 
 public class AdjustArm extends CommandBase {
 
-    private static final double DEFAULT_ADJUST_ARM_DEADBAND = 0.01;
+    private static final double DEFAULT_ADJUST_ARM_DEADBAND = 0.05;
 
     private final Arm m_arm;
     public final XboxController m_operatorXboxController;
@@ -35,18 +35,22 @@ public class AdjustArm extends CommandBase {
     @Override
     public void execute() {
         // Grabs joystick values
-        double angle = m_operatorXboxController.getLeftY();
-        double extend = m_operatorXboxController.getRightY();
+        double anglePercent = m_operatorXboxController.getLeftY();
+        double extendPercent = m_operatorXboxController.getRightY();
         
         // Grabs Deadband value from SmartDashboard
         m_adjustArmDeadband = SmartDashboard.getNumber("Arm Deadband", m_adjustArmDeadband);
 
         // Grabs angle and extend from SPIKE293Utils
-        angle = SPIKE293Utils.applyDeadband(angle, m_adjustArmDeadband);
-        extend = SPIKE293Utils.applyDeadband(extend, m_adjustArmDeadband);
+        anglePercent = SPIKE293Utils.applyDeadband(anglePercent, m_adjustArmDeadband);
+        extendPercent = SPIKE293Utils.applyDeadband(extendPercent, m_adjustArmDeadband);
+
+        //Fix the sticks being inverted
+        anglePercent *= -1.0d;
+        extendPercent *= -1.0d;
 
         // Moves the arm
-        m_arm.adjustPosition(angle, extend);
+        m_arm.adjustPosition(anglePercent, extendPercent);
     }
 
     // Called once the command ends or is interrupted.

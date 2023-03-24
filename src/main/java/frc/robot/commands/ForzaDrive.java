@@ -31,7 +31,7 @@ public class ForzaDrive extends CommandBase {
 
     private final double DEFAULT_FORZA_DEADBAND = 0.01;
     private final double DEFAULT_ARCADE_JOY_DEADBAND = 0.04;
-    private final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
+    private final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.95;
     private final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
 
     public ForzaDrive(Drivetrain subsystem, XboxController xboxcontroller) {

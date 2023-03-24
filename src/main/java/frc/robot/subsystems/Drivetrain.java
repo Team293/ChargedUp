@@ -53,19 +53,18 @@ public class Drivetrain extends SubsystemBase {
     public static final double POSITION_KD = 0.29d;
 
     public static final double CLOSED_LOOP_RAMP = 0.5;
-    
+
     public static final int LEFT_LEAD_TALON_CAN_ID = 1;
     public static final int LEFT_FOLLOWER_TALON_CAN_ID = 3;
     public static final int RIGHT_LEAD_TALON_CAN_ID = 0;
     public static final int RIGHT_FOLLOWER_TALON_CAN_ID = 2;
-    
+
     public static final int VELOCITY_PID_SLOT_ID = 0;
     public static final int POSITION_PID_SLOT_ID = 1;
     public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
     public static final int PID_CONFIG_TIMEOUT_MS = 10;
-
-    public static final int MAX_VELOCITY = 21549; // Max velocity in encoder units
+    public static final int MAX_VELOCITY = 20580; // Max velocity in encoder units
 
     public static final boolean USE_NAVX_HEADING = false;
 
@@ -201,8 +200,8 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber(key, val);
         }
     }
-    
-    public void percentDrive(double leftPercentage, double rightPercentage) {  
+
+    public void percentDrive(double leftPercentage, double rightPercentage) {
         leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
         rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
     }
@@ -264,7 +263,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns left encoder position
-     * 
+     *
      * @return left encoder position
      */
     public double getLeftEncoderPosition() {
@@ -275,7 +274,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns right encoder position
-     * 
+     *
      * @return right encoder position
      */
     public double getRightEncoderPosition() {
@@ -286,7 +285,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns left encoder Velocity in ft/s
-     * 
+     *
      * @return left encoder Velocity in ft/s
      */
     public double getLeftEncoderVelocity() {
@@ -297,7 +296,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns right encoder Velocity in ft/s
-     * 
+     *
      * @return right encoder Velocity in ft/s
      */
     public double getRightEncoderVelocity() {
@@ -308,7 +307,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns robot Velocity in ft/s
-     * 
+     *
      * @return robot Velocity in ft/s
      */
     public double getRobotVelocity() {
@@ -327,6 +326,10 @@ public class Drivetrain extends SubsystemBase {
 
     public double getGyroFusedHeadingDegrees() {
         return (navX.getFusedHeading() * -1.0d);
+    }
+
+    public double getGyroPitchDegrees() {
+        return (navX.getPitch() * -1.0d);
     }
 
     public double getGyroYawDegrees() {

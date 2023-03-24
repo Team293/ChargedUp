@@ -1,23 +1,34 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
+    public final double SCORE_HYBRID_R_INCHES = 38.1365966d; /* Coordinates: 15.6in, -34.8in */
+    public final double SCORE_HYBRID_ANGLE = -1.14937712d;
+
+    public final double SCORE_MID_R_INCHES = 36.60874213d; /* Coordinates: 36.6in, -0.8in */
+    public final double SCORE_MID_ANGLE = -0.02185444348d;
+
+    public final double SCORE_HIGH_R_INCHES = 47.68398578d; /* Coordinates: 46.35in, 11.2in */
+    public final double SCORE_HIGH_ANGLE = 0.237094798d;
+
+    public final double SUBSTATION_PICKUP_ANGLE = 0.1888971809d; /* Coordinates: 13.6in, 2.6in */
+    public final double SUBSTATION_PICKUP_X_INCHES = 13.84629914d;
+
     public enum Node {
         HYBRID,
         MID,
         HIGH,
-        SUBSTATION
+        SUBSTATION,
+        STOW
     }
+
     private final Arm m_arm;
-    public final XboxController m_operatorXboxController;
     private final Node m_node;
 
-    public MoveArm(Arm givenArm, XboxController givenController, Node node) {
+    public MoveArm(Arm givenArm, Node node) {
         m_arm = givenArm;
-        m_operatorXboxController = givenController;
         m_node = node;
 
         addRequirements(m_arm);
@@ -31,23 +42,21 @@ public class MoveArm extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        switch(m_node) {
+        switch (m_node) {
             case HYBRID:
-                m_arm.rotateTo(m_arm.SCORE_HYBRID_ANGLE);
-                m_arm.extendTo(m_arm.SCORE_HYBRID_X_INCHES);
+                m_arm.setPosition(SCORE_HYBRID_ANGLE, SCORE_HYBRID_R_INCHES);
                 break;
             case MID:
-                m_arm.rotateTo(m_arm.SCORE_MID_ANGLE);
-                m_arm.extendTo(m_arm.SCORE_MID_X_INCHES);
+                m_arm.setPosition(SCORE_MID_ANGLE, SCORE_MID_R_INCHES);
                 break;
             case HIGH:
-                m_arm.rotateTo(m_arm.SCORE_HIGH_ANGLE);
-                m_arm.extendTo(m_arm.SCORE_HIGH_X_INCHES);
+                m_arm.setPosition(SCORE_HIGH_ANGLE, SCORE_HIGH_R_INCHES);
                 break;
             case SUBSTATION:
-                m_arm.rotateTo(m_arm.SUBSTATION_PICKUP_ANGLE);
-                m_arm.extendTo(m_arm.SUBSTATION_PICKUP_X_INCHES);
+                m_arm.setPosition(SUBSTATION_PICKUP_ANGLE, SUBSTATION_PICKUP_X_INCHES);
                 break;
+            case STOW:
+                m_arm.stowArm();
         }
     }
 
@@ -62,4 +71,3 @@ public class MoveArm extends CommandBase {
         return true;
     }
 }
-
