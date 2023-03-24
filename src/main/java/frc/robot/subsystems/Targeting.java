@@ -22,21 +22,21 @@ import frc.robot.classes.Position2D;
  */
 public class Targeting extends SubsystemBase {
 
-    private double vP = 0.001; 
+    private double vP = 0.001;
     private double vI = 0.0;
     private double vD = vP * 10;
 
     public static final int DEFAULT_TARGET_RPM = 2000;
-    
+
     public static final int LIMELIGHT_LED_ON = 3;
     public static final int LIMELIGHT_LED_OFF = 1;
-    
+
     public static final double TARGET_ACQUIRED = 1.0;
     public static final double CONFIRMED_THRESHOLD = 0.2;
 
-    
-        
-        
+
+
+
         public static final double TARGET_NO_TARGET = 0.0;
         public static final double INTEGRAL_WEIGHT = .2;
         public static final double CONFIRMED_TIME = .25; // Amount of seconds before it considers a target confirmed
@@ -46,12 +46,21 @@ public class Targeting extends SubsystemBase {
         public static final double TIMER_NOT_STARTED_VALUE = 0.0;
         public static final double ERROR_INTEGRAL_DEFAULT = 0.0;
         public static final double LAST_ERROR_DEFAULT = 0.0;
-    
-    private NetworkTable m_limeData; // Data from limelight
-    private NetworkTableEntry m_tAcquired; // t stands for target
-    private NetworkTableEntry m_targetX; // x value of the target
-    private NetworkTableEntry m_targetY; // y value of the target
-    private NetworkTableEntry m_targetArea; // area of the target
+
+    private NetworkTable m_leftLimeData; // Data from left limelight
+    private NetworkTableEntry m_leftTargetAcquired; // whether the limelight has any valid targets (0 or 1)
+    private NetworkTableEntry m_leftTargetX; // x value of the left target
+    private NetworkTableEntry m_leftTargetY; // y value of the left target
+    private NetworkTableEntry m_leftTargetArea; // area of the left target
+    private double[] m_leftBotPose;
+
+    private NetworkTable m_limeRightData; // Data from right limelight
+    private NetworkTableEntry m_rightTargetAcquired; // whether the limelight has any valid targets (0 or 1)
+    private NetworkTableEntry m_rightTargetX; // x value of the right target
+    private NetworkTableEntry m_rightTargetY; // y value of the right target
+    private NetworkTableEntry m_rightTargetArea; // area of the right target
+    private double[] m_rightBotPose;
+
     private double[] m_botPose;
 
     private double m_errorIntegral = 0.0;
@@ -61,16 +70,29 @@ public class Targeting extends SubsystemBase {
 
     public Targeting() {
         // Get limelight data from network table
-        m_limeData = NetworkTableInstance.getDefault().getTable("limelight");
-        m_tAcquired = m_limeData.getEntry("tv");
-        m_targetX = m_limeData.getEntry("tx");
-        m_targetY = m_limeData.getEntry("ty");
-        m_targetArea = m_limeData.getEntry("ta");
-        m_botPose = m_limeData.getEntry("botpose").getDoubleArray(new double[1]);
+        m_leftLimeData = NetworkTableInstance.getDefault().getTable("limelight-left");
+        m_leftTargetAcquired = m_leftLimeData.getEntry("tv");
+        m_leftTargetX = m_leftLimeData.getEntry("tx");
+        m_leftTargetY = m_leftLimeData.getEntry("ty");
+        m_leftTargetArea = m_leftLimeData.getEntry("ta");
+        m_leftBotPose = m_leftLimeData.getEntry("botpose").getDoubleArray(new double[1]);
 
         // Set default values for shuffleboard
-        m_limeData.getEntry("camMode").setNumber(0);
-        m_limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
+        m_leftLimeData.getEntry("camMode").setNumber(0);
+        m_leftLimeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
+
+        m_limeRightData = NetworkTableInstance.getDefault().getTable("limelight-right");
+        m_rightTargetAcquired = m_limeRightData.getEntry("tv");
+        m_rightTargetX = m_limeRightData.getEntry("tx");
+        m_rightTargetY = m_limeRightData.getEntry("ty");
+        m_rightTargetArea = m_limeRightData.getEntry("ta");
+        m_rightBotPose = m_limeRightData.getEntry("botpose").getDoubleArray(new double[1]);
+
+        // Set default values for shuffleboard
+        m_limeRightData.getEntry("camMode").setNumber(0);
+        m_limeRightData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
+
+        m_botPose = averageBotPose(m_leftBotPose, m_rightBotPose);
 
         SmartDashboard.putNumber("P Gain", vP);
         SmartDashboard.putNumber("I Gain", vI);
@@ -80,13 +102,51 @@ public class Targeting extends SubsystemBase {
         controlLight(true);
     }
 
+    public double averageNetworkTableValues(NetworkTableEntry left, NetworkTableEntry right, double defaultValue) {
+        // If both values are valid, return the average
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED
+                && m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            return (left.getDouble(defaultValue) + right.getDouble(defaultValue)) / 2;
+        }
+        // If only the left value is valid, return the left value
+        else if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            return left.getDouble(defaultValue);
+        }
+
+        // If only the right value is valid, return the right value
+        else if (m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            return right.getDouble(defaultValue);
+        }
+
+        // If neither value is valid, return the default value
+        return defaultValue;
+    }
+
+    private double[] averageBotPose(double[] leftPose, double[] rightPose) {
+        // If both values are valid, return the average
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED &&
+            m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            // x, y, theta (direction)
+            return new double[] { (leftPose[0] + rightPose[0]) / 2, (leftPose[1] + rightPose[1]) / 2,
+                    (leftPose[5] + rightPose[5]) / 2 };
+        }
+        // If only the left value is valid, return the left value
+        else if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            return leftPose;
+        }
+
+        return rightPose;
+    }
+
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Tx", m_targetX.getDouble(10000));
-        SmartDashboard.putNumber("Ty", m_targetY.getDouble(10000));
+        SmartDashboard.putNumber("Tx", averageNetworkTableValues(m_leftTargetX, m_rightTargetX, 10000));
+        SmartDashboard.putNumber("Ty", averageNetworkTableValues(m_leftTargetY, m_rightTargetY, 10000));
         SmartDashboard.putBoolean("isTargetted", isTargeted());
 
-        m_botPose = m_limeData.getEntry("botpose").getDoubleArray(new double[1]);
+        m_leftBotPose = m_leftLimeData.getEntry("botpose").getDoubleArray(new double[1]);
+        m_rightBotPose = m_limeRightData.getEntry("botpose").getDoubleArray(new double[1]);
+        m_botPose = averageBotPose(m_leftBotPose, m_rightBotPose);
         if (hasTarget()) {
             SmartDashboard.putNumberArray("Lime Pose", new double[] { m_botPose[0], m_botPose[1], m_botPose[5] });
 
@@ -104,9 +164,11 @@ public class Targeting extends SubsystemBase {
     // Turns the LED on or off
     public void controlLight(boolean enabled) {
         if (enabled) {
-            m_limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
+            m_leftLimeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
+            m_limeRightData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
         } else {
-            m_limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_OFF);
+            m_leftLimeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_OFF);
+            m_limeRightData.getEntry("ledMode").setNumber(LIMELIGHT_LED_OFF);
         }
     }
 
@@ -114,8 +176,8 @@ public class Targeting extends SubsystemBase {
         double percentOutput = 0.0d;
 
         // Do we have a target?
-        if (m_tAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
-            double limeError = m_targetX.getDouble(0.0); // Get the error of the target X
+        if (isTargeted()) {
+            double limeError = averageNetworkTableValues(m_leftTargetX, m_rightTargetX, 0.0); // Get the error of the target X
             double headingError = limeError; // 29.5 is the range of the limelight which goes from -29.5 to 29.5
             double change = headingError - m_lastError;
 
@@ -155,9 +217,11 @@ public class Targeting extends SubsystemBase {
 
     public boolean isTargeted() {
         boolean targeted = false;
-        double limeError = m_targetX.getDouble(0.0); // Get the error of the target X
+        double leftLimeError = m_leftTargetX.getDouble(0.0); // Get the error of the left target X
+        double rightLimeError = m_rightTargetX.getDouble(0.0); // Get the error of the right target X
 
-        if (Math.abs(limeError) < CONFIRMED_THRESHOLD) {
+        // If either of the limelights are within the threshold, we are targeted
+        if (Math.abs(leftLimeError) < CONFIRMED_THRESHOLD || Math.abs(rightLimeError) < CONFIRMED_THRESHOLD) {
             targeted = true;
         }
 
@@ -165,22 +229,75 @@ public class Targeting extends SubsystemBase {
     }
 
     public double getAngleToTargetDegrees() {
-        return -1 * m_targetX.getDouble(0);
+        // If both targets are acquired, average the two targets
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED &&
+            m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            double average = (m_leftTargetX.getDouble(0) + m_rightTargetX.getDouble(0)) / 2;
+            return -1 * average;
+        }
+        // If only the left target is acquired, use the left target
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            return -1 * m_leftTargetX.getDouble(0);
+        }
+
+        // Just use the right target if nothing else is acquired
+        return -1 * m_rightTargetX.getDouble(0);
     }
 
     public double getTargetArea() {
-        return m_targetArea.getDouble(-1.0);
+        // If both targets are acquired, average the two targets
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED &&
+            m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            double average = (m_leftTargetArea.getDouble(-1.0) + m_rightTargetArea.getDouble(-1.0)) / 2;
+            return average;
+        }
+        // If only the left target is acquired, use the left target
+        if (m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_NO_TARGET) {
+            return m_leftTargetArea.getDouble(-1.0);
+        }
+        return m_rightTargetAcquired.getDouble(-1.0);
     }
 
     public boolean hasTarget() {
-        return m_tAcquired.getDouble(-1) == 1 && m_botPose.length > 1;
+        // If both targets are acquired, average the two targets
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED &&
+            m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            // Check if both targets are valid
+            return m_leftBotPose.length > 1 && m_rightBotPose.length > 1;
+        }
+        // If only the left target is acquired, use the left target
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            // Check if the left target is valid
+            return m_leftBotPose.length > 1;
+        }
+        // Check if the right target is visible and valid
+        return m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED && m_rightBotPose.length > 1;
     }
 
     public Position2D getRobotPose() {
-        return new Position2D(m_botPose[0] * 3.28, m_botPose[1] * 3.28, Math.toRadians(m_botPose[5])); // reading array
-                                                                                                       // of values and
-                                                                                                       // converting
-                                                                                                       // from meters to
-                                                                                                       // feet
+        // Check if both targets are acquired
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED &&
+            m_rightTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            // Check if both targets are valid
+            if (m_leftBotPose.length > 1 && m_rightBotPose.length > 1) {
+                // Average the two targets
+                double averageX = (m_leftBotPose[0] + m_rightBotPose[0]) / 2;
+                double averageY = (m_leftBotPose[1] + m_rightBotPose[1]) / 2;
+                double averageHeading = (m_leftBotPose[5] + m_rightBotPose[5]) / 2;
+                // Reading array of values and converting from meters to feet
+                return new Position2D(averageX * 3.28, averageY * 3.28, Math.toRadians(averageHeading));
+            }
+        }
+        // Check if left target is acquired
+        if (m_leftTargetAcquired.getDouble(TARGET_NO_TARGET) == TARGET_ACQUIRED) {
+            // Check if left target is valid
+            if (m_leftBotPose.length > 1) {
+                // Reading array of values and converting from meters to feet
+                return new Position2D(m_leftBotPose[0] * 3.28, m_leftBotPose[1] * 3.28, Math.toRadians(m_leftBotPose[5]));
+            }
+        }
+        // If only the right target is acquired, use the right target
+        // Reading array of values and converting from meters to feet
+        return new Position2D(m_rightBotPose[0] * 3.28, m_rightBotPose[1] * 3.28, Math.toRadians(m_rightBotPose[5]));
     }
 }
