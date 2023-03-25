@@ -45,7 +45,7 @@ public class Drivetrain extends SubsystemBase {
 
     private double m_velocitySetPointLeft = 0.0d;
     private double m_velocitySetPointRight = 0.0d;
-    private double m_velocityLimitDelta = 1000.0d;
+    private double m_velocityLimitDelta = 700.0d;
 
     public static final double VELOCITY_KF = 0.046d;
     public static final double VELOCITY_KP = 0.03d;
@@ -141,6 +141,8 @@ public class Drivetrain extends SubsystemBase {
 
         leftTalonFollower.follow(leftTalonLead);
         rightTalonFollower.follow(rightTalonLead);
+
+        SmartDashboard.putNumber("Velocity Limit Delta", m_velocityLimitDelta);
     }
 
     @Override
@@ -169,7 +171,6 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Kinematics X (Feet)", currentPose.getX());
         SmartDashboard.putNumber("Kinematics Y (Feet)", currentPose.getY());
         SmartDashboard.putNumber("Kinematics Heading (degrees)", currentPose.getHeadingDegrees());
-        SmartDashboard.putNumber("Velocity Limit Delta", m_velocityLimitDelta);
 
         Hashtable<String, Double> doubleVals = new Hashtable<String, Double>() {
             {
