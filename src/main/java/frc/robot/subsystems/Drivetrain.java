@@ -51,11 +51,11 @@ public class Drivetrain extends SubsystemBase {
     public static final double VELOCITY_KP = 0.03d;
     public static final double VELOCITY_KD = 0.06d;
     public static final double POSITION_KF = 0.0d;
-    public static final double POSITION_KP = 0.029d;
+    public static final double POSITION_KP = 0.028d;
     public static final double POSITION_KI = 0.0004d;
     public static final double VELOCITY_KI = 0.0d;
     public static final double POSITION_KD = 0.29d;
-    public static final double CLOSED_LOOP_RAMP = 0.5;
+    public static final double CLOSED_LOOP_RAMP = 0.625;
     public static final int LEFT_LEAD_TALON_CAN_ID = 1;
     public static final int LEFT_FOLLOWER_TALON_CAN_ID = 3;
     public static final int RIGHT_LEAD_TALON_CAN_ID = 0;
@@ -66,6 +66,7 @@ public class Drivetrain extends SubsystemBase {
     public static final int PID_CONFIG_TIMEOUT_MS = 10;
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
     public static final int MAX_VELOCITY = 20580;
+    public static final double VELOCITY_LOWER_LIMIT = MAX_VELOCITY * 0.01;
 
     public static final boolean USE_NAVX_HEADING = false;
 
@@ -143,6 +144,13 @@ public class Drivetrain extends SubsystemBase {
         rightTalonFollower.follow(rightTalonLead);
 
         SmartDashboard.putNumber("Velocity Limit Delta", m_velocityLimitDelta);
+    }
+
+    public void setNeutralMode(NeutralMode nm) {
+        rightTalonLead.setNeutralMode(nm);
+        rightTalonFollower.setNeutralMode(nm);
+        leftTalonLead.setNeutralMode(nm);
+        leftTalonFollower.setNeutralMode(nm);
     }
 
     @Override

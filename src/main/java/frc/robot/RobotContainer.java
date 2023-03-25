@@ -23,6 +23,8 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -146,6 +148,10 @@ public class RobotContainer {
   }
   private Command getDriveCommand() {
     return m_driveChooser.getSelected();
+  }
+
+  public void setNeutralMode(NeutralMode nm) {
+    m_drivetrain.setNeutralMode(nm);
   }
 
   public void setDefaultDrive() {

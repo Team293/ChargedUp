@@ -23,6 +23,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.HAL;
@@ -113,6 +115,7 @@ public class Robot extends LoggedRobot {
     */
     @Override
     public void disabledInit() {
+        m_robotContainer.setNeutralMode(NeutralMode.Coast);
     }
 
     @Override
@@ -124,6 +127,7 @@ public class Robot extends LoggedRobot {
     */
     @Override
     public void autonomousInit() {
+        m_robotContainer.setNeutralMode(NeutralMode.Brake);
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
@@ -148,6 +152,7 @@ public class Robot extends LoggedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        m_robotContainer.setNeutralMode(NeutralMode.Coast);
         m_robotContainer.setDefaultDrive();
     }
 
