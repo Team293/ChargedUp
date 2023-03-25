@@ -45,7 +45,7 @@ public class Drivetrain extends SubsystemBase {
 
     private double m_velocitySetPointLeft = 0.0d;
     private double m_velocitySetPointRight = 0.0d;
-    private double m_velocityLimitDelta = 700.0d;
+    private double m_velocityLimitDelta = 600.0d;
 
     public static final double VELOCITY_KF = 0.046d;
     public static final double VELOCITY_KP = 0.03d;
@@ -248,6 +248,10 @@ public class Drivetrain extends SubsystemBase {
         double changeRight = newVelocityR - m_velocitySetPointRight;
 
         m_velocityLimitDelta = SmartDashboard.getNumber("Velocity Limit Delta", 1000.0d);
+
+        if (m_velocityLimitDelta < 300.0d) {
+            m_velocityLimitDelta = 300.0d;
+        }
 
         m_velocitySetPointLeft += Math.max(Math.min(changeLeft, m_velocityLimitDelta), -m_velocityLimitDelta);
         m_velocitySetPointRight += Math.max(Math.min(changeRight, m_velocityLimitDelta), -m_velocityLimitDelta);
