@@ -9,18 +9,19 @@ import frc.robot.classes.SmoothControl;
 import frc.robot.subsystems.Drivetrain;
 
 public class DriveTo extends CommandBase {
-    public static final double WITHIN_RANGE_MODIFIER = 1.0d/4.0d;
+    public static final double WITHIN_RANGE_MODIFIER = 1.0d / 4.0d;
 
     private Drivetrain m_drivetrain;
     private Kinematics m_kinematics;
     private Position2D m_targetPose;
     private static SmoothControl m_smoothControl;
-    
+
     private double m_maxVelocity;
     private boolean m_inReverse = false;
     private boolean m_isDone = false;
 
-    public DriveTo(Position2D targetPose, double maxVelocity, boolean inReverse, Kinematics kinematics, Drivetrain drivetrain) {
+    public DriveTo(Position2D targetPose, double maxVelocity, boolean inReverse, Kinematics kinematics,
+            Drivetrain drivetrain) {
         addRequirements(drivetrain);
         m_targetPose = targetPose;
         m_maxVelocity = maxVelocity;
@@ -55,6 +56,7 @@ public class DriveTo extends CommandBase {
         double omegaDesired = m_smoothControl.computeTurnRate(m_kinematics.getPose(), m_targetPose, m_maxVelocity);
 
         if (true == m_inReverse) {
+            omegaDesired += Math.PI;
             // Calculate vR in feet per second
             vR = -m_maxVelocity - (trackWidthFeet / 2) * omegaDesired;
             // Calculate vL in feet per second
