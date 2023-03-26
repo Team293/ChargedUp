@@ -14,7 +14,7 @@ public class DriveTo extends CommandBase {
     private Drivetrain m_drivetrain;
     private Kinematics m_kinematics;
     private Position2D m_targetPose;
-    private SmoothControl m_smoothControl;
+    private static SmoothControl m_smoothControl;
     
     private double m_maxVelocity;
     private boolean m_inReverse = false;
@@ -27,6 +27,9 @@ public class DriveTo extends CommandBase {
         m_inReverse = inReverse;
         m_kinematics = kinematics;
         m_drivetrain = drivetrain;
+
+        // This constructs smooth control
+        m_smoothControl = SmoothControl.getInstance();
     }
 
     @Override
