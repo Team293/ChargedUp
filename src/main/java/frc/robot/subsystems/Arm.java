@@ -27,10 +27,10 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_KD = 1d;
 
     /* Velocity */
-    public final double PIVOT_MAX_VELOCITY = 5000.0d; // Controls the speed of the pivot
-    public final double PIVOT_MAX_ACCELERATION = 5000.0d; // Controls the acceleration of the pivot
-    public final double EXTENDER_MAX_VELOCITY = 20000.0d;
-    public final double EXTENDER_MAX_ACCELERATION = 20000.0d;
+    public final double PIVOT_MAX_VELOCITY = 4500.0d; // Controls the speed of the pivot
+    public final double PIVOT_MAX_ACCELERATION = 4500.0d; // Controls the acceleration of the pivot
+    public final double EXTENDER_MAX_VELOCITY = 10000.0d;
+    public final double EXTENDER_MAX_ACCELERATION = 35000.0d;
 
     /* Motor constants */
     public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
@@ -171,7 +171,7 @@ public class Arm extends SubsystemBase {
      * 
      * @param angle - the angle in radians
      */
-    private void rotateTo(double radians) {
+    public void rotateTo(double radians) {
         double minClamp = MIN_ANGLE_RADIANS;
         double encoderUnits = 0.0d;
 
@@ -196,7 +196,7 @@ public class Arm extends SubsystemBase {
      * 
      * @param inches - the length to extend/retract to in inches
      */
-    private void extendTo(double inches) {
+    public void extendTo(double inches) {
         double maxClamp = MAX_INCHES;
         double encoderUnits;
 
@@ -318,5 +318,13 @@ public class Arm extends SubsystemBase {
 
     public boolean isCalibrated() {
         return ((true == isPivotCalibrated) && (true == isExtenderCalibrated));
+    }
+
+    public double getTheta() {
+        return theta;
+    }
+
+    public double getRInches() {
+        return rInches;
     }
 }

@@ -1,30 +1,30 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Arm;
 
+public class SetArm extends CommandBase {
+    private final Arm m_arm;
+    private final double m_theta;
+    private final double m_rInches;
 
-public class SetClaw extends CommandBase {
-    private final Claw m_claw;
-    private final double m_percent;
+    public SetArm(Arm givenArm, double theta, double rInches) {
+        m_arm = givenArm;
+        m_theta = theta;
+        m_rInches = rInches;
 
-    public SetClaw(Claw givenClaw, double percent, double time) {
-        m_claw = givenClaw;
-        m_percent = percent;
-
-        addRequirements(m_claw); 
+        addRequirements(m_arm);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
     }
-    
+
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_claw.percentClaw(m_percent);
+        m_arm.setPosition(m_theta, m_rInches);
     }
 
     // Called once the command ends or is interrupted.

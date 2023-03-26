@@ -8,6 +8,8 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Targeting;
+import frc.robot.commands.MoveArm.Node;
+import frc.robot.commands.SetArm;
 
 import static frc.robot.Constants.AutonomousCommandConstants.*;
 
@@ -17,6 +19,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	// private Arm m_arm;
 	// private Claw m_claw;
 	private Kinematics m_kinematics;
+	private Arm m_arm;
+	private Claw m_claw;
 
 	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw, Kinematics kinematics, Targeting targeting,
 			StartPositions startPosition) {
@@ -25,17 +29,19 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		// m_claw = claw;
 		m_kinematics = kinematics;
 		m_startPosition = startPosition;
+		m_arm = arm;
+		m_claw = claw;
 
 		SmartDashboard.putBoolean("AutoDone", false);
 
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot Left,
 									// Middle, Right
 			case BLUE_LEFT:
-				bottom();
+				top(); // bottom();
 				break;
 
 			case BLUE_MIDDLE:
-				middle();
+				top(); // middle();
 				break;
 
 			case BLUE_RIGHT:
@@ -47,11 +53,11 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				break;
 
 			case RED_MIDDLE:
-				middle();
+				top(); // middle();
 				break;
 
 			case RED_RIGHT:
-				bottom();
+				top(); // bottom();
 				break;
 
 			default:
@@ -68,9 +74,27 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		addCommands(
 				// Reset kinematics to the blue left position
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
+				// Close claw
+				new SetClawWithPower(m_claw, -1.0d, 10.0d)
+				// Raise arm
+				// new SetArm(m_arm, MoveArm.SCORE_HYBRID_ANGLE, m_arm.getRInches())
+                // // Wait
+				// new Wait(1),
+				// // Extend arm
+                // new SetArm(m_arm, MoveArm.SCORE_HIGH_R_INCHES, MoveArm.SCORE_HIGH_ANGLE),
+				// // Drive forward (~1 foot)
+				// new DriveTo(new Position2D(1, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain),
+				// // Open claw
+				// new SetClaw(m_claw, 0)
+				// Back out of community
+				// new DriveTo(new Position2D(6, 0, Math.toRadians(0)), 2.0d, true, m_kinematics, m_drivetrain)
+				// Retract arm
+				
+				// Lower arm
+		
 				// driving
-				new DriveTo(new Position2D(6, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain));
-
+				// new DriveTo(new Position2D(6, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain)
+				);
 	}
 
     // FACE CHARGE STATION

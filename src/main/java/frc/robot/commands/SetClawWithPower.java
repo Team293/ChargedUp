@@ -1,17 +1,19 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Claw;
 
 
-public class SetClaw extends CommandBase {
+public class SetClawWithPower extends CommandBase {
     private final Claw m_claw;
     private final double m_percent;
+    private final double m_power;
 
-    public SetClaw(Claw givenClaw, double percent, double time) {
+    public SetClawWithPower(Claw givenClaw, double percent, double power) {
         m_claw = givenClaw;
         m_percent = percent;
+        m_power = power;
 
         addRequirements(m_claw); 
     }
@@ -35,6 +37,6 @@ public class SetClaw extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return m_claw.getPower() > m_power;
     }
 }
