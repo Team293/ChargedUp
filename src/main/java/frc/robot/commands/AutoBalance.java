@@ -7,8 +7,8 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AutoBalance extends CommandBase {
     private static final double PITCH_OFFSET = -90.0d; // Should be -70 on new bot
-    private static final int BALANCE_THRESHOLD = 3;
-    private static final int BALANCE_ITERATIONS = 30;
+    private static final int BALANCE_THRESHOLD = 4;
+    private static final int BALANCE_ITERATIONS = 20;
     private static final double INTERGRAL_LIMIT = 5;
 
     private double m_pitch;
@@ -21,7 +21,7 @@ public class AutoBalance extends CommandBase {
     private double m_velMultipliedOutput = 0.0d;
 
     // start (gives throttle) (may make it overshoot if too high)
-    private double m_P = 0.0018d;
+    private double m_P = 0.0015d;
     // finicky (depends on situation) (within 5 to 3 degress of error)
     private double m_I = 0.00d;
     // good rule of thumb for d: m_d = m_p * 10
