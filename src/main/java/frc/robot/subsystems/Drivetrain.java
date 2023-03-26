@@ -194,6 +194,7 @@ public class Drivetrain extends SubsystemBase {
                 put("NavX Y Accel", (double) navX.getWorldLinearAccelY());
                 put("NavX Z Accel", (double) navX.getWorldLinearAccelZ());
                 put("NavX Yaw", getGyroYawDegrees());
+                put("NavX Pitch", getGyroPitchDegrees());
                 put("NavX Angle", getGyroHeadingDegrees());
                 put("NavX Fused Heading", getGyroFusedHeadingDegrees());
                 put("NavX TurnRate dg per s", navX.getRate());
@@ -208,8 +209,8 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber(key, val);
         }
     }
-    
-    public void percentDrive(double leftPercentage, double rightPercentage) {  
+
+    public void percentDrive(double leftPercentage, double rightPercentage) {
         leftTalonLead.set(ControlMode.PercentOutput, leftPercentage);
         rightTalonLead.set(ControlMode.PercentOutput, rightPercentage);
     }
@@ -266,7 +267,7 @@ public class Drivetrain extends SubsystemBase {
 
         SmartDashboard.putNumber("Set Velocity Left (Encoder units/100ms)", m_velocitySetPointRight);
         SmartDashboard.putNumber("Set Velocity Right (Encoder units/100ms)", m_velocitySetPointRight);
-        
+
         leftTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         rightTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         leftTalonLead.set(TalonFXControlMode.Velocity, m_velocitySetPointLeft);
