@@ -77,7 +77,9 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private void middle() {
 		addCommands(
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
-				new DriveTo(new Position2D(6, 0, Math.toRadians(180)), 2, true, m_kinematics, m_drivetrain),
+				new DriveBackwards(m_drivetrain, m_kinematics, -.2, 6),
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
+				new DriveBackwards(m_drivetrain, m_kinematics, -.1, 5),
 				// Reset kinematics to the blue left position
 				new DriveToBalance(m_drivetrain),
 				new AutoBalance(m_drivetrain));
