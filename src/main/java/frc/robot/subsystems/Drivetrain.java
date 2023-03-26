@@ -43,17 +43,19 @@ public class Drivetrain extends SubsystemBase {
     private AHRS navX;
     private Kinematics m_kinematics;
 
+    private double m_velocitySetPointLeft = 0.0d;
+    private double m_velocitySetPointRight = 0.0d;
+    private double m_velocityLimitDelta = 600.0d;
+
     public static final double VELOCITY_KF = 0.046d;
     public static final double VELOCITY_KP = 0.03d;
     public static final double VELOCITY_KI = 0.0d;
     public static final double VELOCITY_KD = 0.06d;
     public static final double POSITION_KF = 0.0d;
-    public static final double POSITION_KP = 0.029d;
+    public static final double POSITION_KP = 0.028d;
     public static final double POSITION_KI = 0.0004d;
     public static final double POSITION_KD = 0.29d;
-
-    public static final double CLOSED_LOOP_RAMP = 0.5;
-
+    public static final double CLOSED_LOOP_RAMP = 0.625;
     public static final int LEFT_LEAD_TALON_CAN_ID = 1;
     public static final int LEFT_FOLLOWER_TALON_CAN_ID = 3;
     public static final int RIGHT_LEAD_TALON_CAN_ID = 0;
@@ -64,7 +66,8 @@ public class Drivetrain extends SubsystemBase {
     public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
     public static final int PID_CONFIG_TIMEOUT_MS = 10;
-    public static final int MAX_VELOCITY = 20580; // Max velocity in encoder units
+    public static final int MAX_VELOCITY = 20580;
+    public static final double VELOCITY_LOWER_LIMIT = MAX_VELOCITY * 0.01;
 
     public static final boolean USE_NAVX_HEADING = false;
 
@@ -106,16 +109,13 @@ public class Drivetrain extends SubsystemBase {
         leftTalonLead.config_kP(VELOCITY_PID_SLOT_ID, VELOCITY_KP, PID_CONFIG_TIMEOUT_MS);
         leftTalonLead.config_kI(VELOCITY_PID_SLOT_ID, VELOCITY_KI, PID_CONFIG_TIMEOUT_MS);
         leftTalonLead.config_kD(VELOCITY_PID_SLOT_ID, VELOCITY_KD, PID_CONFIG_TIMEOUT_MS);
-        leftTalonLead.configClosedloopRamp(CLOSED_LOOP_RAMP);
         leftTalonLead.configOpenloopRamp(0.2);
 
         rightTalonLead.config_kF(VELOCITY_PID_SLOT_ID, VELOCITY_KF, PID_CONFIG_TIMEOUT_MS);
         rightTalonLead.config_kP(VELOCITY_PID_SLOT_ID, VELOCITY_KP, PID_CONFIG_TIMEOUT_MS);
         rightTalonLead.config_kI(VELOCITY_PID_SLOT_ID, VELOCITY_KI, PID_CONFIG_TIMEOUT_MS);
         rightTalonLead.config_kD(VELOCITY_PID_SLOT_ID, VELOCITY_KD, PID_CONFIG_TIMEOUT_MS);
-        rightTalonLead.configClosedloopRamp(CLOSED_LOOP_RAMP);
         rightTalonLead.configOpenloopRamp(0.2);
-
         // Configure Position PID
         leftTalonLead.config_kF(POSITION_PID_SLOT_ID, POSITION_KF, PID_CONFIG_TIMEOUT_MS);
         leftTalonLead.config_kP(POSITION_PID_SLOT_ID, POSITION_KP, PID_CONFIG_TIMEOUT_MS);
@@ -143,6 +143,15 @@ public class Drivetrain extends SubsystemBase {
 
         leftTalonFollower.follow(leftTalonLead);
         rightTalonFollower.follow(rightTalonLead);
+
+        SmartDashboard.putNumber("Velocity Limit Delta", m_velocityLimitDelta);
+    }
+
+    public void setNeutralMode(NeutralMode nm) {
+        rightTalonLead.setNeutralMode(nm);
+        rightTalonFollower.setNeutralMode(nm);
+        leftTalonLead.setNeutralMode(nm);
+        leftTalonFollower.setNeutralMode(nm);
     }
 
     @Override
@@ -243,13 +252,26 @@ public class Drivetrain extends SubsystemBase {
 
     // Sets the motors to encoder units per desisec (100ms), uses the onboard motor
     // PID
-    public void velocityDrive(double vL, double vR) {
-        SmartDashboard.putNumber("Set Velocity Left (Encoder units/100ms)", vL);
-        SmartDashboard.putNumber("Set Velocity Right (Encoder units/100ms)", vR);
+    public void velocityDrive(double newVelocityL, double newVelocityR) {
+        double changeLeft = newVelocityL - m_velocitySetPointLeft;
+        double changeRight = newVelocityR - m_velocitySetPointRight;
+
+        m_velocityLimitDelta = SmartDashboard.getNumber("Velocity Limit Delta", 1000.0d);
+
+        if (m_velocityLimitDelta < 300.0d) {
+            m_velocityLimitDelta = 300.0d;
+        }
+
+        m_velocitySetPointLeft += Math.max(Math.min(changeLeft, m_velocityLimitDelta), -m_velocityLimitDelta);
+        m_velocitySetPointRight += Math.max(Math.min(changeRight, m_velocityLimitDelta), -m_velocityLimitDelta);
+
+        SmartDashboard.putNumber("Set Velocity Left (Encoder units/100ms)", m_velocitySetPointRight);
+        SmartDashboard.putNumber("Set Velocity Right (Encoder units/100ms)", m_velocitySetPointRight);
+        
         leftTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         rightTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
-        leftTalonLead.set(TalonFXControlMode.Velocity, vL);
-        rightTalonLead.set(TalonFXControlMode.Velocity, vR);
+        leftTalonLead.set(TalonFXControlMode.Velocity, m_velocitySetPointLeft);
+        rightTalonLead.set(TalonFXControlMode.Velocity, m_velocitySetPointRight);
     }
 
     public void initAutonomous(Position2D startingPose) {
