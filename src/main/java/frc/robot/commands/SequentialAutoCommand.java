@@ -37,11 +37,11 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot Left,
 									// Middle, Right
 			case BLUE_LEFT:
-				top(); // bottom();
+				bottom();
 				break;
 
 			case BLUE_MIDDLE:
-				top(); // middle();
+				middle();
 				break;
 
 			case BLUE_RIGHT:
@@ -53,11 +53,11 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				break;
 
 			case RED_MIDDLE:
-				top(); // middle();
+				middle();
 				break;
 
 			case RED_RIGHT:
-				top(); // bottom();
+				bottom();
 				break;
 
 			default:
@@ -75,23 +75,21 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				// Reset kinematics to the blue left position
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
 				// Close claw
-				new SetClawWithPower(m_claw, -1.0d, 10.0d)
+				new SetClaw(m_claw, -1.0d, 10.0d),
 				// Raise arm
-				// new SetArm(m_arm, MoveArm.SCORE_HYBRID_ANGLE, m_arm.getRInches())
-                // // Wait
-				// new Wait(1),
-				// // Extend arm
-                // new SetArm(m_arm, MoveArm.SCORE_HIGH_R_INCHES, MoveArm.SCORE_HIGH_ANGLE),
-				// // Drive forward (~1 foot)
-				// new DriveTo(new Position2D(1, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain),
-				// // Open claw
-				// new SetClaw(m_claw, 0)
+				new SetArm(m_arm, MoveArm.SCORE_HYBRID_ANGLE, m_arm.getRInches()),
+				// Extend arm
+                new SetArm(m_arm, m_arm.getTheta(), MoveArm.SCORE_HIGH_ANGLE),
+				// Drive forward (~1 foot)
+				new DriveTo(new Position2D(1, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain),
+				// Open claw
+				new SetClaw(m_claw, -1.0d, 10.0d)
 				// Back out of community
 				// new DriveTo(new Position2D(6, 0, Math.toRadians(0)), 2.0d, true, m_kinematics, m_drivetrain)
 				// Retract arm
-				
+
 				// Lower arm
-		
+
 				// driving
 				// new DriveTo(new Position2D(6, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain)
 				);
