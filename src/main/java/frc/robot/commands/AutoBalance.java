@@ -21,17 +21,17 @@ public class AutoBalance extends CommandBase {
     private double m_velMultipliedOutput = 0.0d;
 
     // start (gives throttle) (may make it overshoot if too high)
-    private double m_P = 0.0015d;
+    private double m_P = 0.0035d;
     // finicky (depends on situation) (within 5 to 3 degress of error)
     private double m_I = 0.00d;
     // good rule of thumb for d: m_d = m_p * 10
-    private double m_D = 0.04;
+    private double m_D = 0.038;
 
     // speed control
     private double m_clamp = 0.5;
     private int m_balancedTimes = 0;
     private double m_maxBalance = 20;
-    private double vel = 2.5;
+    private double vel = 1.25;
 
     private Drivetrain m_driveTrain;
 
@@ -106,7 +106,7 @@ public class AutoBalance extends CommandBase {
         m_velOutput = MathUtil.clamp(m_velOutput, -m_clamp, m_clamp);
         SmartDashboard.putNumber("velOutput", m_velOutput);
 
-        m_driveTrain.arcadeDrive(m_velMultipliedOutput, 0);
+        m_driveTrain.arcadeDrive(m_velOutput, 0);
 
         SmartDashboard.putNumber("velMultipliedOutput", m_velMultipliedOutput);
         m_velMultipliedOutput = m_velOutput * vel;

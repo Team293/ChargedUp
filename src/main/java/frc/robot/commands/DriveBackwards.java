@@ -14,6 +14,7 @@ public class DriveBackwards extends CommandBase {
         m_drivetrain = drivetrain;
         m_kinematics = kinematics;
         m_speed = speed;
+
         m_distance = distance;
         addRequirements(drivetrain);
     }
@@ -29,7 +30,7 @@ public class DriveBackwards extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return m_kinematics.getPose().getX() > m_distance;
+        return Math.abs(m_kinematics.getPose().getX()) > Math.abs(m_distance);
     }
 
     @Override
