@@ -21,11 +21,11 @@ public class AutoBalance extends CommandBase {
     private double m_velMultipliedOutput = 0.0d;
 
     // start (gives throttle) (may make it overshoot if too high)
-    private double m_P = 0.0035d;
+    private double m_P = 0.0036d;
     // finicky (depends on situation) (within 5 to 3 degress of error)
     private double m_I = 0.00d;
     // good rule of thumb for d: m_d = m_p * 10
-    private double m_D = 0.038;
+    private double m_D = 0.04;
 
     // speed control
     private double m_clamp = 0.5;
