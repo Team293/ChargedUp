@@ -35,7 +35,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		SmartDashboard.putBoolean("AutoDone", false);
 
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot Left,
-									// Middle, Right
+			// Middle, Right
 			case BLUE_LEFT:
 				bottom();
 				break;
@@ -70,7 +70,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	}
 
 	private void top() {
-		//Face Field
+		// Face Field
 		addCommands(
 				// Reset kinematics to the blue left position
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
@@ -95,16 +95,19 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				);
 	}
 
-    // FACE CHARGE STATION
+	// FACE CHARGE STATION
 	private void middle() {
 		addCommands(
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
+				new DriveBackwards(m_drivetrain, m_kinematics, -.2, 6),
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
+				new DriveBackwards(m_drivetrain, m_kinematics, -.1, 5),
 				// Reset kinematics to the blue left position
 				new DriveToBalance(m_drivetrain),
-				new AutoBalance(m_drivetrain)
-            );
+				new AutoBalance(m_drivetrain));
 	}
 
-    // FACE FIELD
+	// FACE FIELD
 	private void bottom() {
 		addCommands(
 				// Reset kinematics to the blue left position

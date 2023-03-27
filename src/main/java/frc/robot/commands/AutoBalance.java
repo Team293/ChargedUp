@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutoBalance extends CommandBase {
-    private static final double PITCH_OFFSET = -70.0d;
-    private static final int BALANCE_THRESHOLD = 3;
-    private static final int BALANCE_ITERATIONS = 60;
+    private static final double PITCH_OFFSET = -90.0d; // Should be -70 on new bot
+    private static final int BALANCE_THRESHOLD = 4;
+    private static final int BALANCE_ITERATIONS = 20;
     private static final double INTERGRAL_LIMIT = 5;
 
     private double m_pitch;
@@ -21,11 +21,11 @@ public class AutoBalance extends CommandBase {
     private double m_velMultipliedOutput = 0.0d;
 
     // start (gives throttle) (may make it overshoot if too high)
-    private double m_P = 0.0031d;
+    private double m_P = 0.0015d;
     // finicky (depends on situation) (within 5 to 3 degress of error)
     private double m_I = 0.00d;
     // good rule of thumb for d: m_d = m_p * 10
-    private double m_D = m_P * 10;
+    private double m_D = 0.04;
 
     // speed control
     private double m_clamp = 0.5;
@@ -57,6 +57,7 @@ public class AutoBalance extends CommandBase {
      * @param front
      * @return the nearest number
      */
+
     public int CheckNearestNumber(int back, int num, int front) {
         int frontDiff = Math.abs(front - num);
         int backDiff = Math.abs(back - num);
@@ -105,7 +106,7 @@ public class AutoBalance extends CommandBase {
         m_velOutput = MathUtil.clamp(m_velOutput, -m_clamp, m_clamp);
         SmartDashboard.putNumber("velOutput", m_velOutput);
 
-        m_driveTrain.arcadeDrive(m_velOutput, 0);
+        m_driveTrain.arcadeDrive(m_velMultipliedOutput, 0);
 
         SmartDashboard.putNumber("velMultipliedOutput", m_velMultipliedOutput);
         m_velMultipliedOutput = m_velOutput * vel;

@@ -135,7 +135,8 @@ public class RobotContainer {
         XboxController.Button.kA.value);
     xboxAButton.onTrue(new AutoBalance(m_drivetrain));
 
-    // Added options to the dropdown for driveChooser and putting it into smartdashboard
+    // Added options to the dropdown for driveChooser and putting it into
+    // smartdashboard
     m_driveChooser.setDefaultOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
@@ -146,6 +147,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Bottom", StartPositions.RED_RIGHT);
     SmartDashboard.putData(m_autoChooser);
   }
+
   private Command getDriveCommand() {
     return m_driveChooser.getSelected();
   }
@@ -174,27 +176,29 @@ public class RobotContainer {
     // int location = DriverStation.getLocation();
 
     // if (allianceColor == Alliance.Blue) {
-    //   if (1 == location) {
-    //     startingPosition = StartPositions.BLUE_LEFT;
-    //   } else if (2 == location) {
-    //     startingPosition = StartPositions.BLUE_MIDDLE;
-    //   } else if (3 == location) {
-    //     startingPosition = StartPositions.BLUE_RIGHT;
-    //   }
+    // if (1 == location) {
+    // startingPosition = StartPositions.BLUE_LEFT;
+    // } else if (2 == location) {
+    // startingPosition = StartPositions.BLUE_MIDDLE;
+    // } else if (3 == location) {
+    // startingPosition = StartPositions.BLUE_RIGHT;
+    // }
     // } else if (allianceColor == Alliance.Red) {
-    //   if (1 == location) {
-    //     startingPosition = StartPositions.RED_LEFT;
-    //   } else if (2 == location) {
-    //     startingPosition = StartPositions.RED_MIDDLE;
-    //   } else if (3 == location) {
-    //     startingPosition = StartPositions.RED_RIGHT;
-    //   }
+    // if (1 == location) {
+    // startingPosition = StartPositions.RED_LEFT;
+    // } else if (2 == location) {
+    // startingPosition = StartPositions.RED_MIDDLE;
+    // } else if (3 == location) {
+    // startingPosition = StartPositions.RED_RIGHT;
+    // }
     // } else {
-    //   System.out.println("WARNING - Invalid alliance color! [" + allianceColor + "]");
+    // System.out.println("WARNING - Invalid alliance color! [" + allianceColor +
+    // "]");
     // }
 
     // if (StartPositions.INVALID == startingPosition) {
-    //   System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
+    // System.out.println("WARNING - Invalid starting position! [" +
+    // startingPosition + "]");
     // } else {
     autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
         m_autoChooser.getSelected());
