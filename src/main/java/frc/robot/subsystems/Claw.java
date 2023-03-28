@@ -7,14 +7,19 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.classes.Smartboard;
 
 public class Claw extends SubsystemBase {
     /* Constants */
     public final int PID_CONFIG_TIMEOUT_MS = 10;
     public final int CLAW_TALON_FX_CAN_ID = 6;
     public final int CONFIG_CLAW_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
+    // the speed at which the motor power will drop off after the force threshold is
+    // reached
+    // The lower the value, the faster the power will drop off
+    public final double CLAW_FORCE_DECAY = 0.05d;
     private WPI_TalonFX clawTalonFX;
-
+    private Smartboard m_clawTab = new Smartboard("Claw");
     private final double CLAW_LIMIT_PERCENTAGE = 0.4;
 
     public Claw() {
@@ -40,9 +45,41 @@ public class Claw extends SubsystemBase {
 
     @Override
     public void periodic() {
+        m_clawTab.setDouble("Claw Power", getPower());
     }
 
-    public void percentClaw(double percentage) {
+    /**
+     * Sets the claw motor to a percentage of its maximum power. If the current is
+     * greater than the threshold, the power is exponentially decreased.
+     *
+     * @param percentage     A value between -1.0 and 1.0 where -1 opens claw, 1
+     *                       closes claw.
+     * @param forceThreshold The current at which the motor will begin to lower its
+     *                       applied power.
+     */
+    public void percentClaw(double percentage, double forceThreshold) {
+        SmartDashboard.putNumber("Claw Percent", getPower());
+
+        // If the current motor current is greater than the threshold, exponentially
+        // decrease the power
+        double amountOver = getPower() - forceThreshold;
+
+        if (amountOver > 0) {
+            // Decays the power exponentially
+            // Basically this is so that the motor doesnt just stop when it hits the
+            // threshold
+            percentage *= Math.pow(CLAW_FORCE_DECAY, amountOver);
+        }
+
         clawTalonFX.set(ControlMode.PercentOutput, percentage * CLAW_LIMIT_PERCENTAGE);
+    }
+
+    /**
+     * Gets the current power exerted by the claw motor
+     *
+     * @return The current power of the claw motor
+     */
+    public double getPower() {
+        return Math.abs(clawTalonFX.getSupplyCurrent());
     }
 }

@@ -28,10 +28,10 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_KD = 1d;
 
     /* Velocity */
-    public final double PIVOT_MAX_VELOCITY = 5000.0d; // Controls the speed of the pivot
-    public final double PIVOT_MAX_ACCELERATION = 5000.0d; // Controls the acceleration of the pivot
-    public final double EXTENDER_MAX_VELOCITY = 20000.0d;
-    public final double EXTENDER_MAX_ACCELERATION = 20000.0d;
+    public final double PIVOT_MAX_VELOCITY = 4250.0d; // Controls the speed of the pivot
+    public final double PIVOT_MAX_ACCELERATION = 4250.0d; // Controls the acceleration of the pivot
+    public final double EXTENDER_MAX_VELOCITY = 10000.0d;
+    public final double EXTENDER_MAX_ACCELERATION = 35000.0d;
 
     /* Motor constants */
     public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
@@ -57,10 +57,10 @@ public class Arm extends SubsystemBase {
             * EXTENDER_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO) / EXTENDER_PULLEY_ROTATION_TO_INCHES);
 
     /* Physical constants */
-    public final double MIN_ANGLE_RADIANS = -90.0d * ((2 * Math.PI) / 360.0d); // radians
-    public final double MAX_ANGLE_RADIANS = 20.0d * ((2 * Math.PI) / 360.0d); // radians
-    public final double MIN_INCHES = 34.712d;
-    public final double MAX_INCHES = 49.6d;
+    public static final double MIN_ANGLE_RADIANS = -90.0d * ((2 * Math.PI) / 360.0d); // radians
+    public static final double MAX_ANGLE_RADIANS = 20.0d * ((2 * Math.PI) / 360.0d); // radians
+    public static final double MIN_INCHES = 34.712d;
+    public static final double MAX_INCHES = 49.6d;
 
     public final double ARM_THETA_DELTA_MODIFIER = 1.0d * ((2 * Math.PI) / 360.0d); // radians
     public final double ARM_R_DELTA_MODIFIER = 0.75d; // inches
@@ -77,11 +77,13 @@ public class Arm extends SubsystemBase {
     /* Members */
     private WPI_TalonFX pivotTalonFX;
     private WPI_TalonFX extenderTalonFX;
+    private Smartboard armBoard = new Smartboard("Arm");
     private double theta = MIN_ANGLE_RADIANS;
     private double rInches = MIN_INCHES;
     private boolean isPivotCalibrated = false;
     private boolean isExtenderCalibrated = false;
-    private Smartboard armBoard = new Smartboard("Arm");
+    private double m_pivotCommandedEncoderUnits;
+    private double m_extensionCommandedEncoderUnits;
 
     // Gear ratios
     public Arm() {
@@ -138,7 +140,6 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         /* Update smart dashboard */
-
         armBoard.setDouble("theta", theta);
         armBoard.setDouble("R(inches)", rInches);
         armBoard.setDouble("pivotMotor encoder", pivotTalonFX.getSelectedSensorPosition());
@@ -174,7 +175,7 @@ public class Arm extends SubsystemBase {
      * 
      * @param angle - the angle in radians
      */
-    private void rotateTo(double radians) {
+    public void rotateTo(double radians) {
         double minClamp = MIN_ANGLE_RADIANS;
         double encoderUnits = 0.0d;
 
@@ -187,11 +188,25 @@ public class Arm extends SubsystemBase {
 
         /* Convert radians to encoder units */
         encoderUnits = radians * PIVOT_ENCODER_UNITS_PER_RADIANS;
-
-        SmartDashboard.putNumber("Pivot commanded", encoderUnits);
+        m_pivotCommandedEncoderUnits = encoderUnits;
 
         pivotTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits, DemandType.ArbitraryFeedForward,
                 PIVOT_KF * Math.abs((Math.cos(radians))));
+    }
+
+    /**
+     * Get the current encoder units.
+     * 
+     * @return
+     */
+    public double getCurrentEncoderUnits() {
+        double encoderUnits = pivotTalonFX.getSelectedSensorPosition();
+        return encoderUnits;
+    }
+
+    public double getCurrentEncoderExtension() {
+        double encoderUnits = extenderTalonFX.getSelectedSensorPosition();
+        return encoderUnits;
     }
 
     /**
@@ -199,7 +214,7 @@ public class Arm extends SubsystemBase {
      * 
      * @param inches - the length to extend/retract to in inches
      */
-    private void extendTo(double inches) {
+    public void extendTo(double inches) {
         double maxClamp = MAX_INCHES;
         double encoderUnits;
 
@@ -210,12 +225,26 @@ public class Arm extends SubsystemBase {
 
         // Convert from inches to encoder units
         encoderUnits = inches * EXTENDER_ENCODER_UNITS_PER_INCH;
+        m_extensionCommandedEncoderUnits = encoderUnits;
 
         /* Clamp the value to the max or min if needed */
         inches = Math.max(Math.min(inches, maxClamp), MIN_INCHES);
 
         SmartDashboard.putNumber("extender encoder", encoderUnits);
         extenderTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits, DemandType.ArbitraryFeedForward, 0.0d);
+    }
+
+    /**
+     * Returns the position that the arm wants to reach, in encoder units.s
+     * 
+     * @returns double
+     */
+    public double getCommandedEncoderPosition() {
+        return m_pivotCommandedEncoderUnits;
+    }
+
+    public double getCommandedExtentionPosition() {
+        return m_extensionCommandedEncoderUnits;
     }
 
     /**
@@ -321,5 +350,13 @@ public class Arm extends SubsystemBase {
 
     public boolean isCalibrated() {
         return ((true == isPivotCalibrated) && (true == isExtenderCalibrated));
+    }
+
+    public double getTheta() {
+        return theta;
+    }
+
+    public double getRInches() {
+        return rInches;
     }
 }
