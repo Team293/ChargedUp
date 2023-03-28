@@ -16,6 +16,9 @@ public class MoveArm extends CommandBase {
     public static final double SUBSTATION_PICKUP_ANGLE = 0.1888971809d; /* Coordinates: 13.6in, 2.6in */
     public static final double SUBSTATION_PICKUP_X_INCHES = 13.84629914d;
 
+    public static final double STOW_ANGLE = Arm.MIN_ANGLE_RADIANS;
+    public static final double STOW_INCHES = Arm.MIN_INCHES;
+
     public enum Node {
         HYBRID,
         MID,

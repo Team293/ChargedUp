@@ -39,9 +39,9 @@ public class MoveClaw extends CommandBase {
         leftTrigger = SPIKE293Utils.applyDeadband(leftTrigger, m_triggerDeadband);
 
         if (rightTrigger > leftTrigger) {
-            m_claw.percentClaw(rightTrigger);
+            m_claw.percentClaw(rightTrigger,7.0d);
         } else {
-            m_claw.percentClaw(-leftTrigger);
+            m_claw.percentClaw(-leftTrigger, 7.0d);
         }
     }
 

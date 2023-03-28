@@ -13,11 +13,9 @@ public class Claw extends SubsystemBase {
     public final int PID_CONFIG_TIMEOUT_MS = 10;
     public final int CLAW_TALON_FX_CAN_ID = 6;
     public final int CONFIG_CLAW_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-    // The point at which the claw power will start to drop off
-    public final double CLAW_FORCE_THRESHOLD = 15.0d;
     // the speed at which the motor power will drop off after the force threshold is reached
     // The lower the value, the faster the power will drop off
-    public final double CLAW_FORCE_DECAY = 0.5d;
+    public final double CLAW_FORCE_DECAY = 0.05d;
     private WPI_TalonFX clawTalonFX;
 
     private final double CLAW_LIMIT_PERCENTAGE = 0.4;
@@ -52,13 +50,14 @@ public class Claw extends SubsystemBase {
      * greater than the threshold, the power is exponentially decreased.
      *
      * @param percentage A value between -1.0 and 1.0 where -1 opens claw, 1 closes claw.
+     * @param forceThreshold The current at which the motor will begin to lower its applied power.
      */
-    public void percentClaw(double percentage) {
+    public void percentClaw(double percentage, double forceThreshold) {
         SmartDashboard.putNumber("Claw Percent", getPower());
 
         // If the current motor current is greater than the threshold, exponentially
         //decrease the power
-        double amountOver = getPower() - CLAW_FORCE_THRESHOLD;
+        double amountOver = getPower() - forceThreshold;
 
         if (amountOver > 0) {
             // Decays the power exponentially
@@ -76,6 +75,6 @@ public class Claw extends SubsystemBase {
      * @return The current power of the claw motor
      */
     public double getPower() {
-        return clawTalonFX.getSupplyCurrent();
+        return Math.abs(clawTalonFX.getSupplyCurrent());
     }
 }
