@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.classes.SPIKE293Utils;
+import frc.robot.classes.Smartboard;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -42,6 +44,7 @@ public class Drivetrain extends SubsystemBase {
     private WPI_TalonFX rightTalonFollower;
     private AHRS navX;
     private Kinematics m_kinematics;
+    private Smartboard driveTab = new Smartboard("Drive");
 
     private double m_velocitySetPointLeft = 0.0d;
     private double m_velocitySetPointRight = 0.0d;
@@ -207,6 +210,7 @@ public class Drivetrain extends SubsystemBase {
         for (String key : Collections.list(doubleValsKeys)) {
             double val = doubleVals.get(key);
             SmartDashboard.putNumber(key, val);
+            driveTab.setDouble(key, val);
         }
     }
 

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
+import frc.robot.classes.Smartboard;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
@@ -17,14 +18,16 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	// private Arm m_arm;
 	// private Claw m_claw;
 	private Kinematics m_kinematics;
+	private Smartboard m_autoTab;
 
 	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw, Kinematics kinematics, Targeting targeting,
-			StartPositions startPosition) {
+			StartPositions startPosition, Smartboard autoTab) {
 		m_drivetrain = drivetrain;
 		// m_arm = arm;
 		// m_claw = claw;
 		m_kinematics = kinematics;
 		m_startPosition = startPosition;
+		m_autoTab = autoTab;
 
 		SmartDashboard.putBoolean("AutoDone", false);
 
@@ -75,20 +78,27 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 
 	// FACE CHARGE STATION
 	private void middle() {
-		addCommands(
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
-				new DriveBackwards(m_drivetrain, m_kinematics, -.2, 6),
-				// new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
-				// m_kinematics),
-				// new DriveBackwards(m_drivetrain, m_kinematics, -.15, 2),
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
-				new DriveBackwards(m_drivetrain, m_kinematics, -.085, 5.5),
-				// new Wait(1),
-				// Reset kinematics to the blue left position
-				new DriveToBalance(m_drivetrain),
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
-				new DriveBackwards(m_drivetrain, m_kinematics, .23, -3.5),
-				new AutoBalance(m_drivetrain));
+		double firstSpeed = m_autoTab.getDouble("first speed", 0);
+		System.out.println(firstSpeed);
+
+		// addCommands(
+		// new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+		// m_kinematics),
+		// new DriveBackwards(m_drivetrain, m_kinematics, -0.2, 6),
+		// // new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)),
+		// m_drivetrain,
+		// // m_kinematics),
+		// // new DriveBackwards(m_drivetrain, m_kinematics, -.15, 2),
+		// new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+		// m_kinematics),
+		// new DriveBackwards(m_drivetrain, m_kinematics, -.085, 5.5),
+		// // new Wait(1),
+		// // Reset kinematics to the blue left position
+		// new DriveToBalance(m_drivetrain),
+		// new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+		// m_kinematics),
+		// new DriveBackwards(m_drivetrain, m_kinematics, .23, -3.5),
+		// new AutoBalance(m_drivetrain));
 	}
 
 	// FACE FIELD

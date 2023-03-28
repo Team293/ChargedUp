@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.classes.Smartboard;
 
 public class Arm extends SubsystemBase {
     /* Constants */
@@ -80,6 +81,7 @@ public class Arm extends SubsystemBase {
     private double rInches = MIN_INCHES;
     private boolean isPivotCalibrated = false;
     private boolean isExtenderCalibrated = false;
+    private Smartboard armBoard = new Smartboard("Arm");
 
     // Gear ratios
     public Arm() {
@@ -136,12 +138,13 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         /* Update smart dashboard */
-        SmartDashboard.putNumber("theta", theta);
-        SmartDashboard.putNumber("R(inches)", rInches);
-        SmartDashboard.putNumber("pivotMotor encoder", pivotTalonFX.getSelectedSensorPosition());
-        SmartDashboard.putNumber("extender motor position", extenderTalonFX.getSelectedSensorPosition());
-        SmartDashboard.putBoolean("Pivot Rev Limit", (1 == pivotTalonFX.isRevLimitSwitchClosed()));
-        SmartDashboard.putBoolean("Extender Rev Limit", (1 == extenderTalonFX.isRevLimitSwitchClosed()));
+
+        armBoard.setDouble("theta", theta);
+        armBoard.setDouble("R(inches)", rInches);
+        armBoard.setDouble("pivotMotor encoder", pivotTalonFX.getSelectedSensorPosition());
+        armBoard.setDouble("extender motor position", extenderTalonFX.getSelectedSensorPosition());
+        armBoard.setBoolean("Pivot Rev Limit", (1 == pivotTalonFX.isRevLimitSwitchClosed()));
+        armBoard.setBoolean("Extender Rev Limit", (1 == extenderTalonFX.isRevLimitSwitchClosed()));
 
         // Check both extender and pivot calibrations
         checkExtenderCalibration();

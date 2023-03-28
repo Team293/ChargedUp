@@ -5,8 +5,10 @@ package frc.robot;
 
 import frc.robot.commands.MoveClaw;
 import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
+import frc.robot.classes.KeyValue;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
+import frc.robot.classes.Smartboard;
 import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
@@ -44,6 +46,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // Robots Subsystems
   private static RobotContainer m_robotContainer = new RobotContainer();
+  private final Smartboard m_autoTab = new Smartboard("Auto",
+      new KeyValue("first speed", -0.2, 1, 0),
+      new KeyValue("first distance", 6, 2, 0),
+      new KeyValue("second speed", -0.085, 1, 1),
+      new KeyValue("second distance", 5.5, 2, 1),
+      new KeyValue("third speed", .23, 1, 2),
+      new KeyValue("third distance", -3.5, 2, 2));
   public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0, 0.0, 0.0));
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
@@ -146,6 +155,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Middle", StartPositions.RED_MIDDLE);
     m_autoChooser.addOption("Bottom", StartPositions.RED_RIGHT);
     SmartDashboard.putData(m_autoChooser);
+    m_autoTab.getTab().add(m_autoChooser).withPosition(0, 0);
   }
 
   private Command getDriveCommand() {
@@ -201,7 +211,7 @@ public class RobotContainer {
     // startingPosition + "]");
     // } else {
     autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
-        m_autoChooser.getSelected());
+        m_autoChooser.getSelected(), m_autoTab);
     // }
 
     return autoCommand;
