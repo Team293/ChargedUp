@@ -62,7 +62,6 @@ public class SmoothControl {
 
   // Equation 14, Calculates the required turn rate
   private double calculateK(double range, double theta, double delta) {
-
     double retVal = -(1 / range) * (K2 * (delta - Math.atan(-K1 * theta)) +
         Math.sin(delta) * (1.0 + (K1 / (1.0 + Math.pow((K1 * theta), 2)))));
 
