@@ -217,7 +217,7 @@ public class RobotContainer {
     // startingPosition + "]");
     // } else {
     autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
-        m_autoChooser.getSelected(), m_autoTab);
+        m_autoChooser.getSelected());
     // }
 
     return autoCommand;
