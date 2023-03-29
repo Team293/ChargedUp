@@ -54,14 +54,14 @@ public class SetArm extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        double currentPos = m_arm.getCurrentEncoderUnits();
-        double currentExtension = m_arm.getCurrentEncoderExtension();
-        boolean movingArm = (currentPos < m_arm.getCommandedEncoderPosition() + ENCODER_THRESHOLD) &&
-                (currentPos > m_arm.getCommandedEncoderPosition() - ENCODER_THRESHOLD);
-        boolean extendingArm = (currentExtension < m_arm.getCommandedExtentionPosition() + ENCODER_THRESHOLD) &&
-                (currentExtension > m_arm.getCommandedExtentionPosition() - ENCODER_THRESHOLD);
+        double currentPos = m_arm.getPivotEncoderUnits();
+        double currentExtension = m_arm.getExtenderEncoderUnits();
+        boolean movingArm = (currentPos < m_arm.getCommandedPivotEncoderPosition() + ENCODER_THRESHOLD) &&
+                (currentPos > m_arm.getCommandedPivotEncoderPosition() - ENCODER_THRESHOLD);
+        boolean extendingArm = (currentExtension < m_arm.getCommandedExtenderEncoderPosition() + ENCODER_THRESHOLD) &&
+                (currentExtension > m_arm.getCommandedExtenderEncoderPosition() - ENCODER_THRESHOLD);
         Arm.getTab().setDouble("Current Arm Encoder Pos", currentPos);
-        Arm.getTab().setDouble("Arm Target Pos", m_arm.getCommandedEncoderPosition());
+        Arm.getTab().setDouble("Arm Target Pos", m_arm.getCommandedPivotEncoderPosition());
         Arm.getTab().setBoolean("Moving Arm", !movingArm);
         Arm.getTab().setBoolean("Extending Arm", !extendingArm);
         return movingArm && extendingArm;

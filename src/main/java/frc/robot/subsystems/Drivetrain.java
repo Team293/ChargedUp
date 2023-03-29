@@ -185,12 +185,6 @@ public class Drivetrain extends SubsystemBase {
                 Rotation2d.fromDegrees(currentPose.getHeadingDegrees()));
         Logger.getInstance().recordOutput("odometry", currentPose2d);
 
-        // // Push robot info to Dashboard
-        // SmartDashboard.putNumber("Kinematics X (Feet)", currentPose.getX());
-        // SmartDashboard.putNumber("Kinematics Y (Feet)", currentPose.getY());
-        // SmartDashboard.putNumber("Kinematics Heading (degrees)",
-        // currentPose.getHeadingDegrees());
-
         Hashtable<String, Double> doubleVals = new Hashtable<String, Double>() {
             {
                 put("Kinematics X (Feet)", currentPose.getX());

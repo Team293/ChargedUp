@@ -206,12 +206,12 @@ public class Arm extends SubsystemBase {
      * 
      * @return
      */
-    public double getCurrentEncoderUnits() {
+    public double getPivotEncoderUnits() {
         double encoderUnits = pivotTalonFX.getSelectedSensorPosition();
         return encoderUnits;
     }
 
-    public double getCurrentEncoderExtension() {
+    public double getExtenderEncoderUnits() {
         double encoderUnits = extenderTalonFX.getSelectedSensorPosition();
         return encoderUnits;
     }
@@ -246,11 +246,11 @@ public class Arm extends SubsystemBase {
      * 
      * @returns double
      */
-    public double getCommandedEncoderPosition() {
+    public double getCommandedPivotEncoderPosition() {
         return m_pivotCommandedEncoderUnits;
     }
 
-    public double getCommandedExtentionPosition() {
+    public double getCommandedExtenderEncoderPosition() {
         return m_extensionCommandedEncoderUnits;
     }
 
