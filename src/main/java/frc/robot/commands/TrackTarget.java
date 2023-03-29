@@ -24,17 +24,19 @@ public class TrackTarget extends CommandBase {
     @Override
     public void execute() {
         m_targeting.controlLight(true);
-        m_drivetrain.rotateDegrees(m_targeting.getAngleToTargetDegrees());
+        m_drivetrain.rotateDegrees(90.0d);
+        // m_drivetrain.rotateDegrees(m_targeting.getAngleToTargetDegrees());
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        m_targeting.controlLight(false);
     }
 
     // Returns false when the command should end.
     @Override
     public boolean isFinished() {
-        return m_targeting.isTargeted();
+        return false; //m_targeting.isTargeted();
     }
 }

@@ -27,8 +27,8 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_KD = 1d;
 
     /* Velocity */
-    public final double PIVOT_MAX_VELOCITY = 4250.0d; // Controls the speed of the pivot
-    public final double PIVOT_MAX_ACCELERATION = 4250.0d; // Controls the acceleration of the pivot
+    public final double PIVOT_MAX_VELOCITY = 4500.0d; // Controls the speed of the pivot
+    public final double PIVOT_MAX_ACCELERATION = 4500.0d; // Controls the acceleration of the pivot
     public final double EXTENDER_MAX_VELOCITY = 10000.0d;
     public final double EXTENDER_MAX_ACCELERATION = 35000.0d;
 

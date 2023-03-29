@@ -15,6 +15,7 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.commands.BumpDrive;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.SequentialAutoCommand;
+import frc.robot.commands.TrackTarget;
 import frc.robot.commands.RCFDrive;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArm.Node;
@@ -84,16 +85,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /******** Operator Controls ********/
-    // Bump drive right slightly
-    final JoystickButton xboxBumpRight = new JoystickButton(m_operatorXboxController,
+// Invalidate the extender calibration
+    final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kRightBumper.value);
-    xboxBumpRight.whileTrue(new BumpDrive(m_drivetrain, 0.1d));
+    xboxCalibrateExtenderBtn.whileTrue(new CalibrateExtender(m_arm));
 
-    // Bump drive left slightly
-    final JoystickButton xboxBumpLeft = new JoystickButton(m_operatorXboxController,
+    // Invalidate the pivot calibration
+    final JoystickButton xboxCalibratePivotBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kLeftBumper.value);
-    xboxBumpLeft.whileTrue(new BumpDrive(m_drivetrain, -0.1d));
-
+    xboxCalibratePivotBtn.whileTrue(new CalibratePivot(m_arm));
+    
     // Set arm preset to high location
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
@@ -115,15 +116,17 @@ public class RobotContainer {
     xboxBBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
 
     /******** Driver Controls ********/
-    // Invalidate the extender calibration
-    final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_driverXboxController,
-        XboxController.Button.kRightBumper.value);
-    xboxCalibrateExtenderBtn.whileTrue(new CalibrateExtender(m_arm));
 
-    // Invalidate the pivot calibration
-    final JoystickButton xboxCalibratePivotBtn = new JoystickButton(m_driverXboxController,
+    // Bump drive right slightly
+    final JoystickButton xboxBumpRight = new JoystickButton(m_driverXboxController,
+        XboxController.Button.kRightBumper.value);
+    xboxBumpRight.whileTrue(new BumpDrive(m_drivetrain, 0.1d));
+
+    // Bump drive left slightly
+    final JoystickButton xboxBumpLeft = new JoystickButton(m_driverXboxController,
         XboxController.Button.kLeftBumper.value);
-    xboxCalibratePivotBtn.whileTrue(new CalibratePivot(m_arm));
+    xboxBumpLeft.whileTrue(new BumpDrive(m_drivetrain, -0.1d));
+
 
     // Set the arm preset to the stow location, inside the robot
     final JoystickButton xboxStowButton = new JoystickButton(m_driverXboxController,
@@ -131,9 +134,14 @@ public class RobotContainer {
     xboxStowButton.onTrue(new MoveArm(m_arm, Node.STOW));
 
     // Trigger autobalance
-    final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
-        XboxController.Button.kA.value);
-    xboxAButton.onTrue(new AutoBalance(m_drivetrain));
+    //final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
+    //    XboxController.Button.kA.value);
+    // xboxAButton.onTrue(new AutoBalance(m_drivetrain));
+
+    // Trigger autoalign
+    final JoystickButton xboxYButton = new JoystickButton(m_driverXboxController,
+    XboxController.Button.kY.value);
+    xboxYButton.onTrue(new TrackTarget(m_drivetrain, m_targeting));
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard

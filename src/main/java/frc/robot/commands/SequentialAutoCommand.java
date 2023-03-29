@@ -87,13 +87,13 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				new Wait(3.0d),
 				// Open claw
 				new SetClawForTime(m_claw, 1.0d, 1.0d),
-				new Wait(10.0d),
+				new Wait(5.0d),
 				// Retract arm
 				new SetArm(m_arm, MoveArm.SCORE_HIGH_ANGLE, MoveArm.STOW_INCHES),
-				new Wait(10.0d),
+				new Wait(5.0d),
 				// Drive backwards
-				new DriveBackwards(m_drivetrain, m_kinematics, -0.1d, 2.0d),
-				new Wait(10.0d),
+				new DriveTo(new Position2D(-2, 0, Math.toRadians(0)), 1.0d, true, m_kinematics, m_drivetrain),
+				new Wait(5.0d),
 				// Lower arm
 				new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES)
 				// new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES)

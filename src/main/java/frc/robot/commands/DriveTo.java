@@ -30,7 +30,7 @@ public class DriveTo extends CommandBase {
         m_drivetrain = drivetrain;
 
         // This constructs smooth control
-        m_smoothControl = SmoothControl.getInstance();
+        m_smoothControl = new SmoothControl();
     }
 
     @Override
@@ -56,7 +56,6 @@ public class DriveTo extends CommandBase {
         double omegaDesired = m_smoothControl.computeTurnRate(m_kinematics.getPose(), m_targetPose, m_maxVelocity);
 
         if (true == m_inReverse) {
-            omegaDesired += Math.PI;
             // Calculate vR in feet per second
             vR = -m_maxVelocity - (trackWidthFeet / 2) * omegaDesired;
             // Calculate vL in feet per second
