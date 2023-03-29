@@ -19,16 +19,14 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private Kinematics m_kinematics;
 	private Arm m_arm;
 	private Claw m_claw;
-	private SpikeBoard m_autoTab;
 
 	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw, Kinematics kinematics, Targeting targeting,
-			StartPositions startPosition, SpikeBoard autoTab) {
+			StartPositions startPosition) {
 		m_drivetrain = drivetrain;
 		m_arm = arm;
 		m_claw = claw;
 		m_kinematics = kinematics;
 		m_startPosition = startPosition;
-		m_autoTab = autoTab;
 
 		RobotContainer.getAutoTab().setBoolean("AutoDone", false);
 
