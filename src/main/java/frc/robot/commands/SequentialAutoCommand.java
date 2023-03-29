@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
-import frc.robot.classes.Smartboard;
+import frc.robot.classes.SpikeBoard;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
@@ -18,10 +18,10 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private Kinematics m_kinematics;
 	private Arm m_arm;
 	private Claw m_claw;
-	private Smartboard m_autoTab;
+	private SpikeBoard m_autoTab;
 
 	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw, Kinematics kinematics, Targeting targeting,
-			StartPositions startPosition, Smartboard autoTab) {
+			StartPositions startPosition, SpikeBoard autoTab) {
 		m_drivetrain = drivetrain;
 		m_arm = arm;
 		m_claw = claw;
@@ -29,7 +29,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		m_startPosition = startPosition;
 		m_autoTab = autoTab;
 
-		SmartDashboard.putBoolean("AutoDone", false);
+		RobotContainer.getAutoTab().setBoolean("AutoDone", false);
 
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot Left,
 			// Middle, Right
@@ -63,7 +63,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		}
 
 		// Alert smart dashboard that autonomous is done
-		SmartDashboard.putBoolean("AutoDone", true);
+		RobotContainer.getAutoTab().setBoolean("AutoDone", true);
 	}
 
 	private void top() {

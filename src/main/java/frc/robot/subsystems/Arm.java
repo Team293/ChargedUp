@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.classes.Smartboard;
+import frc.robot.classes.SpikeBoard;
 
 public class Arm extends SubsystemBase {
     /* Constants */
@@ -77,7 +77,7 @@ public class Arm extends SubsystemBase {
     /* Members */
     private WPI_TalonFX pivotTalonFX;
     private WPI_TalonFX extenderTalonFX;
-    private Smartboard armBoard = new Smartboard("Arm");
+    private static SpikeBoard armTab;
     private double theta = MIN_ANGLE_RADIANS;
     private double rInches = MIN_INCHES;
     private boolean isPivotCalibrated = false;
@@ -137,15 +137,22 @@ public class Arm extends SubsystemBase {
         isExtenderCalibrated = false;
     }
 
+    public static SpikeBoard getTab() {
+        if (armTab == null) {
+            armTab = new SpikeBoard("Arm");
+        }
+        return armTab;
+    }
+
     @Override
     public void periodic() {
         /* Update smart dashboard */
-        armBoard.setDouble("theta", theta);
-        armBoard.setDouble("R(inches)", rInches);
-        armBoard.setDouble("pivotMotor encoder", pivotTalonFX.getSelectedSensorPosition());
-        armBoard.setDouble("extender motor position", extenderTalonFX.getSelectedSensorPosition());
-        armBoard.setBoolean("Pivot Rev Limit", (1 == pivotTalonFX.isRevLimitSwitchClosed()));
-        armBoard.setBoolean("Extender Rev Limit", (1 == extenderTalonFX.isRevLimitSwitchClosed()));
+        Arm.getTab().setDouble("theta", theta);
+        Arm.getTab().setDouble("R(inches)", rInches);
+        Arm.getTab().setDouble("pivotMotor encoder", pivotTalonFX.getSelectedSensorPosition());
+        Arm.getTab().setDouble("extender motor position", extenderTalonFX.getSelectedSensorPosition());
+        Arm.getTab().setBoolean("Pivot Rev Limit", (1 == pivotTalonFX.isRevLimitSwitchClosed()));
+        Arm.getTab().setBoolean("Extender Rev Limit", (1 == extenderTalonFX.isRevLimitSwitchClosed()));
 
         // Check both extender and pivot calibrations
         checkExtenderCalibration();

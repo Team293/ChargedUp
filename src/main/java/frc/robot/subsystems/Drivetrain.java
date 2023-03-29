@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.classes.SPIKE293Utils;
-import frc.robot.classes.Smartboard;
+import frc.robot.classes.SpikeBoard;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -44,7 +44,7 @@ public class Drivetrain extends SubsystemBase {
     private WPI_TalonFX rightTalonFollower;
     private AHRS navX;
     private Kinematics m_kinematics;
-    private Smartboard driveTab = new Smartboard("Drive");
+    private static SpikeBoard driveTab;
 
     private double m_velocitySetPointLeft = 0.0d;
     private double m_velocitySetPointRight = 0.0d;
@@ -156,6 +156,13 @@ public class Drivetrain extends SubsystemBase {
         leftTalonFollower.setNeutralMode(nm);
     }
 
+    public static SpikeBoard getTab() {
+        if (driveTab == null) {
+            driveTab = new SpikeBoard("Drivetrain");
+        }
+        return driveTab;
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
@@ -214,7 +221,7 @@ public class Drivetrain extends SubsystemBase {
         for (String key : Collections.list(doubleValsKeys)) {
             double val = doubleVals.get(key);
             SmartDashboard.putNumber(key, val);
-            driveTab.setDouble(key, val);
+            Drivetrain.getTab().setDouble(key, val);
         }
     }
 
