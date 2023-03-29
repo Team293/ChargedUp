@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
@@ -68,11 +67,11 @@ public class DriveTo extends CommandBase {
             vL = m_maxVelocity - (trackWidthFeet / 2) * omegaDesired;
         }
 
-        SmartDashboard.putNumber("Desired Left Velocity (ft/s)", vL);
-        SmartDashboard.putNumber("Desired Right Velocity (ft/s)", vR);
-        SmartDashboard.putNumber("Auto Range", m_smoothControl.getRange());
-        SmartDashboard.putNumber("Auto Omega Desired (Degrees)", Math.toDegrees(omegaDesired));
-        SmartDashboard.putString("Next Target",
+        Drivetrain.getTab().setDouble("Desired Left Velocity (ft/s)", vL);
+        Drivetrain.getTab().setDouble("Desired Right Velocity (ft/s)", vR);
+        Drivetrain.getTab().setDouble("Auto Range", m_smoothControl.getRange());
+        Drivetrain.getTab().setDouble("Auto Omega Desired (Degrees)", Math.toDegrees(omegaDesired));
+        Drivetrain.getTab().setString("Next Target",
                 m_targetPose.getX() + ", " + m_targetPose.getY() + ", " + m_targetPose.getHeadingDegrees());
 
         // Converting ft/s equation output to controller velocity

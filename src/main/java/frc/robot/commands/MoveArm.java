@@ -4,17 +4,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
-    public final double SCORE_HYBRID_R_INCHES = 38.1365966d; /* Coordinates: 15.6in, -34.8in */
-    public final double SCORE_HYBRID_ANGLE = -1.14937712d;
+    public static final double SCORE_HYBRID_R_INCHES = 38.1365966d; /* Coordinates: 15.6in, -34.8in */
+    public static final double SCORE_HYBRID_ANGLE = -1.14937712d;
 
-    public final double SCORE_MID_R_INCHES = 36.60874213d; /* Coordinates: 36.6in, -0.8in */
-    public final double SCORE_MID_ANGLE = -0.02185444348d;
+    public static final double SCORE_MID_R_INCHES = 36.60874213d; /* Coordinates: 36.6in, -0.8in */
+    public static final double SCORE_MID_ANGLE = -0.02185444348d;
 
-    public final double SCORE_HIGH_R_INCHES = 47.68398578d; /* Coordinates: 46.35in, 11.2in */
-    public final double SCORE_HIGH_ANGLE = 0.237094798d;
+    public static final double SCORE_HIGH_R_INCHES = 47.68398578d; /* Coordinates: 46.35in, 11.2in */
+    public static final double SCORE_HIGH_ANGLE = 0.237094798d;
 
-    public final double SUBSTATION_PICKUP_ANGLE = 0.1888971809d; /* Coordinates: 13.6in, 2.6in */
-    public final double SUBSTATION_PICKUP_X_INCHES = 13.84629914d;
+    public static final double SUBSTATION_PICKUP_ANGLE = 0.1888971809d; /* Coordinates: 13.6in, 2.6in */
+    public static final double SUBSTATION_PICKUP_X_INCHES = 13.84629914d;
+
+    public static final double STOW_ANGLE = Arm.MIN_ANGLE_RADIANS;
+    public static final double STOW_INCHES = Arm.MIN_INCHES;
 
     public enum Node {
         HYBRID,
@@ -44,7 +47,7 @@ public class MoveArm extends CommandBase {
     public void execute() {
         switch (m_node) {
             case HYBRID:
-                m_arm.setPosition(SCORE_HYBRID_ANGLE, SCORE_HYBRID_R_INCHES);
+                m_arm.setPosition(SCORE_HIGH_R_INCHES, SCORE_HIGH_ANGLE);
                 break;
             case MID:
                 m_arm.setPosition(SCORE_MID_ANGLE, SCORE_MID_R_INCHES);

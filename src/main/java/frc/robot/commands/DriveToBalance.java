@@ -5,9 +5,6 @@ import frc.robot.subsystems.Drivetrain;
 
 public class DriveToBalance extends CommandBase {
     private Drivetrain m_drivetrain;
-    private final static double WAIT_TIME = 1000.0d;
-    private double m_startTime = -1;
-    private boolean m_surpassedLimit = false;
 
     public DriveToBalance(Drivetrain drivetrain) {
         m_drivetrain = drivetrain;

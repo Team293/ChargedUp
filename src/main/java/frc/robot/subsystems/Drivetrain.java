@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.classes.SPIKE293Utils;
+import frc.robot.classes.SpikeBoard;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -42,6 +44,7 @@ public class Drivetrain extends SubsystemBase {
     private WPI_TalonFX rightTalonFollower;
     private AHRS navX;
     private Kinematics m_kinematics;
+    private static SpikeBoard driveTab;
 
     private double m_velocitySetPointLeft = 0.0d;
     private double m_velocitySetPointRight = 0.0d;
@@ -153,6 +156,13 @@ public class Drivetrain extends SubsystemBase {
         leftTalonFollower.setNeutralMode(nm);
     }
 
+    public static SpikeBoard getTab() {
+        if (driveTab == null) {
+            driveTab = new SpikeBoard("Drivetrain");
+        }
+        return driveTab;
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
@@ -175,13 +185,11 @@ public class Drivetrain extends SubsystemBase {
                 Rotation2d.fromDegrees(currentPose.getHeadingDegrees()));
         Logger.getInstance().recordOutput("odometry", currentPose2d);
 
-        // Push robot info to Dashboard
-        SmartDashboard.putNumber("Kinematics X (Feet)", currentPose.getX());
-        SmartDashboard.putNumber("Kinematics Y (Feet)", currentPose.getY());
-        SmartDashboard.putNumber("Kinematics Heading (degrees)", currentPose.getHeadingDegrees());
-
         Hashtable<String, Double> doubleVals = new Hashtable<String, Double>() {
             {
+                put("Kinematics X (Feet)", currentPose.getX());
+                put("Kinematics Y (Feet)", currentPose.getY());
+                put("Kinematics Heading (degrees)", currentPose.getHeadingDegrees());
                 put("Left Encoder Velocity (Ft per S)", getLeftEncoderVelocity());
                 put("Left Encoder Position (Ft)", getLeftEncoderPosition());
                 put("Right Encoder Veloctiy (Ft per S)", getRightEncoderVelocity());
@@ -207,6 +215,7 @@ public class Drivetrain extends SubsystemBase {
         for (String key : Collections.list(doubleValsKeys)) {
             double val = doubleVals.get(key);
             SmartDashboard.putNumber(key, val);
+            Drivetrain.getTab().setDouble(key, val);
         }
     }
 

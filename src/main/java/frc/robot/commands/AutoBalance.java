@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -40,13 +39,13 @@ public class AutoBalance extends CommandBase {
         m_driveTrain = driveTrain;
         addRequirements(driveTrain);
 
-        SmartDashboard.putNumber("m_P", m_P);
-        SmartDashboard.putNumber("m_I", m_I);
-        SmartDashboard.putNumber("m_D", m_D);
-        SmartDashboard.putNumber("m_Clamp", m_clamp);
+        Drivetrain.getTab().setDouble("m_P", m_P);
+        Drivetrain.getTab().setDouble("m_I", m_I);
+        Drivetrain.getTab().setDouble("m_D", m_D);
+        Drivetrain.getTab().setDouble("m_Clamp", m_clamp);
 
-        SmartDashboard.putNumber("vel", vel);
-        SmartDashboard.putNumber("maxbalance", m_maxBalance);
+        Drivetrain.getTab().setDouble("vel", vel);
+        Drivetrain.getTab().setDouble("maxbalance", m_maxBalance);
     }
 
     /**
@@ -71,19 +70,19 @@ public class AutoBalance extends CommandBase {
     @Override
     public void execute() {
         // calculate pid variables (error (p), change (d), error integral (i))
-        m_P = SmartDashboard.getNumber("m_P", m_P);
-        m_I = SmartDashboard.getNumber("m_I", m_I);
-        m_D = SmartDashboard.getNumber("m_D", m_D);
-        m_maxBalance = SmartDashboard.getNumber("maxbalance", m_maxBalance);
-        m_clamp = SmartDashboard.getNumber("m_Clamp", m_clamp);
-        vel = SmartDashboard.getNumber("vel", vel);
+        m_P = Drivetrain.getTab().getDouble("m_P", m_P);
+        m_I = Drivetrain.getTab().getDouble("m_I", m_I);
+        m_D = Drivetrain.getTab().getDouble("m_D", m_D);
+        m_maxBalance = Drivetrain.getTab().getDouble("maxbalance", m_maxBalance);
+        m_clamp = Drivetrain.getTab().getDouble("m_Clamp", m_clamp);
+        vel = Drivetrain.getTab().getDouble("vel", vel);
 
         m_lastError = m_error;
 
         m_pitch = m_driveTrain.getGyroPitchDegrees();
         m_error = m_pitch + PITCH_OFFSET;
 
-        SmartDashboard.putNumber("Error", m_error);
+        Drivetrain.getTab().setDouble("Error", m_error);
 
         if (Math.abs(m_error) < BALANCE_THRESHOLD) {
             m_balancedTimes += 1;
@@ -98,20 +97,20 @@ public class AutoBalance extends CommandBase {
             m_errorIntegral += m_error;
         }
 
-        SmartDashboard.putNumber("Error", m_error);
-        SmartDashboard.putNumber("Change", m_change);
-        SmartDashboard.putNumber("ErrorIntegral", m_errorIntegral);
+        Drivetrain.getTab().setDouble("Error", m_error);
+        Drivetrain.getTab().setDouble("Change", m_change);
+        Drivetrain.getTab().setDouble("ErrorIntegral", m_errorIntegral);
         // calculate turning output using the pid
         m_velOutput = (m_P * m_error) + (m_I * m_errorIntegral) + (m_D * m_change);
         m_velOutput = MathUtil.clamp(m_velOutput, -m_clamp, m_clamp);
-        SmartDashboard.putNumber("velOutput", m_velOutput);
+        Drivetrain.getTab().setDouble("velOutput", m_velOutput);
 
         m_driveTrain.arcadeDrive(m_velOutput, 0);
 
-        SmartDashboard.putNumber("velMultipliedOutput", m_velMultipliedOutput);
+        Drivetrain.getTab().setDouble("velMultipliedOutput", m_velMultipliedOutput);
         m_velMultipliedOutput = m_velOutput * vel;
 
-        SmartDashboard.putNumber("BalancedTime", m_balancedTimes);
+        Drivetrain.getTab().setDouble("BalancedTime", m_balancedTimes);
     }
 
     @Override
