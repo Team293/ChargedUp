@@ -3,33 +3,25 @@ package frc.robot.classes;
 import javax.swing.text.Position;
 
 public class SmoothControl {
-  private double m_range; // Feet
-  private Kinematics m_kinematics;
   public static final double K1 = 1.0d;
   public static final double K2 = 3.0d;
 
-  public SmoothControl(Kinematics kinematics) {
-    m_range = 0.0d;
-    m_kinematics = kinematics;
+  public SmoothControl() {
+
   }
 
   // Modification of equation 13, Calculates the omegaDesired (in radians)
   // modified by velocity aggressivness given required turn rate
-  public double computeTurnRate(Position2D targetPose, double maxVelocity, boolean inReverse) {
-    double poseHeading = m_kinematics.getPose().getHeadingRadians(); // get robots current heading in radians
-
-    if(true == inReverse){
-      poseHeading += Math.PI;
-      targetPose.setHeadingRadians(targetPose.getHeadingRadians() + Math.PI);
-    }
+  public double computeTurnRate(Position2D currentPose, Position2D targetPose, double maxVelocity, boolean inReverse) {
+    double poseHeading = currentPose.getHeadingRadians(); // get robots current heading in radians
 
     // Limit pose heading to be within -Pi and Pi
     poseHeading = limitRadians(poseHeading); // poseHeading is now radians
 
     // With the velocity and robot heading set appropriately, get the range
     // and the vector orientation that runs from the robot to the target
-    double dx = targetPose.getX() - m_kinematics.getPose().getX();
-    double dy = targetPose.getY() - m_kinematics.getPose().getY();
+    double dx = targetPose.getX() - currentPose.getX();
+    double dy = targetPose.getY() - currentPose.getY();
     double range = Math.sqrt(dx * dx + dy * dy); // distance in feet
     double r_angle = Math.atan2(dy, dx); // vector heading in radians
 
@@ -48,9 +40,6 @@ public class SmoothControl {
 
     // All set, now the equation for the angular rate!
     double omegaDesired = vGivenK(k, maxVelocity) * k;
-
-    // Update m_range
-    m_range = range;
 
     return (omegaDesired);
   }
@@ -83,7 +72,9 @@ public class SmoothControl {
     return retval;
   }
 
-  public double getRange() {
-    return m_range;
+  public double getRange(Position2D posA, Position2D posB) {
+    double dx = posB.getX() - posA.getX();
+    double dy = posB.getY() - posA.getY();
+    return Math.sqrt(dx * dx + dy * dy); // distance in feet
   }
 }
