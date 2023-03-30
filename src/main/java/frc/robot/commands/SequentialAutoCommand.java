@@ -65,6 +65,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	}
 
 	private void top() {
+		addCommands(
+				new DriveToBalance(m_drivetrain));
 		// Face Field
 		// addCommands(
 		// // Reset kinematics to the blue left position
