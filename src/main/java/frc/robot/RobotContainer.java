@@ -4,7 +4,6 @@
 package frc.robot;
 
 import frc.robot.commands.MoveClaw;
-import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.commands.AdjustArm;
@@ -56,7 +55,7 @@ public class RobotContainer {
   public final XboxController m_operatorXboxController = new XboxController(1);
 
   public final SendableChooser<Command> m_driveChooser = new SendableChooser<Command>();
-  public final SendableChooser<StartPositions> m_autoChooser = new SendableChooser<>();
+  public final SendableChooser<SequentialAutoCommand.StartPositions> m_autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -85,7 +84,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /******** Operator Controls ********/
-// Invalidate the extender calibration
+    // Invalidate the extender calibration
     final JoystickButton xboxCalibrateExtenderBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kRightBumper.value);
     xboxCalibrateExtenderBtn.whileTrue(new CalibrateExtender(m_arm));
@@ -94,7 +93,7 @@ public class RobotContainer {
     final JoystickButton xboxCalibratePivotBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kLeftBumper.value);
     xboxCalibratePivotBtn.whileTrue(new CalibratePivot(m_arm));
-    
+
     // Set arm preset to high location
     final JoystickButton xboxYBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kY.value);
@@ -127,20 +126,19 @@ public class RobotContainer {
         XboxController.Button.kLeftBumper.value);
     xboxBumpLeft.whileTrue(new BumpDrive(m_drivetrain, -0.1d));
 
-
     // Set the arm preset to the stow location, inside the robot
     final JoystickButton xboxStowButton = new JoystickButton(m_driverXboxController,
         XboxController.Button.kX.value);
     xboxStowButton.onTrue(new MoveArm(m_arm, Node.STOW));
 
     // Trigger autobalance
-    //final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
-    //    XboxController.Button.kA.value);
+    // final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
+    // XboxController.Button.kA.value);
     // xboxAButton.onTrue(new AutoBalance(m_drivetrain));
 
     // Trigger autoalign
     final JoystickButton xboxYButton = new JoystickButton(m_driverXboxController,
-    XboxController.Button.kY.value);
+        XboxController.Button.kY.value);
     xboxYButton.onTrue(new TrackTarget(m_drivetrain, m_targeting));
 
     // Added options to the dropdown for driveChooser and putting it into
@@ -150,9 +148,11 @@ public class RobotContainer {
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
     SmartDashboard.putData(m_driveChooser);
 
-    m_autoChooser.setDefaultOption("Top", StartPositions.RED_LEFT);
-    m_autoChooser.addOption("Middle", StartPositions.RED_MIDDLE);
-    m_autoChooser.addOption("Bottom", StartPositions.RED_RIGHT);
+    m_autoChooser.setDefaultOption("Don't Move", SequentialAutoCommand.StartPositions.DONT_MOVE);
+    m_autoChooser.addOption("Drive Forward", SequentialAutoCommand.StartPositions.DRIVE_FORWARD);
+    m_autoChooser.addOption("Wall Side Score", SequentialAutoCommand.StartPositions.WALL_SIDE_SCORE);
+    m_autoChooser.addOption("Center Engage", SequentialAutoCommand.StartPositions.CENTER_ENGAGE);
+    m_autoChooser.addOption("Substation Side Score", SequentialAutoCommand.StartPositions.SUBSTATION_SIDE_SCORE);
     SmartDashboard.putData(m_autoChooser);
   }
 

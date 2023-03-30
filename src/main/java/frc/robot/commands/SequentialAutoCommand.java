@@ -8,12 +8,16 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Targeting;
-import frc.robot.commands.MoveArm.Node;
-import frc.robot.commands.SetArm;
-
-import static frc.robot.Constants.AutonomousCommandConstants.*;
 
 public class SequentialAutoCommand extends SequentialCommandGroup {
+    public static enum StartPositions {
+        DONT_MOVE,
+        DRIVE_FORWARD,
+        WALL_SIDE_SCORE,
+        CENTER_ENGAGE,
+        SUBSTATION_SIDE_SCORE
+	}
+
 	private StartPositions m_startPosition;
 	private Drivetrain m_drivetrain;
 	// private Arm m_arm;
@@ -36,28 +40,17 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot Left,
 			// Middle, Right
-			case BLUE_LEFT:
-				bottom();
+
+			case SUBSTATION_SIDE_SCORE:
+				substationSide();
 				break;
 
-			case BLUE_MIDDLE:
-				middle();
+			case CENTER_ENGAGE:
+				chargeStationCenter();
 				break;
 
-			case BLUE_RIGHT:
-				top();
-				break;
-
-			case RED_LEFT:
-				top();
-				break;
-
-			case RED_MIDDLE:
-				middle();
-				break;
-
-			case RED_RIGHT:
-				bottom();
+			case WALL_SIDE_SCORE:
+				wallSide();
 				break;
 
 			default:
@@ -69,8 +62,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		SmartDashboard.putBoolean("AutoDone", true);
 	}
 
-	private void top() {
-		// Face Field
+	private void wallSide() {
+		// Face scoring grid
 		addCommands(
 				// Reset kinematics to the blue left position
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
@@ -87,42 +80,55 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				new Wait(3.0d),
 				// Open claw
 				new SetClawForTime(m_claw, 1.0d, 1.0d),
-				new Wait(5.0d),
+				new Wait(3.0d),
 				// Retract arm
 				new SetArm(m_arm, MoveArm.SCORE_HIGH_ANGLE, MoveArm.STOW_INCHES),
-				new Wait(5.0d),
+				new Wait(3.0d),
 				// Drive backwards
-				new DriveTo(new Position2D(-2, 0, Math.toRadians(0)), -1.0d, m_kinematics, m_drivetrain),
-				new Wait(5.0d),
+				new DriveTo(new Position2D(-10, 1, Math.toRadians(0)), -1.0d, m_kinematics, m_drivetrain),
+				new Wait(3.0d),
 				// Lower arm
 				new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES)
 				// new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES)
-				);
+		);
 	}
 
 	// FACE CHARGE STATION
-	private void middle() {
-		addCommands(
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
-				new DriveBackwards(m_drivetrain, m_kinematics, -.2, 6),
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
-				new DriveBackwards(m_drivetrain, m_kinematics, -.1, 5),
-				// Reset kinematics to the blue left position
-				new DriveToBalance(m_drivetrain),
-				new AutoBalance(m_drivetrain));
+	private void chargeStationCenter() {
+		// Accept master branch changes
+		throw new UnsupportedOperationException("Accept master branch changes.");			
 	}
 
 	// FACE FIELD
-	private void bottom() {
+	private void substationSide() {
+		// Face scoring grid
 		addCommands(
 				// Reset kinematics to the blue left position
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
-
-				// Drive backwards for taxi auto points
-				new DriveTo(new Position2D(5, 5, Math.toRadians(90)), 1.0d, m_kinematics, m_drivetrain),
-				new DriveTo(new Position2D(0, 0, Math.toRadians(0)), -1.0d, m_kinematics, m_drivetrain)
-				// new DriveTo(new Position2D(5, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain)
-				);
+				new SetClawForTime(m_claw, 1.0d, 1.0d),
+				// Close claw
+				new SetClaw(m_claw, -1.0d, 8.0d),
+				// Raise arm
+				new SetArm(m_arm, MoveArm.SCORE_HIGH_ANGLE, MoveArm.STOW_INCHES),
+				// Extend arm
+				new SetArm(m_arm,  MoveArm.SCORE_HIGH_ANGLE, MoveArm.SCORE_HIGH_R_INCHES),
+				new Wait(3.0d),
+				// Drive forward (~1 foot)
+				new DriveTo(new Position2D(2, 0, Math.toRadians(0)), 1.0d, m_kinematics, m_drivetrain),
+				new Wait(3.0d),
+				// Open claw
+				new SetClawForTime(m_claw, 1.0d, 1.0d),
+				new Wait(3.0d),
+				// Retract arm
+				new SetArm(m_arm, MoveArm.SCORE_HIGH_ANGLE, MoveArm.STOW_INCHES),
+				new Wait(3.0d),
+				// Drive backwards
+				new DriveTo(new Position2D(-10, 1, Math.toRadians(0)), -1.0d, m_kinematics, m_drivetrain),
+				new Wait(3.0d),
+				// Lower arm
+				new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES)
+				// new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES)
+		);
 	}
 
 }
