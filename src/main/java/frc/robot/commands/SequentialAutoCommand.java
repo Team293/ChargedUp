@@ -119,9 +119,9 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
 
 				// Drive backwards for taxi auto points
-				new DriveTo(new Position2D(5, 0, Math.toRadians(0)), 0.5d, false, m_kinematics, m_drivetrain),
-				new Wait(5.0d),
-				new DriveTo(new Position2D(-5, 0, Math.toRadians(0)), 0.5d, true, m_kinematics, m_drivetrain)
+				new DriveTo(new Position2D(5, 0, Math.toRadians(0)), 1d, false, m_kinematics, m_drivetrain),
+				
+				new DriveTo(new Position2D(0, 0, Math.toRadians(0)), 1d, true, m_kinematics, m_drivetrain)
 				);
 	}
 

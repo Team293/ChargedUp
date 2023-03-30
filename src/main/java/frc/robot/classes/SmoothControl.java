@@ -1,26 +1,35 @@
 package frc.robot.classes;
 
+import javax.swing.text.Position;
+
 public class SmoothControl {
   private double m_range; // Feet
+  private Kinematics m_kinematics;
   public static final double K1 = 1.0d;
   public static final double K2 = 3.0d;
 
-  public SmoothControl() {
+  public SmoothControl(Kinematics kinematics) {
     m_range = 0.0d;
+    m_kinematics = kinematics;
   }
 
   // Modification of equation 13, Calculates the omegaDesired (in radians)
   // modified by velocity aggressivness given required turn rate
-  public double computeTurnRate(Position2D currentPose, Position2D targetPose, double maxVelocity) {
-    double poseHeading = currentPose.getHeadingRadians(); // Convert heading to radians
+  public double computeTurnRate(Position2D targetPose, double maxVelocity, boolean inReverse) {
+    double poseHeading = m_kinematics.getPose().getHeadingRadians(); // get robots current heading in radians
+
+    if(true == inReverse){
+      poseHeading += Math.PI;
+      targetPose.setHeadingRadians(targetPose.getHeadingRadians() + Math.PI);
+    }
 
     // Limit pose heading to be within -Pi and Pi
     poseHeading = limitRadians(poseHeading); // poseHeading is now radians
 
     // With the velocity and robot heading set appropriately, get the range
     // and the vector orientation that runs from the robot to the target
-    double dx = targetPose.getX() - currentPose.getX();
-    double dy = targetPose.getY() - currentPose.getY();
+    double dx = targetPose.getX() - m_kinematics.getPose().getX();
+    double dy = targetPose.getY() - m_kinematics.getPose().getY();
     double range = Math.sqrt(dx * dx + dy * dy); // distance in feet
     double r_angle = Math.atan2(dy, dx); // vector heading in radians
 

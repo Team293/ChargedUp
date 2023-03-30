@@ -14,7 +14,7 @@ public class DriveTo extends CommandBase {
     private Drivetrain m_drivetrain;
     private Kinematics m_kinematics;
     private Position2D m_targetPose;
-    private static SmoothControl m_smoothControl;
+    private SmoothControl m_smoothControl;
 
     private double m_maxVelocity;
     private boolean m_inReverse = false;
@@ -30,14 +30,14 @@ public class DriveTo extends CommandBase {
         m_drivetrain = drivetrain;
 
         // This constructs smooth control
-        m_smoothControl = new SmoothControl();
+        m_smoothControl = new SmoothControl(m_kinematics);
     }
 
     @Override
     public void initialize() {
         // Content to be run when initializing the command
         // Initialize smooth control
-        m_smoothControl = new SmoothControl();
+        
     }
 
     @Override
@@ -47,13 +47,10 @@ public class DriveTo extends CommandBase {
         final double trackWidthFeet = Drivetrain.TRACK_WIDTH_FEET;
 
         // Start auto nav drive routine
-        if (true == m_inReverse) {
-            // We're in reverse, heading needs to be reversed for smooth control algorithm
-            m_targetPose.setHeadingRadians(m_targetPose.getHeadingRadians() + Math.PI);
-        }
+        
 
         // Compute turn rate in radians and update range
-        double omegaDesired = m_smoothControl.computeTurnRate(m_kinematics.getPose(), m_targetPose, m_maxVelocity);
+        double omegaDesired = m_smoothControl.computeTurnRate(m_targetPose, m_maxVelocity, m_inReverse);
 
         if (true == m_inReverse) {
             // Calculate vR in feet per second
