@@ -156,12 +156,12 @@ public class RobotContainer {
     m_autoChooser.addOption("Bottom", StartPositions.RED_RIGHT);
     SmartDashboard.putData(m_autoChooser);
     RobotContainer.getAutoTab().getTab().add(m_autoChooser).withPosition(0, 0);
-    RobotContainer.getAutoTab().setDouble("first speed", -0.2);
+    RobotContainer.getAutoTab().setDouble("first speed", -0.23);
     RobotContainer.getAutoTab().setDouble("first distance", 6.0);
     RobotContainer.getAutoTab().setDouble("second speed", -0.085);
-    RobotContainer.getAutoTab().setDouble("second distance", 5.5);
-    RobotContainer.getAutoTab().setDouble("third speed", 0.23);
-    RobotContainer.getAutoTab().setDouble("third distance", -3.5);
+    RobotContainer.getAutoTab().setDouble("second distance", 5);
+    RobotContainer.getAutoTab().setDouble("third speed", 0.25);
+    RobotContainer.getAutoTab().setDouble("third distance", -2.25);
   }
 
   private Command getDriveCommand() {
