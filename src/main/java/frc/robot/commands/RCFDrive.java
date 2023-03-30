@@ -12,7 +12,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Drivetrain;
@@ -40,9 +39,9 @@ public class RCFDrive extends CommandBase {
         m_velocityLimitPercentage = DEFAULT_MAX_VELOCITY_PERCENTAGE;
         m_turningLimitPercentage = DEFAULT_MAX_TURNING_SPEED;
         m_rcfDeadband = DEFAULT_RCF_JOY_DEADBAND;
-        SmartDashboard.putNumber("RCF Joy Deadband", m_rcfDeadband);
-        SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
-        SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
+        Drivetrain.getTab().setDouble("RCF Joy Deadband", m_rcfDeadband);
+        Drivetrain.getTab().setDouble("Max Velocity Percentage", m_velocityLimitPercentage);
+        Drivetrain.getTab().setDouble("Max Turning Percentage", m_turningLimitPercentage);
     }
 
     // Called when the command is initially scheduled.
@@ -57,19 +56,19 @@ public class RCFDrive extends CommandBase {
         double speed = -m_xboxcontroller.getLeftY();
         double turning = m_xboxcontroller.getRightX();
 
-        SmartDashboard.putNumber("RCF Joystick speed", speed);
-        SmartDashboard.putNumber("RCF Joystick turning", turning);
+        Drivetrain.getTab().setDouble("RCF Joystick speed", speed);
+        Drivetrain.getTab().setDouble("RCF Joystick turning", turning);
 
         // Grab variables from SmartDashboard and clamping
-        m_rcfDeadband = SmartDashboard.getNumber("RCF Joy Deadband", DEFAULT_RCF_JOY_DEADBAND);
+        m_rcfDeadband = Drivetrain.getTab().getDouble("RCF Joy Deadband", DEFAULT_RCF_JOY_DEADBAND);
         m_rcfDeadband = MathUtil.clamp(m_rcfDeadband, 0.0d, 1.0d);
-        m_velocityLimitPercentage = SmartDashboard.getNumber("Max Velocity Percentage",
+        m_velocityLimitPercentage = Drivetrain.getTab().getDouble("Max Velocity Percentage",
                 DEFAULT_MAX_VELOCITY_PERCENTAGE);
         m_velocityLimitPercentage = MathUtil.clamp(m_velocityLimitPercentage, 0.0d, 1.0d);
-        m_turningLimitPercentage = SmartDashboard.getNumber("Max Turning Percentage",
+        m_turningLimitPercentage = Drivetrain.getTab().getDouble("Max Turning Percentage",
                 DEFAULT_MAX_TURNING_SPEED);
         m_turningLimitPercentage = MathUtil.clamp(m_turningLimitPercentage, 0.0d, 1.0d);
-        SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
+        Drivetrain.getTab().setDouble("Max Velocity Percentage", m_velocityLimitPercentage);
 
         // Applying deadband to turning and speed
         turning = SPIKE293Utils.applyDeadband(turning, m_rcfDeadband);
@@ -78,9 +77,6 @@ public class RCFDrive extends CommandBase {
         // Applying percentages
         turning *= m_turningLimitPercentage;
         speed *= m_velocityLimitPercentage;
-
-        SmartDashboard.putNumber("RCF ACTUAL speed", speed);
-        SmartDashboard.putNumber("RCF ACTUAL turning", turning);
 
         // Move robot
         m_drivetrain.arcadeDrive(speed, turning);

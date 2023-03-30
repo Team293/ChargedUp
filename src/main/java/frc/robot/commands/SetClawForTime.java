@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Claw;
 
 
-public class SetClaw extends CommandBase {
+public class SetClawForTime extends CommandBase {
     private final Claw m_claw;
     private final double m_percent;
-    private final double m_power;
+    private final Wait m_time;
 
     /**
      * Creates a new SetClaw, which sets the claw to a given percent speed and stops it at a given force threshold.
@@ -16,10 +16,10 @@ public class SetClaw extends CommandBase {
      * @param percent The percent to set the claw to. -1 to close, 1 to open
      * @param power The power to stop the claw at
      */
-    public SetClaw(Claw givenClaw, double percent, double power) {
+    public SetClawForTime(Claw givenClaw, double percent, double time) {
         m_claw = givenClaw;
         m_percent = percent;
-        m_power = power;
+        m_time = new Wait(time);
 
         addRequirements(m_claw);
     }
@@ -34,7 +34,7 @@ public class SetClaw extends CommandBase {
      */
     @Override
     public void execute() {
-        m_claw.percentClaw(m_percent, m_power);
+        m_claw.percentClaw(m_percent, 7.0d);
     }
 
     // Called once the command ends or is interrupted.
@@ -48,6 +48,6 @@ public class SetClaw extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return m_claw.getPower() > m_power;
+        return m_time.isFinished();
     }
 }

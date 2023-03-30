@@ -7,6 +7,7 @@ import frc.robot.commands.MoveClaw;
 import frc.robot.Constants.AutonomousCommandConstants.StartPositions;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
+import frc.robot.classes.SpikeBoard;
 import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
@@ -44,6 +45,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // Robots Subsystems
   private static RobotContainer m_robotContainer = new RobotContainer();
+  private static SpikeBoard m_autoTab;
   public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0, 0.0, 0.0));
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
@@ -54,7 +56,7 @@ public class RobotContainer {
   public final XboxController m_driverXboxController = new XboxController(0);
   public final XboxController m_operatorXboxController = new XboxController(1);
 
-  public final SendableChooser<Command> m_driveChooser = new SendableChooser<Command>();
+  public final SendableChooser<Command> m_driveChooser = new SendableChooser<>();
   public final SendableChooser<StartPositions> m_autoChooser = new SendableChooser<>();
 
   /**
@@ -72,6 +74,13 @@ public class RobotContainer {
 
   public static RobotContainer getInstance() {
     return m_robotContainer;
+  }
+
+  public static SpikeBoard getAutoTab() {
+    if (m_autoTab == null) {
+      m_autoTab = new SpikeBoard("Auto");
+    }
+    return m_autoTab;
   }
 
   /**
@@ -135,7 +144,8 @@ public class RobotContainer {
         XboxController.Button.kA.value);
     xboxAButton.onTrue(new AutoBalance(m_drivetrain));
 
-    // Added options to the dropdown for driveChooser and putting it into smartdashboard
+    // Added options to the dropdown for driveChooser and putting it into
+    // smartdashboard
     m_driveChooser.setDefaultOption("Forza Drive", new ForzaDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("Arcade Drive", new ArcadeDrive(m_drivetrain, m_driverXboxController));
     m_driveChooser.addOption("RCF Drive", new RCFDrive(m_drivetrain, m_driverXboxController));
@@ -145,7 +155,15 @@ public class RobotContainer {
     m_autoChooser.addOption("Middle", StartPositions.RED_MIDDLE);
     m_autoChooser.addOption("Bottom", StartPositions.RED_RIGHT);
     SmartDashboard.putData(m_autoChooser);
+    RobotContainer.getAutoTab().getTab().add(m_autoChooser).withPosition(0, 0);
+    RobotContainer.getAutoTab().setDouble("first speed", -0.23);
+    RobotContainer.getAutoTab().setDouble("first distance", 6.0);
+    RobotContainer.getAutoTab().setDouble("second speed", -0.085);
+    RobotContainer.getAutoTab().setDouble("second distance", 5);
+    RobotContainer.getAutoTab().setDouble("third speed", 0.25);
+    RobotContainer.getAutoTab().setDouble("third distance", -2.25);
   }
+
   private Command getDriveCommand() {
     return m_driveChooser.getSelected();
   }
@@ -174,27 +192,29 @@ public class RobotContainer {
     // int location = DriverStation.getLocation();
 
     // if (allianceColor == Alliance.Blue) {
-    //   if (1 == location) {
-    //     startingPosition = StartPositions.BLUE_LEFT;
-    //   } else if (2 == location) {
-    //     startingPosition = StartPositions.BLUE_MIDDLE;
-    //   } else if (3 == location) {
-    //     startingPosition = StartPositions.BLUE_RIGHT;
-    //   }
+    // if (1 == location) {
+    // startingPosition = StartPositions.BLUE_LEFT;
+    // } else if (2 == location) {
+    // startingPosition = StartPositions.BLUE_MIDDLE;
+    // } else if (3 == location) {
+    // startingPosition = StartPositions.BLUE_RIGHT;
+    // }
     // } else if (allianceColor == Alliance.Red) {
-    //   if (1 == location) {
-    //     startingPosition = StartPositions.RED_LEFT;
-    //   } else if (2 == location) {
-    //     startingPosition = StartPositions.RED_MIDDLE;
-    //   } else if (3 == location) {
-    //     startingPosition = StartPositions.RED_RIGHT;
-    //   }
+    // if (1 == location) {
+    // startingPosition = StartPositions.RED_LEFT;
+    // } else if (2 == location) {
+    // startingPosition = StartPositions.RED_MIDDLE;
+    // } else if (3 == location) {
+    // startingPosition = StartPositions.RED_RIGHT;
+    // }
     // } else {
-    //   System.out.println("WARNING - Invalid alliance color! [" + allianceColor + "]");
+    // System.out.println("WARNING - Invalid alliance color! [" + allianceColor +
+    // "]");
     // }
 
     // if (StartPositions.INVALID == startingPosition) {
-    //   System.out.println("WARNING - Invalid starting position! [" + startingPosition + "]");
+    // System.out.println("WARNING - Invalid starting position! [" +
+    // startingPosition + "]");
     // } else {
     autoCommand = new SequentialAutoCommand(m_drivetrain, m_arm, m_claw, m_kinematics, m_targeting,
         m_autoChooser.getSelected());
