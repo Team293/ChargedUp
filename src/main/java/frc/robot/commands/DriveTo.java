@@ -20,10 +20,12 @@ public class DriveTo extends CommandBase {
     private boolean m_inReverse = false;
     private boolean m_isDone = false;
 
-    public DriveTo(Position2D targetPose, double maxVelocity, boolean inReverse, Kinematics kinematics, Drivetrain drivetrain) {
+    public DriveTo(Position2D targetPose, double maxVelocity, Kinematics kinematics, Drivetrain drivetrain) {
         m_targetPose = targetPose;
         m_maxVelocity = maxVelocity;
-        m_inReverse = inReverse;
+        if (maxVelocity < 0.0d) {
+            m_inReverse = true;
+        }
         m_kinematics = kinematics;
         m_drivetrain = drivetrain;
         
@@ -52,18 +54,10 @@ public class DriveTo extends CommandBase {
             // Compute turn rate in radians and update range
             omegaDesired = m_smoothControl.computeTurnRate(currentPose, m_targetPose, m_maxVelocity, m_inReverse);
 
-            if (true == m_inReverse) {
-                // Velocity is ALREADY negative, no need to make negative
-                // Calculate vR in feet per second
-                vR = m_maxVelocity - (trackWidthFeet / 2) * omegaDesired;
-                // Calculate vL in feet per second
-                vL = m_maxVelocity + (trackWidthFeet / 2) * omegaDesired;
-            } else {
-                // Calculate vR in feet per second
-                vR = m_maxVelocity + (trackWidthFeet / 2) * omegaDesired;
-                // Calculate vL in feet per second
-                vL = m_maxVelocity - (trackWidthFeet / 2) * omegaDesired;
-            }
+            // Calculate vR in feet per second
+            vR = m_maxVelocity + (trackWidthFeet / 2) * omegaDesired;
+            // Calculate vL in feet per second
+            vL = m_maxVelocity - (trackWidthFeet / 2) * omegaDesired;
 
             // Converting ft/s equation output to controller velocity
             vR = SPIKE293Utils.feetPerSecToControllerVelocity(vR);

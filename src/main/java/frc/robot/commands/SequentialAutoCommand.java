@@ -83,7 +83,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				new SetArm(m_arm,  MoveArm.SCORE_HIGH_ANGLE, MoveArm.SCORE_HIGH_R_INCHES),
 				new Wait(3.0d),
 				// Drive forward (~1 foot)
-				new DriveTo(new Position2D(2, 0, Math.toRadians(0)), 1.0d, false, m_kinematics, m_drivetrain),
+				new DriveTo(new Position2D(2, 0, Math.toRadians(0)), 1.0d, m_kinematics, m_drivetrain),
 				new Wait(3.0d),
 				// Open claw
 				new SetClawForTime(m_claw, 1.0d, 1.0d),
@@ -92,7 +92,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				new SetArm(m_arm, MoveArm.SCORE_HIGH_ANGLE, MoveArm.STOW_INCHES),
 				new Wait(5.0d),
 				// Drive backwards
-				new DriveTo(new Position2D(-2, 0, Math.toRadians(0)), 1.0d, true, m_kinematics, m_drivetrain),
+				new DriveTo(new Position2D(-2, 0, Math.toRadians(0)), -1.0d, m_kinematics, m_drivetrain),
 				new Wait(5.0d),
 				// Lower arm
 				new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES)
@@ -116,10 +116,13 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	private void bottom() {
 		addCommands(
 				// Reset kinematics to the blue left position
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain, m_kinematics),
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
 
 				// Drive backwards for taxi auto points
-				new DriveTo(new Position2D(5, 0, Math.toRadians(180)), -2.0d, true, m_kinematics, m_drivetrain));
+				new DriveTo(new Position2D(5, 5, Math.toRadians(90)), 1.0d, m_kinematics, m_drivetrain),
+				new DriveTo(new Position2D(0, 0, Math.toRadians(0)), -1.0d, m_kinematics, m_drivetrain)
+				// new DriveTo(new Position2D(5, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain)
+				);
 	}
 
 }

@@ -17,7 +17,7 @@ public class SmoothControl {
 
     // Are we going in reverse? 
     if(inReverse) {
-      // Add PI to the current and target headings to "trick" smooth control into thinking we're facing forwards
+      // Subtract PI to the current and target headings to "trick" smooth control into thinking we're facing forwards
       poseHeading += Math.PI;
       targetHeading += Math.PI;
 
