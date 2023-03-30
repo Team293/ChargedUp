@@ -1,19 +1,29 @@
 package frc.robot.classes;
 
-import javax.swing.text.Position;
-
 public class SmoothControl {
   public static final double K1 = 1.0d;
   public static final double K2 = 3.0d;
 
   public SmoothControl() {
-
   }
 
   // Modification of equation 13, Calculates the omegaDesired (in radians)
   // modified by velocity aggressivness given required turn rate
-  public double computeTurnRate(Position2D currentPose, Position2D targetPose, double maxVelocity, boolean inReverse) {
-    double poseHeading = currentPose.getHeadingRadians(); // get robots current heading in radians
+  public double computeTurnRate(Position2D currentPose, Position2D targetPose, double givenMaxVelocity, boolean inReverse) {
+    double omegaDesired = 0.0d; 
+    double poseHeading = currentPose.getHeadingRadians(); // Convert heading to radians
+    double targetHeading = targetPose.getHeadingRadians();
+    double maxVelocity = givenMaxVelocity;
+
+    // Are we going in reverse? 
+    if(inReverse) {
+      // Add PI to the current and target headings to "trick" smooth control into thinking we're facing forwards
+      poseHeading += Math.PI;
+      targetHeading += Math.PI;
+
+      // The given velocity will be negative, we must make it positive
+      maxVelocity *= -1.0d;
+    }
 
     // Limit pose heading to be within -Pi and Pi
     poseHeading = limitRadians(poseHeading); // poseHeading is now radians
@@ -22,13 +32,14 @@ public class SmoothControl {
     // and the vector orientation that runs from the robot to the target
     double dx = targetPose.getX() - currentPose.getX();
     double dy = targetPose.getY() - currentPose.getY();
-    double range = Math.sqrt(dx * dx + dy * dy); // distance in feet
+    double range = getRange(targetPose, currentPose); // distance in feet
     double r_angle = Math.atan2(dy, dx); // vector heading in radians
 
-    // Compute the angle between this vector and the desired orientation at the
-    // target
-    double thetaT = targetPose.getHeadingRadians() - r_angle;
-    thetaT = limitRadians(thetaT); // bound this between -PI to PI
+    if (range != 0.0) {
+      // Compute the angle between this vector and the desired orientation at the
+      // target
+      double thetaT = targetHeading - r_angle;
+      thetaT = limitRadians(thetaT); // bound this between -PI to PI
 
     // Compute the angle between current robot heading and the vector from
     // the robot to the target
@@ -38,8 +49,9 @@ public class SmoothControl {
     // Calculate k (equation 14)
     double k = k(range, thetaT, del_r);
 
-    // All set, now the equation for the angular rate!
-    double omegaDesired = vGivenK(k, maxVelocity) * k;
+      // All set, now the equation for the angular rate!
+      omegaDesired = vGivenK(k, maxVelocity) * k;
+    } 
 
     return (omegaDesired);
   }
@@ -72,9 +84,9 @@ public class SmoothControl {
     return retval;
   }
 
-  public double getRange(Position2D posA, Position2D posB) {
-    double dx = posB.getX() - posA.getX();
-    double dy = posB.getY() - posA.getY();
-    return Math.sqrt(dx * dx + dy * dy); // distance in feet
+  public double getRange(Position2D poseA, Position2D poseB) {
+    double dx = poseB.getX() - poseA.getX();
+    double dy = poseB.getY() - poseA.getY();
+    return (Math.sqrt(dx * dx + dy * dy)); // distance in feet
   }
 }
