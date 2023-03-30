@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutoBalance extends CommandBase {
-    private static final double PITCH_OFFSET = -90.0d; // Should be -70 on new bot
+    private static final double PITCH_OFFSET = -73.0d; // Should be -70 on new bot
     private static final int BALANCE_THRESHOLD = 4;
     private static final int BALANCE_ITERATIONS = 20;
     private static final double INTERGRAL_LIMIT = 5;
@@ -20,7 +20,7 @@ public class AutoBalance extends CommandBase {
     private double m_velMultipliedOutput = 0.0d;
 
     // start (gives throttle) (may make it overshoot if too high)
-    private double m_P = 0.0036d;
+    private double m_P = 0.0031d;
     // finicky (depends on situation) (within 5 to 3 degress of error)
     private double m_I = 0.00d;
     // good rule of thumb for d: m_d = m_p * 10
