@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutoBalance extends CommandBase {
-    private static final double PITCH_OFFSET = -73.0d; // Should be -70 on new bot
+    private static final double PITCH_OFFSET = -73.0d;
     private static final int BALANCE_THRESHOLD = 4;
     private static final int BALANCE_ITERATIONS = 20;
     private static final double INTERGRAL_LIMIT = 5;
