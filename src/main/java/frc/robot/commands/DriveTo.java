@@ -19,8 +19,7 @@ public class DriveTo extends CommandBase {
     private boolean m_inReverse = false;
     private boolean m_isDone = false;
 
-    public DriveTo(Position2D targetPose, double maxVelocity, boolean inReverse, Kinematics kinematics,
-            Drivetrain drivetrain) {
+    public DriveTo(Position2D targetPose, double maxVelocity, boolean inReverse, Kinematics kinematics, Drivetrain drivetrain) {
         addRequirements(drivetrain);
         m_targetPose = targetPose;
         m_maxVelocity = maxVelocity;
@@ -71,8 +70,7 @@ public class DriveTo extends CommandBase {
         Drivetrain.getTab().setDouble("Desired Right Velocity (ft/s)", vR);
         Drivetrain.getTab().setDouble("Auto Range", m_smoothControl.getRange());
         Drivetrain.getTab().setDouble("Auto Omega Desired (Degrees)", Math.toDegrees(omegaDesired));
-        Drivetrain.getTab().setString("Next Target",
-                m_targetPose.getX() + ", " + m_targetPose.getY() + ", " + m_targetPose.getHeadingDegrees());
+        Drivetrain.getTab().setString("Next Target", m_targetPose.getX() + ", " + m_targetPose.getY() + ", " + m_targetPose.getHeadingDegrees());
 
         // Converting ft/s equation output to controller velocity
         vR = SPIKE293Utils.feetPerSecToControllerVelocity(vR);
