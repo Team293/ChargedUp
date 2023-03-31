@@ -57,10 +57,10 @@ public class Arm extends SubsystemBase {
             * EXTENDER_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO) / EXTENDER_PULLEY_ROTATION_TO_INCHES);
 
     /* Physical constants */
-    public static final double MIN_ANGLE_RADIANS = -90.0d * ((2 * Math.PI) / 360.0d); // radians
-    public static final double MAX_ANGLE_RADIANS = 20.0d * ((2 * Math.PI) / 360.0d); // radians
-    public static final double MIN_INCHES = 34.712d;
-    public static final double MAX_INCHES = 49.6d;
+    public final double MIN_ANGLE_RADIANS = -90.0d * ((2 * Math.PI) / 360.0d); // radians
+    public final double MAX_ANGLE_RADIANS = 20.0d * ((2 * Math.PI) / 360.0d); // radians
+    public final double MIN_INCHES = 35.112d;
+    public final double MAX_INCHES = 50.0d;
 
     public final double ARM_THETA_DELTA_MODIFIER = 1.0d * ((2 * Math.PI) / 360.0d); // radians
     public final double ARM_R_DELTA_MODIFIER = 0.75d; // inches

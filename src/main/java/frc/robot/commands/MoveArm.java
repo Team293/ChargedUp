@@ -4,20 +4,25 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
-    public static final double SCORE_HYBRID_R_INCHES = 38.1365966d; /* Coordinates: 15.6in, -34.8in */
-    public static final double SCORE_HYBRID_ANGLE = -1.14937712d;
+    public final double HIGH_X = 45.42d;
+    public final double HIGH_Y = 15.4d;
+    public final double HIGH_R_INCHES = Math.sqrt(Math.pow(HIGH_X, 2.0d) + Math.pow(HIGH_Y, 2.0d));
+    public final double HIGH_ANGLE = Math.atan2(HIGH_Y, HIGH_X);
 
-    public static final double SCORE_MID_R_INCHES = 36.60874213d; /* Coordinates: 36.6in, -0.8in */
-    public static final double SCORE_MID_ANGLE = -0.02185444348d;
+    public final double MID_X = 35.67d;
+    public final double MID_Y = 3.4d;
+    public final double MID_R_INCHES = Math.sqrt(Math.pow(MID_X, 2.0d) + Math.pow(MID_Y, 2.0d));
+    public final double MID_ANGLE = Math.atan2(MID_Y, MID_X);
 
-    public static final double SCORE_HIGH_R_INCHES = 47.68398578d; /* Coordinates: 46.35in, 11.2in */
-    public static final double SCORE_HIGH_ANGLE = 0.237094798d;
+    public final double HYBRID_X = 14.67d;
+    public final double HYBRID_Y = -30.6d;
+    public final double HYBRID_R_INCHES = Math.sqrt(Math.pow(HYBRID_X, 2.0d) + Math.pow(HYBRID_Y, 2.0d));
+    public final double HYBRID_ANGLE = Math.atan2(HYBRID_Y, HYBRID_X);
 
-    public static final double SUBSTATION_PICKUP_ANGLE = 0.1888971809d; /* Coordinates: 13.6in, 2.6in */
-    public static final double SUBSTATION_PICKUP_X_INCHES = 13.84629914d;
-
-    public static final double STOW_ANGLE = Arm.MIN_ANGLE_RADIANS;
-    public static final double STOW_INCHES = Arm.MIN_INCHES;
+    public final double SUBSTATION_X = 12.67d;
+    public final double SUBSTATION_Y = 6.8d;
+    public final double SUBSTATION_R_INCHES = Math.sqrt(Math.pow(SUBSTATION_X, 2.0d) + Math.pow(SUBSTATION_Y, 2.0d));
+    public final double SUBSTATION_ANGLE = Math.atan2(SUBSTATION_Y, SUBSTATION_X);
 
     public enum Node {
         HYBRID,
@@ -47,16 +52,16 @@ public class MoveArm extends CommandBase {
     public void execute() {
         switch (m_node) {
             case HYBRID:
-                m_arm.setPosition(SCORE_HIGH_R_INCHES, SCORE_HIGH_ANGLE);
+                m_arm.setPosition(HYBRID_ANGLE, HYBRID_R_INCHES);
                 break;
             case MID:
-                m_arm.setPosition(SCORE_MID_ANGLE, SCORE_MID_R_INCHES);
+                m_arm.setPosition(MID_ANGLE, MID_R_INCHES);
                 break;
             case HIGH:
-                m_arm.setPosition(SCORE_HIGH_ANGLE, SCORE_HIGH_R_INCHES);
+                m_arm.setPosition(HIGH_ANGLE, HIGH_R_INCHES);
                 break;
             case SUBSTATION:
-                m_arm.setPosition(SUBSTATION_PICKUP_ANGLE, SUBSTATION_PICKUP_X_INCHES);
+                m_arm.setPosition(SUBSTATION_ANGLE, SUBSTATION_R_INCHES);
                 break;
             case STOW:
                 m_arm.stowArm();
