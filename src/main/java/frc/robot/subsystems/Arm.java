@@ -33,7 +33,8 @@ public class Arm extends SubsystemBase {
     public final double EXTENDER_MAX_ACCELERATION = 35000.0d;
 
     /* Motor constants */
-    public final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
+    public final double PIVOT_MOTOR_NEUTRAL_DEADBAND = 0.001d;
+    public final double EXTENDER_MOTOR_NEUTRAL_DEADBAND = 0.0d;
     public final int PID_CONFIG_TIMEOUT_MS = 10;
     public final int CONFIG_ARM_FEEDBACKSENSOR_TIMEOUT_MS = 10;
     public final double PIVOT_CALIBRATION_MOTOR_SPEED = 0.1d;
@@ -127,8 +128,8 @@ public class Arm extends SubsystemBase {
         extenderTalonFX.setNeutralMode(NeutralMode.Brake);
         pivotTalonFX.setNeutralMode(NeutralMode.Brake);
 
-        extenderTalonFX.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
-        pivotTalonFX.configNeutralDeadband(MOTOR_NEUTRAL_DEADBAND);
+        extenderTalonFX.configNeutralDeadband(0);
+        pivotTalonFX.configNeutralDeadband(0);
 
         // Start the calibration process
         isPivotCalibrated = false;
@@ -228,7 +229,7 @@ public class Arm extends SubsystemBase {
         inches = Math.max(Math.min(inches, maxClamp), MIN_INCHES);
 
         SmartDashboard.putNumber("extender encoder", encoderUnits);
-        extenderTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits, DemandType.ArbitraryFeedForward, 0.0d);
+        extenderTalonFX.set(TalonFXControlMode.MotionMagic, encoderUnits, DemandType.ArbitraryFeedForward, EXTENDER_KF * Math.abs((Math.sin(theta))));
     }
 
     /**

@@ -18,6 +18,7 @@ import frc.robot.commands.TrackTarget;
 import frc.robot.commands.RCFDrive;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArm.Node;
+import frc.robot.commands.SequentialAutoCommand.StartPositions;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Arm;
@@ -149,10 +150,11 @@ public class RobotContainer {
     SmartDashboard.putData(m_driveChooser);
 
     m_autoChooser.setDefaultOption("Don't Move", SequentialAutoCommand.StartPositions.DONT_MOVE);
-    m_autoChooser.addOption("Drive Forward", SequentialAutoCommand.StartPositions.DRIVE_FORWARD);
+    m_autoChooser.addOption("Drive Backward", SequentialAutoCommand.StartPositions.DRIVE_BACKWARD);
     m_autoChooser.addOption("Wall Side Score", SequentialAutoCommand.StartPositions.WALL_SIDE_SCORE);
     m_autoChooser.addOption("Center Engage", SequentialAutoCommand.StartPositions.CENTER_ENGAGE);
     m_autoChooser.addOption("Substation Side Score", SequentialAutoCommand.StartPositions.SUBSTATION_SIDE_SCORE);
+    m_autoChooser.addOption("Score Don't Move", StartPositions.SCORE_DONT_MOVE);
     SmartDashboard.putData(m_autoChooser);
   }
 
