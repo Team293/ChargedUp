@@ -14,9 +14,9 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
     public static enum StartPositions {
         DONT_MOVE,
         DRIVE_BACKWARD,
-        WALL_SIDE_SCORE,
+        LEFT_SIDE_SCORE,
         CENTER_ENGAGE,
-        SUBSTATION_SIDE_SCORE,
+        RIGHT_SIDE_SCORE,
 		SCORE_DONT_MOVE
 	}
 
@@ -51,7 +51,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				);
 				break;
 
-			case SUBSTATION_SIDE_SCORE:
+			case LEFT_SIDE_SCORE:
 				// FACE SCORING GRID
 				resetKinematics();
 				score();
@@ -70,7 +70,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				chargeStationCenter();
 				break;
 
-			case WALL_SIDE_SCORE:
+			case RIGHT_SIDE_SCORE:
 				// FACE SCORING GRID
 				resetKinematics();
 				score();

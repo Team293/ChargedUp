@@ -151,9 +151,9 @@ public class RobotContainer {
 
     m_autoChooser.setDefaultOption("Don't Move", SequentialAutoCommand.StartPositions.DONT_MOVE);
     m_autoChooser.addOption("Drive Backward", SequentialAutoCommand.StartPositions.DRIVE_BACKWARD);
-    m_autoChooser.addOption("Wall Side Score", SequentialAutoCommand.StartPositions.WALL_SIDE_SCORE);
+    m_autoChooser.addOption("Left Side Score", SequentialAutoCommand.StartPositions.LEFT_SIDE_SCORE);
     m_autoChooser.addOption("Center Engage", SequentialAutoCommand.StartPositions.CENTER_ENGAGE);
-    m_autoChooser.addOption("Substation Side Score", SequentialAutoCommand.StartPositions.SUBSTATION_SIDE_SCORE);
+    m_autoChooser.addOption("Right Side Score", SequentialAutoCommand.StartPositions.RIGHT_SIDE_SCORE);
     m_autoChooser.addOption("Score Don't Move", StartPositions.SCORE_DONT_MOVE);
     SmartDashboard.putData(m_autoChooser);
   }
