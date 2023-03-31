@@ -47,7 +47,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				score();
 				addCommands(
 					// Lower arm
-					new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES)
+					new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES)
 				);
 				break;
 
@@ -58,7 +58,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				addCommands(
 					// Drive backwards and lower arm
 					new ParallelCommandGroup(
-						new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES),
+						new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
 						new DriveTo(new Position2D(-10, 1, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
 					)
 				);
@@ -77,7 +77,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				addCommands(
 					// Drive backwards and lower arm
 					new ParallelCommandGroup(
-						new SetArm(m_arm, MoveArm.STOW_ANGLE, MoveArm.STOW_INCHES),
+						new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
 						new DriveTo(new Position2D(-10, -1, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
 					)
 				);
@@ -109,17 +109,17 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 			// Close claw
 			new SetClaw(m_claw, -1.0d, 10.0d),
 			// Raise arm
-			new SetArm(m_arm, MoveArm.SCORE_HIGH_ANGLE, MoveArm.STOW_INCHES),
+			new SetArm(m_arm, MoveArm.HIGH_ANGLE, Arm.STOW_R_INCHES),
 			new Wait(1.0d),
 			// Extend arm
-			new SetArm(m_arm,  MoveArm.SCORE_HIGH_ANGLE, MoveArm.SCORE_HIGH_R_INCHES),
+			new SetArm(m_arm,  MoveArm.HIGH_ANGLE, MoveArm.HIGH_R_INCHES),
 			// Drive forward (~1 foot)
 			new DriveTo(new Position2D(2, 0, Math.toRadians(0)),2.0d, m_kinematics, m_drivetrain),
 			// Open claw
 			new SetClawForTime(m_claw, 1.0d, 10.0d),
 			new Wait(0.5d),
 			// Retract arm
-			new SetArm(m_arm, MoveArm.SCORE_HIGH_ANGLE, MoveArm.STOW_INCHES),
+			new SetArm(m_arm, MoveArm.HIGH_ANGLE, Arm.STOW_R_INCHES),
 			// Drive backwards
 			new DriveTo(new Position2D(-0.5, 0, Math.toRadians(0)), -1.5d, m_kinematics, m_drivetrain)
 		);
