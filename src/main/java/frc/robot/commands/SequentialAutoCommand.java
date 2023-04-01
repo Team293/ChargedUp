@@ -56,7 +56,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 					// Drive backwards and lower arm
 					new ParallelCommandGroup(
 						new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
-						new DriveTo(new Position2D(-10, 1, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
+						new DriveTo(new Position2D(-10, -2, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
 					)
 				);
 				break;
@@ -75,7 +75,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 					// Drive backwards and lower arm
 					new ParallelCommandGroup(
 						new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
-						new DriveTo(new Position2D(-10, -1, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
+						new DriveTo(new Position2D(-10, 2, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
 					)
 				);
 				break;
