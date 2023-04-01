@@ -11,8 +11,8 @@ public class DriveToBalance extends CommandBase {
     public DriveToBalance(Drivetrain drivetrain) {
         m_drivetrain = drivetrain;
         addRequirements(drivetrain);
-        RobotContainer.getAutoTab().setDouble("Balance speed", 0.2);
-        RobotContainer.getAutoTab().setDouble("Balance Degrees", 85);
+        RobotContainer.getAutoBoard().setDouble("Balance speed", 0.2);
+        RobotContainer.getAutoBoard().setDouble("Balance Degrees", 85);
     }
 
     @Override
@@ -21,20 +21,20 @@ public class DriveToBalance extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = RobotContainer.getAutoTab().getDouble("Balance speed", 0);
+        double speed = RobotContainer.getAutoBoard().getDouble("Balance speed", 0);
         speed = MathUtil.clamp(speed, 0, 0.5);
-        RobotContainer.getAutoTab().setDouble("Balance speed", speed);
+        RobotContainer.getAutoBoard().setDouble("Balance speed", speed);
         m_drivetrain.percentDrive(speed, speed);
     }
 
     @Override
     public boolean isFinished() {
-        double gyro = RobotContainer.getAutoTab().getDouble("Balance Degrees", 85);
+        double gyro = RobotContainer.getAutoBoard().getDouble("Balance Degrees", 85);
         gyro = MathUtil.clamp(gyro, 80, 100);
-        RobotContainer.getAutoTab().setDouble("Balance Degrees", gyro);
+        RobotContainer.getAutoBoard().setDouble("Balance Degrees", gyro);
         // track if the robot is on a slope
         boolean isOnBalance = m_drivetrain.getGyroPitchDegrees() > (gyro);
-        RobotContainer.getAutoTab().setBoolean("Is On Balance", isOnBalance);
+        RobotContainer.getAutoBoard().setBoolean("Is On Balance", isOnBalance);
 
         return m_drivetrain.getGyroPitchDegrees() > (gyro);
     }

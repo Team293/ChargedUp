@@ -44,6 +44,7 @@ public class Targeting extends SubsystemBase {
         // Set default values for shuffleboard
         m_limeData.getEntry("camMode").setNumber(0);
         m_limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
+        m_limeData.getEntry("pipeline").setNumber(1.0d);
 
         SmartDashboard.putBoolean("isTargetted", false);
 

@@ -14,11 +14,12 @@ public class Wait extends CommandBase {
         m_waitTime = waitTime;
 
         m_waitTime *= 1000;
-        m_startTime = System.currentTimeMillis();
+        m_startTime = 0;
     }
 
     @Override
     public void initialize() {
+        m_startTime = System.currentTimeMillis();
     }
 
     @Override
