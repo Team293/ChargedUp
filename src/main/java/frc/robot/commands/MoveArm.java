@@ -19,8 +19,8 @@ public class MoveArm extends CommandBase {
     public static final double HYBRID_R_INCHES = Math.sqrt(Math.pow(HYBRID_X, 2.0d) + Math.pow(HYBRID_Y, 2.0d));
     public static final double HYBRID_ANGLE = Math.atan2(HYBRID_Y, HYBRID_X);
 
-    public static final double SUBSTATION_X = 12.67d;
-    public static final double SUBSTATION_Y = 6.8d;
+    public static final double SUBSTATION_X = 35.07279481d;
+    public static final double SUBSTATION_Y = -1.658797242d;
     public static final double SUBSTATION_R_INCHES = Math.sqrt(Math.pow(SUBSTATION_X, 2.0d) + Math.pow(SUBSTATION_Y, 2.0d));
     public static final double SUBSTATION_ANGLE = Math.atan2(SUBSTATION_Y, SUBSTATION_X);
 
