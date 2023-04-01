@@ -4,6 +4,7 @@
 package frc.robot;
 
 import frc.robot.commands.MoveClaw;
+import frc.robot.commands.ProximityDrive;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.classes.SpikeBoard;
@@ -21,6 +22,7 @@ import frc.robot.commands.MoveArm.Node;
 import frc.robot.commands.SequentialAutoCommand.StartPositions;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.ProximitySensor;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
@@ -51,6 +53,7 @@ public class RobotContainer {
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
   public final Arm m_arm = new Arm();
   public final Claw m_claw = new Claw();
+  public final ProximitySensor m_proximitySensor = new ProximitySensor();
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
@@ -144,6 +147,10 @@ public class RobotContainer {
     // final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
     // XboxController.Button.kA.value);
     // xboxAButton.onTrue(new AutoBalance(m_drivetrain));
+
+    final JoystickButton xboxTriggerProximityDrive = new JoystickButton(m_driverXboxController,
+    XboxController.Button.kB.value);
+    xboxTriggerProximityDrive.onTrue(new ProximityDrive(m_drivetrain, m_proximitySensor));
 
     // Trigger autoalign
     final JoystickButton xboxYButton = new JoystickButton(m_driverXboxController,

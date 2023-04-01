@@ -68,7 +68,7 @@ public class Drivetrain extends SubsystemBase {
     public static final int POSITION_PID_SLOT_ID = 1;
     public static final int PID_CONFIG_TIMEOUT_MS = 10;
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-    public static final int MAX_VELOCITY = 20580;
+    public static final int MAX_VELOCITY = 23000;
     public static final double VELOCITY_LOWER_LIMIT = MAX_VELOCITY * 0.01;
 
     public static final boolean USE_NAVX_HEADING = false;
@@ -294,7 +294,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns left encoder position
-     * 
+     *
      * @return left encoder position
      */
     public double getLeftEncoderPosition() {
@@ -305,7 +305,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns right encoder position
-     * 
+     *
      * @return right encoder position
      */
     public double getRightEncoderPosition() {
@@ -316,7 +316,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns left encoder Velocity in ft/s
-     * 
+     *
      * @return left encoder Velocity in ft/s
      */
     public double getLeftEncoderVelocity() {
@@ -327,7 +327,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns right encoder Velocity in ft/s
-     * 
+     *
      * @return right encoder Velocity in ft/s
      */
     public double getRightEncoderVelocity() {
@@ -338,7 +338,7 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * returns robot Velocity in ft/s
-     * 
+     *
      * @return robot Velocity in ft/s
      */
     public double getRobotVelocity() {
