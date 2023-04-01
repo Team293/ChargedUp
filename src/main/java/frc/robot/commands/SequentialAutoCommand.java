@@ -1,8 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.subsystems.Arm;
@@ -22,8 +23,6 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 
 	private StartPositions m_startPosition;
 	private Drivetrain m_drivetrain;
-	// private Arm m_arm;
-	// private Claw m_claw;
 	private Kinematics m_kinematics;
 	private Arm m_arm;
 	private Claw m_claw;
@@ -31,14 +30,12 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw, Kinematics kinematics, Targeting targeting,
 			StartPositions startPosition) {
 		m_drivetrain = drivetrain;
-		// m_arm = arm;
-		// m_claw = claw;
-		m_kinematics = kinematics;
-		m_startPosition = startPosition;
 		m_arm = arm;
 		m_claw = claw;
+		m_kinematics = kinematics;
+		m_startPosition = startPosition;
 
-		SmartDashboard.putBoolean("AutoDone", false);
+		RobotContainer.getAutoTab().setBoolean("AutoDone", false);
 
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot
 			case SCORE_DONT_MOVE:
@@ -99,7 +96,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		}
 
 		// Alert smart dashboard that autonomous is done
-		SmartDashboard.putBoolean("AutoDone", true);
+		RobotContainer.getAutoTab().setBoolean("AutoDone", true);
 	}
 
 	// Score a piece in the high node
@@ -125,16 +122,52 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		);
 	}
 
-	// FACE CHARGE STATION
-	private void chargeStationCenter() {
-		// Accept master branch changes
-		throw new UnsupportedOperationException("Accept master branch changes.");			
-	}
-
 	private void resetKinematics() {
 		addCommands(
 			// Reset kinematics to the blue left position
 			new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics)
 		);
+	}
+
+	// FACE CHARGE STATION
+	private void chargeStationCenter() {
+		double firstSpeed = RobotContainer.getAutoTab().getDouble("first speed", 0);
+		firstSpeed = MathUtil.clamp(firstSpeed, -.4, 0);
+		RobotContainer.getAutoTab().setDouble("first speed", firstSpeed);
+		double firstDistance = RobotContainer.getAutoTab().getDouble("first distance", 0);
+		firstDistance = MathUtil.clamp(firstDistance, 0, 10);
+		RobotContainer.getAutoTab().setDouble("first distance", firstDistance);
+
+		double secondSpeed = RobotContainer.getAutoTab().getDouble("second speed", 0);
+		secondSpeed = MathUtil.clamp(secondSpeed, -.4, 0);
+		RobotContainer.getAutoTab().setDouble("second speed", secondSpeed);
+		double secondDistance = RobotContainer.getAutoTab().getDouble("second distance", 0);
+		secondDistance = MathUtil.clamp(secondDistance, 0, 10);
+		RobotContainer.getAutoTab().setDouble("second distance", secondDistance);
+
+		double thirdSpeed = RobotContainer.getAutoTab().getDouble("third speed", 0);
+		thirdSpeed = MathUtil.clamp(thirdSpeed, 0, 0.4);
+		RobotContainer.getAutoTab().setDouble("third speed", thirdSpeed);
+		double thirdDistance = RobotContainer.getAutoTab().getDouble("third distance", 0);
+		thirdDistance = MathUtil.clamp(thirdDistance, -10, 10);
+		RobotContainer.getAutoTab().setDouble("third distance", thirdDistance);
+
+		addCommands(
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+						m_kinematics),
+				new DriveBackwards(m_drivetrain, m_kinematics, firstSpeed, firstDistance),
+				// new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+				// m_kinematics),
+				// new DriveBackwards(m_drivetrain, m_kinematics, -.15, 2),
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+						m_kinematics),
+				new DriveBackwards(m_drivetrain, m_kinematics, secondSpeed, secondDistance),
+				// new Wait(1),
+				// Reset kinematics to the blue left position
+				new DriveToBalance(m_drivetrain),
+				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+						m_kinematics),
+				new DriveBackwards(m_drivetrain, m_kinematics, thirdSpeed, thirdDistance),
+				new AutoBalance(m_drivetrain));
 	}
 }

@@ -12,7 +12,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Drivetrain;
@@ -43,10 +42,10 @@ public class ForzaDrive extends CommandBase {
         m_turningLimitPercentage = DEFAULT_MAX_TURNING_SPEED;
         m_arcadeDeadband = DEFAULT_ARCADE_JOY_DEADBAND;
         m_forzaDeadband = DEFAULT_FORZA_DEADBAND;
-        SmartDashboard.putNumber("Arcade Joy Deadband", m_arcadeDeadband);
-        SmartDashboard.putNumber("Forza Deadband", m_forzaDeadband);
-        SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
-        SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
+        Drivetrain.getTab().setDouble("Arcade Joy Deadband", m_arcadeDeadband);
+        Drivetrain.getTab().setDouble("Forza Deadband", m_forzaDeadband);
+        Drivetrain.getTab().setDouble("Max Velocity Percentage", m_velocityLimitPercentage);
+        Drivetrain.getTab().setDouble("Max Turning Percentage", m_turningLimitPercentage);
     }
 
     // Called when the command is initially scheduled.
@@ -63,26 +62,26 @@ public class ForzaDrive extends CommandBase {
         double triggerLeft;
 
         // Get deadband value set in SmartDashboard
-        m_arcadeDeadband = SmartDashboard.getNumber("Arcade Joy Deadband", DEFAULT_ARCADE_JOY_DEADBAND);
+        m_arcadeDeadband = Drivetrain.getTab().getDouble("Arcade Joy Deadband", DEFAULT_ARCADE_JOY_DEADBAND);
         m_arcadeDeadband = MathUtil.clamp(m_arcadeDeadband, 0.0d, 1.0d);
-        m_forzaDeadband = SmartDashboard.getNumber("Forza Deadband", DEFAULT_FORZA_DEADBAND);
+        m_forzaDeadband = Drivetrain.getTab().getDouble("Forza Deadband", DEFAULT_FORZA_DEADBAND);
         m_forzaDeadband = MathUtil.clamp(m_forzaDeadband, 0.0d, 1.0d);
 
-        m_velocityLimitPercentage = SmartDashboard.getNumber("Max Velocity Percentage",
+        m_velocityLimitPercentage = Drivetrain.getTab().getDouble("Max Velocity Percentage",
                 DEFAULT_MAX_VELOCITY_PERCENTAGE);
         m_velocityLimitPercentage = MathUtil.clamp(m_velocityLimitPercentage, 0.0d, 1.0d);
-        SmartDashboard.putNumber("Max Velocity Percentage", m_velocityLimitPercentage);
+        Drivetrain.getTab().setDouble("Max Velocity Percentage", m_velocityLimitPercentage);
 
-        m_turningLimitPercentage = SmartDashboard.getNumber("Max Turning Percentage", DEFAULT_MAX_TURNING_SPEED);
+        m_turningLimitPercentage = Drivetrain.getTab().getDouble("Max Turning Percentage", DEFAULT_MAX_TURNING_SPEED);
         m_turningLimitPercentage = MathUtil.clamp(m_turningLimitPercentage, 0.0d, 1.0d);
-        SmartDashboard.putNumber("Max Turning Percentage", m_turningLimitPercentage);
+        Drivetrain.getTab().setDouble("Max Turning Percentage", m_turningLimitPercentage);
 
         // Get turning. Note that the controls are inverted!
         turning = m_xboxcontroller.getLeftX();
 
         // Checks if joystick value is higher or lower than deadband value
         turning = SPIKE293Utils.applyDeadband(turning, m_arcadeDeadband);
-        
+
         // Get trigger values
         triggerRight = m_xboxcontroller.getRightTriggerAxis();
         triggerRight = SPIKE293Utils.applyDeadband(triggerRight, m_forzaDeadband);
@@ -96,7 +95,6 @@ public class ForzaDrive extends CommandBase {
             // Going in reverse! Right trigger was zero, set speed to left trigger
             speed = -triggerLeft;
         }
-        
 
         // Clamp input to verify they are valid and greater than the deadband
         turning = MathUtil.clamp(turning, -1.0d, 1.0d);

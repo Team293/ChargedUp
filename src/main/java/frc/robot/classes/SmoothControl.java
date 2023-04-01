@@ -58,8 +58,12 @@ public class SmoothControl {
 
   // Equation 14, Calculates the required turn rate
   private double k(double range, double theta, double delta) {
-    return (-(1 / range) * (K2 * (delta - Math.atan(-K1 * theta)) +
-        Math.sin(delta) * (1.0 + (K1 / (1.0 + Math.pow((K1 * theta), 2))))));
+    double retval = 0.0d;
+    if(0.0d == range) {
+      retval = (-(1 / range) * (K2 * (delta - Math.atan(-K1 * theta)) +
+      Math.sin(delta) * (1.0 + (K1 / (1.0 + Math.pow((K1 * theta), 2))))));
+    }
+    return (retval);
   }
 
   // Equation 15, Calculates how close we are to maximum velocity based off of

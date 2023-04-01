@@ -6,6 +6,7 @@ package frc.robot;
 import frc.robot.commands.MoveClaw;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
+import frc.robot.classes.SpikeBoard;
 import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
@@ -45,6 +46,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // Robots Subsystems
   private static RobotContainer m_robotContainer = new RobotContainer();
+  private static SpikeBoard m_autoTab;
   public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0, 0.0, 0.0));
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
@@ -55,8 +57,8 @@ public class RobotContainer {
   public final XboxController m_driverXboxController = new XboxController(0);
   public final XboxController m_operatorXboxController = new XboxController(1);
 
-  public final SendableChooser<Command> m_driveChooser = new SendableChooser<Command>();
-  public final SendableChooser<SequentialAutoCommand.StartPositions> m_autoChooser = new SendableChooser<>();
+  public final SendableChooser<Command> m_driveChooser = new SendableChooser<>();
+  public final SendableChooser<StartPositions> m_autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -73,6 +75,13 @@ public class RobotContainer {
 
   public static RobotContainer getInstance() {
     return m_robotContainer;
+  }
+
+  public static SpikeBoard getAutoTab() {
+    if (m_autoTab == null) {
+      m_autoTab = new SpikeBoard("Auto");
+    }
+    return m_autoTab;
   }
 
   /**
@@ -156,6 +165,13 @@ public class RobotContainer {
     m_autoChooser.addOption("Right Side Score", SequentialAutoCommand.StartPositions.RIGHT_SIDE_SCORE);
     m_autoChooser.addOption("Score Don't Move", StartPositions.SCORE_DONT_MOVE);
     SmartDashboard.putData(m_autoChooser);
+    RobotContainer.getAutoTab().getTab().add(m_autoChooser).withPosition(0, 0);
+    RobotContainer.getAutoTab().setDouble("first speed", -0.23);
+    RobotContainer.getAutoTab().setDouble("first distance", 6.0);
+    RobotContainer.getAutoTab().setDouble("second speed", -0.085);
+    RobotContainer.getAutoTab().setDouble("second distance", 5);
+    RobotContainer.getAutoTab().setDouble("third speed", 0.25);
+    RobotContainer.getAutoTab().setDouble("third distance", -2.25);
   }
 
   private Command getDriveCommand() {

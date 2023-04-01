@@ -76,22 +76,13 @@ public class Robot extends LoggedRobot {
             new PowerDistribution(LOGGER_MODULE, LOGGER_MODULE_TYPE); // Enables power distribution logging
         } else {
             setUseTiming(LOGGER_USE_TIMING); // Run as fast as possible
-            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the
-                                                          // user)
+            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
             Logger.getInstance().setReplaySource(new WPILOGReader(logPath)); // Read replay log
-            Logger.getInstance().addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, LOGGER_SUFFIX))); // Save
-                                                                                                                       // outputs
-                                                                                                                       // to
-                                                                                                                       // a
-                                                                                                                       // new
-                                                                                                                       // log
+            Logger.getInstance().addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, LOGGER_SUFFIX))); // Save outputs to a new log
         }
 
-        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may
-                                      // be added.
-        // Instantiate our RobotContainer. This will perform all our button bindings,
-        // and put our
-        // autonomous chooser on the dashboard.
+        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+        // Instantiate our RobotContainer. This will perform all our button bindings, and put our autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
         PortForwarder.add(5800, "limelight.local", 5800);

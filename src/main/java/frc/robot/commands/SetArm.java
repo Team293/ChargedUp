@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
@@ -14,9 +13,10 @@ public class SetArm extends CommandBase {
     /**
      * Creates a new SetArm. This command will move the arm to the given position.
      * Really only used during autonomous.
+     * 
      * @param givenArm The arm subsystem
-     * @param theta The angle to set the arm to
-     * @param rInches The distance from the center of the robot to the arm
+     * @param theta    The angle to set the arm to
+     * @param rInches  The distance from the center of the robot to the arm
      */
     public SetArm(Arm givenArm, double theta, double rInches) {
         m_arm = givenArm;
@@ -27,7 +27,6 @@ public class SetArm extends CommandBase {
         // // and calculate approximately how long it will take to get there
         // double deltaTheta = Math.abs(m_theta - m_arm.getTheta()) / 180.0d;
         // double deltaR = Math.abs(m_rInches - m_arm.getRInches()) / 24.0d;
-
 
         addRequirements(m_arm);
     }
@@ -50,20 +49,21 @@ public class SetArm extends CommandBase {
 
     /**
      * Returns true when the arm is at the given position
+     * 
      * @return true when the arm is at the given position
      */
     @Override
     public boolean isFinished() {
-        double currentPos = m_arm.getCurrentEncoderUnits();
-        double currentExtension = m_arm.getCurrentEncoderExtension();
-        boolean movingArm = (currentPos < m_arm.getCommandedEncoderPosition() + ENCODER_THRESHOLD) && 
-        (currentPos > m_arm.getCommandedEncoderPosition() - ENCODER_THRESHOLD);
-        boolean extendingArm = (currentExtension < m_arm.getCommandedExtentionPosition() + ENCODER_THRESHOLD) && 
-        (currentExtension > m_arm.getCommandedExtentionPosition() - ENCODER_THRESHOLD);
-        SmartDashboard.putNumber("Current Arm Encoder Pos", currentPos);
-        SmartDashboard.putNumber("Arm Target Pos", m_arm.getCommandedEncoderPosition());
-        SmartDashboard.putBoolean("Moving Arm", !movingArm);
-        SmartDashboard.putBoolean("Extending Arm", !extendingArm);
+        double currentPos = m_arm.getPivotEncoderUnits();
+        double currentExtension = m_arm.getExtenderEncoderUnits();
+        boolean movingArm = (currentPos < m_arm.getCommandedPivotEncoderPosition() + ENCODER_THRESHOLD) &&
+                (currentPos > m_arm.getCommandedPivotEncoderPosition() - ENCODER_THRESHOLD);
+        boolean extendingArm = (currentExtension < m_arm.getCommandedExtenderEncoderPosition() + ENCODER_THRESHOLD) &&
+                (currentExtension > m_arm.getCommandedExtenderEncoderPosition() - ENCODER_THRESHOLD);
+        Arm.getTab().setDouble("Current Arm Encoder Pos", currentPos);
+        Arm.getTab().setDouble("Arm Target Pos", m_arm.getCommandedPivotEncoderPosition());
+        Arm.getTab().setBoolean("Moving Arm", !movingArm);
+        Arm.getTab().setBoolean("Extending Arm", !extendingArm);
         return movingArm && extendingArm;
     }
 }

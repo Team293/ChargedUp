@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 // import edu.wpi.first.hal.simulation.SpiReadAutoReceiveBufferCallback;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Arm;
@@ -28,7 +27,7 @@ public class AdjustArm extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        SmartDashboard.putNumber("Arm Deadband", m_adjustArmDeadband);
+        Arm.getTab().setDouble("Arm Deadband", m_adjustArmDeadband);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -37,15 +36,15 @@ public class AdjustArm extends CommandBase {
         // Grabs joystick values
         double anglePercent = m_operatorXboxController.getLeftY();
         double extendPercent = m_operatorXboxController.getRightY();
-        
+
         // Grabs Deadband value from SmartDashboard
-        m_adjustArmDeadband = SmartDashboard.getNumber("Arm Deadband", m_adjustArmDeadband);
+        m_adjustArmDeadband = Arm.getTab().getDouble("Arm Deadband", m_adjustArmDeadband);
 
         // Grabs angle and extend from SPIKE293Utils
         anglePercent = SPIKE293Utils.applyDeadband(anglePercent, m_adjustArmDeadband);
         extendPercent = SPIKE293Utils.applyDeadband(extendPercent, m_adjustArmDeadband);
 
-        //Fix the sticks being inverted
+        // Fix the sticks being inverted
         anglePercent *= -1.0d;
         extendPercent *= -1.0d;
 

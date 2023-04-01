@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.classes.SpikeBoard;
 
 public class Arm extends SubsystemBase {
     /* Constants */
@@ -78,6 +79,7 @@ public class Arm extends SubsystemBase {
     /* Members */
     private WPI_TalonFX pivotTalonFX;
     private WPI_TalonFX extenderTalonFX;
+    private static SpikeBoard armTab;
     private double theta = MIN_ANGLE_RADIANS;
     private double rInches = MIN_INCHES;
     private boolean isPivotCalibrated = false;
@@ -137,15 +139,22 @@ public class Arm extends SubsystemBase {
         isExtenderCalibrated = false;
     }
 
+    public static SpikeBoard getTab() {
+        if (armTab == null) {
+            armTab = new SpikeBoard("Arm");
+        }
+        return armTab;
+    }
+
     @Override
     public void periodic() {
         /* Update smart dashboard */
-        SmartDashboard.putNumber("theta", theta);
-        SmartDashboard.putNumber("R(inches)", rInches);
-        SmartDashboard.putNumber("pivotMotor encoder", pivotTalonFX.getSelectedSensorPosition());
-        SmartDashboard.putNumber("extender motor position", extenderTalonFX.getSelectedSensorPosition());
-        SmartDashboard.putBoolean("Pivot Rev Limit", (1 == pivotTalonFX.isRevLimitSwitchClosed()));
-        SmartDashboard.putBoolean("Extender Rev Limit", (1 == extenderTalonFX.isRevLimitSwitchClosed()));
+        Arm.getTab().setDouble("theta", theta);
+        Arm.getTab().setDouble("R(inches)", rInches);
+        Arm.getTab().setDouble("pivotMotor encoder", pivotTalonFX.getSelectedSensorPosition());
+        Arm.getTab().setDouble("extender motor position", extenderTalonFX.getSelectedSensorPosition());
+        Arm.getTab().setBoolean("Pivot Rev Limit", (1 == pivotTalonFX.isRevLimitSwitchClosed()));
+        Arm.getTab().setBoolean("Extender Rev Limit", (1 == extenderTalonFX.isRevLimitSwitchClosed()));
 
         // Check both extender and pivot calibrations
         checkExtenderCalibration();
@@ -199,12 +208,12 @@ public class Arm extends SubsystemBase {
      * 
      * @return
      */
-    public double getCurrentEncoderUnits() {
+    public double getPivotEncoderUnits() {
         double encoderUnits = pivotTalonFX.getSelectedSensorPosition();
         return encoderUnits;
     }
 
-    public double getCurrentEncoderExtension() {
+    public double getExtenderEncoderUnits() {
         double encoderUnits = extenderTalonFX.getSelectedSensorPosition();
         return encoderUnits;
     }
@@ -240,11 +249,11 @@ public class Arm extends SubsystemBase {
      * 
      * @returns double
      */
-    public double getCommandedEncoderPosition() {
+    public double getCommandedPivotEncoderPosition() {
         return m_pivotCommandedEncoderUnits;
     }
 
-    public double getCommandedExtentionPosition() {
+    public double getCommandedExtenderEncoderPosition() {
         return m_extensionCommandedEncoderUnits;
     }
 
