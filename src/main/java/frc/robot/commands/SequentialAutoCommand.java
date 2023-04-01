@@ -35,7 +35,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		m_kinematics = kinematics;
 		m_startPosition = startPosition;
 
-		RobotContainer.getAutoTab().setBoolean("AutoDone", false);
+		RobotContainer.getAutoBoard().setBoolean("AutoDone", false);
 
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot
 			case SCORE_DONT_MOVE:
@@ -96,7 +96,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		}
 
 		// Alert smart dashboard that autonomous is done
-		RobotContainer.getAutoTab().setBoolean("AutoDone", true);
+		RobotContainer.getAutoBoard().setBoolean("AutoDone", true);
 	}
 
 	// Score a piece in the high node
@@ -131,26 +131,26 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 
 	// FACE CHARGE STATION
 	private void chargeStationCenter() {
-		double firstSpeed = RobotContainer.getAutoTab().getDouble("first speed", 0);
+		double firstSpeed = RobotContainer.getAutoBoard().getDouble("first speed", 0);
 		firstSpeed = MathUtil.clamp(firstSpeed, -.4, 0);
-		RobotContainer.getAutoTab().setDouble("first speed", firstSpeed);
-		double firstDistance = RobotContainer.getAutoTab().getDouble("first distance", 0);
+		RobotContainer.getAutoBoard().setDouble("first speed", firstSpeed);
+		double firstDistance = RobotContainer.getAutoBoard().getDouble("first distance", 0);
 		firstDistance = MathUtil.clamp(firstDistance, 0, 10);
-		RobotContainer.getAutoTab().setDouble("first distance", firstDistance);
+		RobotContainer.getAutoBoard().setDouble("first distance", firstDistance);
 
-		double secondSpeed = RobotContainer.getAutoTab().getDouble("second speed", 0);
+		double secondSpeed = RobotContainer.getAutoBoard().getDouble("second speed", 0);
 		secondSpeed = MathUtil.clamp(secondSpeed, -.4, 0);
-		RobotContainer.getAutoTab().setDouble("second speed", secondSpeed);
-		double secondDistance = RobotContainer.getAutoTab().getDouble("second distance", 0);
+		RobotContainer.getAutoBoard().setDouble("second speed", secondSpeed);
+		double secondDistance = RobotContainer.getAutoBoard().getDouble("second distance", 0);
 		secondDistance = MathUtil.clamp(secondDistance, 0, 10);
-		RobotContainer.getAutoTab().setDouble("second distance", secondDistance);
+		RobotContainer.getAutoBoard().setDouble("second distance", secondDistance);
 
-		double thirdSpeed = RobotContainer.getAutoTab().getDouble("third speed", 0);
+		double thirdSpeed = RobotContainer.getAutoBoard().getDouble("third speed", 0);
 		thirdSpeed = MathUtil.clamp(thirdSpeed, 0, 0.4);
-		RobotContainer.getAutoTab().setDouble("third speed", thirdSpeed);
-		double thirdDistance = RobotContainer.getAutoTab().getDouble("third distance", 0);
+		RobotContainer.getAutoBoard().setDouble("third speed", thirdSpeed);
+		double thirdDistance = RobotContainer.getAutoBoard().getDouble("third distance", 0);
 		thirdDistance = MathUtil.clamp(thirdDistance, -10, 10);
-		RobotContainer.getAutoTab().setDouble("third distance", thirdDistance);
+		RobotContainer.getAutoBoard().setDouble("third distance", thirdDistance);
 
 		addCommands(
 				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,

@@ -47,7 +47,7 @@ public class SmoothControl {
     del_r = limitRadians(del_r); // bound this between -PI to PI
 
     // Calculate k (equation 14)
-    double k = k(range, thetaT, del_r);
+    double k = calculateK(range, thetaT, del_r);
 
       // All set, now the equation for the angular rate!
       omegaDesired = vGivenK(k, maxVelocity) * k;
@@ -57,9 +57,9 @@ public class SmoothControl {
   }
 
   // Equation 14, Calculates the required turn rate
-  private double k(double range, double theta, double delta) {
+  private double calculateK(double range, double theta, double delta) {
     double retval = 0.0d;
-    if(0.0d == range) {
+    if(0.0d != range) {
       retval = (-(1 / range) * (K2 * (delta - Math.atan(-K1 * theta)) +
       Math.sin(delta) * (1.0 + (K1 / (1.0 + Math.pow((K1 * theta), 2))))));
     }

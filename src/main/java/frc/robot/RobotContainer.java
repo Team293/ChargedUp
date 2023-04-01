@@ -11,7 +11,6 @@ import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
-import frc.robot.commands.AutoBalance;
 import frc.robot.commands.BumpDrive;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.SequentialAutoCommand;
@@ -46,7 +45,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // Robots Subsystems
   private static RobotContainer m_robotContainer = new RobotContainer();
-  private static SpikeBoard m_autoTab;
+  private static SpikeBoard m_autoBoard;
   public final Kinematics m_kinematics = new Kinematics(new Position2D(0.0, 0.0, 0.0));
   public final Targeting m_targeting = new Targeting();
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
@@ -77,11 +76,11 @@ public class RobotContainer {
     return m_robotContainer;
   }
 
-  public static SpikeBoard getAutoTab() {
-    if (m_autoTab == null) {
-      m_autoTab = new SpikeBoard("Auto");
+  public static SpikeBoard getAutoBoard() {
+    if (m_autoBoard == null) {
+      m_autoBoard = new SpikeBoard("Auto");
     }
-    return m_autoTab;
+    return m_autoBoard;
   }
 
   /**
@@ -165,13 +164,13 @@ public class RobotContainer {
     m_autoChooser.addOption("Right Side Score", SequentialAutoCommand.StartPositions.RIGHT_SIDE_SCORE);
     m_autoChooser.addOption("Score Don't Move", StartPositions.SCORE_DONT_MOVE);
     SmartDashboard.putData(m_autoChooser);
-    RobotContainer.getAutoTab().getTab().add(m_autoChooser).withPosition(0, 0);
-    RobotContainer.getAutoTab().setDouble("first speed", -0.23);
-    RobotContainer.getAutoTab().setDouble("first distance", 6.0);
-    RobotContainer.getAutoTab().setDouble("second speed", -0.085);
-    RobotContainer.getAutoTab().setDouble("second distance", 5);
-    RobotContainer.getAutoTab().setDouble("third speed", 0.25);
-    RobotContainer.getAutoTab().setDouble("third distance", -2.25);
+    RobotContainer.getAutoBoard().getTab().add(m_autoChooser).withPosition(0, 0);
+    RobotContainer.getAutoBoard().setDouble("first speed", -0.23);
+    RobotContainer.getAutoBoard().setDouble("first distance", 6.0);
+    RobotContainer.getAutoBoard().setDouble("second speed", -0.085);
+    RobotContainer.getAutoBoard().setDouble("second distance", 5);
+    RobotContainer.getAutoBoard().setDouble("third speed", 0.25);
+    RobotContainer.getAutoBoard().setDouble("third distance", -2.25);
   }
 
   private Command getDriveCommand() {
