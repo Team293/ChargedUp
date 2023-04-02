@@ -18,7 +18,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
         LEFT_SIDE_SCORE,
         CENTER_ENGAGE,
         RIGHT_SIDE_SCORE,
-		SCORE_DONT_MOVE
+		SCORE_DONT_MOVE,
+		SCORE_AND_ENGAGE
 	}
 
 	private StartPositions m_startPosition;
@@ -43,6 +44,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				resetKinematics();
 				score();
 				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-0.5, 0, Math.toRadians(0)), -1.5d, m_kinematics, m_drivetrain),
 					// Lower arm
 					new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES)
 				);
@@ -53,6 +56,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				resetKinematics();
 				score();
 				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-0.5, -0.5, Math.toRadians(30)), -1.5d, m_kinematics, m_drivetrain),
 					// Drive backwards and lower arm
 					new ParallelCommandGroup(
 						new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
@@ -67,11 +72,29 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				chargeStationCenter();
 				break;
 
+			case SCORE_AND_ENGAGE:
+				// FACE SCORING GRID
+				resetKinematics();
+				score();
+				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-0.5, 0, Math.toRadians(0)), -2.0d, m_kinematics, m_drivetrain),
+					// Lower arm
+					new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
+					// Drive backwards (~3 feet)
+					new DriveTo(new Position2D(-6, 0, Math.toRadians(0)), -3.5d, m_kinematics, m_drivetrain),
+					// Autobalance
+					new AutoBalance(m_drivetrain)
+				);
+				break;
+
 			case RIGHT_SIDE_SCORE:
 				// FACE SCORING GRID
 				resetKinematics();
 				score();
 				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-0.5, 0.5, Math.toRadians(-30)), -1.5d, m_kinematics, m_drivetrain),
 					// Drive backwards and lower arm
 					new ParallelCommandGroup(
 						new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
@@ -116,9 +139,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 			new SetClawForTime(m_claw, 1.0d, 10.0d),
 			new Wait(0.5d),
 			// Retract arm
-			new SetArm(m_arm, MoveArm.HIGH_ANGLE, Arm.STOW_R_INCHES),
-			// Drive backwards
-			new DriveTo(new Position2D(-0.5, 0, Math.toRadians(0)), -1.5d, m_kinematics, m_drivetrain)
+			new SetArm(m_arm, MoveArm.HIGH_ANGLE, Arm.STOW_R_INCHES)
 		);
 	}
 
@@ -153,21 +174,22 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 		RobotContainer.getAutoBoard().setDouble("third distance", thirdDistance);
 
 		addCommands(
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
-						m_kinematics),
-				new DriveBackwards(m_drivetrain, m_kinematics, firstSpeed, firstDistance),
-				// new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
-				// m_kinematics),
-				// new DriveBackwards(m_drivetrain, m_kinematics, -.15, 2),
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
-						m_kinematics),
-				new DriveBackwards(m_drivetrain, m_kinematics, secondSpeed, secondDistance),
-				// new Wait(1),
-				// Reset kinematics to the blue left position
-				new DriveToBalance(m_drivetrain),
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
-						m_kinematics),
-				new DriveBackwards(m_drivetrain, m_kinematics, thirdSpeed, thirdDistance),
-				new AutoBalance(m_drivetrain));
+			new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+					m_kinematics),
+			new DriveBackwards(m_drivetrain, m_kinematics, firstSpeed, firstDistance),
+			// new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+			// m_kinematics),
+			// new DriveBackwards(m_drivetrain, m_kinematics, -.15, 2),
+			new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+					m_kinematics),
+			new DriveBackwards(m_drivetrain, m_kinematics, secondSpeed, secondDistance),
+			// new Wait(1),
+			// Reset kinematics to the blue left position
+			new DriveToBalance(m_drivetrain),
+			new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+					m_kinematics),
+			new DriveBackwards(m_drivetrain, m_kinematics, thirdSpeed, thirdDistance),
+			new AutoBalance(m_drivetrain)
+		);
 	}
 }
