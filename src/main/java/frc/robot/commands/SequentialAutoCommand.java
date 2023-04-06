@@ -133,11 +133,11 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 			new Wait(1.0d),
 			// Extend arm
 			new SetArm(m_arm,  MoveArm.HIGH_ANGLE, MoveArm.HIGH_R_INCHES),
-			// Drive forward (~1 foot)
+			
 			new DriveTo(new Position2D(2, 0, Math.toRadians(0)),2.0d, m_kinematics, m_drivetrain),
 			// Open claw
 			new SetClawForTime(m_claw, 1.0d, 10.0d),
-			new Wait(0.5d),
+			new Wait(1.5d),
 			// Retract arm
 			new SetArm(m_arm, MoveArm.HIGH_ANGLE, Arm.STOW_R_INCHES)
 		);
