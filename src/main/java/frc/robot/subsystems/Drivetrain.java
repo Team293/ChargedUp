@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.classes.SPIKE293Utils;
+import frc.robot.classes.SpikeBoard;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -42,10 +44,11 @@ public class Drivetrain extends SubsystemBase {
     private WPI_TalonFX rightTalonFollower;
     private AHRS navX;
     private Kinematics m_kinematics;
+    private static SpikeBoard driveTab;
 
     private double m_velocitySetPointLeft = 0.0d;
     private double m_velocitySetPointRight = 0.0d;
-    private double m_velocityLimitDelta = 600.0d;
+    private double m_velocityLimitDelta = 700.0d;
 
     public static final double VELOCITY_KF = 0.046d;
     public static final double VELOCITY_KP = 0.03d;
@@ -66,7 +69,7 @@ public class Drivetrain extends SubsystemBase {
     public static final double MOTOR_NEUTRAL_DEADBAND = 0.001d;
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
     public static final int PID_CONFIG_TIMEOUT_MS = 10;
-    public static final int MAX_VELOCITY = 20580;
+    public static final int MAX_VELOCITY = 23000;
     public static final double VELOCITY_LOWER_LIMIT = MAX_VELOCITY * 0.01;
 
     public static final boolean USE_NAVX_HEADING = false;
@@ -154,6 +157,13 @@ public class Drivetrain extends SubsystemBase {
         leftTalonFollower.setNeutralMode(nm);
     }
 
+    public static SpikeBoard getTab() {
+        if (driveTab == null) {
+            driveTab = new SpikeBoard("Drivetrain");
+        }
+        return driveTab;
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
@@ -176,13 +186,11 @@ public class Drivetrain extends SubsystemBase {
                 Rotation2d.fromDegrees(currentPose.getHeadingDegrees()));
         Logger.getInstance().recordOutput("odometry", currentPose2d);
 
-        // Push robot info to Dashboard
-        SmartDashboard.putNumber("Kinematics X (Feet)", currentPose.getX());
-        SmartDashboard.putNumber("Kinematics Y (Feet)", currentPose.getY());
-        SmartDashboard.putNumber("Kinematics Heading (degrees)", currentPose.getHeadingDegrees());
-
         Hashtable<String, Double> doubleVals = new Hashtable<String, Double>() {
             {
+                put("Kinematics X (Feet)", currentPose.getX());
+                put("Kinematics Y (Feet)", currentPose.getY());
+                put("Kinematics Heading (degrees)", currentPose.getHeadingDegrees());
                 put("Left Encoder Velocity (Ft per S)", getLeftEncoderVelocity());
                 put("Left Encoder Position (Ft)", getLeftEncoderPosition());
                 put("Right Encoder Veloctiy (Ft per S)", getRightEncoderVelocity());
@@ -195,6 +203,7 @@ public class Drivetrain extends SubsystemBase {
                 put("NavX Y Accel", (double) navX.getWorldLinearAccelY());
                 put("NavX Z Accel", (double) navX.getWorldLinearAccelZ());
                 put("NavX Yaw", getGyroYawDegrees());
+                put("NavX Pitch", getGyroPitchDegrees());
                 put("NavX Angle", getGyroHeadingDegrees());
                 put("NavX Fused Heading", getGyroFusedHeadingDegrees());
                 put("NavX TurnRate dg per s", navX.getRate());
@@ -207,6 +216,7 @@ public class Drivetrain extends SubsystemBase {
         for (String key : Collections.list(doubleValsKeys)) {
             double val = doubleVals.get(key);
             SmartDashboard.putNumber(key, val);
+            Drivetrain.getTab().setDouble(key, val);
         }
     }
 
@@ -267,7 +277,7 @@ public class Drivetrain extends SubsystemBase {
 
         SmartDashboard.putNumber("Set Velocity Left (Encoder units/100ms)", m_velocitySetPointRight);
         SmartDashboard.putNumber("Set Velocity Right (Encoder units/100ms)", m_velocitySetPointRight);
-        
+
         leftTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         rightTalonLead.selectProfileSlot(VELOCITY_PID_SLOT_ID, 0);
         leftTalonLead.set(TalonFXControlMode.Velocity, m_velocitySetPointLeft);

@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.classes.Kinematics;
 import frc.robot.classes.Position2D;
 import frc.robot.subsystems.Arm;
@@ -9,108 +11,187 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Targeting;
 
-import static frc.robot.Constants.AutonomousCommandConstants.*;
-
 public class SequentialAutoCommand extends SequentialCommandGroup {
-    private StartPositions m_startPosition;
-    private Drivetrain m_drivetrain;
-    private Kinematics m_kinematics;
-    private AutoTarget m_autoBall;
-    private Targeting m_targeting;
-    private double m_atOffset = 2.5;
-    private double m_scoringX = 23.762 - m_atOffset;
-    private double m_colWidth = 1.8333;
-    private Position2D m_Tag1 = new Position2D(m_scoringX, -9.63, 0);
-    private Position2D m_Tag2 = new Position2D(m_scoringX, -4.13, 0);
-    private Position2D m_Tag3 = new Position2D(m_scoringX, 1.37, 0);
-    // private Arm m_arm;
-    // private Claw m_claw;
+    public static enum StartPositions {
+        DONT_MOVE,
+        DRIVE_BACKWARD,
+        LEFT_SIDE_SCORE,
+        CENTER_ENGAGE,
+        RIGHT_SIDE_SCORE,
+		SCORE_DONT_MOVE,
+		SCORE_AND_ENGAGE
+	}
 
-    private Position2D[] m_scoringColumns = {
-            new Position2D(m_scoringX, -9.63 - m_colWidth, 0), // column 1
-            new Position2D(m_scoringX, -9.63, 0), // column 2, centered with apriltag 1
-            new Position2D(m_scoringX, -9.63 + m_colWidth, 0), // column 3
-            new Position2D(m_scoringX, -4.13 - m_colWidth, 0), // column 4
-            new Position2D(m_scoringX, -4.13, 0), // column 5, centered with apriltag 2
-            new Position2D(m_scoringX, -4.13 + m_colWidth, 0), // column 6
-            new Position2D(m_scoringX, 1.37 - m_colWidth, 0), // column 7
-            new Position2D(m_scoringX, 1.37, 0), // column 8, centered with apriltag 3
-            new Position2D(m_scoringX, 1.37 + m_colWidth, 0) // column 9
-    };
+	private StartPositions m_startPosition;
+	private Drivetrain m_drivetrain;
+	private Kinematics m_kinematics;
+	private Arm m_arm;
+	private Claw m_claw;
+	private Targeting m_targeting;
 
 	public SequentialAutoCommand(Drivetrain drivetrain, Arm arm, Claw claw, Kinematics kinematics, Targeting targeting,
 			StartPositions startPosition) {
 		m_drivetrain = drivetrain;
-		// m_arm = arm;
-		// m_claw = claw;
+		m_arm = arm;
+		m_claw = claw;
 		m_kinematics = kinematics;
 		m_startPosition = startPosition;
         m_targeting = targeting;
 
-		SmartDashboard.putBoolean("AutoDone", false);
+		RobotContainer.getAutoBoard().setBoolean("AutoDone", false);
 
-		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot Left,
-									// Middle, Right
-			case BLUE_LEFT:
-				bottom();
+		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot
+			case SCORE_DONT_MOVE:
+				// FACE SCORING GRID
+				resetKinematics();
+				score();
+				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-0.5, 0, Math.toRadians(0)), -1.5d, m_kinematics, m_drivetrain),
+					// Lower arm
+					new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES)
+				);
 				break;
 
-			case BLUE_MIDDLE:
-				middle();
+			case LEFT_SIDE_SCORE:
+				// FACE SCORING GRID
+				resetKinematics();
+				score();
+				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-0.5, -0.5, Math.toRadians(30)), -1.5d, m_kinematics, m_drivetrain),
+					// Drive backwards and lower arm
+					new ParallelCommandGroup(
+						new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
+						new DriveTo(new Position2D(-10, -2, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
+					)
+				);
 				break;
 
-			case BLUE_RIGHT:
-				top();
+			case CENTER_ENGAGE:
+				// FACE SCORING GRID
+				resetKinematics();
+				chargeStationCenter();
 				break;
 
-			case RED_LEFT:
-				top();
+			case SCORE_AND_ENGAGE:
+				// FACE SCORING GRID
+				resetKinematics();
+				score();
+				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-0.5, 0, Math.toRadians(0)), -2.0d, m_kinematics, m_drivetrain),
+					// Lower arm
+					new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
+					// Drive backwards (~3 feet)
+					new DriveTo(new Position2D(-6, 0, Math.toRadians(0)), -3.5d, m_kinematics, m_drivetrain),
+					// Autobalance
+					new AutoBalance(m_drivetrain)
+				);
 				break;
 
-			case RED_MIDDLE:
-				middle();
+			case RIGHT_SIDE_SCORE:
+				// FACE SCORING GRID
+				resetKinematics();
+				score();
+				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-0.5, 0.5, Math.toRadians(-30)), -1.5d, m_kinematics, m_drivetrain),
+					// Drive backwards and lower arm
+					new ParallelCommandGroup(
+						new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
+						new DriveTo(new Position2D(-10, 2, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
+					)
+				);
 				break;
 
-			case RED_RIGHT:
-				bottom();
+			case DRIVE_BACKWARD:
+				// FACE SCORING GRID
+				resetKinematics();
+				addCommands(
+					// Drive backwards
+					new DriveTo(new Position2D(-10, 0, Math.toRadians(0)), -5.0d, m_kinematics, m_drivetrain)
+				);
 				break;
 
 			default:
+				resetKinematics();
 				System.out.println("ERROR: Invalid autonomous starting position! [" + m_startPosition + "]");
 				break;
 		}
 
 		// Alert smart dashboard that autonomous is done
-		SmartDashboard.putBoolean("AutoDone", true);
+		RobotContainer.getAutoBoard().setBoolean("AutoDone", true);
 	}
 
-	private void top() {
-		//Face Field
+	// Score a piece in the high node
+	public void score() {
 		addCommands(
-				// Reset kinematics to the blue left position
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
-				// driving
-				new DriveTo(new Position2D(6, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain));
-
+			new SetClawForTime(m_claw, 1.0d, 1.0d),
+			// Close claw
+			new SetClaw(m_claw, -1.0d, 10.0d),
+			// Raise arm
+			new SetArm(m_arm, MoveArm.HIGH_ANGLE, Arm.STOW_R_INCHES),
+			new Wait(1.0d),
+			// Extend arm
+			new SetArm(m_arm,  MoveArm.HIGH_ANGLE, MoveArm.HIGH_R_INCHES),
+			// Drive forward (~1 foot)
+			new DriveTo(new Position2D(2, 0, Math.toRadians(0)),2.0d, m_kinematics, m_drivetrain),
+			// Open claw
+			new SetClawForTime(m_claw, 1.0d, 10.0d),
+			new Wait(0.5d),
+			// Retract arm
+			new SetArm(m_arm, MoveArm.HIGH_ANGLE, Arm.STOW_R_INCHES)
+		);
 	}
 
-    // FACE CHARGE STATION
-	private void middle() {
+	private void resetKinematics() {
 		addCommands(
-				// Reset kinematics to the blue left position
-				new DriveToBalance(m_drivetrain),
-				new AutoBalance(m_drivetrain)
-            );
+			// Reset kinematics to the blue left position
+			new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics)
+		);
 	}
 
-    // FACE FIELD
-	private void bottom() {
+	// FACE CHARGE STATION
+	private void chargeStationCenter() {
+		double firstSpeed = RobotContainer.getAutoBoard().getDouble("first speed", 0);
+		firstSpeed = MathUtil.clamp(firstSpeed, -.4, 0);
+		RobotContainer.getAutoBoard().setDouble("first speed", firstSpeed);
+		double firstDistance = RobotContainer.getAutoBoard().getDouble("first distance", 0);
+		firstDistance = MathUtil.clamp(firstDistance, 0, 10);
+		RobotContainer.getAutoBoard().setDouble("first distance", firstDistance);
+
+		double secondSpeed = RobotContainer.getAutoBoard().getDouble("second speed", 0);
+		secondSpeed = MathUtil.clamp(secondSpeed, -.4, 0);
+		RobotContainer.getAutoBoard().setDouble("second speed", secondSpeed);
+		double secondDistance = RobotContainer.getAutoBoard().getDouble("second distance", 0);
+		secondDistance = MathUtil.clamp(secondDistance, 0, 10);
+		RobotContainer.getAutoBoard().setDouble("second distance", secondDistance);
+
+		double thirdSpeed = RobotContainer.getAutoBoard().getDouble("third speed", 0);
+		thirdSpeed = MathUtil.clamp(thirdSpeed, 0, 0.4);
+		RobotContainer.getAutoBoard().setDouble("third speed", thirdSpeed);
+		double thirdDistance = RobotContainer.getAutoBoard().getDouble("third distance", 0);
+		thirdDistance = MathUtil.clamp(thirdDistance, -10, 10);
+		RobotContainer.getAutoBoard().setDouble("third distance", thirdDistance);
+
 		addCommands(
-				// Reset kinematics to the blue left position
-				new ResetKinematics(new Position2D(0, 0, Math.toRadians(0)), m_drivetrain, m_kinematics),
-
-				// Drive backwards for taxi auto points
-				new DriveTo(new Position2D(7, 0, Math.toRadians(0)), 2.0d, false, m_kinematics, m_drivetrain));
+			new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+					m_kinematics),
+			new DriveBackwards(m_drivetrain, m_kinematics, firstSpeed, firstDistance),
+			// new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+			// m_kinematics),
+			// new DriveBackwards(m_drivetrain, m_kinematics, -.15, 2),
+			new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+					m_kinematics),
+			new DriveBackwards(m_drivetrain, m_kinematics, secondSpeed, secondDistance),
+			// new Wait(1),
+			// Reset kinematics to the blue left position
+			new DriveToBalance(m_drivetrain),
+			new ResetKinematics(new Position2D(0, 0, Math.toRadians(180)), m_drivetrain,
+					m_kinematics),
+			new DriveBackwards(m_drivetrain, m_kinematics, thirdSpeed, thirdDistance),
+			new AutoBalance(m_drivetrain)
+		);
 	}
-
 }
