@@ -48,7 +48,7 @@ public class Drivetrain extends SubsystemBase {
 
     private double m_velocitySetPointLeft = 0.0d;
     private double m_velocitySetPointRight = 0.0d;
-    private double m_velocityLimitDelta = 600.0d;
+    private double m_velocityLimitDelta = 700.0d;
 
     public static final double VELOCITY_KF = 0.046d;
     public static final double VELOCITY_KP = 0.03d;
@@ -68,7 +68,7 @@ public class Drivetrain extends SubsystemBase {
     public static final int POSITION_PID_SLOT_ID = 1;
     public static final int PID_CONFIG_TIMEOUT_MS = 10;
     public static final int CONFIG_FEEDBACKSENSOR_TIMEOUT_MS = 4000;
-    public static final int MAX_VELOCITY = 20580;
+    public static final int MAX_VELOCITY = 23000;
     public static final double VELOCITY_LOWER_LIMIT = MAX_VELOCITY * 0.01;
 
     public static final boolean USE_NAVX_HEADING = false;

@@ -160,6 +160,8 @@ public class RobotContainer {
     m_autoChooser.setDefaultOption("Don't Move", SequentialAutoCommand.StartPositions.DONT_MOVE);
     m_autoChooser.addOption("Drive Backward", SequentialAutoCommand.StartPositions.DRIVE_BACKWARD);
     m_autoChooser.addOption("Left Side Score", SequentialAutoCommand.StartPositions.LEFT_SIDE_SCORE);
+    
+    m_autoChooser.addOption("Score and Engage", SequentialAutoCommand.StartPositions.SCORE_AND_ENGAGE);
     m_autoChooser.addOption("Center Engage", SequentialAutoCommand.StartPositions.CENTER_ENGAGE);
     m_autoChooser.addOption("Right Side Score", SequentialAutoCommand.StartPositions.RIGHT_SIDE_SCORE);
     m_autoChooser.addOption("Score Don't Move", StartPositions.SCORE_DONT_MOVE);
@@ -169,8 +171,8 @@ public class RobotContainer {
     RobotContainer.getAutoBoard().setDouble("first distance", 6.0);
     RobotContainer.getAutoBoard().setDouble("second speed", -0.085);
     RobotContainer.getAutoBoard().setDouble("second distance", 5);
-    RobotContainer.getAutoBoard().setDouble("third speed", 0.25);
-    RobotContainer.getAutoBoard().setDouble("third distance", -2.25);
+    RobotContainer.getAutoBoard().setDouble("third speed", 0.325);
+    RobotContainer.getAutoBoard().setDouble("third distance", -2.8);
   }
 
   private Command getDriveCommand() {
