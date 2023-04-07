@@ -130,7 +130,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 			new SetClaw(m_claw, -1.0d, 10.0d),
 			// Raise arm
 			new SetArm(m_arm, MoveArm.HIGH_ANGLE, Arm.STOW_R_INCHES),
-			new Wait(1.0d),
+			new Wait(0.5d),
 			// Extend arm
 			new SetArm(m_arm,  MoveArm.HIGH_ANGLE, MoveArm.HIGH_R_INCHES),
 			
