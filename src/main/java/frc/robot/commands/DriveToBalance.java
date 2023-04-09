@@ -8,15 +8,19 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveToBalance extends CommandBase {
     private Drivetrain m_drivetrain;
 
+    /**
+     * This is deprecated and has been replaced with a specified distance driveTo
+     * command. Please use that instead. This command drives the robot forward until
+     * it reaches a certain angle. This is used to balance the robot on the charge
+     * station.
+     * 
+     * @param drivetrain
+     */
     public DriveToBalance(Drivetrain drivetrain) {
         m_drivetrain = drivetrain;
         addRequirements(drivetrain);
         RobotContainer.getAutoBoard().setDouble("Balance speed", 0.2);
         RobotContainer.getAutoBoard().setDouble("Balance Degrees", 85);
-    }
-
-    @Override
-    public void initialize() {
     }
 
     @Override
@@ -37,9 +41,5 @@ public class DriveToBalance extends CommandBase {
         RobotContainer.getAutoBoard().setBoolean("Is On Balance", isOnBalance);
 
         return m_drivetrain.getGyroPitchDegrees() > (gyro);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
     }
 }

@@ -17,6 +17,14 @@ public class Rotate extends CommandBase {
     private double m_vI = 0.000;
     private double m_vD = 0.06;
 
+    /**
+     * Rotates the robot to a target angle. This takes in a target angle, as well as
+     * the drivetrain to control. Finishes when the robot is within 20 degrees of
+     * the target angle.
+     * 
+     * @param drivetrain
+     * @param targetDegrees
+     */
     public Rotate(Drivetrain drivetrain, double targetDegrees) {
         m_drivetrain = drivetrain;
         m_targetDegrees = targetDegrees;
@@ -35,7 +43,6 @@ public class Rotate extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double percentOutput = 0.0d;
         m_error = Math.abs(m_drivetrain.getGyroYawDegrees() - Math.abs(initalAngle - m_targetDegrees));
 
         m_change = m_error - m_lastError;
@@ -46,18 +53,13 @@ public class Rotate extends CommandBase {
             m_errorIntegral += m_error;
         }
 
-        percentOutput = (m_vP * m_error) + (m_vI * m_errorIntegral) + (m_vD * m_change);
+        double percentOutput = (m_vP * m_error) + (m_vI * m_errorIntegral) + (m_vD * m_change);
         percentOutput *= 0.4;
         clampPercentOutput(percentOutput);
 
         m_lastError = m_error;
 
         m_drivetrain.percentDrive(-percentOutput, percentOutput);
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
     }
 
     // Returns false when the command should end.

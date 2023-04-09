@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-// import edu.wpi.first.hal.simulation.SpiReadAutoReceiveBufferCallback;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.SPIKE293Utils;
@@ -15,6 +14,13 @@ public class AdjustArm extends CommandBase {
 
     public double m_adjustArmDeadband;
 
+    /**
+     * Adjusts the arm based on controller joystick values.
+     * Controller input values range from -1 to 1.
+     * 
+     * @param givenArm        Arm subsystem
+     * @param givenController Operator Xbox Controller
+     */
     public AdjustArm(Arm givenArm, XboxController givenController) {
         m_arm = givenArm;
         m_operatorXboxController = givenController;
@@ -50,16 +56,5 @@ public class AdjustArm extends CommandBase {
 
         // Moves the arm
         m_arm.adjustPosition(anglePercent, extendPercent);
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

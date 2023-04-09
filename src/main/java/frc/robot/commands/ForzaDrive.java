@@ -17,7 +17,10 @@ import frc.robot.classes.SPIKE293Utils;
 import frc.robot.subsystems.Drivetrain;
 
 /**
- *
+ * This command is used to drive the robot using the Forza control scheme, like
+ * the video game. Just like Forza, the robot will drive forward using right
+ * trigger and backwards using left trigger. The robot will turn using the left
+ * joystick.
  */
 public class ForzaDrive extends CommandBase {
     private final Drivetrain m_drivetrain;
@@ -48,12 +51,8 @@ public class ForzaDrive extends CommandBase {
         Drivetrain.getTab().setDouble("Max Turning Percentage", m_turningLimitPercentage);
     }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-    }
-
     // Called every time the scheduler runs while the command is scheduled.
+    // Note: Abstract this out of this method, it's hard to read.
     @Override
     public void execute() {
         double turning;
@@ -110,16 +109,5 @@ public class ForzaDrive extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_drivetrain.stop();
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public boolean runsWhenDisabled() {
-        return false;
     }
 }

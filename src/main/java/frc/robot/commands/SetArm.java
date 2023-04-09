@@ -12,7 +12,8 @@ public class SetArm extends CommandBase {
 
     /**
      * Creates a new SetArm. This command will move the arm to the given position.
-     * Really only used during autonomous.
+     * Really only used during autonomous. This command waits until the arm is in
+     * the correct position before finishing.
      * 
      * @param givenArm The arm subsystem
      * @param theta    The angle to set the arm to
@@ -23,11 +24,6 @@ public class SetArm extends CommandBase {
         m_theta = theta;
         m_rInches = rInches;
 
-        // // find the difference in theta and rInches from the current position
-        // // and calculate approximately how long it will take to get there
-        // double deltaTheta = Math.abs(m_theta - m_arm.getTheta()) / 180.0d;
-        // double deltaR = Math.abs(m_rInches - m_arm.getRInches()) / 24.0d;
-
         addRequirements(m_arm);
     }
 
@@ -37,21 +33,6 @@ public class SetArm extends CommandBase {
         m_arm.setPosition(m_theta, m_rInches);
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-    }
-
-    /**
-     * Returns true when the arm is at the given position
-     * 
-     * @return true when the arm is at the given position
-     */
     @Override
     public boolean isFinished() {
         double currentPos = m_arm.getPivotEncoderUnits();

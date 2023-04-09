@@ -20,13 +20,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Targeting extends SubsystemBase {
     public static final int DEFAULT_TARGET_RPM = 2000;
-    
+
     public static final int LIMELIGHT_LED_ON = 3;
     public static final int LIMELIGHT_LED_OFF = 1;
-    
+
     public static final double TARGET_ACQUIRED = 1.0;
     public static final double CONFIRMED_THRESHOLD = 0.2;
-    
+
     private NetworkTable m_limeData; // Data from limelight
     private NetworkTableEntry m_tAcquired; // t stands for target
     private NetworkTableEntry m_targetX; // x value of the target
@@ -34,6 +34,11 @@ public class Targeting extends SubsystemBase {
 
     private boolean m_isReadyToFire = false;
 
+    /**
+     * Creates a new Targeting class. This class is used to get data from the
+     * limelight and calculate the distance to the target. It also controls the LED
+     * on the limelight.
+     */
     public Targeting() {
         // Get limelight data from network table
         m_limeData = NetworkTableInstance.getDefault().getTable("limelight");
@@ -59,11 +64,20 @@ public class Targeting extends SubsystemBase {
         SmartDashboard.putNumber("Distance from Target", calcDistance());
     }
 
+    /**
+     * A command used during FRC 2022
+     * 
+     * @return
+     */
     public boolean getIsReadyToFire() {
         return m_isReadyToFire;
     }
 
-    // Turns the LED on or off
+    /**
+     * Turns the limelight LED on or off
+     * 
+     * @param enabled
+     */
     public void controlLight(boolean enabled) {
         if (enabled) {
             m_limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
@@ -76,12 +90,12 @@ public class Targeting extends SubsystemBase {
         double retval = DEFAULT_TARGET_RPM;
         double ty = m_targetY.getDouble(0.0);
         if (m_tAcquired.getDouble(0.0) == TARGET_ACQUIRED) {
-            //retv  al = (-30.07 * ty) + 1690.42;
+            // retv al = (-30.07 * ty) + 1690.42;
             retval = (230 * Math.pow(Math.E, ((-0.237 * ty) - 1.5))) + 1680.48;
-            if(retval > 2900.0){
+            if (retval > 2900.0) {
                 retval = 2900.0;
             }
-            if(retval < 1600.0){
+            if (retval < 1600.0) {
                 retval = 1600.0;
             }
         }
@@ -89,6 +103,12 @@ public class Targeting extends SubsystemBase {
         return retval;
     }
 
+    /**
+     * Returns true if the limelight has a target and the target is within the
+     * CONFIRMED_THRESHOLD
+     * 
+     * @return
+     */
     public boolean isTargeted() {
         boolean targeted = false;
         double limeError = m_targetX.getDouble(0.0); // Get the error of the target X
@@ -100,6 +120,11 @@ public class Targeting extends SubsystemBase {
         return targeted;
     }
 
+    /**
+     * Calculates the distance to the target using the limelight
+     * 
+     * @return
+     */
     public double calcDistance() {
         double targetOffsetAngle_Vertical = m_targetY.getDouble(0.0);
         double limelightMountAngleDegrees = 36.574;
@@ -114,11 +139,22 @@ public class Targeting extends SubsystemBase {
         return distanceFromLimelightToGoalInches;
     }
 
+    /**
+     * Returns the angle to the target in degrees. This is the angle that the robot
+     * needs to turn to face the target.
+     * 
+     * @return
+     */
     public double getAngleToTargetDegrees() {
         return -1 * m_targetX.getDouble(0);
     }
 
-    public boolean hasTarget(){
+    /**
+     * Returns true if the limelight has a target
+     * 
+     * @return
+     */
+    public boolean hasTarget() {
         if (m_tAcquired.getDouble(0.0) == TARGET_ACQUIRED) {
             return true;
         }

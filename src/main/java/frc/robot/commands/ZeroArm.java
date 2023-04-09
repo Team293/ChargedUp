@@ -6,10 +6,15 @@ import frc.robot.subsystems.Arm;
 public class ZeroArm extends CommandBase {
     private final Arm arm;
 
+    /**
+     * Zeroes the arm by calibrating the pivot and extender.
+     * 
+     * @param givenArm
+     */
     public ZeroArm(Arm givenArm) {
         arm = givenArm;
-        
-        addRequirements(arm);                                                            
+
+        addRequirements(arm);
     }
 
     // Called when the command is initially scheduled.
@@ -18,12 +23,12 @@ public class ZeroArm extends CommandBase {
         // Invalidate both the extender and the pivot calibrations.
         arm.invalidateExtenderCalibration();
         arm.invalidatePivotCalibration();
-    }                      
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        /* Nothing to continuously do. (periodic will zero the arm for us) */ 
+        /* Nothing to continuously do. (periodic will zero the arm for us) */
         /* isFinished will check if the arm is still calibrating and end when done */
     }
 
