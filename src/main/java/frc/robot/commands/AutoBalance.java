@@ -34,6 +34,13 @@ public class AutoBalance extends CommandBase {
 
     private Drivetrain m_driveTrain;
 
+    /**
+     * Auto-balances the robot using PID control on the charge station.
+     * Using the pitch of the robot, the robot will balance itself. It will
+     * creep forward or backwards depending on the angle until it is balanced.
+     * 
+     * @param driveTrain the drivetrain subsystem
+     */
     public AutoBalance(Drivetrain driveTrain) {
 
         m_driveTrain = driveTrain;
@@ -56,7 +63,6 @@ public class AutoBalance extends CommandBase {
      * @param front
      * @return the nearest number
      */
-
     public int CheckNearestNumber(int back, int num, int front) {
         int frontDiff = Math.abs(front - num);
         int backDiff = Math.abs(back - num);

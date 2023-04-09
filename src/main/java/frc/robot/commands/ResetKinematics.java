@@ -11,6 +11,15 @@ public class ResetKinematics extends CommandBase {
     private Position2D m_resetPosition;
     private Kinematics m_kinematics;
 
+    /**
+     * Reset the kinematics to a starting pose. This takes in a starting pose, as
+     * well as the kinematics of the robot and the drivetrain to control. This is
+     * useful for resetting the robot's position after a reset.
+     * 
+     * @param startingPose
+     * @param drivetrain
+     * @param kinematics
+     */
     public ResetKinematics(Position2D startingPose, Drivetrain drivetrain, Kinematics kinematics) {
         m_drivetrain = drivetrain;
         m_resetPosition = startingPose;
@@ -18,17 +27,9 @@ public class ResetKinematics extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-    }
-
-    @Override
     public void execute() {
         m_kinematics.setPose(m_resetPosition);
         m_drivetrain.resetGyro(m_resetPosition.getHeadingDegrees());
-    }
-
-    @Override
-    public void end(boolean interrupted) {
     }
 
     @Override

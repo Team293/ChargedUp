@@ -2,12 +2,17 @@ package frc.robot.classes;
 
 import edu.wpi.first.math.MathUtil;
 
+/**
+ * This class contains utility methods for the SPIKE 293 robot, including
+ * methods for converting encoder values to distance and applying deadbands.
+ * PLEASE CONSIDER CREATING A 293 CONTROLLER CLASS FOR THE DEADBAND METHOD.
+ */
 public final class SPIKE293Utils {
 
     public static final double MAX_ENCODER_VELOCITY = 20743.0d;
 
     public static final double WHEEL_CIRCUMFERENCE_FEET = (4.0d / 12.0d) * Math.PI; // Wheel radius 4 in, converting
-                                                                                        // to feet
+                                                                                    // to feet
     public static final double SECONDS_TO_DECISEC = 1.0d / 10.0d;
     public static final double DECISEC_TO_SECONDS = 10.0d / 1.0d;
     public static final double GEARBOX_RATIO_TO_ONE = 9.52d;
@@ -18,12 +23,16 @@ public final class SPIKE293Utils {
     public static final double GEAR_RATIO = 1.0d;
     public static final double MINUTES_TO_DECISECONDS = 600.0d;
 
-
     private SPIKE293Utils() {
         throw new AssertionError("utility class");
     }
 
     /**
+     * Applies a deadband to the input value. If the input value is within the
+     * deadband, the output is zero. If the input value is outside the deadband, the
+     * output is the input value minus the deadband. If the input value is negative,
+     * the output is negative.
+     * Note: Consider moving this to a 293Controller class.
      * 
      * @param input
      * @param deadband
@@ -57,7 +66,6 @@ public final class SPIKE293Utils {
      * Converts from feet per second to encoder edges per 100 milliseconds.
      * 
      * @param Speed in ft/s
-     * 
      * @return Drivetrain velocity in encoder units(edges per 100 milliseconds)
      */
     public static double feetPerSecToControllerVelocity(double feetPerSec) {

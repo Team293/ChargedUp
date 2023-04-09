@@ -21,7 +21,8 @@ public class MoveArm extends CommandBase {
 
     public static final double SUBSTATION_X = 35.07279481d;
     public static final double SUBSTATION_Y = -1.658797242d;
-    public static final double SUBSTATION_R_INCHES = Math.sqrt(Math.pow(SUBSTATION_X, 2.0d) + Math.pow(SUBSTATION_Y, 2.0d));
+    public static final double SUBSTATION_R_INCHES = Math
+            .sqrt(Math.pow(SUBSTATION_X, 2.0d) + Math.pow(SUBSTATION_Y, 2.0d));
     public static final double SUBSTATION_ANGLE = Math.atan2(SUBSTATION_Y, SUBSTATION_X);
 
     public enum Node {
@@ -35,16 +36,18 @@ public class MoveArm extends CommandBase {
     private final Arm m_arm;
     private final Node m_node;
 
+    /**
+     * Moves the arm to a given node height, high mid or low, or other arbitrary
+     * positions, using an enum.
+     * 
+     * @param givenArm
+     * @param node
+     */
     public MoveArm(Arm givenArm, Node node) {
         m_arm = givenArm;
         m_node = node;
 
         addRequirements(m_arm);
-    }
-
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -68,14 +71,11 @@ public class MoveArm extends CommandBase {
         }
     }
 
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-    }
-
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        // Consider making a SingleCommandBase class that has a default isFinished()
+        // method that returns true. This code is repeated in many commands.
         return true;
     }
 }

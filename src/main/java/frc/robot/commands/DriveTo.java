@@ -20,6 +20,16 @@ public class DriveTo extends CommandBase {
     private boolean m_inReverse = false;
     private boolean m_isDone = false;
 
+    /**
+     * Drive to a target pose at a max velocity. This takes in a target pose and a
+     * max velocity, as well as the kinematics of the robot and the drivetrain to
+     * control. If driving backwards, the max velocity should be negative.
+     * 
+     * @param targetPose  The target pose to drive to
+     * @param maxVelocity The max velocity to drive at (in feet per second)
+     * @param kinematics  The kinematics of the robot
+     * @param drivetrain  The drivetrain to control
+     */
     public DriveTo(Position2D targetPose, double maxVelocity, Kinematics kinematics, Drivetrain drivetrain) {
         m_targetPose = targetPose;
         m_maxVelocity = maxVelocity;
@@ -28,14 +38,10 @@ public class DriveTo extends CommandBase {
         }
         m_kinematics = kinematics;
         m_drivetrain = drivetrain;
-        
+
         // This constructs smooth control
         m_smoothControl = new SmoothControl();
         addRequirements(m_drivetrain);
-    }
-
-    @Override
-    public void initialize() {
     }
 
     @Override
@@ -44,11 +50,13 @@ public class DriveTo extends CommandBase {
         double vR = 0.0;
         double vL = 0.0;
         double omegaDesired = 0.0d;
-        Position2D currentPose = new Position2D(m_kinematics.getPose().getX(), m_kinematics.getPose().getY(), m_kinematics.getPose().getHeadingRadians());
+        Position2D currentPose = new Position2D(m_kinematics.getPose().getX(), m_kinematics.getPose().getY(),
+                m_kinematics.getPose().getHeadingRadians());
 
         // Have we reached the target?
         if ((trackWidthFeet * WITHIN_RANGE_MODIFIER) >= m_smoothControl.getRange(m_targetPose, currentPose)) {
-            // ending the command to allow the next sequential command with next point to run
+            // ending the command to allow the next sequential command with next point to
+            // run
             m_isDone = true;
         } else {
             // Compute turn rate in radians and update range
@@ -66,12 +74,13 @@ public class DriveTo extends CommandBase {
             // Send vR and vL to velocity drive, units are in controller velocity
             m_drivetrain.velocityDrive(vL, vR);
         }
-        
+
         SmartDashboard.putNumber("Desired Left Velocity (ft/s)", vL);
         SmartDashboard.putNumber("Desired Right Velocity (ft/s)", vR);
         SmartDashboard.putNumber("Auto Range", m_smoothControl.getRange(m_targetPose, currentPose));
         SmartDashboard.putNumber("Auto Omega Desired (Degrees)", Math.toDegrees(omegaDesired));
-        SmartDashboard.putString("Target Pose", m_targetPose.getX() + ", " + m_targetPose.getY() + ", " + m_targetPose.getHeadingDegrees());
+        SmartDashboard.putString("Target Pose",
+                m_targetPose.getX() + ", " + m_targetPose.getY() + ", " + m_targetPose.getHeadingDegrees());
     }
 
     @Override
@@ -81,6 +90,9 @@ public class DriveTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        // Consider making an abstracted DrivetrainCommandBase class that has a stop()
+        // that automatically stops the drivetrain when the command ends.
+        // This code is repeated in many commands.
         m_drivetrain.stop();
     }
 }

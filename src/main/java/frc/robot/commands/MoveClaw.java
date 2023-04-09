@@ -19,11 +19,6 @@ public class MoveClaw extends CommandBase {
         Claw.getTab().setDouble("Claw Trigger Deadband", m_triggerDeadband);
     }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-    }
-
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
@@ -41,17 +36,5 @@ public class MoveClaw extends CommandBase {
         } else {
             m_claw.percentClaw(-leftTrigger, 7.0d);
         }
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

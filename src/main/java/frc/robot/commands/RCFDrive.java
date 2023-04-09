@@ -27,12 +27,22 @@ public class RCFDrive extends CommandBase {
     private double m_velocityLimitPercentage;
     private double m_turningLimitPercentage;
 
-    private final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
-    private final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
-    private final double DEFAULT_RCF_JOY_DEADBAND = 0.04;
+    private static final double DEFAULT_MAX_VELOCITY_PERCENTAGE = 0.85;
+    private static final double DEFAULT_MAX_TURNING_SPEED = 0.55d;
+    private static final double DEFAULT_RCF_JOY_DEADBAND = 0.04;
 
-    public RCFDrive(Drivetrain subsystem, XboxController xboxcontroller) {
-        m_drivetrain = subsystem;
+    /**
+     * RCFDrive, short for Remote Control Flight Drive, is a control scheme that
+     * allows the driver to control the robot using two joysticks. Similarly to
+     * arcadeDrive, RCFDrive uses joysticks for speed and turning. However, the
+     * joysticks are split. The left stick Y axis is used for forward and backward
+     * speed, and the right stick X axis is used for turning.
+     * 
+     * @param givenDrivetrain The drivetrain to control
+     * @param xboxcontroller  The controller to use
+     */
+    public RCFDrive(Drivetrain givenDrivetrain, XboxController xboxcontroller) {
+        m_drivetrain = givenDrivetrain;
         addRequirements(m_drivetrain);
         m_xboxcontroller = xboxcontroller;
 
