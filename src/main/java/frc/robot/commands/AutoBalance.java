@@ -8,7 +8,7 @@ public class AutoBalance extends CommandBase {
     private static final double PITCH_OFFSET = -73.0d;
     private static final int BALANCE_THRESHOLD = 4;
     private static final int BALANCE_ITERATIONS = 20;
-    private static final double INTERGRAL_LIMIT = 5;
+    private static final double INTEGRAL_LIMIT = 5;
 
     private double m_pitch;
     private double m_error = 0.0d;
@@ -21,7 +21,7 @@ public class AutoBalance extends CommandBase {
 
     // start (gives throttle) (may make it overshoot if too high)
     private double m_P = 0.0031d;
-    // finicky (depends on situation) (within 5 to 3 degress of error)
+    // finicky (depends on situation) (within 5 to 3 degrees of error)
     private double m_I = 0.00d;
     // good rule of thumb for d: m_d = m_p * 10
     private double m_D = 0.04;
@@ -92,7 +92,7 @@ public class AutoBalance extends CommandBase {
 
         m_change = m_error - m_lastError;
 
-        if (Math.abs(m_errorIntegral) < INTERGRAL_LIMIT) {
+        if (Math.abs(m_errorIntegral) < INTEGRAL_LIMIT) {
             // Accumulate the error into the integral
             m_errorIntegral += m_error;
         }

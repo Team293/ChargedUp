@@ -19,7 +19,7 @@ public class WriteToCSV extends SubsystemBase {
 			//Check if file exists
 			File tempFile = new File(String.format("%s%s.csv", path, filename));
 
-			if(true == tempFile.exists())
+			if(tempFile.exists())
 			{
 				filename = "match_data-b";
 			}

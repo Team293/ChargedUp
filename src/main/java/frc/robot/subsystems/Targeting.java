@@ -46,7 +46,7 @@ public class Targeting extends SubsystemBase {
         m_limeData.getEntry("ledMode").setNumber(LIMELIGHT_LED_ON);
         m_limeData.getEntry("pipeline").setNumber(1.0d);
 
-        SmartDashboard.putBoolean("isTargetted", false);
+        SmartDashboard.putBoolean("isTargeted", false);
 
         controlLight(true);
     }
@@ -55,7 +55,7 @@ public class Targeting extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Tx", m_targetX.getDouble(10000));
         SmartDashboard.putNumber("Ty", m_targetY.getDouble(10000));
-        SmartDashboard.putBoolean("isTargetted", isTargeted());
+        SmartDashboard.putBoolean("isTargeted", isTargeted());
         SmartDashboard.putNumber("Distance from Target", calcDistance());
     }
 
@@ -76,7 +76,7 @@ public class Targeting extends SubsystemBase {
         double retval = DEFAULT_TARGET_RPM;
         double ty = m_targetY.getDouble(0.0);
         if (m_tAcquired.getDouble(0.0) == TARGET_ACQUIRED) {
-            //retv  al = (-30.07 * ty) + 1690.42;
+            //retval = (-30.07 * ty) + 1690.42;
             retval = (230 * Math.pow(Math.E, ((-0.237 * ty) - 1.5))) + 1680.48;
             if(retval > 2900.0){
                 retval = 2900.0;
