@@ -103,6 +103,6 @@ public class Kinematics {
 
   public boolean atPose(Position2D checkpoint, double threshold) {
     double distanceFromPose = distanceFromPose(checkpoint);
-    return distanceFromPose <= threshold;
+    return (distanceFromPose <= threshold);
   }
 }

@@ -42,10 +42,10 @@ public class Arm extends SubsystemBase {
     public static final double EXTENDER_CALIBRATION_MOTOR_SPEED = 0.1d;
 
     /* Conversion Factors */
-    public static final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d;
-    public static final double PIVOT_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO = 36.00d;
+    public static final double ENCODER_UNITS_PER_REVOLUTION = 2048.0d / 1.0d;
+    public static final double PIVOT_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO = 36.00d / 1.0d;
     public static final double PIVOT_PULLEY_MOTOR_TO_PULLEY_ARM_RATIO = 72.0d / 36.0d;
-    public static final double EXTENDER_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO = 4.0d;
+    public static final double EXTENDER_GEARBOX_MOTOR_TO_GEARBOX_ARM_RATIO = 4.0d / 1.0d;
     public static final double EXTENDER_PULLEY_ROTATION_TO_INCHES = 3.75d; // One rotation of the final extender pulley
                                                                            // moves
     public static final double RADIANS_PER_REVOLUTION = 2 * Math.PI;
@@ -61,7 +61,7 @@ public class Arm extends SubsystemBase {
     public static final double MIN_INCHES = 35.112d;
     public static final double MAX_INCHES = 50.0d;
 
-    public static final double ARM_THETA_DELTA_MODIFIER = ((2 * Math.PI) / 360.0d); // radians
+    public static final double ARM_THETA_DELTA_MODIFIER = 1.0d * ((2 * Math.PI) / 360.0d); // radians
     public static final double ARM_R_DELTA_MODIFIER = 0.75d; // inches
 
     public static final double ZEROED_R_POSITION_RADIANS = 0.0d;
@@ -209,11 +209,11 @@ public class Arm extends SubsystemBase {
      * @return
      */
     public double getPivotEncoderUnits() {
-        return pivotTalonFX.getSelectedSensorPosition();
+        return (pivotTalonFX.getSelectedSensorPosition());
     }
 
     public double getExtenderEncoderUnits() {
-        return extenderTalonFX.getSelectedSensorPosition();
+        return (extenderTalonFX.getSelectedSensorPosition());
     }
 
     /**
