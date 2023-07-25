@@ -161,7 +161,7 @@ public class Arm extends SubsystemBase {
         checkPivotCalibration();
 
         /* Are we calibrated? */
-        if (!isExtenderCalibrated) {
+        if (false == isExtenderCalibrated) {
             // The extender is not calibrated, start the extender calibration
             extenderTalonFX.set(-EXTENDER_CALIBRATION_MOTOR_SPEED);
         } else if (!isPivotCalibrated) {
