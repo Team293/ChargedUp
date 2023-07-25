@@ -98,7 +98,7 @@ public class Kinematics {
     double y1 = m_currentPose.getY();
     double x2 = checkpoint.getX();
     double y2 = checkpoint.getY();
-    return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+    return (Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2)));
   }
 
   public boolean atPose(Position2D checkpoint, double threshold) {
