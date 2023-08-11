@@ -164,7 +164,7 @@ public class Arm extends SubsystemBase {
         if (false == isExtenderCalibrated) {
             // The extender is not calibrated, start the extender calibration
             extenderTalonFX.set(-EXTENDER_CALIBRATION_MOTOR_SPEED);
-        } else if (!isPivotCalibrated) {
+        } else if (false == isPivotCalibrated) {
             // The extender is calibrated, but the pivot is not calibrated
             // Double Check: Is extender is pulled in?
             if (0 == extenderTalonFX.isRevLimitSwitchClosed()) {
@@ -314,7 +314,7 @@ public class Arm extends SubsystemBase {
      */
     private void checkExtenderCalibration() {
         // Do we need to check for calibration?
-        if (!isExtenderCalibrated) {
+        if (false == isExtenderCalibrated) {
             // The extender is not calibrated! Check to see if it is now calibrated
             // Is limit switch closed?
             if (extenderTalonFX.isRevLimitSwitchClosed() == 1) {
@@ -339,7 +339,7 @@ public class Arm extends SubsystemBase {
      */
     private void checkPivotCalibration() {
         // Do we need to check for calibration?
-        if (!isPivotCalibrated) {
+        if (false == isPivotCalibrated) {
             // The pivot is not calibrated! Check to see if it is now calibrated
             // Is limit switch closed?
             if (pivotTalonFX.isRevLimitSwitchClosed() == 1) {
@@ -357,7 +357,7 @@ public class Arm extends SubsystemBase {
     }
 
     public boolean isCalibrated() {
-        return ((isPivotCalibrated) && (isExtenderCalibrated));
+        return ((true == isPivotCalibrated) && (true == isExtenderCalibrated));
     }
 
     public double getTheta() {
