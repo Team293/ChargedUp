@@ -85,7 +85,7 @@ public class Drivetrain extends SubsystemBase {
         leftTalonLead.clearStickyFaults();
         rightTalonLead.clearStickyFaults();
 
-        // Set facotry defaults for onboard PID
+        // Set factory defaults for onboard PID
         leftTalonLead.configFactoryDefault();
         rightTalonLead.configFactoryDefault();
 
@@ -192,7 +192,7 @@ public class Drivetrain extends SubsystemBase {
                 put("Kinematics Heading (degrees)", currentPose.getHeadingDegrees());
                 put("Left Encoder Velocity (Ft per S)", getLeftEncoderVelocity());
                 put("Left Encoder Position (Ft)", getLeftEncoderPosition());
-                put("Right Encoder Veloctiy (Ft per S)", getRightEncoderVelocity());
+                put("Right Encoder Velocity (Ft per S)", getRightEncoderVelocity());
                 put("Right Encoder Position (Ft)", getRightEncoderPosition());
                 put("Raw Left Encoder", leftTalonLead.getSelectedSensorPosition(0));
                 put("Raw Right Encoder", rightTalonLead.getSelectedSensorPosition(0));
@@ -320,7 +320,7 @@ public class Drivetrain extends SubsystemBase {
      * @return left encoder Velocity in ft/s
      */
     public double getLeftEncoderVelocity() {
-        // Returns the velocity of encoder by claculating the velocity from encoder
+        // Returns the velocity of encoder by calculating the velocity from encoder
         // units of click/100ms to ft/s
         return SPIKE293Utils.controllerVelocityToFeetPerSec(leftTalonLead.getSelectedSensorVelocity());
     }
@@ -331,7 +331,7 @@ public class Drivetrain extends SubsystemBase {
      * @return right encoder Velocity in ft/s
      */
     public double getRightEncoderVelocity() {
-        // Returns the velocity of encoder by claculating the velocity from encoder
+        // Returns the velocity of encoder by calculating the velocity from encoder
         // units of click/100ms to ft/s
         return SPIKE293Utils.controllerVelocityToFeetPerSec(rightTalonLead.getSelectedSensorVelocity());
     }
@@ -342,8 +342,8 @@ public class Drivetrain extends SubsystemBase {
      * @return robot Velocity in ft/s
      */
     public double getRobotVelocity() {
-        // Returns the velocity of the robot by taking the averga of the velcity on both
-        // sides of the robor
+        // Returns the velocity of the robot by taking the average of the velocity on both
+        // sides of the robot
         return (getLeftEncoderVelocity() + getRightEncoderVelocity()) / 2.0d;
     }
 
@@ -398,7 +398,7 @@ public class Drivetrain extends SubsystemBase {
         setupGyro(navX, headingDegrees);
     }
 
-    // rotates robot according to give degress using arc length formula
+    // rotates robot according to give degrees using arc length formula
     public void rotateDegrees(double angle) {
         double radians = Math.toRadians(angle);
         double arcLength = (radians * (TRACK_WIDTH_FEET / 2.0));

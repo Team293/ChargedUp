@@ -7,7 +7,7 @@ public class Rotate extends CommandBase {
 
     private final Drivetrain m_drivetrain;
     private double m_targetDegrees;
-    private double initalAngle;
+    private double initialAngle;
     private double m_lastError = 0.0d;
     private double m_errorIntegral = 0.0d;
     private double m_error;
@@ -20,7 +20,7 @@ public class Rotate extends CommandBase {
     public Rotate(Drivetrain drivetrain, double targetDegrees) {
         m_drivetrain = drivetrain;
         m_targetDegrees = targetDegrees;
-        initalAngle = m_drivetrain.getGyroYawDegrees();
+        initialAngle = m_drivetrain.getGyroYawDegrees();
 
         addRequirements(m_drivetrain);
     }
@@ -36,7 +36,7 @@ public class Rotate extends CommandBase {
     @Override
     public void execute() {
         double percentOutput = 0.0d;
-        m_error = Math.abs(m_drivetrain.getGyroYawDegrees() - Math.abs(initalAngle - m_targetDegrees));
+        m_error = Math.abs(m_drivetrain.getGyroYawDegrees() - Math.abs(initialAngle - m_targetDegrees));
 
         m_change = m_error - m_lastError;
 

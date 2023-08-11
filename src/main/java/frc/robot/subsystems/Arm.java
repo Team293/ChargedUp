@@ -174,7 +174,7 @@ public class Arm extends SubsystemBase {
                 pivotTalonFX.set(-PIVOT_CALIBRATION_MOTOR_SPEED);
             }
         } else {
-            // We are now calibrated and we know the position of the arm!
+            // We are now calibrated, and we know the position of the arm!
             moveToPosition(theta, rInches);
         }
     }
@@ -209,13 +209,11 @@ public class Arm extends SubsystemBase {
      * @return
      */
     public double getPivotEncoderUnits() {
-        double encoderUnits = pivotTalonFX.getSelectedSensorPosition();
-        return encoderUnits;
+        return (pivotTalonFX.getSelectedSensorPosition());
     }
 
     public double getExtenderEncoderUnits() {
-        double encoderUnits = extenderTalonFX.getSelectedSensorPosition();
-        return encoderUnits;
+        return (extenderTalonFX.getSelectedSensorPosition());
     }
 
     /**

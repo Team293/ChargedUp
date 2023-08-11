@@ -14,12 +14,12 @@ public class Kinematics {
     m_previousRightEncoderPosition = 0;
   }
 
-  // This function runs the kinematics caluclation,
+  // This function runs the kinematics calculation,
   // given the delta Psi to use instead fo calculating from encoders
-  public void calculatePosition(double leftEncoderPostion, double rightEncoderPosition, double heading) {
+  public void calculatePosition(double leftEncoderPosition, double rightEncoderPosition, double heading) {
     double currentHeading = 0.0d;
 
-    updateCurrentPose(leftEncoderPostion, rightEncoderPosition);
+    updateCurrentPose(leftEncoderPosition, rightEncoderPosition);
 
     // Limit psi between Pi and -Pi
     currentHeading = limitRadians(heading);
@@ -28,13 +28,13 @@ public class Kinematics {
     m_currentPose.setHeadingRadians(currentHeading);
   }
 
-  // This function runs the kinematics caluclation,
+  // This function runs the kinematics calculation,
   // calculating delta Psi based off of encoder distance traveled
-  public void calculatePosition(double leftEncoderPostion, double rightEncoderPosition) {
-    updateCurrentPose(leftEncoderPostion, rightEncoderPosition);
+  public void calculatePosition(double leftEncoderPosition, double rightEncoderPosition) {
+    updateCurrentPose(leftEncoderPosition, rightEncoderPosition);
   }
 
-  private void updateCurrentPose(double leftEncoderPostion, double rightEncoderPosition) {
+  private void updateCurrentPose(double leftEncoderPosition, double rightEncoderPosition) {
     double deltaLeft = 0.0d;
     double deltaRight = 0.0d;
     double deltaX = 0.0d;
@@ -43,11 +43,11 @@ public class Kinematics {
     double newPsi = 0.0d;
 
     // Calculate distance traveled
-    deltaLeft = (leftEncoderPostion - m_previousLeftEncoderPosition);
+    deltaLeft = (leftEncoderPosition - m_previousLeftEncoderPosition);
     deltaRight = (rightEncoderPosition - m_previousRightEncoderPosition);
 
     // Save distance traveled
-    m_previousLeftEncoderPosition = leftEncoderPostion;
+    m_previousLeftEncoderPosition = leftEncoderPosition;
     m_previousRightEncoderPosition = rightEncoderPosition;
 
     // Use encoders to calculate heading
@@ -58,7 +58,7 @@ public class Kinematics {
     deltaPsi = limitRadians(deltaPsi);
     newPsi = limitRadians(m_currentPose.getHeadingRadians() + deltaPsi);
 
-    // Calcualte new X, Y
+    // Calculate new X, Y
     deltaX = ((deltaLeft + deltaRight) / 2) * Math.cos(m_currentPose.getHeadingRadians()); // previous heading is in
                                                                                            // radians
     deltaY = ((deltaLeft + deltaRight) / 2) * Math.sin(m_currentPose.getHeadingRadians()); // previous heading is in
@@ -98,17 +98,11 @@ public class Kinematics {
     double y1 = m_currentPose.getY();
     double x2 = checkpoint.getX();
     double y2 = checkpoint.getY();
-    double distance = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-
-    return distance;
+    return (Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2)));
   }
 
   public boolean atPose(Position2D checkpoint, double threshold) {
     double distanceFromPose = distanceFromPose(checkpoint);
-    if (distanceFromPose <= threshold) {
-      return true;
-    } else {
-      return false;
-    }
+    return (distanceFromPose <= threshold);
   }
 }

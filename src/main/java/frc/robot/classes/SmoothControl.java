@@ -8,7 +8,7 @@ public class SmoothControl {
   }
 
   // Modification of equation 13, Calculates the omegaDesired (in radians)
-  // modified by velocity aggressivness given required turn rate
+  // modified by velocity aggressiveness given required turn rate
   public double computeTurnRate(Position2D currentPose, Position2D targetPose, double givenMaxVelocity, boolean inReverse) {
     double omegaDesired = 0.0d; 
     double poseHeading = currentPose.getHeadingRadians(); // Convert heading to radians
