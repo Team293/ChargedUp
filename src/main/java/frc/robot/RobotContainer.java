@@ -115,11 +115,9 @@ public class RobotContainer {
         XboxController.Button.kX.value);
     xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
 
-    // Start the auto align command
-    // final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
-    //     XboxController.Button.kA.value);
-    // xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
-    final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController, XboxController.Button.kA.value);
+    // Set arm preset to hybrid location
+    final JoystickButton xboxABtn = new JoystickButton(m_driverXboxController,
+        XboxController.Button.kA.value);
     xboxABtn.whileTrue(new AutoAlign(new Limelight(new LimelightHelpers(), m_kinematics), m_kinematics, m_drivetrain));
 
     // Set arm preset to substation location
