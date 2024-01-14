@@ -9,6 +9,7 @@ import frc.robot.classes.Position2D;
 import frc.robot.classes.SpikeBoard;
 import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoAlign;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
 import frc.robot.commands.BumpDrive;
@@ -21,6 +22,7 @@ import frc.robot.commands.MoveArm.Node;
 import frc.robot.commands.SequentialAutoCommand.StartPositions;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
@@ -113,10 +115,12 @@ public class RobotContainer {
         XboxController.Button.kX.value);
     xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
 
-    // Set arm preset to hybrid location
-    final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
+    // Start the auto align command
+    // final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
+    //     XboxController.Button.kA.value);
+    // xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
+    final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController, XboxController.Button.kA.value);
+    xboxABtn.whileTrue(new AutoAlign(new Limelight(new LimelightHelpers(), m_kinematics), m_kinematics, m_drivetrain));
 
     // Set arm preset to substation location
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
