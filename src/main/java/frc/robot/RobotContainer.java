@@ -13,6 +13,7 @@ import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
 import frc.robot.commands.BumpDrive;
 import frc.robot.commands.ForzaDrive;
+import frc.robot.commands.Intake;
 import frc.robot.commands.SequentialAutoCommand;
 import frc.robot.commands.TrackTarget;
 import frc.robot.commands.RCFDrive;
@@ -114,9 +115,10 @@ public class RobotContainer {
     xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
 
     // Set arm preset to hybrid location
-    final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
+    final JoystickButton xboxABtn = new JoystickButton(m_driverXboxController,
         XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
+    //xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
+    xboxABtn.whileTrue(new Intake());
 
     // Set arm preset to substation location
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,

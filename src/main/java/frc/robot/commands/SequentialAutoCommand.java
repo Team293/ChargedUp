@@ -38,6 +38,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 
 		RobotContainer.getAutoBoard().setBoolean("AutoDone", false);
 
+		m_startPosition = StartPositions.SCORE_AND_ENGAGE;
+
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot
 			case SCORE_DONT_MOVE:
 				// FACE SCORING GRID
