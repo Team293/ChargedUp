@@ -15,6 +15,7 @@ import frc.robot.commands.BumpDrive;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.Intake;
 import frc.robot.commands.SequentialAutoCommand;
+import frc.robot.commands.Shooter;
 import frc.robot.commands.TrackTarget;
 import frc.robot.commands.RCFDrive;
 import frc.robot.commands.MoveArm;
@@ -123,7 +124,8 @@ public class RobotContainer {
     // Set arm preset to substation location
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
-    xboxBBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
+    // xboxBBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
+    // xboxBBtn.whileTrue(new Shooter 
 
     /******** Driver Controls ********/
 
