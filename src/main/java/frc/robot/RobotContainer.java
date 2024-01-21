@@ -23,6 +23,7 @@ import frc.robot.commands.MoveArm.Node;
 import frc.robot.commands.SequentialAutoCommand.StartPositions;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
@@ -53,6 +54,7 @@ public class RobotContainer {
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
   public final Arm m_arm = new Arm();
   public final Claw m_claw = new Claw();
+  public final Limelight m_limelight = new Limelight(new LimelightHelpers(), m_kinematics);
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
@@ -115,17 +117,15 @@ public class RobotContainer {
         XboxController.Button.kX.value);
     xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
 
-    // Set arm preset to hybrid location
+    // Start intake motor
     final JoystickButton xboxABtn = new JoystickButton(m_driverXboxController,
         XboxController.Button.kA.value);
-    //xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
     xboxABtn.whileTrue(new Intake());
 
-    // Set arm preset to substation location
+    // Start shooter motor
     final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
         XboxController.Button.kB.value);
-    // xboxBBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
-    // xboxBBtn.whileTrue(new Shooter 
+    xboxBBtn.whileTrue(new Shooter());
 
     /******** Driver Controls ********/
 

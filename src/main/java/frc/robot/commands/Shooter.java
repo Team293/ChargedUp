@@ -2,35 +2,37 @@ package frc.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drivetrain;
 
 public class Shooter extends CommandBase {
-    private static final int CAN_ID = 0; //todo
-    private WPI_TalonFX shooterMotor;
-    private static final double MOTOR_SPEED = 0.1;
+    private static final int CAN_ID = 4;
+    private WPI_TalonFX coleFx;
+    private static final double MOTOR_SPEED = 0.1d;
+    private double m_motorSpeed = 0.1d;
 
     public Shooter() {
-        shooterMotor = new WPI_TalonFX(CAN_ID);
-        shooterMotor.clearStickyFaults();
-        shooterMotor.configFactoryDefault();
-        shooterMotor.setInverted(false);
-        shooterMotor.setSensorPhase(false);
-        shooterMotor.config_kD(0, 0.021);
-        shooterMotor.config_kI(0, 0.0001);
-        shooterMotor.config_kP(0, 0.001);
-
-        shooterMotor.setNeutralMode(NeutralMode.Coast);
-        shooterMotor.configNeutralDeadband(0);
+        coleFx = new WPI_TalonFX(CAN_ID);
+        coleFx.clearStickyFaults();
+        coleFx.configFactoryDefault();
+        coleFx.setInverted(false);
+        coleFx.setSensorPhase(false);
+        coleFx.config_kD(0, 0.021);
+        coleFx.config_kI(0, 0.0001);
+        coleFx.config_kP(0, 0.001);
+        Drivetrain.getTab().setDouble("intake motor speed2", 0.1d);
+        coleFx.setNeutralMode(NeutralMode.Coast);
+        coleFx.configNeutralDeadband(0);
     }
 
     @Override
     public void execute() {
-        shooterMotor.set(MOTOR_SPEED);
+        m_motorSpeed = Drivetrain.getTab().getDouble("intake motor speed2", 0.1d);
+        coleFx.set(m_motorSpeed);
     }
 
     @Override
     public void end(boolean interrupted) {
-        shooterMotor.set(0);
+        coleFx.set(0.0d);
     }
 }
