@@ -3,11 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.classes.Kinematics;
-import frc.robot.classes.Position2D;
 import frc.robot.classes.SpikeBoard;
 
 public class Limelight extends SubsystemBase {
     private static final String LIMELIGHT_NAME = "limelight";
+    private static final double LIMELIGHT_HEIGHT = 29.8d;
+    private static final double TAG_HEIGHT = 57.75d;
+    private static final double MOUNTING_ANGLE = 21d;
 
     private double m_tx;
     private double m_ty;
@@ -32,8 +34,6 @@ public class Limelight extends SubsystemBase {
         m_tx = LimelightHelpers.getTX(LIMELIGHT_NAME);
         m_ty = LimelightHelpers.getTY(LIMELIGHT_NAME);
         distanceToTag = getDistance();
-        distanceToTagX = getDistanceX();
-        distanceToTagY = getDistanceY();
         tagId = LimelightHelpers.getFiducialID(LIMELIGHT_NAME);
 
         getTab().setBoolean("April tag detected", targetFound);
@@ -59,27 +59,8 @@ public class Limelight extends SubsystemBase {
         return LIMELIGHT_NAME;
     }
 
-    public double getDistance() { // Distance from the robot to the target (includes x and y) (in feet)
-        double[] tagPositionRaw = LimelightHelpers.getTargetPose_RobotSpace(LIMELIGHT_NAME);
-        Position2D tagPosition = new Position2D(tagPositionRaw[0], tagPositionRaw[1], tagPositionRaw[5]); // x, y, rz (also robot space)
-        Position2D robotPosition = m_kinematics.getPose(); // Robot space
-        return Math.sqrt(
-            Math.pow(tagPosition.getX() - robotPosition.getX(), 2) +
-            Math.pow(tagPosition.getY() - robotPosition.getY(), 2));
-    }
-
-    public double getDistanceX() { // (in feet)
-        double[] tagPositionRaw = LimelightHelpers.getTargetPose_RobotSpace(LIMELIGHT_NAME);
-        Position2D tagPosition = new Position2D(tagPositionRaw[0], tagPositionRaw[1], tagPositionRaw[5]); // x, y, rz (also robot space)
-        Position2D robotPosition = m_kinematics.getPose(); // Robot space
-        return tagPosition.getX() - robotPosition.getX();
-    }
-
-    public double getDistanceY() { // (in feet)
-        double[] tagPositionRaw = LimelightHelpers.getTargetPose_RobotSpace(LIMELIGHT_NAME);
-        Position2D tagPosition = new Position2D(tagPositionRaw[0], tagPositionRaw[1], tagPositionRaw[5]); // x, y, rz (also robot space)
-        Position2D robotPosition = m_kinematics.getPose(); // Robot space
-        return tagPosition.getY() - robotPosition.getY();
+    public double getDistance() {
+        return (TAG_HEIGHT - LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(MOUNTING_ANGLE) + Math.toRadians(m_ty));
     }
 
     public double getAngle() {
