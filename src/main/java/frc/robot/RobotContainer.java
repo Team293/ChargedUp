@@ -11,6 +11,7 @@ import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
+import frc.robot.commands.DriveTo;
 import frc.robot.commands.BumpDrive;
 import frc.robot.commands.ForzaDrive;
 import frc.robot.commands.Intake;
@@ -120,12 +121,10 @@ public class RobotContainer {
     // Start intake motor
     final JoystickButton xboxABtn = new JoystickButton(m_driverXboxController,
         XboxController.Button.kA.value);
-    xboxABtn.whileTrue(new Intake());
+    xboxABtn.whileTrue(new Intake(new Drivetrain(m_kinematics)));
 
     // Start shooter motor
-    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kB.value);
-    xboxBBtn.whileTrue(new Shooter());
+    
 
     /******** Driver Controls ********/
 
@@ -142,7 +141,8 @@ public class RobotContainer {
     // Set the arm preset to the stow location, inside the robot
     final JoystickButton xboxStowButton = new JoystickButton(m_driverXboxController,
         XboxController.Button.kX.value);
-    xboxStowButton.onTrue(new MoveArm(m_arm, Node.STOW));
+    // xboxStowButton.onTrue(new MoveArm(m_arm, Node.STOW));
+    xboxStowButton.whileTrue(new DriveTo(new Position2D(1, 0, 0), 0.2, m_kinematics, m_drivetrain));
 
     // Trigger autobalance
     // final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
@@ -150,9 +150,9 @@ public class RobotContainer {
     // xboxAButton.onTrue(new AutoBalance(m_drivetrain));
 
     // Trigger autoalign
-    final JoystickButton xboxYButton = new JoystickButton(m_driverXboxController,
-        XboxController.Button.kY.value);
-    xboxYButton.onTrue(new TrackTarget(m_drivetrain, m_targeting));
+    // final JoystickButton xboxYButton = new JoystickButton(m_driverXboxController,
+    //     XboxController.Button.kY.value);
+    // xboxYButton.onTrue(new TrackTarget(m_drivetrain, m_targeting));
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard
