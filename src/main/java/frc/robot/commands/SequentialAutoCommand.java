@@ -38,6 +38,8 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 
 		RobotContainer.getAutoBoard().setBoolean("AutoDone", false);
 
+		m_startPosition = StartPositions.SCORE_AND_ENGAGE;
+
 		switch (m_startPosition) { // Changes the robot path based on the starting position of the robot
 			case SCORE_DONT_MOVE:
 				// FACE SCORING GRID
@@ -75,16 +77,16 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 			case SCORE_AND_ENGAGE:
 				// FACE SCORING GRID
 				resetKinematics();
-				score();
+				// score();
 				addCommands(
 					// Drive backwards
-					new DriveTo(new Position2D(-0.5, 0, Math.toRadians(0)), -2.0d, m_kinematics, m_drivetrain),
+					new DriveTo(new Position2D(-2, 0, 0), 1, m_kinematics, m_drivetrain)
 					// Lower arm
-					new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
-					// Drive backwards (~3 feet)
-					new DriveTo(new Position2D(-6, 0, Math.toRadians(0)), -3.5d, m_kinematics, m_drivetrain),
-					// Autobalance
-					new AutoBalance(m_drivetrain)
+					// new SetArm(m_arm, Arm.STOW_ANGLE, Arm.STOW_R_INCHES),
+					// // Drive backwards (~3 feet)
+					// new DriveTo(new Position2D(-6, 0, Math.toRadians(0)), -3.5d, m_kinematics, m_drivetrain),
+					// // Autobalance
+					// new AutoBalance(m_drivetrain)
 				);
 				break;
 
@@ -117,6 +119,7 @@ public class SequentialAutoCommand extends SequentialCommandGroup {
 				System.out.println("ERROR: Invalid autonomous starting position! [" + m_startPosition + "]");
 				break;
 		}
+		new DriveTo(new Position2D(0, 1, 0), 0.2, kinematics, drivetrain);
 
 		// Alert smart dashboard that autonomous is done
 		RobotContainer.getAutoBoard().setBoolean("AutoDone", true);

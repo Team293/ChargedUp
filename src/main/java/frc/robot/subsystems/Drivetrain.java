@@ -336,6 +336,14 @@ public class Drivetrain extends SubsystemBase {
         return SPIKE293Utils.controllerVelocityToFeetPerSec(rightTalonLead.getSelectedSensorVelocity());
     }
 
+    public double getRawRightEncoderVelocity() {
+        return rightTalonLead.getSelectedSensorVelocity();
+    }
+
+    public double getRawLeftEncoderVelocity() {
+        return leftTalonLead.getSelectedSensorVelocity();
+    }
+
     /**
      * returns robot Velocity in ft/s
      * 

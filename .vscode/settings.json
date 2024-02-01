@@ -1,6 +1,7 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
+  "terminal.integrated.fontFamily": "monospace",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

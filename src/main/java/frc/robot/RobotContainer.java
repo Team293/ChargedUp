@@ -11,9 +11,12 @@ import frc.robot.commands.AdjustArm;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CalibrateExtender;
 import frc.robot.commands.CalibratePivot;
+import frc.robot.commands.DriveTo;
 import frc.robot.commands.BumpDrive;
 import frc.robot.commands.ForzaDrive;
+import frc.robot.commands.Intake;
 import frc.robot.commands.SequentialAutoCommand;
+import frc.robot.commands.Shooter;
 import frc.robot.commands.TrackTarget;
 import frc.robot.commands.RCFDrive;
 import frc.robot.commands.MoveArm;
@@ -21,6 +24,7 @@ import frc.robot.commands.MoveArm.Node;
 import frc.robot.commands.SequentialAutoCommand.StartPositions;
 import frc.robot.subsystems.Targeting;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
@@ -51,6 +55,7 @@ public class RobotContainer {
   public final Drivetrain m_drivetrain = new Drivetrain(m_kinematics);
   public final Arm m_arm = new Arm();
   public final Claw m_claw = new Claw();
+  public final Limelight m_limelight = new Limelight(new LimelightHelpers(), m_kinematics);
 
   // Joysticks
   public final XboxController m_driverXboxController = new XboxController(0);
@@ -113,15 +118,13 @@ public class RobotContainer {
         XboxController.Button.kX.value);
     xboxXBtn.onTrue(new MoveArm(m_arm, Node.MID));
 
-    // Set arm preset to hybrid location
-    final JoystickButton xboxABtn = new JoystickButton(m_operatorXboxController,
+    // Start intake motor
+    final JoystickButton xboxABtn = new JoystickButton(m_driverXboxController,
         XboxController.Button.kA.value);
-    xboxABtn.onTrue(new MoveArm(m_arm, Node.HYBRID));
+    xboxABtn.whileTrue(new Intake(new Drivetrain(m_kinematics)));
 
-    // Set arm preset to substation location
-    final JoystickButton xboxBBtn = new JoystickButton(m_operatorXboxController,
-        XboxController.Button.kB.value);
-    xboxBBtn.onTrue(new MoveArm(m_arm, Node.SUBSTATION));
+    // Start shooter motor
+    
 
     /******** Driver Controls ********/
 
@@ -138,7 +141,8 @@ public class RobotContainer {
     // Set the arm preset to the stow location, inside the robot
     final JoystickButton xboxStowButton = new JoystickButton(m_driverXboxController,
         XboxController.Button.kX.value);
-    xboxStowButton.onTrue(new MoveArm(m_arm, Node.STOW));
+    // xboxStowButton.onTrue(new MoveArm(m_arm, Node.STOW));
+    xboxStowButton.whileTrue(new DriveTo(new Position2D(1, 0, 0), 0.2, m_kinematics, m_drivetrain));
 
     // Trigger autobalance
     // final JoystickButton xboxAButton = new JoystickButton(m_driverXboxController,
@@ -146,9 +150,9 @@ public class RobotContainer {
     // xboxAButton.onTrue(new AutoBalance(m_drivetrain));
 
     // Trigger autoalign
-    final JoystickButton xboxYButton = new JoystickButton(m_driverXboxController,
-        XboxController.Button.kY.value);
-    xboxYButton.onTrue(new TrackTarget(m_drivetrain, m_targeting));
+    // final JoystickButton xboxYButton = new JoystickButton(m_driverXboxController,
+    //     XboxController.Button.kY.value);
+    // xboxYButton.onTrue(new TrackTarget(m_drivetrain, m_targeting));
 
     // Added options to the dropdown for driveChooser and putting it into
     // smartdashboard
