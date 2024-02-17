@@ -40,8 +40,8 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
-  public static final double WHEEL_RADIUS = Units.inchesToMeters(3.0);
-  public static final double TRACK_WIDTH = Units.inchesToMeters(26.0);
+  public static final double WHEEL_RADIUS = Units.inchesToMeters(2.0);
+  public static final double TRACK_WIDTH = Units.inchesToMeters(27.5);
 
   // TODO: NON-SIM FEEDFORWARD GAINS MUST BE TUNED
   // Consider using SysId routines defined in RobotContainer

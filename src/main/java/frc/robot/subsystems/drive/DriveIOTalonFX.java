@@ -30,10 +30,10 @@ public class DriveIOTalonFX implements DriveIO {
   private static final double KP = 1.0; // TODO: MUST BE TUNED, consider using Phoenix Tuner X
   private static final double KD = 0.0; // TODO: MUST BE TUNED, consider using Phoenix Tuner X
 
-  private final TalonFX leftLeader = new TalonFX(0);
-  private final TalonFX leftFollower = new TalonFX(1);
-  private final TalonFX rightLeader = new TalonFX(2);
-  private final TalonFX rightFollower = new TalonFX(3);
+  private final TalonFX leftLeader = new TalonFX(1);
+  private final TalonFX leftFollower = new TalonFX(3);
+  private final TalonFX rightLeader = new TalonFX(0);
+  private final TalonFX rightFollower = new TalonFX(2);
 
   private final StatusSignal<Double> leftPosition = leftLeader.getPosition();
   private final StatusSignal<Double> leftVelocity = leftLeader.getVelocity();
