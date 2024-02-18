@@ -27,9 +27,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
 public class DriveIOTalonFX implements DriveIO {
-  private static final double GEAR_RATIO = 10.0;
-  private static final double KP = 0.25; // TODO: MUST BE TUNED, consider using Phoenix Tuner X
-  private static final double KD = 0.3; // TODO: MUST BE TUNED, consider using Phoenix Tuner X
+  private static final double GEAR_RATIO = 9.52;
+  private static final double kP = 0.1;
+  private static final double kI = 0.0;
+  private static final double kD = 0.0;
+  private static final double kS = 0.16;
+  private static final double kV = 0.113;
 
   private final TalonFX leftLeader = new TalonFX(1);
   private final TalonFX leftFollower = new TalonFX(3);
@@ -55,8 +58,11 @@ public class DriveIOTalonFX implements DriveIO {
     leftConfig.CurrentLimits.StatorCurrentLimit = 40.0;
     leftConfig.CurrentLimits.StatorCurrentLimitEnable = true;
     leftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    leftConfig.Slot0.kP = KP;
-    leftConfig.Slot0.kD = KD;
+    leftConfig.Slot0.kP = kP;
+    leftConfig.Slot0.kI = kI;
+    leftConfig.Slot0.kD = kD;
+    leftConfig.Slot0.kS = kS;
+    leftConfig.Slot0.kV = kV;
     leftLeader.getConfigurator().apply(leftConfig);
     leftFollower.getConfigurator().apply(leftConfig);
 
@@ -64,8 +70,11 @@ public class DriveIOTalonFX implements DriveIO {
     rightConfig.CurrentLimits.StatorCurrentLimit = 40.0;
     rightConfig.CurrentLimits.StatorCurrentLimitEnable = true;
     rightConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    rightConfig.Slot0.kP = KP;
-    rightConfig.Slot0.kD = KD;
+    rightConfig.Slot0.kP = kP;
+    rightConfig.Slot0.kI = kI;
+    rightConfig.Slot0.kD = kD;
+    rightConfig.Slot0.kS = kS;
+    rightConfig.Slot0.kV = kV;
     rightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     rightLeader.getConfigurator().apply(rightConfig);
