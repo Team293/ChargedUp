@@ -49,6 +49,8 @@ public class Drive extends SubsystemBase {
   private static final double KV = Constants.currentMode == Mode.SIM ? 0.227 : 0.0;
 
   private final DriveIO io;
+  private final GyroIO gyroIO;
+  private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
   private final DriveIOInputs inputs = new DriveIOInputs();
   private final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
@@ -58,8 +60,9 @@ public class Drive extends SubsystemBase {
   private final SysIdRoutine sysId;
 
   /** Creates a new Drive. */
-  public Drive(DriveIO io) {
+  public Drive(DriveIO io, GyroIO gyroIO) {
     this.io = io;
+    this.gyroIO = gyroIO;
 
     // Configure AutoBuilder for PathPlanner
     AutoBuilder.configureRamsete(
@@ -104,9 +107,10 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    gyroIO.updateInputs(gyroInputs);
 
     // Update odometry
-    odometry.update(inputs.gyroYaw, getLeftPositionMeters(), getRightPositionMeters());
+    // odometry.update(gyroIO.yawPosition, getLeftPositionMeters(), getRightPositionMeters());
   }
 
   /** Run open loop at the specified voltage. */
@@ -129,9 +133,11 @@ public class Drive extends SubsystemBase {
 
   /** Run open loop based on stick positions. */
   public void driveArcade(double xSpeed, double zRotation) {
-    var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, true);
+    var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, -zRotation, true);
     io.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
   }
+
+  public void driveForza(double forwardAxis, double backwardAxis, double turnAxis) {}
 
   /** Stops the drive. */
   public void stop() {

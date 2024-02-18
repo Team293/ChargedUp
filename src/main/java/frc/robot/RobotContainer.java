@@ -20,9 +20,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.drive.DriveIO;
-import frc.robot.subsystems.drive.DriveIOSim;
 import frc.robot.subsystems.drive.DriveIOTalonFX;
+import frc.robot.subsystems.drive.GyroIONavX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -46,17 +45,17 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
-        drive = new Drive(new DriveIOTalonFX());
+        drive = new Drive(new DriveIOTalonFX(), new GyroIONavX());
         break;
 
-      case SIM:
-        // Sim robot, instantiate physics sim IO implementations
-        drive = new Drive(new DriveIOSim());
-        break;
+        // case SIM:
+        //   // Sim robot, instantiate physics sim IO implementations
+        //   // drive = new Drive(new DriveIOSim(), new GyroIO());
+        //   break;
 
       default:
         // Replayed robot, disable IO implementations
-        drive = new Drive(new DriveIO() {});
+        drive = new Drive(new DriveIOTalonFX(), new GyroIONavX());
         break;
     }
 

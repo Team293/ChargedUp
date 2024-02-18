@@ -21,6 +21,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -34,7 +35,6 @@ public class DriveIOTalonFX implements DriveIO {
   private final TalonFX leftFollower = new TalonFX(3);
   private final TalonFX rightLeader = new TalonFX(0);
   private final TalonFX rightFollower = new TalonFX(2);
-
   private final StatusSignal<Double> leftPosition = leftLeader.getPosition();
   private final StatusSignal<Double> leftVelocity = leftLeader.getVelocity();
   private final StatusSignal<Double> leftAppliedVolts = leftLeader.getMotorVoltage();
@@ -51,16 +51,26 @@ public class DriveIOTalonFX implements DriveIO {
   private final StatusSignal<Double> yaw = pigeon.getYaw();
 
   public DriveIOTalonFX() {
-    var config = new TalonFXConfiguration();
-    config.CurrentLimits.StatorCurrentLimit = 60.0;
-    config.CurrentLimits.StatorCurrentLimitEnable = true;
-    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    config.Slot0.kP = KP;
-    config.Slot0.kD = KD;
-    leftLeader.getConfigurator().apply(config);
-    leftFollower.getConfigurator().apply(config);
-    rightLeader.getConfigurator().apply(config);
-    rightFollower.getConfigurator().apply(config);
+    var leftConfig = new TalonFXConfiguration();
+    leftConfig.CurrentLimits.StatorCurrentLimit = 60.0;
+    leftConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    leftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    leftConfig.Slot0.kP = KP;
+    leftConfig.Slot0.kD = KD;
+    leftLeader.getConfigurator().apply(leftConfig);
+    leftFollower.getConfigurator().apply(leftConfig);
+
+    var rightConfig = new TalonFXConfiguration();
+    rightConfig.CurrentLimits.StatorCurrentLimit = 60.0;
+    rightConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    rightConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rightConfig.Slot0.kP = KP;
+    rightConfig.Slot0.kD = KD;
+    rightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+    rightLeader.getConfigurator().apply(rightConfig);
+    rightFollower.getConfigurator().apply(rightConfig);
+
     leftFollower.setControl(new Follower(leftLeader.getDeviceID(), false));
     rightFollower.setControl(new Follower(rightLeader.getDeviceID(), false));
 
@@ -128,24 +138,12 @@ public class DriveIOTalonFX implements DriveIO {
   public void setVelocity(
       double leftRadPerSec, double rightRadPerSec, double leftFFVolts, double rightFFVolts) {
     leftLeader.setControl(
-        new VelocityVoltage(
-            Units.radiansToRotations(leftRadPerSec * GEAR_RATIO),
-            0.0,
-            true,
-            leftFFVolts,
-            0,
-            false,
-            false,
-            false));
+        new VelocityVoltage(Units.radiansToRotations(leftRadPerSec * GEAR_RATIO))
+            .withSlot(0)
+            .withEnableFOC(true));
     rightLeader.setControl(
-        new VelocityVoltage(
-            Units.radiansToRotations(rightRadPerSec * GEAR_RATIO),
-            0.0,
-            true,
-            rightFFVolts,
-            0,
-            false,
-            false,
-            false));
+        new VelocityVoltage(Units.radiansToRotations(rightRadPerSec * GEAR_RATIO))
+            .withSlot(0)
+            .withEnableFOC(true));
   }
 }
