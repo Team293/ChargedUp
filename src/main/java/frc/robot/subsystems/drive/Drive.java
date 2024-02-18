@@ -133,6 +133,8 @@ public class Drive extends SubsystemBase {
 
   /** Run open loop based on stick positions. */
   public void driveArcade(double xSpeed, double zRotation) {
+    Logger.recordOutput("Target X Speed", xSpeed);
+    Logger.recordOutput("Target Z Rotation", zRotation);
     var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, -zRotation, true);
     io.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
   }
