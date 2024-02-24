@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.ampscorer.AmpScorer;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIOTalonFX;
 import frc.robot.subsystems.drive.GyroIONavX;
@@ -33,6 +34,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+
+  private final AmpScorer ampScorer;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -61,6 +64,8 @@ public class RobotContainer {
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
+    ampScorer = new AmpScorer();
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -75,6 +80,11 @@ public class RobotContainer {
     drive.setDefaultCommand(
         Commands.run(
             () -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
+
+    controller.x().whileTrue(Commands.runOnce(ampScorer::intakeNote));
+    controller.x().whileFalse(Commands.runOnce(ampScorer::stop));
+    controller.a().whileTrue(Commands.runOnce(ampScorer::dischargeNote));
+    controller.a().whileFalse(Commands.runOnce(ampScorer::stop));
   }
 
   /**
