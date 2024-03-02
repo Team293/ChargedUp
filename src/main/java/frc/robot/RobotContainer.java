@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.Climb.climber;
 import frc.robot.subsystems.ampscorer.AmpScorer;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIOTalonFX;
@@ -36,6 +37,8 @@ public class RobotContainer {
   private final Drive drive;
 
   private final AmpScorer ampScorer;
+
+  private final climber climber;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -66,6 +69,8 @@ public class RobotContainer {
 
     ampScorer = new AmpScorer();
 
+    climber = new climber();
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -79,10 +84,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(
         Commands.run(
-            () -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
+       
+        () -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
 
     controller.x().whileTrue(Commands.runOnce(ampScorer::intakeNote));
     controller.x().whileFalse(Commands.runOnce(ampScorer::stop));
+
+    controller.b().whileTrue(Commands.runOnce(climber::climberUp));
+    controller.y().whileTrue(Commands.runOnce(climber::climberDown));
+    controller.y().whileFalse(Commands.runOnce(climber::stop));
+    controller.b().whileFalse(Commands.runOnce(climber::stop));
+
     controller.a().whileTrue(Commands.runOnce(ampScorer::dischargeNote));
     controller.a().whileFalse(Commands.runOnce(ampScorer::stop));
   }
